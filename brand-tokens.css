@@ -1,0 +1,62 @@
+/* Loren Metais: tokens da marca (CSS puro; mesmos valores do Manual da marca). Mesma estrutura dos tokens da Conceito
+   (--cm-*): os azuis saem da logo (vetorizada em 03/11) e os cinzas são os mesmos da Conceito, padrão entre as marcas.
+   Contraste (WCAG): botão #018086 x branco 4,7:1; hover #016A6F 6,4:1; texto #303136 x branco 13:1; secundário #6B6C72 5,2:1.
+   Azul da logo #1394B1 (3,6:1) e onda média #009EA4 (3,3:1): só em superfícies, ícones e texto grande (24 px+).
+   Fontes do site (Eduardo 03/11): Google Fonts, Barlow Semi Condensed (títulos, 600/700) e Inter (texto, 400/600/700),
+   licença SIL OFL 1.1. A logo usa Impact convertida em curvas; a Impact não é fonte do site. Celular: até 749 px. */
+:root {
+  /* azuis da logo */
+  --lm-azul: #1394B1;          /* nome LORENMETAIS */
+  --lm-onda-clara: #81BBD3;
+  --lm-onda-media: #009EA4;
+  --lm-onda-escura: #018086;   /* também o botão principal e os links */
+  --lm-azul-hover: #016A6F;    /* onda escura escurecida, hover do botão */
+  /* cinzas (iguais aos da Conceito) */
+  --lm-grafite: #303136;       /* títulos, texto, rodapé escuro */
+  --lm-branco: #FFFFFF;
+  --lm-fundo: #F6F6F7;
+  --lm-borda: #DCDCE0;
+  --lm-texto-secundario: #6B6C72;
+  --lm-texto-sobre-escuro: #F6F6F7;
+  --lm-whatsapp: #25D366;
+  --lm-whatsapp-escuro: #075E54;
+  --lm-sucesso: #1D7A35;
+  --lm-raio: 0;                /* cantos retos, como na Conceito (Eduardo 03/11: testou 4/6/12 px e preferiu reto) */
+  --lm-raio-pequeno: 0;
+  --lm-raio-grande: 0;
+  --lm-borda-padrao: 1px solid #DCDCE0;
+  /* tipografia: 3 títulos + corpo, mesma escala da Conceito */
+  --lm-fonte-titulo: 'Barlow Semi Condensed', system-ui, sans-serif;
+  --lm-fonte-texto: 'Inter', system-ui, sans-serif;
+  --lm-h1: clamp(2.25rem, 4.2vw, 2.625rem);
+  --lm-h2: clamp(1.75rem, 3.2vw, 2rem);
+  --lm-h3: clamp(1.4375rem, 2.4vw, 1.5rem);
+  --lm-h1-entrelinha: 1;
+  --lm-h2-entrelinha: 1;
+  --lm-h3-entrelinha: 1.1;
+  --lm-titulo-peso: 700;
+  --lm-corpo: 1rem;
+  --lm-corpo-celular: 0.875rem;
+  --lm-corpo-entrelinha: 1.6;
+  /* layout: uma largura só e espaços em múltiplos de 8 */
+  --lm-largura: 1200px;
+  --lm-margem: clamp(1rem, 4vw, 2.5rem);
+  --lm-vao: 24px;
+  --lm-vao-celular: 16px;
+  --lm-esp-1: 8px; --lm-esp-2: 16px; --lm-esp-3: 24px; --lm-esp-4: 32px; --lm-esp-6: 48px; --lm-esp-8: 64px;
+  /* componentes (mesmo desenho da Conceito) */
+  --lm-btn-padding: 16px 24px;
+  --lm-btn-peso: 600;
+  --lm-btn-letras: 0.06em;
+  --lm-btn-transicao: color .125s ease-in-out, box-shadow .125s ease-in-out, background-color .125s ease-in-out;
+  --lm-foco: 1px solid #018086;
+  --lm-foco-afastamento: 3px;
+  --lm-cartao-borda: 1px solid #DCDCE0;
+  --lm-cartao-sombra-hover: rgba(48, 49, 54, .25) 0 10px 24px -12px;
+  --lm-cartao-transicao: box-shadow .18s, transform .18s;
+  --lm-campo-altura: 48px;
+  --lm-campo-fundo: #F6F6F7;
+  --lm-campo-borda: 1px solid #DCDCE0;
+  --lm-chat-tamanho: 56px;
+  --lm-chat-tamanho-celular: 50px;
+}

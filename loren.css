@@ -1,0 +1,72 @@
+/* Loren Metais, visual novo por cima da Loja Integrada (tema Alpha Beauty). 1ª camada (03/11): base, topo, menu,
+   cards das vitrines, rodapé e contato. Tudo dentro de html.lm-novo (o loren.js liga a classe), então sem a classe o
+   site fica exatamente como hoje. Nunca carregado no checkout (o loren.js não roda lá). */
+@import url('brand-tokens.css');
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700&family=Inter:wght@400;600;700&display=swap');
+
+/* base */
+html.lm-novo body { font-family: var(--lm-fonte-texto) !important; color: var(--lm-grafite); background: #fff !important; -webkit-font-smoothing: antialiased; }
+/* fonte nova em tudo, menos nos ícones da LI (classe icon-*, fonte de ícones) */
+html.lm-novo :is(p, li, a, input, button, span, strong, b, div, label, small, td, th, h4, h5, h6, .botao):not([class^="icon-"]):not([class*=" icon-"]) { font-family: var(--lm-fonte-texto) !important; }
+html.lm-novo h1, html.lm-novo h2, html.lm-novo h3, html.lm-novo .titulo-categoria { font-family: var(--lm-fonte-titulo) !important; letter-spacing: 0; }
+html.lm-novo .conteiner { max-width: var(--lm-largura); }
+html.lm-novo * { border-radius: 0 !important; }
+
+/* barra do topo (código do painel "Personalização Neon"): sem Skype, grafite, texto centralizado */
+html.lm-novo #topbar { background: var(--lm-grafite) !important; }
+html.lm-novo .contatos_head a { font: 500 13px/1 var(--lm-fonte-texto) !important; color: var(--lm-texto-sobre-escuro) !important; }
+html.lm-novo .contatos_head a[href^="skype:"], html.lm-novo a[href^="skype:"] { display: none !important; }
+html.lm-novo .bloco_head { border-radius: 0 !important; box-shadow: none !important; }
+html.lm-novo .bloco_head.bloco_orcamento { background: var(--lm-onda-escura) !important; }
+html.lm-novo .bloco_head.bloco_whats { background: var(--lm-whatsapp-escuro) !important; }
+
+/* cabeçalho */
+html.lm-novo #cabecalho { background: #fff !important; border-bottom: var(--lm-borda-padrao); }
+html.lm-novo #cabecalho .logo img { height: 46px !important; width: auto !important; max-width: none !important; }
+html.lm-novo #cabecalho .busca { border: 0 !important; background: none !important; }
+html.lm-novo #cabecalho .busca input#auto-complete { height: 48px !important; background: var(--lm-campo-fundo) !important; border: var(--lm-campo-borda) !important; box-shadow: none !important; font-size: 16px !important; padding: 0 56px 0 16px !important; color: var(--lm-grafite) !important; }
+html.lm-novo #cabecalho .botao-busca { background: var(--lm-grafite) !important; height: 48px !important; width: 48px !important; }
+html.lm-novo #cabecalho .acoes-conta a, html.lm-novo #cabecalho .carrinho a, html.lm-novo #cabecalho .bem-vindo { color: var(--lm-grafite) !important; font: 600 14px/1.2 var(--lm-fonte-texto) !important; }
+html.lm-novo #cabecalho .acoes-conta i, html.lm-novo #cabecalho .carrinho i { color: var(--lm-grafite) !important; }
+html.lm-novo .qtd-carrinho { background: var(--lm-onda-escura) !important; color: #fff !important; }
+
+/* menu de categorias: branco com linha fina, sem a faixa azul */
+html.lm-novo .full.menu, html.lm-novo .menu.superior { background: #fff !important; border-bottom: var(--lm-borda-padrao); }
+html.lm-novo :is(.full.menu, .menu.superior) .nivel-um > li { border: 0 !important; background: none !important; }
+html.lm-novo :is(.full.menu, .menu.superior) .nivel-um > li > a, html.lm-novo :is(.full.menu, .menu.superior) .nivel-um > li > a .titulo { color: var(--lm-grafite) !important; font: 600 15px/1 var(--lm-fonte-texto) !important; text-transform: none !important; background: none !important; }
+html.lm-novo :is(.full.menu, .menu.superior) .nivel-um > li:hover > a .titulo { color: var(--lm-onda-escura) !important; }
+html.lm-novo :is(.full.menu, .menu.superior) .nivel-um > li > a i { color: var(--lm-texto-secundario) !important; background: none !important; }
+html.lm-novo :is(.full.menu, .menu.superior) .nivel-dois { border: var(--lm-borda-padrao) !important; box-shadow: var(--lm-cartao-sombra-hover) !important; background: #fff !important; }
+html.lm-novo :is(.full.menu, .menu.superior) .nivel-dois a { font: 400 14px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
+
+/* títulos das vitrines */
+html.lm-novo .titulo-categoria { font: 700 var(--lm-h2)/1 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; text-transform: none !important; border: 0 !important; text-align: left !important; margin-bottom: 24px !important; }
+html.lm-novo .titulo-categoria strong, html.lm-novo .titulo-categoria span { font: inherit !important; color: inherit !important; }
+
+/* cards de produto (vitrines, categoria, busca, relacionados) */
+html.lm-novo .listagem .listagem-item { border: var(--lm-cartao-borda) !important; background: #fff !important; padding: 0 14px 14px !important; transition: var(--lm-cartao-transicao); box-shadow: none !important; }
+html.lm-novo .listagem .listagem-item:hover { box-shadow: var(--lm-cartao-sombra-hover) !important; transform: translateY(-2px); }
+html.lm-novo .listagem .imagem-produto { margin: 0 -14px 12px !important; border: 0 !important; background: #fff; }
+html.lm-novo .listagem .nome-produto { font: 600 15px/1.35 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; text-transform: none !important; text-align: left !important; min-height: 2.7em; }
+html.lm-novo .listagem .preco-produto { text-align: left !important; }
+html.lm-novo .listagem .preco-produto .preco-promocional, html.lm-novo .listagem .preco-produto strong { font: 700 20px/1.2 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
+html.lm-novo .listagem .preco-produto .preco-venda, html.lm-novo .listagem .preco-produto s { font-size: 13px !important; color: var(--lm-texto-secundario) !important; }
+html.lm-novo .listagem .preco-produto .titulo { font: 600 14px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-onda-escura) !important; }
+html.lm-novo .listagem .preco-parcela, html.lm-novo .listagem .preco-produto .cor-secundaria { color: var(--lm-texto-secundario) !important; font-size: 13px !important; }
+html.lm-novo .listagem .botao-comprar, html.lm-novo .listagem .tag-comprar { background: var(--lm-onda-escura) !important; color: #fff !important; font: 600 13px/1 var(--lm-fonte-texto) !important; letter-spacing: .06em; text-transform: uppercase; border: 0 !important; box-shadow: none !important; text-shadow: none !important; padding: 12px !important; }
+html.lm-novo .listagem .botao-comprar:hover { background: var(--lm-azul-hover) !important; }
+html.lm-novo .listagem .botao-comprar i { display: none !important; }
+html.lm-novo .bandeiras-produto .bandeira-promocao { background: var(--lm-onda-escura) !important; font: 700 12px/1 var(--lm-fonte-texto) !important; }
+
+/* newsletter e rodapé escuro */
+html.lm-novo #barraNewsletter { background: var(--lm-onda-escura) !important; border: 0 !important; }
+html.lm-novo #barraNewsletter, html.lm-novo #barraNewsletter * { color: #fff; }
+html.lm-novo #barraNewsletter input { color: var(--lm-grafite) !important; background: #fff !important; border: 0 !important; height: 48px !important; }
+html.lm-novo #barraNewsletter .botao { background: var(--lm-grafite) !important; height: 48px !important; }
+html.lm-novo #rodape .institucional { background: var(--lm-grafite) !important; }
+html.lm-novo #rodape .institucional, html.lm-novo #rodape .institucional a, html.lm-novo #rodape .institucional p { color: #c9cace !important; font-size: 14px !important; }
+html.lm-novo #rodape .institucional .titulo, html.lm-novo #rodape .institucional h4 { color: #fff !important; font: 700 16px/1 var(--lm-fonte-titulo) !important; text-transform: none !important; }
+html.lm-novo #rodape .institucional a:hover { color: #fff !important; }
+
+/* contato flutuante: só o WhatsApp (e-mail e Skype saem) */
+html.lm-novo .float-contact .float-skype, html.lm-novo .float-contact a[href^="skype:"], html.lm-novo .mail-floating { display: none !important; }
