@@ -18,13 +18,19 @@
   --lm-borda: #DCDCE0;
   --lm-texto-secundario: #6B6C72;
   --lm-texto-sobre-escuro: #F6F6F7;
+  --lm-sobre-escuro-2: #C9CACE;  /* texto e ícones do rodapé grafite */
+  --lm-sobre-escuro-3: #A9AAB0;  /* faixa de pagamentos do rodapé */
+  --lm-linha-escuro: #45464C;    /* linha sobre o grafite */
+  --lm-linha-escuro-2: #5A5B62;  /* borda das redes sociais do rodapé */
+  --lm-ponto-online: #2EA043;    /* bolinha do online do chat */
+  --lm-erro: #8A2826;            /* aviso de erro do sistema (contraste 7:1 no branco) */
   --lm-whatsapp: #25D366;
   --lm-whatsapp-escuro: #075E54;
   --lm-sucesso: #1D7A35;
   --lm-raio: 0;                /* cantos retos, como na Conceito (Eduardo 03/11: testou 4/6/12 px e preferiu reto) */
   --lm-raio-pequeno: 0;
   --lm-raio-grande: 0;
-  --lm-borda-padrao: 1px solid #DCDCE0;
+  --lm-borda-padrao: 1px solid var(--lm-borda);
   /* tipografia: 3 títulos + corpo, mesma escala da Conceito */
   --lm-fonte-titulo: 'Barlow Semi Condensed', system-ui, sans-serif;
   --lm-fonte-texto: 'Inter', system-ui, sans-serif;
@@ -49,19 +55,20 @@
   --lm-btn-peso: 700;          /* Eduardo 04/11: pill com gradiente, negrito, caixa alta (opção C2) */
   --lm-btn-letras: 0.04em;
   --lm-btn-raio: 999px;
-  --lm-btn-gradiente: #018086;        /* botões em cor fixa (Eduardo 04/11): onda escura, texto branco 4,7:1 */
-  --lm-btn-gradiente-hover: #016A6F;  /* hover: azul mais escuro, sólido. Gradiente só em faixas e outros elementos */
+  --lm-btn-gradiente: var(--lm-onda-escura);        /* fundo do botão: cor fixa (Eduardo 04/11), texto branco 4,7:1; o nome ficou por compatibilidade */
+  --lm-btn-gradiente-hover: var(--lm-azul-hover);  /* hover: azul mais escuro, sólido. Gradiente só em faixas (--lm-gradiente) */
   --lm-gradiente: linear-gradient(110deg, #015F63 0%, #016A6F 40%, #018086 100%);  /* faixas com texto branco (>= 4,7:1 em toda a faixa) */
   --lm-btn-sombra: none;  /* sem sombra azul (Eduardo 04/11: parecia que o botão brilhava) */
   --lm-btn-transicao: color .125s ease-in-out, box-shadow .125s ease-in-out, background-color .125s ease-in-out;
-  --lm-foco: 1px solid #018086;
+  --lm-foco: 1px solid var(--lm-onda-escura);
   --lm-foco-afastamento: 3px;
-  --lm-cartao-borda: 1px solid #DCDCE0;
+  --lm-cartao-borda: var(--lm-borda-padrao);
   --lm-cartao-sombra-hover: rgba(48, 49, 54, .25) 0 10px 24px -12px;
   --lm-cartao-transicao: box-shadow .18s, transform .18s;
   --lm-campo-altura: 48px;
   --lm-campo-fundo: #F6F6F7;
-  --lm-campo-borda: 1px solid #DCDCE0;
+  --lm-campo-borda: var(--lm-borda-padrao);
+  --lm-sombra-flutuante: 0 4px 16px rgba(0, 0, 0, .25);  /* chat e janelas flutuantes */
   --lm-chat-tamanho: 56px;
   --lm-chat-tamanho-celular: 60px;  /* igual à Conceito no celular */
 }

@@ -46,10 +46,8 @@
     const tb = document.querySelector('#topbar .container');
     document.querySelector('#topbar') && document.body.prepend(document.querySelector('#topbar'));  // no HTML a barra vem no fim da página
     if (tb) tb.insertAdjacentHTML('afterbegin', '<div class="lm-barra">Direto da fábrica · Envio em 24h para todo o Brasil · 10% de desconto no Pix ou boleto</div>');
-    // pedir orçamento ao lado da conta
-    document.querySelector('#cabecalho .acoes-conta')?.insertAdjacentHTML('beforeend', `<li class="lm-li-orc"><a class="lm-orc" href="#" ${ORC}>Pedir orçamento</a></li>`);
     // Obras finalizadas no fim do menu
-    document.querySelector('.full.menu .nivel-um')?.insertAdjacentHTML('beforeend', '<li class="lm-obras"><a href="/pagina/obras-finalizadas.html">Obras finalizadas</a></li>');
+    document.querySelector('.full.menu .nivel-um')?.insertAdjacentHTML('beforeend', '<li class="lm-menu-obras"><a href="/pagina/obras-finalizadas.html">Obras finalizadas</a></li>');
     // botão de chat igual ao da Conceito (floating-contact), em azul: abre WhatsApp e e-mail; o WhatsApp abre a janela
     // de assuntos com "Online agora" no horário comercial
     const svgWA = '<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16.004 2.667c-7.363 0-13.333 5.97-13.333 13.333 0 2.353.615 4.646 1.782 6.667L2.667 29.333l6.822-1.79a13.27 13.27 0 0 0 6.515 1.72h.006c7.363 0 13.333-5.97 13.333-13.333s-5.97-13.263-13.339-13.263Zm0 24.4h-.005a11.06 11.06 0 0 1-5.635-1.542l-.404-.24-4.05 1.062 1.082-3.95-.264-.406a11.04 11.04 0 0 1-1.694-5.87c0-6.11 4.973-11.084 11.09-11.084 2.964 0 5.75 1.156 7.844 3.253a11.02 11.02 0 0 1 3.245 7.84c-.002 6.112-4.976 11.087-11.11 11.087Zm6.083-8.302c-.334-.167-1.975-.975-2.28-1.086-.306-.111-.529-.167-.751.167-.223.334-.863 1.086-1.058 1.309-.195.223-.39.25-.723.083-.334-.167-1.409-.52-2.684-1.657-.992-.885-1.663-1.978-1.858-2.312-.195-.334-.02-.514.146-.68.15-.15.334-.39.5-.585.167-.195.223-.334.334-.556.111-.223.056-.417-.028-.584-.083-.167-.751-1.81-1.029-2.479-.271-.65-.546-.563-.751-.573-.195-.01-.417-.012-.64-.012-.223 0-.584.083-.89.417-.306.334-1.168 1.14-1.168 2.782 0 1.642 1.196 3.229 1.362 3.452.167.223 2.354 3.596 5.706 5.043.797.344 1.42.55 1.905.704.8.255 1.529.219 2.104.133.642-.096 1.975-.808 2.253-1.587.278-.78.278-1.448.195-1.587-.083-.14-.306-.223-.64-.39Z"/></svg>';
@@ -111,14 +109,14 @@
     const banners = document.querySelector('.secao-banners');
     // vantagens em HTML no lugar dos 4 mini banners
     banners?.insertAdjacentHTML('afterend', `<section class="lm-vant"><div class="lm-wrap">
-      <div class="lm-item">${ico('<path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6"/>')}<p style="margin:0"><b>Direto do fabricante</b><small>Preço de fábrica, sem intermediário</small></p></div>
-      <div class="lm-item">${ico('<path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/>')}<p style="margin:0"><b>Entrega em todo o Brasil</b><small>Envio em 24h</small></p></div>
-      <div class="lm-item">${ico('<path d="M19 5 5 19"/><circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="17" r="2.5"/>')}<p style="margin:0"><b>10% no Pix ou boleto</b><small>Desconto aplicado no checkout</small></p></div>
-      <div class="lm-item">${ico('<rect x="2" y="5" width="20" height="14"/><path d="M2 10h20M6 15h4"/>')}<p style="margin:0"><b>Até 4x no cartão</b><small>Sem juros</small></p></div></div></section>`);
+      <div class="lm-item">${ico('<path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6"/>')}<p><b>Direto do fabricante</b><small>Preço de fábrica, sem intermediário</small></p></div>
+      <div class="lm-item">${ico('<path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/>')}<p><b>Entrega em todo o Brasil</b><small>Envio em 24h</small></p></div>
+      <div class="lm-item">${ico('<path d="M19 5 5 19"/><circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="17" r="2.5"/>')}<p><b>10% no Pix ou boleto</b><small>Desconto aplicado no checkout</small></p></div>
+      <div class="lm-item">${ico('<rect x="2" y="5" width="20" height="14"/><path d="M2 10h20M6 15h4"/>')}<p><b>Até 4x no cartão</b><small>Sem juros</small></p></div></div></section>`);
     // (Compre por categoria saiu em 04/11, pedido do Eduardo: os produtos vêm direto)
     // as 3 vitrines estão numa caixa só: a faixa entra depois da 1ª lista (e do seu Ver mais), não depois da caixa
     const v1 = document.querySelector('#corpo .listagem.com-caixa > ul'); const depois = v1?.nextElementSibling?.classList.contains('lm-mais') ? v1.nextElementSibling : v1;
-    depois?.insertAdjacentHTML('afterend', `<section class="lm-b2b" style="margin-inline:calc(50% - 50vw)"><div class="lm-wrap"><div><h2>Compra para obra, empresa ou licitação?</h2><p>Mande a lista de itens e receba preço especial de fábrica, com nota fiscal e prazo de entrega.</p></div>
+    depois?.insertAdjacentHTML('afterend', `<section class="lm-b2b lm-full"><div class="lm-wrap"><div><h2>Compra para obra, empresa ou licitação?</h2><p>Mande a lista de itens e receba preço especial de fábrica, com nota fiscal e prazo de entrega.</p></div>
       <div class="lm-acs"><a class="lm-btn" href="#" ${ORC}>Pedir orçamento</a><a class="lm-btn2" href="${WA}" target="_blank" rel="noopener">Falar no WhatsApp</a></div></div></section>`);
     // quem somos antes da newsletter
     document.querySelector('#barraNewsletter')?.insertAdjacentHTML('beforebegin', `<section class="lm-sec lm-cinza lm-pq"><div class="lm-wrap"><div><span class="lm-tag">Quem somos</span><h2>Fabricante em Indaiatuba, perto de Viracopos</h2><p>Torneiras clínicas, linha hospitalar e acessibilidade para banheiros, clínicas, hospitais, escolas e cozinhas.</p><a class="lm-btn" style="background:var(--lm-onda-escura);color:#fff" href="/pagina/obras-finalizadas.html">Ver obras finalizadas</a></div>

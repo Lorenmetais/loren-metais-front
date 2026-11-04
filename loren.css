@@ -5,7 +5,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700&family=Inter:wght@400;600;700&display=swap');
 
 /* base */
-html.lm-novo body { font-family: var(--lm-fonte-texto) !important; color: var(--lm-grafite); background: #fff !important; -webkit-font-smoothing: antialiased; }
+html.lm-novo body { font-family: var(--lm-fonte-texto) !important; color: var(--lm-grafite); background: var(--lm-branco) !important; -webkit-font-smoothing: antialiased; }
 /* fonte nova em tudo, menos nos ícones da LI (classe icon-*, fonte de ícones) */
 html.lm-novo :is(p, li, a, input, button, span, strong, b, div, label, small, td, th, h4, h5, h6, .botao):not([class^="icon-"]):not([class*=" icon-"]) { font-family: var(--lm-fonte-texto) !important; }
 html.lm-novo h1, html.lm-novo h2, html.lm-novo h3, html.lm-novo .titulo-categoria { font-family: var(--lm-fonte-titulo) !important; letter-spacing: 0; }
@@ -15,56 +15,46 @@ html.lm-novo * { border-radius: 0 !important; }
 /* barra do topo (código do painel "Personalização Neon"): sem Skype, grafite, texto centralizado */
 html.lm-novo #topbar { background: var(--lm-grafite) !important; }
 html.lm-novo .contatos_head a { font: 500 13px/1 var(--lm-fonte-texto) !important; color: var(--lm-texto-sobre-escuro) !important; }
-html.lm-novo .contatos_head a[href^="skype:"], html.lm-novo a[href^="skype:"] { display: none !important; }
+html.lm-novo a[href^="skype:"] { display: none !important; }
 html.lm-novo .bloco_head { border-radius: 0 !important; box-shadow: none !important; }
 html.lm-novo .bloco_head.bloco_orcamento { background: var(--lm-onda-escura) !important; }
 html.lm-novo .bloco_head.bloco_whats { background: var(--lm-whatsapp-escuro) !important; }
 
 /* cabeçalho */
-html.lm-novo #cabecalho { background: #fff !important; border-bottom: var(--lm-borda-padrao); }
-html.lm-novo #cabecalho .logo img { height: 46px !important; width: 203px !important; max-width: none !important; max-height: none !important; }  /* largura fixa: o SVG não tem tamanho próprio */
-html.lm-novo #cabecalho .busca { border: 0 !important; background: none !important; }
-html.lm-novo #cabecalho .busca input#auto-complete { height: 48px !important; background: var(--lm-campo-fundo) !important; border: var(--lm-campo-borda) !important; box-shadow: none !important; font-size: 16px !important; padding: 0 56px 0 16px !important; color: var(--lm-grafite) !important; }
-html.lm-novo #cabecalho .botao-busca { background: var(--lm-grafite) !important; height: 48px !important; width: 48px !important; }
-html.lm-novo #cabecalho .acoes-conta a, html.lm-novo #cabecalho .carrinho a, html.lm-novo #cabecalho .bem-vindo { color: var(--lm-grafite) !important; font: 600 14px/1.2 var(--lm-fonte-texto) !important; }
-html.lm-novo #cabecalho .acoes-conta i, html.lm-novo #cabecalho .carrinho i { color: var(--lm-grafite) !important; }
-html.lm-novo .qtd-carrinho { background: var(--lm-onda-escura) !important; color: #fff !important; }
+html.lm-novo #cabecalho { background: var(--lm-branco) !important; border-bottom: var(--lm-borda-padrao); }
 
 /* menu de categorias: branco com linha fina, sem a faixa azul */
-html.lm-novo .full.menu, html.lm-novo .menu.superior { background: #fff !important; border-bottom: var(--lm-borda-padrao); }
+html.lm-novo .full.menu, html.lm-novo .menu.superior { background: var(--lm-branco) !important; border-bottom: var(--lm-borda-padrao); }
 html.lm-novo :is(.full.menu, .menu.superior) .nivel-um > li { border: 0 !important; background: none !important; }
 html.lm-novo :is(.full.menu, .menu.superior) .nivel-um > li > a, html.lm-novo :is(.full.menu, .menu.superior) .nivel-um > li > a .titulo { color: var(--lm-grafite) !important; font: 600 15px/1 var(--lm-fonte-texto) !important; text-transform: none !important; background: none !important; }
 html.lm-novo :is(.full.menu, .menu.superior) .nivel-um > li:hover > a .titulo { color: var(--lm-onda-escura) !important; }
 html.lm-novo :is(.full.menu, .menu.superior) .nivel-um > li > a i { color: var(--lm-texto-secundario) !important; background: none !important; }
-html.lm-novo :is(.full.menu, .menu.superior) .nivel-dois { border: var(--lm-borda-padrao) !important; box-shadow: var(--lm-cartao-sombra-hover) !important; background: #fff !important; }
+html.lm-novo :is(.full.menu, .menu.superior) .nivel-dois { border: var(--lm-borda-padrao) !important; box-shadow: var(--lm-cartao-sombra-hover) !important; background: var(--lm-branco) !important; }
 html.lm-novo :is(.full.menu, .menu.superior) .nivel-dois a { font: 400 14px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
 
 /* títulos das vitrines */
-html.lm-novo .titulo-categoria { font: 700 var(--lm-h2)/1 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; text-transform: none !important; border: 0 !important; text-align: left !important; margin-bottom: 24px !important; }
+html.lm-novo .titulo-categoria { font: 700 var(--lm-h2)/1 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; text-transform: none !important; border: 0 !important; text-align: left !important; margin-bottom: var(--lm-sec-titulo) !important; }
 html.lm-novo .titulo-categoria strong, html.lm-novo .titulo-categoria span { font: inherit !important; color: inherit !important; }
 
 /* cards de produto (vitrines, categoria, busca, relacionados) */
-html.lm-novo .listagem .listagem-item { border: var(--lm-cartao-borda) !important; background: #fff !important; padding: 0 14px 14px !important; transition: var(--lm-cartao-transicao); box-shadow: none !important; }
+html.lm-novo .listagem .listagem-item { border: var(--lm-cartao-borda) !important; background: var(--lm-branco) !important; padding: 0 16px 16px !important; box-shadow: none !important; }
 html.lm-novo .listagem .listagem-item:hover { box-shadow: var(--lm-cartao-sombra-hover) !important; transform: translateY(-2px); }
-html.lm-novo .listagem .imagem-produto { margin: 0 -14px 12px !important; border: 0 !important; background: #fff; }
-html.lm-novo .listagem .nome-produto { font: 600 15px/1.35 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; text-transform: none !important; text-align: left !important; min-height: 2.7em; }
+html.lm-novo .listagem .imagem-produto { border: 0 !important; background: var(--lm-branco); }
+html.lm-novo .listagem .nome-produto { font: 600 15px/1.35 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; text-transform: none !important; text-align: left !important; }
 html.lm-novo .listagem .preco-produto { text-align: left !important; }
 html.lm-novo .listagem .preco-produto .preco-promocional, html.lm-novo .listagem .preco-produto strong { font: 700 20px/1.2 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
 html.lm-novo .listagem .preco-produto .preco-venda, html.lm-novo .listagem .preco-produto s { font-size: 13px !important; color: var(--lm-texto-secundario) !important; }
 html.lm-novo .listagem .preco-produto .titulo { font: 600 14px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-onda-escura) !important; }
 html.lm-novo .listagem .preco-parcela, html.lm-novo .listagem .preco-produto .cor-secundaria { color: var(--lm-texto-secundario) !important; font-size: 13px !important; }
-html.lm-novo .listagem .botao-comprar, html.lm-novo .listagem .tag-comprar { background: var(--lm-onda-escura) !important; color: #fff !important; font: 600 13px/1 var(--lm-fonte-texto) !important; letter-spacing: .06em; text-transform: uppercase; border: 0 !important; box-shadow: none !important; text-shadow: none !important; padding: 12px !important; }
-html.lm-novo .listagem .botao-comprar:hover { background: var(--lm-azul-hover) !important; }
-html.lm-novo .listagem .botao-comprar i { display: none !important; }
 html.lm-novo .bandeiras-produto .bandeira-promocao { background: var(--lm-onda-escura) !important; font: 700 12px/1 var(--lm-fonte-texto) !important; }
 
 html.lm-novo #rodape .institucional { background: var(--lm-grafite) !important; }
-html.lm-novo #rodape .institucional, html.lm-novo #rodape .institucional a, html.lm-novo #rodape .institucional p { color: #c9cace !important; font-size: 14px !important; }
-html.lm-novo #rodape .institucional .titulo, html.lm-novo #rodape .institucional h4 { color: #fff !important; font: 700 16px/1 var(--lm-fonte-titulo) !important; text-transform: none !important; }
-html.lm-novo #rodape .institucional a:hover { color: #fff !important; }
+html.lm-novo #rodape .institucional, html.lm-novo #rodape .institucional a, html.lm-novo #rodape .institucional p { color: var(--lm-sobre-escuro-2) !important; font-size: 14px !important; }
+html.lm-novo #rodape .institucional .titulo, html.lm-novo #rodape .institucional h4 { color: var(--lm-branco) !important; font: 700 16px/1 var(--lm-fonte-titulo) !important; text-transform: none !important; }
+html.lm-novo #rodape .institucional a:hover { color: var(--lm-branco) !important; }
 
 /* contato flutuante: só o WhatsApp (e-mail e Skype saem) */
-html.lm-novo .float-contact .float-skype, html.lm-novo .float-contact a[href^="skype:"], html.lm-novo .mail-floating { display: none !important; }
+html.lm-novo .mail-floating { display: none !important; }
 
 /* ===== 2ª camada (03/11): estrutura igual ao wireframe ===== */
 /* barra do topo: uma linha só, no fluxo (sem fixar), com o texto curto; contatos e botões grandes saem */
@@ -72,62 +62,51 @@ html.lm-novo #topbar { position: static !important; height: auto !important; wid
 html.lm-novo #topbar .container { width: auto !important; max-width: none; padding: 0 !important; }
 html.lm-novo #topbar .row { display: none !important; }
 html.lm-novo #cabecalho { margin-top: 0 !important; }
-html.lm-novo .lm-barra { color: var(--lm-texto-sobre-escuro); font: 500 13px/1.3 var(--lm-fonte-texto); text-align: center; padding: 9px 16px; }
-@media (min-width: 768px) {
-/* cabeçalho em uma linha: logo | busca | conta, orçamento, carrinho */
-html.lm-novo #cabecalho > .conteiner > .row-fluid { display: flex; align-items: center; gap: 24px; min-height: 88px; }
-html.lm-novo #cabecalho > .conteiner > .row-fluid > .span3 { width: 203px !important; flex: 0 0 203px; margin: 0 !important; overflow: visible !important; }  /* largura da logo horizontal a 46 px */
-html.lm-novo #cabecalho .logo, html.lm-novo #cabecalho .logo a { width: auto !important; display: inline-block !important; margin: 0 !important; padding: 0 !important; height: auto !important; line-height: 0 !important; }
-html.lm-novo #cabecalho .conteudo-topo { flex: 1; width: auto !important; margin: 0 !important; display: flex; align-items: center; gap: 24px; }
-html.lm-novo #cabecalho .conteudo-topo .superior { order: 2; width: auto !important; margin: 0 !important; display: flex !important; align-items: center; }
-html.lm-novo #cabecalho .conteudo-topo .superior .span8 { display: none !important; }
-html.lm-novo #cabecalho .conteudo-topo .superior .span4 { width: auto !important; margin: 0 !important; }
-html.lm-novo #cabecalho .acoes-conta { display: flex; gap: 20px; margin: 0 !important; border: 0 !important; }
-html.lm-novo #cabecalho .acoes-conta li { margin: 0 !important; padding: 0 !important; border: 0 !important; float: none !important; }
-html.lm-novo #cabecalho .acoes-conta li i { display: none !important; }
-html.lm-novo #cabecalho .acoes-conta li:not(.lm-li-orc) { display: none !important; }  /* Meus pedidos e Minha conta já estão nos ícones do tema */
-html.lm-novo #cabecalho .conteudo-topo .inferior { order: 1; flex: 1; display: flex !important; align-items: center; gap: 24px; margin: 0 !important; }
-html.lm-novo #cabecalho .conteudo-topo .inferior .busca-mobile { flex: 1; width: auto !important; margin: 0 !important; }
-html.lm-novo #cabecalho .conteudo-topo .inferior > .span4 { width: auto !important; margin: 0 !important; order: 2; }
-html.lm-novo #cabecalho .busca { margin: 0 !important; position: relative; }
-html.lm-novo #cabecalho .busca .botao-busca { position: absolute !important; right: 0; top: 0; }
-html.lm-novo #cabecalho .logo img { display: block; }
-html.lm-novo .lm-orc { font: 600 14px/1.2 var(--lm-fonte-texto); color: var(--lm-onda-escura) !important; text-decoration: none; white-space: nowrap; }
-}
-/* menu: itens à esquerda, sem a caixa "Páginas", obras à direita */
-html.lm-novo .full.menu { height: auto !important; }
-html.lm-novo .full.menu > .conteiner { width: auto !important; max-width: var(--lm-largura); padding: 0 !important; }
-html.lm-novo .full.menu .nivel-um { display: flex !important; gap: 32px; align-items: center; height: 52px; margin: 0 !important; }
-html.lm-novo .full.menu .nivel-um > li { width: auto !important; float: none !important; height: auto !important; position: relative; }
-html.lm-novo .full.menu .nivel-um > li > a { padding: 16px 0 !important; height: auto !important; line-height: 1 !important; display: flex !important; align-items: center; gap: 6px; text-align: left !important; }
+html.lm-novo .lm-barra { color: var(--lm-texto-sobre-escuro); font: 500 13px/1.3 var(--lm-fonte-texto); text-align: center; padding: 8px 16px; }
+/* menu de categorias (computador): itens à esquerda, na largura do site e alinhado à logo; Páginas fora; barra azul embaixo no hover */
+html.lm-novo .full.menu { height: auto !important; border-bottom: var(--lm-borda-padrao) !important; }
+html.lm-novo .full.menu > .conteiner { width: auto !important; max-width: var(--lm-largura) !important; margin: 0 auto !important; padding: 0 var(--lm-margem) !important; box-sizing: content-box !important; }
+html.lm-novo .full.menu .nivel-um { display: flex !important; justify-content: flex-start !important; align-items: stretch !important; gap: 32px; height: var(--lm-campo-altura) !important; margin: 0 !important; text-align: left !important; }
+html.lm-novo .full.menu .nivel-um > li { display: flex; align-items: stretch; position: relative; width: auto !important; height: auto !important; float: none !important; background: none !important; }
+/* #cabecalho no seletor: o tema pinta Ofertas de preto com !important (avancado.css) e um ID vence qualquer classe */
+html.lm-novo #cabecalho .full.menu .nivel-um > li > a { display: flex !important; align-items: center !important; gap: 8px; height: 100% !important; padding: 0 !important; line-height: 1 !important; text-align: left !important; opacity: 1 !important; background: none !important; box-shadow: inset 0 -4px 0 transparent; }
+html.lm-novo #cabecalho .full.menu .nivel-um > li > a, html.lm-novo #cabecalho .full.menu .nivel-um > li > a > strong.titulo { color: var(--lm-grafite) !important; opacity: 1 !important; }  /* o tema deixa Ofertas e o 1º/último item claros */
+html.lm-novo #cabecalho .full.menu .nivel-um > li:hover > a { box-shadow: inset 0 -4px 0 var(--lm-azul); }
+html.lm-novo .full.menu .nivel-um > li > a > :is(i, img, svg) { display: none !important; }
 html.lm-novo .full.menu .nivel-um > li.categoria-paginas { display: none !important; }
-html.lm-novo .full.menu .nivel-um > li.lm-obras { margin-left: auto; }
-html.lm-novo .full.menu .nivel-um > li.lm-obras a { color: var(--lm-onda-escura) !important; font: 600 15px/1 var(--lm-fonte-texto) !important; }
+html.lm-novo #cabecalho .full.menu .nivel-um > li.lm-menu-obras > a, html.lm-novo #cabecalho .full.menu .nivel-um > li.lm-menu-obras > a > strong.titulo { color: var(--lm-onda-escura) !important; font: 600 15px/1 var(--lm-fonte-texto) !important; }
+/* submenus (nível 2 e 3): lista em coluna única, fundo branco, borda fina, itens com 8 / 24 de respiro. O produto em destaque do tema
+   (.mega-recebe) sai: a grade .listagem daqui o espremia numa coluna de 20 px e o submenu abria com 1.600 px de altura */
+html.lm-novo .full.menu .nivel-dois { width: max-content !important; min-width: 240px; max-width: 360px; margin: 0 !important; padding: 16px 0 !important; z-index: 20; }
+html.lm-novo .full.menu .nivel-um > li > .nivel-dois { top: 100%; left: 0; }
+/* 3º nível abre para a esquerda (regra do tema) e sobe o respiro + a borda para a 1ª linha ficar na altura do item que o abriu */
+html.lm-novo .full.menu .conteiner li.other-categories > .nivel-dois li.com-filho > .nivel-dois { top: -17px; }
+html.lm-novo .full.menu .nivel-dois .mega-recebe { display: none !important; }
+html.lm-novo .full.menu .nivel-dois .mega-categorias { width: auto !important; margin: 0 !important; padding: 0 !important; }
+html.lm-novo .full.menu .nivel-dois li { margin: 0 !important; padding: 0 !important; border: 0 !important; background: none !important; }
+html.lm-novo .full.menu .nivel-dois li > a { display: block !important; padding: 8px 24px !important; line-height: 1.4 !important; text-transform: none !important; text-align: left !important; }
+html.lm-novo .full.menu .nivel-dois li > a strong { height: auto !important; font: inherit !important; color: inherit !important; }
+html.lm-novo .full.menu .nivel-dois li:hover > a { background: var(--lm-fundo) !important; color: var(--lm-onda-escura) !important; }
 /* banners: os 4 mini banners em imagem saem; entra a faixa de vantagens em HTML */
 html.lm-novo .secao-banners .banner.tarja, html.lm-novo .secao-banners .row-fluid.banner.hidden-phone { display: none !important; }
+html.lm-novo .lm-full { margin-inline: calc(50% - 50vw); }
+html.lm-novo .lm-vant p { margin: 0; }
 html.lm-novo .lm-wrap { max-width: var(--lm-largura); margin: 0 auto; padding-inline: var(--lm-margem); box-sizing: content-box; }
 html.lm-novo .lm-vant .lm-wrap { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; padding-block: 24px; }
-html.lm-novo .lm-vant .lm-item { display: flex; gap: 12px; align-items: center; padding: 16px; border: var(--lm-borda-padrao); background: #fff; }
+html.lm-novo .lm-vant .lm-item { display: flex; gap: 16px; align-items: center; padding: 16px; border: var(--lm-borda-padrao); background: var(--lm-branco); }
 html.lm-novo .lm-vant .lm-ico { width: 40px; height: 40px; flex: none; display: grid; place-items: center; background: var(--lm-fundo); color: var(--lm-onda-escura); }
 html.lm-novo .lm-vant .lm-ico svg { width: 22px; height: 22px; }
 html.lm-novo .lm-vant b { display: block; font: 700 18px/1.1 var(--lm-fonte-titulo); color: var(--lm-grafite); }
 html.lm-novo .lm-vant small { font-size: 13px; color: var(--lm-texto-secundario); }
-/* categorias */
 html.lm-novo .lm-sec { padding-block: 48px; }
 html.lm-novo .lm-sec.lm-cinza { background: var(--lm-fundo); }
 html.lm-novo .lm-sec h2 { font: 700 var(--lm-h2)/1 var(--lm-fonte-titulo); color: var(--lm-grafite); margin: 0 0 24px; }
-html.lm-novo .lm-cats { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 16px; }
-html.lm-novo .lm-cats a { display: flex; flex-direction: column; justify-content: space-between; gap: 24px; min-height: 120px; padding: 20px; border: var(--lm-borda-padrao); background: #fff; color: var(--lm-grafite) !important; text-decoration: none !important; transition: var(--lm-cartao-transicao); }
-html.lm-novo .lm-cats a:hover { box-shadow: var(--lm-cartao-sombra-hover); transform: translateY(-2px); }
-html.lm-novo .lm-cats a b { font: 700 20px/1.1 var(--lm-fonte-titulo); }
-html.lm-novo .lm-cats a span { font: 600 13px/1 var(--lm-fonte-texto); color: var(--lm-onda-escura); }
 /* vitrines: título à esquerda, grade de 4 com vão fixo, cards do mesmo tamanho */
-html.lm-novo #corpo { padding-top: 0 !important; }
 html.lm-novo #corpo .listagem.com-caixa { border: 0 !important; background: none !important; padding: 0 !important; margin: 48px 0 0 !important; box-shadow: none !important; }
-html.lm-novo #corpo .titulo-categoria { display: block; border: 0 !important; padding: 0 !important; margin: 0 0 24px !important; background: none !important; }
+html.lm-novo #corpo .titulo-categoria { display: block; border: 0 !important; padding: 0 !important; background: none !important; }
 html.lm-novo #corpo .titulo-categoria strong { font: 700 var(--lm-h2)/1 var(--lm-fonte-titulo) !important; text-transform: none !important; color: var(--lm-grafite) !important; }
 html.lm-novo #corpo .titulo-categoria::after, html.lm-novo #corpo .titulo-categoria::before { display: none !important; }
-html.lm-novo .listagem > ul:not(.produtos-carrossel), html.lm-novo .listagem .listagem-linha > ul { display: grid !important; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; align-items: stretch !important; margin: 0 0 24px !important; }
+html.lm-novo .listagem > ul:not(.produtos-carrossel), html.lm-novo .listagem .listagem-linha > ul { display: grid !important; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px !important; align-items: stretch !important; margin: 0 0 24px !important; }
 html.lm-novo .listagem > ul:not(.produtos-carrossel)::before, html.lm-novo .listagem > ul:not(.produtos-carrossel)::after, html.lm-novo .listagem .listagem-linha > ul::before, html.lm-novo .listagem .listagem-linha > ul::after { display: none !important; }
 html.lm-novo .listagem > ul:not(.produtos-carrossel) > li, html.lm-novo .listagem .listagem-linha > ul > li { width: auto !important; margin: 0 !important; float: none !important; }
 html.lm-novo .listagem .prod-counter { display: none !important; }  /* quantidade fica na página do produto */
@@ -135,141 +114,146 @@ html.lm-novo .listagem .listagem-item { height: 100%; display: flex !important; 
 html.lm-novo .listagem .listagem-item .info-produto { flex: 1; min-height: 0 !important; height: auto !important; display: flex; flex-direction: column; gap: 8px; }
 html.lm-novo .listagem .nome-produto { min-height: 0 !important; display: block !important; }
 /* preço primeiro e grande; parcela embaixo, discreta (o tema põe a parcela em cima) */
-html.lm-novo .listagem .preco-produto { display: flex !important; flex-direction: column-reverse; gap: 2px; margin-top: auto; }
+html.lm-novo .listagem .preco-produto { display: flex !important; flex-direction: column-reverse; gap: 4px; margin-top: auto; }
 html.lm-novo .listagem .preco-produto .preco-parcela, html.lm-novo .listagem .preco-produto .preco-parcela strong { font: 400 13px/1.3 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; }
 html.lm-novo .listagem .adic-favo { z-index: 3; }
 /* vitrines da página inicial: 8 produtos e "Ver mais" (o resto continua na página, só recolhido) */
 html.lm-novo .lm-recolhe > li:nth-child(n+9) { display: none !important; }
-html.lm-novo .lm-mais { display: grid !important; width: max-content; margin: 8px auto 0; background: #fff; border: 0; box-shadow: inset 0 0 0 1px var(--lm-grafite); color: var(--lm-grafite); }
+html.lm-novo .lm-mais { display: grid !important; width: max-content; margin: 8px auto 0; background: var(--lm-branco); border: 0; box-shadow: inset 0 0 0 1px var(--lm-grafite); color: var(--lm-grafite); }
 @media (max-width: 767px) { html.lm-novo .lm-recolhe > li:nth-child(n+5) { display: none !important; } }
-html.lm-novo .listagem .acoes-produto { position: relative !important; z-index: 2; opacity: 1 !important; visibility: visible !important; margin-top: 12px; }
-html.lm-novo .listagem .botao-comprar { display: block !important; width: 100% !important; text-align: center; }
-html.lm-novo .listagem .botao-comprar svg { display: none !important; }
+html.lm-novo .listagem .acoes-produto { position: relative !important; z-index: 2; opacity: 1 !important; visibility: visible !important; padding: 0 !important; margin-top: 16px !important; }
+html.lm-novo .listagem .botao-comprar { width: 100% !important; }
 html.lm-novo .listagem .produto-sobrepor { z-index: 1; }
 /* faixa para empresas */
-html.lm-novo .lm-b2b { background: var(--lm-azul); color: #fff; margin-top: 48px; }
-html.lm-novo .lm-b2b .lm-wrap { display: flex; justify-content: space-between; align-items: center; gap: 24px; padding-block: 40px; flex-wrap: wrap; }
-html.lm-novo .lm-b2b h2 { color: #fff; margin: 0 0 16px; font: 700 var(--lm-h2)/1 var(--lm-fonte-titulo); }
-html.lm-novo .lm-b2b p { margin: 0; opacity: .92; color: #fff; }
-html.lm-novo .lm-btn, html.lm-novo .lm-btn2 { display: inline-grid; place-content: center; text-align: center; padding: 16px 24px; font: 600 15px/1.2 var(--lm-fonte-texto) !important; letter-spacing: .06em; text-transform: uppercase; text-decoration: none !important; cursor: pointer; }
-html.lm-novo .lm-b2b .lm-btn { background: #fff; color: var(--lm-onda-escura) !important; }
-html.lm-novo .lm-b2b .lm-btn2 { color: #fff !important; box-shadow: inset 0 0 0 1px #fff; }
-html.lm-novo .lm-acs { display: flex; gap: 12px; flex-wrap: wrap; }
+html.lm-novo .lm-b2b { color: var(--lm-branco); }
+html.lm-novo .lm-b2b .lm-wrap { display: flex; justify-content: space-between; align-items: center; gap: 24px; padding-block: 48px; flex-wrap: wrap; }
+html.lm-novo .lm-b2b h2 { color: var(--lm-branco); margin: 0 0 16px; font: 700 var(--lm-h2)/1 var(--lm-fonte-titulo); }
+html.lm-novo .lm-b2b p { margin: 0; opacity: .92; color: var(--lm-branco); }
+html.lm-novo .lm-btn, html.lm-novo .lm-btn2 { text-decoration: none !important; cursor: pointer; }
+html.lm-novo .lm-b2b .lm-btn { background: var(--lm-branco); color: var(--lm-onda-escura) !important; }
+html.lm-novo .lm-b2b .lm-btn2 { color: var(--lm-branco) !important; box-shadow: inset 0 0 0 1px var(--lm-branco); }
+html.lm-novo .lm-acs { display: flex; gap: 16px; flex-wrap: wrap; }
 /* quem somos */
 html.lm-novo .lm-pq .lm-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
 html.lm-novo .lm-pq ul { list-style: none; padding: 0; margin: 0; }
-html.lm-novo .lm-pq li { padding: 14px 0; border-top: var(--lm-borda-padrao); }
+html.lm-novo .lm-pq li { padding: 16px 0; border-top: var(--lm-borda-padrao); }
 html.lm-novo .lm-pq li b { display: block; font: 700 18px/1.2 var(--lm-fonte-titulo); }
 html.lm-novo .lm-pq li span { color: var(--lm-texto-secundario); font-size: 15px; }
 html.lm-novo .lm-pq p { color: var(--lm-texto-secundario); font-size: 17px; }
-html.lm-novo .lm-tag { font: 600 13px/1 var(--lm-fonte-texto); letter-spacing: .06em; text-transform: uppercase; color: var(--lm-onda-escura); margin-bottom: 12px; display: block; }
+html.lm-novo .lm-tag { font: 600 13px/1 var(--lm-fonte-texto); letter-spacing: .06em; text-transform: uppercase; color: var(--lm-onda-escura); margin-bottom: 16px; display: block; }
 /* rodapé: pagamentos e selos também no grafite */
-html.lm-novo #rodape .pagamento-selos, html.lm-novo #rodape > div:last-child { background: var(--lm-grafite) !important; border-top: 1px solid #45464c; }
-html.lm-novo #rodape .pagamento-selos *, html.lm-novo #rodape > div:last-child * { color: #a9aab0 !important; }
-html.lm-novo #rodape .titulo { color: #fff !important; }
+html.lm-novo #rodape .pagamento-selos, html.lm-novo #rodape > div:last-child { background: var(--lm-grafite) !important; border-top: 1px solid var(--lm-linha-escuro); }
+html.lm-novo #rodape .pagamento-selos *, html.lm-novo #rodape > div:last-child * { color: var(--lm-sobre-escuro-3) !important; }
 /* aviso de cookies menor, embaixo */
-html.lm-novo #avisoCookies { position: fixed !important; top: auto !important; bottom: 16px !important; left: 16px !important; right: auto !important; max-width: 420px; background: #fff !important; border: var(--lm-borda-padrao) !important; box-shadow: var(--lm-cartao-sombra-hover) !important; z-index: 60; }
-html.lm-novo #avisoCookies .conteiner { width: auto !important; padding: 14px 16px !important; display: flex; gap: 12px; align-items: center; }
+html.lm-novo #avisoCookies { position: fixed !important; top: auto !important; bottom: 16px !important; left: 16px !important; right: auto !important; max-width: 420px; background: var(--lm-branco) !important; border: var(--lm-borda-padrao) !important; box-shadow: var(--lm-cartao-sombra-hover) !important; z-index: 60; }
+html.lm-novo #avisoCookies .conteiner { width: auto !important; padding: 16px !important; display: flex; gap: 16px; align-items: center; }
 html.lm-novo #avisoCookies p { font-size: 12px !important; line-height: 1.4 !important; margin: 0 !important; color: var(--lm-texto-secundario) !important; }
-html.lm-novo #avisoCookies .botao { background: var(--lm-grafite) !important; color: #fff !important; border: 0 !important; flex: none; }
+html.lm-novo #avisoCookies .botao { background: var(--lm-grafite) !important; color: var(--lm-branco) !important; border: 0 !important; flex: none; }
 /* contato: só o nosso botão de chat, igual ao da Conceito (assets/custom.css, .custom-contact-float) em azul */
 html.lm-novo .float-contact, html.lm-novo .li-whatsapp { display: none !important; }
-html.lm-novo .lm-chat { position: fixed; right: 20px; bottom: 20px; z-index: 55; }
+html.lm-novo .lm-chat { position: fixed; right: 24px; bottom: 24px; z-index: 55; }
 html.lm-novo .lm-chat__abre, html.lm-novo .lm-chat__canal { display: flex; align-items: center; justify-content: center; width: var(--lm-chat-tamanho); height: var(--lm-chat-tamanho); padding: 0; border: 0; border-radius: 50% !important; cursor: pointer; }
 html.lm-novo .lm-chat__abre { background: var(--lm-btn-gradiente); box-shadow: 0 4px 14px rgba(0, 0, 0, .25); transition: transform .15s ease, box-shadow .15s ease, background-color .2s ease; }
 html.lm-novo .lm-chat__abre:hover, html.lm-novo .lm-chat__abre:focus-visible { transform: scale(1.06); box-shadow: 0 6px 18px rgba(0, 0, 0, .3); }
-html.lm-novo .lm-chat__abre svg { width: 28px; height: 28px; fill: #fff; }
+html.lm-novo .lm-chat__abre svg { width: 28px; height: 28px; fill: var(--lm-branco); }
 html.lm-novo .lm-chat__i-fecha { display: none; fill: none !important; stroke: var(--lm-grafite); stroke-width: 2.4; stroke-linecap: round; }
 /* aberto: vira o fechar branco com X (azul aberto pareceria um 3º canal) */
-html.lm-novo .lm-chat[data-open='true'] .lm-chat__abre { background: #fff; box-shadow: 0 0 0 1px var(--lm-borda), 0 4px 14px rgba(0, 0, 0, .2); }
+html.lm-novo .lm-chat[data-open='true'] .lm-chat__abre { background: var(--lm-branco); box-shadow: 0 0 0 1px var(--lm-borda), 0 4px 14px rgba(0, 0, 0, .2); }
 html.lm-novo .lm-chat[data-open='true'] .lm-chat__i-chat { display: none; }
 html.lm-novo .lm-chat[data-open='true'] .lm-chat__i-fecha { display: block; }
 /* canais escondidos até abrir, com atraso e easing "back" para o bounce */
-html.lm-novo .lm-chat__dial { position: absolute; left: 50%; bottom: calc(var(--lm-chat-tamanho) + 12px); transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 12px; pointer-events: none; }
+html.lm-novo .lm-chat__dial { position: absolute; left: 50%; bottom: calc(var(--lm-chat-tamanho) + 16px); transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 16px; pointer-events: none; }
 html.lm-novo .lm-chat__canal { position: relative; box-shadow: 0 4px 12px rgba(0, 0, 0, .25); opacity: 0; visibility: hidden; pointer-events: none; transform: scale(.4) translateY(12px); transition: transform .35s cubic-bezier(.34, 1.56, .64, 1), opacity .2s ease, visibility 0s linear .35s; }
-html.lm-novo .lm-chat__canal svg { width: 26px; height: 26px; fill: #fff; }
+html.lm-novo .lm-chat__canal svg { width: 26px; height: 26px; fill: var(--lm-branco); }
 html.lm-novo .lm-chat__canal--wa { background: var(--lm-whatsapp); }
 html.lm-novo .lm-chat__canal--email { background: var(--lm-btn-gradiente); }
 html.lm-novo .lm-chat[data-open='true'] .lm-chat__canal { opacity: 1; visibility: visible; pointer-events: auto; transform: none; transition-delay: .05s; }
 html.lm-novo .lm-chat[data-open='true'] .lm-chat__canal--email { transition-delay: .12s; }
 /* dica do e-mail abre para a esquerda (o botão fica na borda direita) */
-html.lm-novo .lm-chat__dica { position: absolute; right: calc(100% + 12px); top: 50%; transform: translateY(-50%); width: max-content; max-width: 200px; padding: 8px 12px; border: var(--lm-borda-padrao); background: #fff; color: var(--lm-grafite); font-size: 13px; line-height: 1.3; text-align: left; opacity: 0; pointer-events: none; transition: opacity .15s ease; }
-html.lm-novo .lm-chat__dica::after { content: ''; position: absolute; left: 100%; top: 50%; width: 8px; height: 8px; border-top: var(--lm-borda-padrao); border-right: var(--lm-borda-padrao); background: #fff; transform: translate(-50%, -50%) rotate(45deg); }
+html.lm-novo .lm-chat__dica { position: absolute; right: calc(100% + 16px); top: 50%; transform: translateY(-50%); width: max-content; max-width: 200px; padding: 8px 16px; border: var(--lm-borda-padrao); background: var(--lm-branco); color: var(--lm-grafite); font-size: 13px; line-height: 1.3; text-align: left; opacity: 0; pointer-events: none; transition: opacity .15s ease; }
+html.lm-novo .lm-chat__dica::after { content: ''; position: absolute; left: 100%; top: 50%; width: 8px; height: 8px; border-top: var(--lm-borda-padrao); border-right: var(--lm-borda-padrao); background: var(--lm-branco); transform: translate(-50%, -50%) rotate(45deg); }
 html.lm-novo .lm-chat__canal--email:hover .lm-chat__dica, html.lm-novo .lm-chat__canal--email:focus-visible .lm-chat__dica, html.lm-novo .lm-chat__dica.is-visible { opacity: 1; }
 /* janela do WhatsApp: arredondada de propósito, como na Conceito (chat mais amigável) */
-html.lm-novo .lm-chat__janela { box-sizing: border-box; position: fixed; inset: 50% auto auto 50%; transform: translate(-50%, -50%); margin: 0; padding: 0; width: calc(100vw - 32px); max-width: 360px; max-height: calc(100dvh - 32px); overflow-y: auto; border: 0; border-radius: 16px !important; background: #fff; color: var(--lm-grafite); box-shadow: 0 20px 50px rgba(0, 0, 0, .25); }
+html.lm-novo .lm-chat__janela { box-sizing: border-box; position: fixed; inset: 50% auto auto 50%; transform: translate(-50%, -50%); margin: 0; padding: 0; width: calc(100vw - 32px); max-width: 360px; max-height: calc(100dvh - 32px); overflow-y: auto; border: 0; border-radius: 16px !important; background: var(--lm-branco); color: var(--lm-grafite); box-shadow: 0 20px 50px rgba(0, 0, 0, .25); }
 html.lm-novo .lm-chat__janela::backdrop { background: rgba(20, 22, 26, .5); }
-html.lm-novo .lm-chat__topo { display: flex; align-items: center; gap: 12px; padding: 14px 14px 14px 20px; background: var(--lm-whatsapp-escuro); }
-html.lm-novo .lm-chat__topo > svg { flex-shrink: 0; width: 32px; height: 32px; fill: #fff; }
+html.lm-novo .lm-chat__topo { display: flex; align-items: center; gap: 16px; padding: 16px 16px 16px 24px; background: var(--lm-whatsapp-escuro); }
+html.lm-novo .lm-chat__topo > svg { flex-shrink: 0; width: 32px; height: 32px; fill: var(--lm-branco); }
 html.lm-novo .lm-chat__titulos { display: flex; flex: 1; flex-direction: column; align-items: center; text-align: center; }
-html.lm-novo .lm-chat__titulos h2 { margin: 0 !important; color: #fff !important; font-size: 16px !important; line-height: 1.3 !important; }
-html.lm-novo .lm-chat__online { display: inline-flex; align-items: center; gap: 6px; margin-top: 6px; padding: 4px 10px; border-radius: 999px !important; background: #fff; color: #1d7a35; font-size: 12px; font-weight: 600; }
+html.lm-novo .lm-chat__titulos h2 { margin: 0 !important; color: var(--lm-branco) !important; font-size: 16px !important; line-height: 1.3 !important; }
+html.lm-novo .lm-chat__online { display: inline-flex; align-items: center; gap: 8px; margin-top: 8px; padding: 4px 8px; border-radius: 999px !important; background: var(--lm-branco); color: var(--lm-sucesso); font-size: 12px; font-weight: 600; }
 html.lm-novo .lm-chat__online[hidden] { display: none; }
-html.lm-novo .lm-chat__ponto { width: 8px; height: 8px; border-radius: 50% !important; background: #2ea043; animation: lm-pulso 1.5s infinite; }
+html.lm-novo .lm-chat__ponto { width: 8px; height: 8px; border-radius: 50% !important; background: var(--lm-ponto-online); animation: lm-pulso 1.5s infinite; }
 @keyframes lm-pulso { 0% { transform: scale(.95); box-shadow: 0 0 0 0 rgba(46, 160, 67, .7); } 70% { transform: scale(1); box-shadow: 0 0 0 5px rgba(46, 160, 67, 0); } 100% { transform: scale(.95); box-shadow: 0 0 0 0 rgba(46, 160, 67, 0); } }
-html.lm-novo .lm-chat__fechar { display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 44px; height: 44px; padding: 0; border: var(--lm-borda-padrao); border-radius: 50% !important; background: #fff; color: var(--lm-grafite); cursor: pointer; }
+html.lm-novo .lm-chat__fechar { display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: var(--lm-campo-altura); height: var(--lm-campo-altura); padding: 0; border: var(--lm-borda-padrao); border-radius: 50% !important; background: var(--lm-branco); color: var(--lm-grafite); cursor: pointer; }
 html.lm-novo .lm-chat__fechar svg { width: 18px; height: 18px; pointer-events: none; }
 html.lm-novo .lm-chat__fechar:hover { border-color: var(--lm-btn-gradiente); color: var(--lm-btn-gradiente); }
-html.lm-novo .lm-chat__assuntos { display: flex; flex-direction: column; gap: 8px; margin: 0 !important; padding: 16px 20px 20px !important; list-style: none; }
-html.lm-novo .lm-chat__assuntos a { box-sizing: border-box; display: flex; align-items: center; gap: 10px; width: 100%; min-height: 40px; padding: 0 14px; border: var(--lm-borda-padrao); border-radius: 999px !important; background: #fff; color: var(--lm-grafite) !important; font: 600 12px/1.3 var(--lm-fonte-titulo); letter-spacing: .08em; text-transform: uppercase; text-decoration: none !important; }
+html.lm-novo .lm-chat__assuntos { display: flex; flex-direction: column; gap: 8px; margin: 0 !important; padding: 16px 24px 24px !important; list-style: none; }
+html.lm-novo .lm-chat__assuntos a { box-sizing: border-box; display: flex; align-items: center; gap: 8px; width: 100%; min-height: var(--lm-campo-altura); padding: 0 16px; border: var(--lm-borda-padrao); border-radius: 999px !important; background: var(--lm-branco); color: var(--lm-grafite) !important; font: 600 12px/1.3 var(--lm-fonte-titulo); letter-spacing: .08em; text-transform: uppercase; text-decoration: none !important; }
 html.lm-novo .lm-chat__assuntos a:hover { border-color: var(--lm-grafite); }
 html.lm-novo .lm-chat__assuntos svg { flex-shrink: 0; width: 20px; height: 20px; color: var(--lm-whatsapp-escuro); }
 
 @media (max-width: 767px) {
   html.lm-novo .lm-vant .lm-wrap { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; padding-block: 16px; }
-  html.lm-novo .lm-vant .lm-item { padding: 12px; align-items: flex-start; }
+  html.lm-novo .lm-vant .lm-item { padding: 8px; gap: 8px; align-items: flex-start; }
   html.lm-novo .lm-vant .lm-ico { width: 32px; height: 32px; }
   html.lm-novo .lm-vant b { font-size: 16px; }
-  html.lm-novo .lm-cats { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 8px; margin-inline: calc(-1 * var(--lm-margem)); padding-inline: var(--lm-margem); }
-  html.lm-novo .lm-cats a { flex: 0 0 44%; scroll-snap-align: start; min-height: 100px; padding: 16px; }
   html.lm-novo .lm-sec { padding-block: 32px; }
-  html.lm-novo .listagem > ul:not(.produtos-carrossel), html.lm-novo .listagem .listagem-linha > ul { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 12px !important; }
-  html.lm-novo .listagem .listagem-item { padding: 0 10px 10px !important; }
-  html.lm-novo .listagem .imagem-produto { margin: 0 -10px 10px !important; }
+  html.lm-novo .listagem > ul:not(.produtos-carrossel), html.lm-novo .listagem .listagem-linha > ul { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px !important; margin-bottom: 8px !important; }
   html.lm-novo .listagem .nome-produto { font-size: 14px !important; }
   html.lm-novo .lm-pq .lm-wrap { grid-template-columns: 1fr; gap: 24px; }
   html.lm-novo .lm-b2b .lm-acs { width: 100%; }
   html.lm-novo .lm-b2b .lm-acs > * { flex: 1; }
-  html.lm-novo .lm-chat { --lm-chat-tamanho: var(--lm-chat-tamanho-celular); bottom: 17.5px; }
+  html.lm-novo .lm-chat { --lm-chat-tamanho: var(--lm-chat-tamanho-celular); bottom: 16px; }
   html.lm-novo .lm-chat__abre svg { width: 29px; height: 29px; }
   html.lm-novo .lm-chat__canal svg { width: 31px; height: 31px; }
-  html.lm-novo .lm-chat__assuntos a { min-height: 44px; }
+  html.lm-novo .lm-chat__assuntos a { min-height: var(--lm-campo-altura); }
   html.lm-novo #avisoCookies { left: 8px !important; right: 8px !important; bottom: 8px !important; max-width: none; }
 }
 
 /* banner cheio no celular: a arte vertical (750 x 960) ocupa a largura toda, sem corte */
 @media (max-width: 767px) { html.lm-novo .secao-banners .banner.cheio img { width: 100% !important; height: auto !important; max-height: none !important; object-fit: contain; } html.lm-novo .secao-banners .flexslider, html.lm-novo .secao-banners .flexslider .slides li { height: auto !important; } }
 /* setas do carrossel: discretas no computador, fora no celular (lá o cliente arrasta) */
-html.lm-novo .secao-banners .flex-direction-nav a { background: rgba(48, 49, 54, .55) !important; color: #fff !important; border-radius: 0 !important; }
+html.lm-novo .secao-banners .flex-direction-nav a { background: rgba(48, 49, 54, .55) !important; color: var(--lm-branco) !important; border-radius: 0 !important; }
 @media (max-width: 767px) { html.lm-novo .secao-banners .flex-direction-nav { display: none !important; } }
+/* bolinhas do carrossel de banners (Marty, testada): 8 px no lugar dos números, área de toque de 24 px, número só para leitor de tela */
+html.lm-novo ol.flex-control-nav.flex-control-paging { position: static !important; display: flex !important; justify-content: center; align-items: center; gap: 8px; height: 24px; line-height: 0; width: auto !important; margin: 12px 0 0 !important; padding: 0 !important; list-style: none; text-align: center; }
+html.lm-novo .flex-control-paging li { display: block !important; width: 24px !important; height: 24px !important; margin: 0 !important; padding: 0 !important; line-height: 0 !important; }
+html.lm-novo .flex-control-paging li a { position: relative; display: block !important; width: 24px !important; height: 24px !important; overflow: hidden; font-size: 0 !important; line-height: 0 !important; color: transparent !important; text-indent: 0 !important; background: none !important; border: 0 !important; box-shadow: none !important; cursor: pointer; }
+html.lm-novo .flex-control-paging li a::after { content: ''; position: absolute; top: 8px; left: 8px; width: 8px; height: 8px; border-radius: 50% !important; background: var(--lm-borda); }
+html.lm-novo .flex-control-paging li a.flex-active::after { background: var(--lm-onda-escura); }
 
 /* ===== cabeçalho nosso (04/11) ===== o original do tema fica no HTML, escondido; a busca e o menu do celular foram movidos */
 html.lm-novo #cabecalho { padding: 0 !important; border-bottom: 0 !important; }
 html.lm-novo #cabecalho > :not(.lm-topo):not(.full.menu) { display: none !important; }
-html.lm-novo .lm-topo { background: #fff; border-bottom: var(--lm-borda-padrao); }
+html.lm-novo .lm-topo { background: var(--lm-branco); border-bottom: var(--lm-borda-padrao); }
 html.lm-novo .lm-topo__linha { display: flex; align-items: center; gap: 32px; height: 80px; }
 html.lm-novo .lm-topo__logo { flex: none; line-height: 0; }
 html.lm-novo .lm-topo__logo img { width: 203px; height: 46px; display: block; }
 html.lm-novo .lm-topo__busca { flex: 1; max-width: 560px; }
-html.lm-novo .lm-topo__busca form { position: relative; margin: 0 !important; display: flex; }
-html.lm-novo .lm-topo__busca input { flex: 1; width: auto !important; height: 48px !important; margin: 0 !important; padding: 0 16px !important; font: 400 15px/1 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; background: var(--lm-campo-fundo) !important; border: var(--lm-campo-borda) !important; border-right: 0 !important; box-shadow: none !important; }
-html.lm-novo .lm-topo__busca input:focus { outline: 0; border-color: var(--lm-onda-escura) !important; background: #fff !important; }
-html.lm-novo .lm-topo__busca button { position: static !important; flex: none; width: 48px !important; height: 48px !important; margin: 0 !important; padding: 0 !important; border: 0 !important; background: var(--lm-grafite) !important; color: #fff !important; box-shadow: none !important; font-size: 16px !important; }
-html.lm-novo .lm-topo__acoes { margin-left: auto; display: flex; align-items: center; gap: 28px; }
+/* busca: #form-buscar é do tema e foi movido para cá; campo e botão formam um pill só, com a altura do campo */
+html.lm-novo .lm-topo__busca form { position: relative; display: flex; align-items: stretch !important; height: var(--lm-campo-altura); margin: 0 !important; }
+/* campo padrão (.lm-campo): 48 de altura, pill, fundo e borda dos tokens. :where() deixa a base com especificidade mínima: cada uso só
+   escreve o que muda (largura, padding lateral, raio de um lado). Vale para busca, CEP e newsletter; as páginas usam a classe .lm-campo */
+html.lm-novo :where(.lm-campo, .lm-topo__busca input, .input-cep, .componente.newsletter input) { box-sizing: border-box !important; height: var(--lm-campo-altura) !important; min-height: 0 !important; margin: 0 !important; padding: 0 24px !important; border: var(--lm-campo-borda) !important; border-radius: var(--lm-btn-raio) !important; background: var(--lm-campo-fundo) !important; color: var(--lm-grafite) !important; font: 400 15px/1 var(--lm-fonte-texto) !important; box-shadow: none !important; }
+html.lm-novo :where(.lm-campo, .lm-topo__busca input, .input-cep, .componente.newsletter input):focus { outline: 0; border-color: var(--lm-onda-escura) !important; background: var(--lm-branco) !important; }
+html.lm-novo .lm-topo__busca input { flex: 1; width: auto !important; height: 100% !important; padding: 0 16px 0 24px !important; border-right: 0 !important; border-radius: var(--lm-btn-raio) 0 0 var(--lm-btn-raio) !important; }
+html.lm-novo .lm-topo__busca button { position: static !important; flex: none; width: var(--lm-campo-altura) !important; height: 100% !important; min-height: 0 !important; box-sizing: border-box !important; margin: 0 !important; padding: 0 !important; border: 1px solid transparent !important; border-radius: 0 var(--lm-btn-raio) var(--lm-btn-raio) 0 !important; background: var(--lm-btn-gradiente) !important; color: var(--lm-branco) !important; box-shadow: none !important; font-size: 16px !important; }
+html.lm-novo .lm-topo__busca button:hover { background: var(--lm-btn-gradiente-hover) !important; }
+html.lm-novo .lm-topo__acoes { margin-left: auto; display: flex; align-items: center; gap: 32px; }
 html.lm-novo .lm-topo__acoes a { display: inline-flex; align-items: center; gap: 8px; color: var(--lm-grafite) !important; font: 600 14px/1 var(--lm-fonte-texto) !important; text-decoration: none !important; white-space: nowrap; position: relative; }
 html.lm-novo .lm-topo__acoes a:hover { color: var(--lm-onda-escura) !important; }
 html.lm-novo .lm-topo__acoes svg { width: 22px; height: 22px; flex: none; }
 html.lm-novo .lm-topo__orc { color: var(--lm-onda-escura) !important; }
-html.lm-novo .lm-qtd { min-width: 18px; height: 18px; padding: 0 5px; display: inline-grid; place-items: center; background: var(--lm-onda-escura); color: #fff; font: 700 11px/1 var(--lm-fonte-texto); }
+html.lm-novo .lm-qtd { min-width: 16px; height: 16px; padding: 0 4px; display: inline-grid; place-items: center; background: var(--lm-onda-escura); color: var(--lm-branco); font: 700 12px/1 var(--lm-fonte-texto); }
 html.lm-novo .lm-qtd[hidden] { display: none; }
 html.lm-novo .lm-topo__menu { display: none; }
-/* menu de categorias na mesma largura e alinhado à logo */
-html.lm-novo .full.menu { border-bottom: var(--lm-borda-padrao) !important; }
-html.lm-novo .full.menu > .conteiner { max-width: var(--lm-largura) !important; padding-inline: var(--lm-margem) !important; box-sizing: content-box !important; margin: 0 auto !important; }
-html.lm-novo .full.menu .nivel-um { height: 48px !important; }
-html.lm-novo .full.menu .nivel-um > li > a { padding: 14px 0 !important; }
+/* o tema põe #cabecalho.fixed ao passar de 20 px de rolagem (LI.methods.fixedHeader): o cabeçalho sai do fluxo, a página encolhe e volta, e o menu some.
+   Aqui ele nunca sai do fluxo e o menu fica sempre visível, então a rolagem não muda o layout */
+html.lm-novo #cabecalho.fixed { position: static !important; box-shadow: none !important; }
+html.lm-novo #cabecalho.fixed .full.menu { max-height: none; opacity: 1; z-index: auto; overflow: visible; transition: none; }
+html.lm-novo .busca-mobile.fixed { position: static !important; box-shadow: none !important; }
 @media (max-width: 767px) {
-  html.lm-novo .lm-topo__linha { height: auto; flex-wrap: wrap; gap: 12px 16px; padding-block: 12px; }
+  html.lm-novo .lm-topo__linha { height: auto; flex-wrap: wrap; gap: 8px 16px; padding-block: 16px; }
   html.lm-novo .lm-topo__menu { display: grid; place-items: center; width: 40px; height: 40px; padding: 0; border: 0; background: none; color: var(--lm-grafite); order: 0; }
   html.lm-novo .lm-topo__menu svg { width: 26px; height: 26px; }
   html.lm-novo .lm-topo__logo { order: 1; margin-right: auto; }
@@ -277,38 +261,30 @@ html.lm-novo .full.menu .nivel-um > li > a { padding: 14px 0 !important; }
   html.lm-novo .lm-topo__acoes { order: 2; margin: 0; gap: 16px; }
   html.lm-novo .lm-topo__acoes span, html.lm-novo .lm-topo__orc { display: none !important; }
   html.lm-novo .lm-topo__busca { order: 3; flex: 0 0 100%; max-width: none; }
-  html.lm-novo .lm-topo__busca input { height: 44px !important; font-size: 16px !important; }
-  html.lm-novo .lm-topo__busca button { width: 44px !important; height: 44px !important; }
+  html.lm-novo .lm-topo__busca form { height: 44px; }
+  html.lm-novo .lm-topo__busca input { font-size: 16px !important; }
   html.lm-novo .lm-topo .menu.superior { order: 4; width: 100%; }
 }
 
 /* ===== correções da varredura (04/11) ===== */
 /* faixa para empresas: fundo onda escura (texto branco 4,7:1), texto maior */
-html.lm-novo .lm-b2b { background: var(--lm-onda-escura) !important; margin-block: 32px 48px !important; }
 html.lm-novo .lm-b2b p { font-size: 16px !important; line-height: 1.5; opacity: 1 !important; }
 html.lm-novo .lm-tag { color: var(--lm-azul-hover) !important; }
-html.lm-novo #corpo { padding-bottom: 0 !important; margin-bottom: 0 !important; }
-html.lm-novo .lm-pq { margin-top: 48px; }
 /* rodapé: ícones e redes sociais claros sobre o grafite */
-html.lm-novo #rodape a[class*="icon-"], html.lm-novo #rodape [class*="icon-"], html.lm-novo #rodape .redes-sociais a, html.lm-novo #rodape .lista-redes a { color: #fff !important; border-color: #5a5b62 !important; background: transparent !important; }
-html.lm-novo #rodape svg, html.lm-novo #rodape svg path { fill: #c9cace !important; }
-html.lm-novo #rodape .titulo, html.lm-novo #rodape h4, html.lm-novo #rodape strong { color: #fff !important; }
+html.lm-novo #rodape a[class*="icon-"], html.lm-novo #rodape [class*="icon-"], html.lm-novo #rodape .redes-sociais a, html.lm-novo #rodape .lista-redes a { color: var(--lm-branco) !important; border-color: var(--lm-linha-escuro-2) !important; background: transparent !important; }
+html.lm-novo #rodape svg, html.lm-novo #rodape svg path { fill: var(--lm-sobre-escuro-2) !important; }
+html.lm-novo #rodape .titulo, html.lm-novo #rodape h4, html.lm-novo #rodape strong { color: var(--lm-branco) !important; }
 /* trilha e textos "cor secundária" do tema (azul claro e cinza claro, sem contraste) */
 html.lm-novo :is(#corpo, #cabecalho) .cor-secundaria:not(.botao):not([class*="fundo-"]) { color: var(--lm-grafite) !important; }
 html.lm-novo .breadcrumbs, html.lm-novo .breadcrumbs a, html.lm-novo .breadcrumbs span, html.lm-novo .breadcrumbs strong { color: var(--lm-texto-secundario) !important; }
 html.lm-novo .breadcrumbs a:hover { color: var(--lm-onda-escura) !important; }
-/* flutuantes sem se cobrir: voltar ao topo centrado acima do chat (some com o chat aberto); no celular, os dois acima do aviso de cookies */
-html.lm-novo .scrollToTop { right: 26px !important; bottom: 92px !important; left: auto !important; width: 44px !important; height: 44px !important; background: var(--lm-grafite) !important; color: #fff !important; border-radius: 0 !important; z-index: 54 !important; }
-html.lm-novo body:has(.lm-chat[data-open='true']) .scrollToTop { opacity: 0 !important; pointer-events: none !important; }
+/* trilha: mesmo respiro e sem caixa do tema em categoria, busca, institucionais, carrinho e conta (o produto tem a dele, no produto.css) */
+html.lm-novo body:not(.pagina-produto) #corpo .breadcrumbs { margin: 0 !important; padding: 16px 0 0 !important; border: 0 !important; background: none !important; box-shadow: none !important; font-size: .8125rem; }
+html.lm-novo body:not(.pagina-produto) #corpo .breadcrumbs :is(ul, li) { margin: 0 !important; padding: 0 !important; }
 @media (max-width: 767px) {
-  html.lm-novo .scrollToTop { right: 28px !important; bottom: 94px !important; }
   html.lm-novo body.mostrarAvisoCookie .lm-chat { bottom: 176px; }
-  html.lm-novo body.mostrarAvisoCookie .scrollToTop { bottom: 252px !important; }
 }
 
-/* menu: o 1º e o último item vinham cinza-claro por regra do tema; e sem transição de cor dos botões do tema */
-html.lm-novo #cabecalho .full.menu .nivel-um > li > a > strong.titulo, html.lm-novo #cabecalho .full.menu .nivel-um > li > a { color: var(--lm-grafite) !important; opacity: 1 !important; }
-html.lm-novo #cabecalho .full.menu .nivel-um > li.lm-obras > a { color: var(--lm-onda-escura) !important; }
 html.lm-novo .botao, html.lm-novo .botao-comprar, html.lm-novo .tag-comprar { transition: none !important; }
 
 /* ===== padronização (Eduardo 04/11): um ritmo de espaçamento, um desenho de botão, selos e menu alinhados ===== */
@@ -316,73 +292,49 @@ html.lm-novo {
   --lm-sec: 48px;              /* espaço entre seções */
   --lm-sec-titulo: 24px;       /* título da seção até o conteúdo */
   --lm-btn-altura: 48px; --lm-btn-altura-card: 44px;
-  --lm-btn-raio: 0;            /* trocar aqui quando o Eduardo escolher o desenho dos botões */
-  --lm-btn-fundo: var(--lm-onda-escura); --lm-btn-fundo-hover: var(--lm-azul-hover);
 }
 @media (max-width: 767px) { html.lm-novo { --lm-sec: 32px; --lm-sec-titulo: 16px; } }
 /* botões: texto sempre no centro (o tema usava padding em cima e altura fixa, o texto subia) */
 html.lm-novo :is(.botao, .botao-comprar, .tag-comprar, .lm-btn, .lm-btn2, .lm-mais) { display: inline-flex !important; align-items: center !important; justify-content: center !important; gap: 8px; min-height: var(--lm-btn-altura) !important; height: auto !important; padding: 0 24px !important; line-height: 1.2 !important; border-radius: var(--lm-btn-raio) !important; box-sizing: border-box !important; text-align: center; vertical-align: middle; }
-html.lm-novo .listagem :is(.botao-comprar, .tag-comprar) { display: flex !important; min-height: var(--lm-btn-altura-card) !important; padding: 0 12px !important; background: var(--lm-btn-fundo) !important; }
-html.lm-novo .listagem :is(.botao-comprar, .tag-comprar):hover, html.lm-novo .lm-btn:hover { background: var(--lm-btn-fundo-hover) !important; }
-html.lm-novo .botao-comprar > svg, html.lm-novo .botao-comprar > i { display: none !important; }
-/* busca no azul */
-html.lm-novo .lm-topo__busca button { background: var(--lm-onda-escura) !important; border-radius: 0 var(--lm-btn-raio) var(--lm-btn-raio) 0 !important; }
-html.lm-novo .lm-topo__busca button:hover { background: var(--lm-azul-hover) !important; }
-/* menu: item com a mesma altura em cima e embaixo; Obras finalizadas junto dos outros itens */
-html.lm-novo #cabecalho .full.menu .nivel-um { height: 52px !important; align-items: stretch !important; }
-html.lm-novo #cabecalho .full.menu .nivel-um > li { display: flex; align-items: stretch; }
-html.lm-novo #cabecalho .full.menu .nivel-um > li > a { padding: 0 !important; height: 100% !important; display: flex !important; align-items: center !important; box-shadow: inset 0 -3px 0 transparent; }
-html.lm-novo #cabecalho .full.menu .nivel-um > li:hover > a { box-shadow: inset 0 -3px 0 var(--lm-azul); }
-html.lm-novo .full.menu .nivel-um > li.lm-obras { margin-left: 0 !important; }
+html.lm-novo .listagem :is(.botao-comprar, .tag-comprar) { display: flex !important; min-height: var(--lm-btn-altura-card) !important; padding: 0 16px !important; font-size: 13px !important; }
+html.lm-novo .botao-comprar :is(svg, i) { display: none !important; }
 /* ritmo das seções da página inicial */
 html.lm-novo #corpo .listagem.com-caixa { margin-top: var(--lm-sec) !important; }
 html.lm-novo #corpo .listagem.com-caixa > ul { margin-bottom: 16px !important; }
-html.lm-novo #corpo .titulo-categoria, html.lm-novo .lm-sec h2 { margin-bottom: var(--lm-sec-titulo) !important; }
+html.lm-novo .lm-sec h2 { margin-bottom: var(--lm-sec-titulo) !important; }
 html.lm-novo .lm-vant .lm-wrap { padding-block: var(--lm-sec-titulo) !important; }
 html.lm-novo .lm-mais { margin: 8px auto var(--lm-sec) !important; }
-html.lm-novo .lm-b2b { margin-block: var(--lm-sec) !important; background: linear-gradient(110deg, var(--lm-onda-escura) 0%, var(--lm-onda-media) 60%, var(--lm-azul) 100%) !important; }
+html.lm-novo .lm-b2b { margin-block: var(--lm-sec) !important; }
 html.lm-novo .lm-pq, html.lm-novo .lm-sec { padding-block: var(--lm-sec) !important; margin-top: 0 !important; }
 /* selos de desconto: pequenos, no canto, texto no centro */
-html.lm-novo .listagem .bandeiras-produto { position: absolute !important; top: 10px !important; left: 10px !important; right: auto !important; z-index: 3; display: flex !important; gap: 6px; width: auto !important; height: auto !important; margin: 0 !important; padding: 0 !important; }
-html.lm-novo .listagem .bandeiras-produto > * { position: static !important; display: inline-flex !important; align-items: center; justify-content: center; width: auto !important; height: 24px !important; min-width: 0 !important; margin: 0 !important; padding: 0 9px !important; font: 700 12px/1 var(--lm-fonte-texto) !important; letter-spacing: .02em; color: #fff !important; background: var(--lm-onda-escura) !important; border-radius: var(--lm-btn-raio) !important; box-shadow: none !important; text-shadow: none !important; }
+html.lm-novo .listagem .bandeiras-produto { position: absolute !important; top: 8px !important; left: 8px !important; right: auto !important; z-index: 3; display: flex !important; gap: 4px; width: auto !important; height: auto !important; margin: 0 !important; padding: 0 !important; }
+html.lm-novo .listagem .bandeiras-produto > * { position: static !important; display: inline-flex !important; align-items: center; justify-content: center; width: auto !important; height: 24px !important; min-width: 0 !important; margin: 0 !important; padding: 0 8px !important; font: 700 12px/1 var(--lm-fonte-texto) !important; letter-spacing: .02em; color: var(--lm-branco) !important; box-shadow: none !important; text-shadow: none !important; }
 html.lm-novo .listagem .listagem-item { position: relative; }
 
-html.lm-novo #cabecalho .full.menu .nivel-um { justify-content: flex-start !important; text-align: left !important; }
-html.lm-novo #cabecalho .full.menu .nivel-um > li, html.lm-novo #cabecalho .full.menu .nivel-um > li > a { background: none !important; }
-html.lm-novo #cabecalho .full.menu .nivel-um > li > a > i, html.lm-novo #cabecalho .full.menu .nivel-um > li > a > img, html.lm-novo #cabecalho .full.menu .nivel-um > li > a > svg { display: none !important; }
 html.lm-novo .lm-mais { display: flex !important; width: max-content !important; margin-inline: auto !important; }
-html.lm-novo .lm-topo .lm-topo__busca form button { background: var(--lm-onda-escura) !important; } html.lm-novo .lm-topo .lm-topo__busca form button:hover { background: var(--lm-azul-hover) !important; }
 
 /* ===== botões: pill com gradiente, negrito em caixa alta (Eduardo 04/11, opção C2) ===== */
-html.lm-novo { --lm-btn-raio: 999px; }
 /* principal: comprar, pedir orçamento, assinar, calcular, ver obras */
-html.lm-novo :is(.botao-comprar, .tag-comprar, .botao.principal, .lm-btn) { background: var(--lm-btn-gradiente) !important; color: #fff !important; font: 700 15px/1.2 var(--lm-fonte-texto) !important; letter-spacing: .04em !important; text-transform: uppercase !important; border: 0 !important; border-radius: 999px !important; box-shadow: var(--lm-btn-sombra) !important; text-shadow: none !important; }
+html.lm-novo :is(.botao-comprar, .tag-comprar, .botao.principal, .lm-btn) { background: var(--lm-btn-gradiente) !important; color: var(--lm-branco) !important; font: 700 15px/1.2 var(--lm-fonte-texto) !important; letter-spacing: .04em !important; text-transform: uppercase !important; border: 0 !important; border-radius: var(--lm-btn-raio) !important; box-shadow: var(--lm-btn-sombra) !important; text-shadow: none !important; }
 html.lm-novo :is(.botao-comprar, .tag-comprar, .botao.principal, .lm-btn):hover { background: var(--lm-btn-gradiente-hover) !important; }
-html.lm-novo .listagem :is(.botao-comprar, .tag-comprar) { font-size: 13px !important; background: var(--lm-btn-gradiente) !important; }
-html.lm-novo .listagem :is(.botao-comprar, .tag-comprar):hover { background: var(--lm-btn-gradiente-hover) !important; }
 /* voltar ao topo removido (Eduardo 04/11) */
 html.lm-novo .scrollToTop { display: none !important; }
 /* secundário: contorno, no hover vira o gradiente */
-html.lm-novo :is(.lm-btn2, .lm-mais) { background: #fff !important; color: var(--lm-onda-escura) !important; box-shadow: inset 0 0 0 1.5px var(--lm-onda-escura) !important; border: 0 !important; border-radius: 999px !important; font: 700 15px/1.2 var(--lm-fonte-texto) !important; letter-spacing: .04em !important; text-transform: uppercase !important; }
-html.lm-novo :is(.lm-btn2, .lm-mais):hover { background: var(--lm-btn-gradiente) !important; color: #fff !important; box-shadow: none !important; }
+html.lm-novo :is(.lm-btn2, .lm-mais) { background: var(--lm-branco) !important; color: var(--lm-onda-escura) !important; box-shadow: inset 0 0 0 2px var(--lm-onda-escura) !important; border: 0 !important; border-radius: var(--lm-btn-raio) !important; font: 700 15px/1.2 var(--lm-fonte-texto) !important; letter-spacing: .04em !important; text-transform: uppercase !important; }
+html.lm-novo :is(.lm-btn2, .lm-mais):hover { background: var(--lm-btn-gradiente) !important; color: var(--lm-branco) !important; box-shadow: none !important; }
 /* sobre faixa colorida: principal branco, secundário contorno branco */
-html.lm-novo .lm-b2b .lm-btn { background: #fff !important; color: var(--lm-azul-hover) !important; box-shadow: none !important; }
-html.lm-novo .lm-b2b .lm-btn2 { background: transparent !important; color: #fff !important; box-shadow: inset 0 0 0 1.5px #fff !important; }
+html.lm-novo .lm-b2b .lm-btn { background: var(--lm-branco) !important; color: var(--lm-azul-hover) !important; box-shadow: none !important; }
+html.lm-novo .lm-b2b .lm-btn2 { background: transparent !important; color: var(--lm-branco) !important; box-shadow: inset 0 0 0 2px var(--lm-branco) !important; }
 html.lm-novo .lm-b2b .lm-btn2:hover { background: rgba(255, 255, 255, .15) !important; }
-/* busca: campo e botão formam um pill só */
-html.lm-novo .lm-topo .lm-topo__busca input { border-radius: 999px 0 0 999px !important; padding-left: 20px !important; }
-html.lm-novo .lm-topo .lm-topo__busca form button { border-radius: 0 999px 999px 0 !important; background: var(--lm-btn-gradiente) !important; width: 56px !important; }
-html.lm-novo .lm-topo .lm-topo__busca form button:hover { background: var(--lm-btn-gradiente-hover) !important; }
 /* selos de desconto acompanham o pill */
-html.lm-novo .listagem .bandeiras-produto > * { border-radius: 999px !important; background: var(--lm-btn-gradiente) !important; }
+html.lm-novo .listagem .bandeiras-produto > * { border-radius: var(--lm-btn-raio) !important; background: var(--lm-btn-gradiente) !important; }
 /* ===== títulos sem caixa alta (como na Conceito) ===== */
 html.lm-novo :is(h1, h2, h3, h4, h5, .titulo, .titulo-categoria, .nome-produto) { text-transform: none !important; }
 html.lm-novo #rodape :is(.titulo, h4, strong, span.titulo) { text-transform: none !important; letter-spacing: 0 !important; }
 /* newsletter: um componente só para a faixa do rodapé, a coluna dos filtros e a janela do celular (mesma .componente.newsletter do tema) */
 html.lm-novo .componente.newsletter { border: 0 !important; box-shadow: none !important; }
 html.lm-novo .componente.newsletter :is(.titulo, .texto-newsletter) { font: 700 var(--lm-h3)/1.15 var(--lm-fonte-titulo) !important; text-transform: none !important; letter-spacing: 0 !important; }
-html.lm-novo .componente.newsletter input { box-sizing: border-box !important; height: 48px !important; margin: 0 !important; padding: 0 20px !important; border: var(--lm-campo-borda) !important; border-radius: 999px !important; background: #fff !important; color: var(--lm-grafite) !important; font: 400 15px/1 var(--lm-fonte-texto) !important; box-shadow: none !important; }
-html.lm-novo .componente.newsletter .botao { box-sizing: border-box !important; height: 48px !important; border: 0 !important; border-radius: 999px !important; background: var(--lm-btn-gradiente) !important; color: #fff !important; box-shadow: none !important; text-shadow: none !important; }
+html.lm-novo .componente.newsletter .botao { box-sizing: border-box !important; height: var(--lm-campo-altura) !important; border: 0 !important; border-radius: var(--lm-btn-raio) !important; background: var(--lm-btn-gradiente) !important; color: var(--lm-branco) !important; box-shadow: none !important; text-shadow: none !important; }
 html.lm-novo .componente.newsletter .botao:hover { background: var(--lm-btn-gradiente-hover) !important; }
 /* o texto ASSINAR vem de pseudo-elemento do tema: mesma fonte dos outros botões, sem fundo próprio */
 html.lm-novo .componente.newsletter .botao, html.lm-novo .componente.newsletter .botao::before, html.lm-novo .componente.newsletter .botao::after { font: 700 15px/1.2 var(--lm-fonte-texto) !important; letter-spacing: .04em !important; text-transform: uppercase !important; }
@@ -391,9 +343,9 @@ html.lm-novo .componente.newsletter .botao::before, html.lm-novo .componente.new
 html.lm-novo .componente.newsletter .botao::after { content: none !important; display: none !important; }
 /* na faixa azul do rodapé: tudo branco e o Assinar branco com texto azul (azul sobre azul sumia) */
 html.lm-novo #barraNewsletter, html.lm-novo #barraNewsletter .componente { background: var(--lm-onda-escura) !important; }
-html.lm-novo #barraNewsletter :is(.titulo, span, p, i, strong, label, h4) { color: #fff !important; }
-html.lm-novo #barraNewsletter .botao { background: #fff !important; color: var(--lm-onda-escura) !important; }
-html.lm-novo #barraNewsletter .botao:hover { background: var(--lm-grafite) !important; color: #fff !important; }
+html.lm-novo #barraNewsletter :is(.titulo, span, p, i, strong, label, h4) { color: var(--lm-branco) !important; }
+html.lm-novo #barraNewsletter .botao { background: var(--lm-branco) !important; color: var(--lm-onda-escura) !important; }
+html.lm-novo #barraNewsletter .botao:hover { background: var(--lm-grafite) !important; color: var(--lm-branco) !important; }
 /* na coluna dos filtros: mesmo desenho dos outros blocos da coluna (título como "Filtrar por Preço", texto comum, alinhado à esquerda) */
 html.lm-novo .coluna .componente.newsletter, html.lm-novo .coluna .componente.newsletter * { text-align: left !important; }
 html.lm-novo .coluna .componente.newsletter .titulo { display: block !important; margin: 0 0 8px !important; padding: 0 !important; font: 700 18px/1.2 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; }
@@ -411,37 +363,27 @@ html.lm-novo #barraNewsletter .input-conteiner .botao { position: static !import
 @media (max-width: 767px) { html.lm-novo #barraNewsletter .input-conteiner { flex-direction: column; } html.lm-novo #barraNewsletter .input-conteiner .botao { width: 100% !important; } }
 @media (max-width: 767px) { html.lm-novo #barraNewsletter { padding: 24px 0 !important; } }
 
-/* busca: o tema pinta o botão por #form-buscar (id), por isso o seletor com id */
-html.lm-novo #form-buscar .botao-busca { background: var(--lm-btn-gradiente) !important; color: #fff !important; }
-html.lm-novo #form-buscar .botao-busca:hover { background: var(--lm-btn-gradiente-hover) !important; }
 /* calcular frete: o botão real é o "OK" do tema, que mostra "Calcular" por pseudo-elemento; só o visual muda */
 html.lm-novo #formCalcularCep { position: relative; display: flex; flex-wrap: wrap; align-items: center; max-width: 360px; }
 html.lm-novo #formCalcularCep > :not(input):not(button) { flex-basis: 100%; margin-bottom: 8px; font: 600 13px/1.3 var(--lm-fonte-texto) !important; letter-spacing: .04em; }
-html.lm-novo #formCalcularCep .input-cep { flex: 1; width: auto !important; height: 48px !important; border-radius: 999px !important; padding: 0 130px 0 20px !important; background: var(--lm-campo-fundo) !important; border: var(--lm-campo-borda) !important; box-shadow: none !important; font: 400 15px/1 var(--lm-fonte-texto) !important; }
-html.lm-novo #formCalcularCep button.btn { position: absolute !important; bottom: 4px !important; top: auto !important; right: 4px !important; height: 40px !important; min-height: 0 !important; width: auto !important; padding: 0 20px !important; border: 0 !important; border-radius: 999px !important; background: var(--lm-btn-gradiente) !important; color: #fff !important; font: 700 13px/1 var(--lm-fonte-texto) !important; letter-spacing: .04em; text-transform: uppercase; box-shadow: none !important; text-shadow: none !important; }
+html.lm-novo #formCalcularCep .input-cep { flex: 1; width: auto !important; padding: 0 136px 0 24px !important; }
+html.lm-novo #formCalcularCep button.btn { position: absolute !important; bottom: 4px !important; top: auto !important; right: 4px !important; height: 40px !important; min-height: 0 !important; width: auto !important; padding: 0 24px !important; border: 0 !important; border-radius: 999px !important; background: var(--lm-btn-gradiente) !important; color: var(--lm-branco) !important; font: 700 13px/1 var(--lm-fonte-texto) !important; letter-spacing: .04em; text-transform: uppercase; box-shadow: none !important; text-shadow: none !important; }
 html.lm-novo #formCalcularCep button.btn:hover { background: var(--lm-btn-gradiente-hover) !important; }
 html.lm-novo #formCalcularCep button.btn { font-size: 0 !important; }  /* o texto que aparece (Calcular) vem do pseudo-elemento do tema */
-html.lm-novo #formCalcularCep button.btn::before, html.lm-novo #formCalcularCep button.btn::after { font: 700 13px/1 var(--lm-fonte-texto) !important; color: #fff !important; letter-spacing: .04em; position: static !important; background: none !important; }
+html.lm-novo #formCalcularCep button.btn::before, html.lm-novo #formCalcularCep button.btn::after { font: 700 13px/1 var(--lm-fonte-texto) !important; color: var(--lm-branco) !important; letter-spacing: .04em; position: static !important; background: none !important; }
 html.lm-novo .pagina-produto .cep :is(span, label, a)[class*="calcul"], html.lm-novo .pagina-produto #formCalcularCep + span { display: none !important; }
 /* botão de compra desabilitado (falta escolher a variação): mais claro e com aviso de cursor */
 html.lm-novo .pagina-produto .botao-comprar.desativo, html.lm-novo .pagina-produto .botao-comprar[disabled], html.lm-novo .pagina-produto .botao-comprar.disabled { opacity: .55 !important; cursor: not-allowed; box-shadow: none !important; }
 
-/* busca: campo e botão com a MESMA altura e o mesmo topo (o campo era content-box e ficava 2 px mais alto) */
-html.lm-novo .lm-topo .lm-topo__busca form { height: 48px; align-items: stretch !important; }
-html.lm-novo .lm-topo .lm-topo__busca input, html.lm-novo .lm-topo .lm-topo__busca form button { box-sizing: border-box !important; height: 100% !important; min-height: 0 !important; margin: 0 !important; }
-html.lm-novo .lm-topo .lm-topo__busca form button { border: 1px solid transparent !important; }
-@media (max-width: 767px) { html.lm-novo .lm-topo .lm-topo__busca form { height: 44px; } html.lm-novo .lm-topo .lm-topo__busca form button { width: 48px !important; } }
 
-/* busca no celular: o tema fixa a altura do botão pelo id; mesma altura do campo */
-html.lm-novo #form-buscar #auto-complete, html.lm-novo #form-buscar .botao-busca { height: 100% !important; min-height: 0 !important; box-sizing: border-box !important; }
 /* ritmo: 48 px (32 no celular) entre seções, sem somar o respiro da faixa de vantagens nem a margem do fim das vitrines */
 html.lm-novo .lm-vant .lm-wrap { padding-bottom: 0 !important; }
 html.lm-novo .lm-vant + * , html.lm-novo .secao-banners + .lm-vant + #corpo { margin-top: 0 !important; }
 html.lm-novo #corpo .listagem.com-caixa > .lm-mais:last-child, html.lm-novo #corpo .listagem.com-caixa > ul:last-child { margin-bottom: 0 !important; }
 html.lm-novo #corpo, html.lm-novo #corpo > .conteiner, html.lm-novo #corpo .secao-principal, html.lm-novo #corpo .conteudo, html.lm-novo #corpo .conteudo > .row-fluid { padding-bottom: 0 !important; margin-bottom: 0 !important; }
 /* faixa para empresas: 3 tons da marca, com o texto sobre a parte escura */
-html.lm-novo .lm-b2b { background: linear-gradient(110deg, var(--lm-azul-hover) 0%, var(--lm-onda-escura) 55%, var(--lm-onda-media) 100%) !important; }
 
+html.lm-novo #corpo { padding-top: 0 !important; }
 html.lm-novo #corpo > .conteiner, html.lm-novo #corpo .secao-principal { padding-top: 0 !important; margin-top: 0 !important; }
 html.lm-novo .lm-pq { margin-top: var(--lm-sec) !important; }
 html.lm-novo .lm-pq + #barraNewsletter, html.lm-novo .lm-pq ~ #barraNewsletter { margin-top: 0 !important; }
@@ -463,17 +405,13 @@ html.lm-novo .disponibilidade-produto, html.lm-novo .disponibilidade-produto * {
 
 /* cartão de produto mais compacto (Eduardo 04/11): foto sempre 1:1 e só valores da grade de 8 (o tema somava 15/10/3/10 px soltos
    entre o preço e o botão); serve início, categoria, busca e relacionados */
-html.lm-novo .listagem > ul:not(.produtos-carrossel), html.lm-novo .listagem .listagem-linha > ul { gap: 16px !important; }
-html.lm-novo .listagem .listagem-item { padding: 0 16px 16px !important; }
 html.lm-novo .listagem .imagem-produto { aspect-ratio: 1 / 1; height: auto !important; margin: 0 -16px 16px !important; display: flex !important; align-items: center; justify-content: center; overflow: hidden; }
 html.lm-novo .listagem .imagem-produto img { width: 100% !important; height: 100% !important; max-height: none !important; object-fit: contain; }
-html.lm-novo .listagem .listagem-item .info-produto { gap: 8px; padding: 0 !important; }
+html.lm-novo .listagem .listagem-item .info-produto { padding: 0 !important; }
 html.lm-novo .listagem .preco-produto > div { margin: 0 !important; }
 /* preço sempre colado ao botão (16 px); a sobra das alturas diferentes de nome fica entre o nome e o preço */
 html.lm-novo .listagem .info-produto > div:has(.preco-produto) { margin-top: auto; }
-html.lm-novo .listagem .acoes-produto { margin-top: 16px !important; padding: 0 !important; }
 @media (max-width: 767px) {
-  html.lm-novo .listagem > ul:not(.produtos-carrossel), html.lm-novo .listagem .listagem-linha > ul { gap: 8px !important; }
   html.lm-novo .listagem .listagem-item { padding: 0 8px 8px !important; }
   html.lm-novo .listagem .imagem-produto { margin: 0 -8px 8px !important; }
   html.lm-novo .listagem .acoes-produto { margin-top: 8px !important; }
