@@ -535,3 +535,12 @@ html.lm-novo #corpo .lm-vazio-cab { display: none !important; }
   html.lm-novo #corpo .lm-pagcab h1 { font-size: 1.875rem !important; }
   html.lm-novo #corpo .lm-pagcab .lm-pagcab__apoio { font-size: 16px !important; }
 }
+
+/* cabeçalho sempre no topo (Eduardo 04/11, "assim como no original"), sem o salto do fixo do tema: sticky, altura constante.
+   #cabecalho vira display:contents para o sticky valer na página inteira (dentro dele só colaria pela altura do próprio cabeçalho).
+   Computador: linha do topo + menu de categorias; celular: a linha do topo (logo, ícones e busca). */
+html.lm-novo #cabecalho { display: contents; }
+html.lm-novo .lm-topo { position: sticky; top: 0; z-index: 50; background: var(--lm-branco); }
+@media (min-width: 768px) {
+  html.lm-novo #cabecalho .full.menu { position: sticky; top: var(--lm-topo-h, 81px); z-index: 49; background: var(--lm-branco); }
+}
