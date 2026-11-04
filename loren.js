@@ -8,6 +8,9 @@
   const ORC = 'data-toggle="modal" data-target="#modal_consulte"';  // o mesmo formulário de orçamento que o site já tem
   const ico = (d) => `<span class="lm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${d}</svg></span>`;
   document.documentElement.classList.add('lm-novo');
+  // um par de arquivos por tipo de página (cada agente mexe no seu): categoria.* (categoria e busca), produto.*
+  const pagina = () => { const c = document.body.className; return /pagina-categoria|pagina-busca/.test(c) ? 'categoria' : /pagina-produto/.test(c) ? 'produto' : ''; };
+  const extra = () => { const n = pagina(); if (!n || !BASE) return; const l = document.createElement('link'); l.rel = 'stylesheet'; l.href = BASE + n + '.css'; document.head.append(l); const j = document.createElement('script'); j.src = BASE + n + '.js'; document.head.append(j); };
 
   const monta = () => {
     if (document.body.dataset.lm) return; document.body.dataset.lm = '1';
@@ -25,6 +28,13 @@
 
     const inicio = /^\/(home)?$/.test(location.pathname);
     if (!inicio) return;
+    // vitrines: mostra 8 (4 no celular) e um botão para ver o resto
+    document.querySelectorAll('#corpo .listagem.com-caixa > ul').forEach((ul) => {
+      if (ul.children.length <= 4) return;
+      ul.classList.add('lm-recolhe');
+      ul.insertAdjacentHTML('afterend', '<button type="button" class="lm-btn2 lm-mais">Ver mais produtos</button>');
+      ul.nextElementSibling.addEventListener('click', (e) => { ul.classList.remove('lm-recolhe'); e.currentTarget.remove(); });
+    });
     const banners = document.querySelector('.secao-banners');
     // vantagens em HTML no lugar dos 4 mini banners
     banners?.insertAdjacentHTML('afterend', `<section class="lm-vant"><div class="lm-wrap">
@@ -43,5 +53,6 @@
     document.querySelector('#barraNewsletter')?.insertAdjacentHTML('beforebegin', `<section class="lm-sec lm-cinza lm-pq"><div class="lm-wrap"><div><span class="lm-tag">Quem somos</span><h2>Fabricante em Indaiatuba, perto de Viracopos</h2><p>Torneiras clínicas, linha hospitalar e acessibilidade para banheiros, clínicas, hospitais, escolas e cozinhas.</p><a class="lm-btn" style="background:var(--lm-onda-escura);color:#fff" href="/pagina/obras-finalizadas.html">Ver obras finalizadas</a></div>
       <ul><li><b>Fabricação própria</b><span>Produtos com peças de reposição e pós-venda.</span></li><li><b>Linha de acessibilidade</b><span>Barras de apoio, assentos e torneiras para banheiros PNE.</span></li><li><b>Retirada agendada</b><span>Centro de distribuição em Indaiatuba, a 500 m da rodovia.</span></li></ul></div></section>`);
   };
-  document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', monta) : monta();
+  const tudo = () => { extra(); monta(); };
+  document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', tudo) : tudo();
 })();

@@ -1,0 +1,1 @@
+// Loren Metais, página de produto (carregado pelo loren.js).

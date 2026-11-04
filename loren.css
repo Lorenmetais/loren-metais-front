@@ -137,7 +137,16 @@ html.lm-novo .listagem > ul:not(.produtos-carrossel)::before, html.lm-novo .list
 html.lm-novo .listagem > ul:not(.produtos-carrossel) > li, html.lm-novo .listagem .listagem-linha > ul > li { width: auto !important; margin: 0 !important; float: none !important; }
 html.lm-novo .listagem .prod-counter { display: none !important; }  /* quantidade fica na página do produto */
 html.lm-novo .listagem .listagem-item { height: 100%; display: flex !important; flex-direction: column; box-sizing: border-box; }
-html.lm-novo .listagem .listagem-item .info-produto { flex: 1; }
+html.lm-novo .listagem .listagem-item .info-produto { flex: 1; min-height: 0 !important; height: auto !important; display: flex; flex-direction: column; gap: 8px; }
+html.lm-novo .listagem .nome-produto { min-height: 0 !important; display: block !important; }
+/* preço primeiro e grande; parcela embaixo, discreta (o tema põe a parcela em cima) */
+html.lm-novo .listagem .preco-produto { display: flex !important; flex-direction: column-reverse; gap: 2px; margin-top: auto; }
+html.lm-novo .listagem .preco-produto .preco-parcela, html.lm-novo .listagem .preco-produto .preco-parcela strong { font: 400 13px/1.3 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; }
+html.lm-novo .listagem .adic-favo { z-index: 3; }
+/* vitrines da página inicial: 8 produtos e "Ver mais" (o resto continua na página, só recolhido) */
+html.lm-novo .lm-recolhe > li:nth-child(n+9) { display: none !important; }
+html.lm-novo .lm-mais { display: grid !important; width: max-content; margin: 8px auto 0; background: #fff; border: 0; box-shadow: inset 0 0 0 1px var(--lm-grafite); color: var(--lm-grafite); }
+@media (max-width: 767px) { html.lm-novo .lm-recolhe > li:nth-child(n+5) { display: none !important; } }
 html.lm-novo .listagem .acoes-produto { position: relative !important; z-index: 2; opacity: 1 !important; visibility: visible !important; margin-top: 12px; }
 html.lm-novo .listagem .botao-comprar { display: block !important; width: 100% !important; text-align: center; }
 html.lm-novo .listagem .botao-comprar svg { display: none !important; }
