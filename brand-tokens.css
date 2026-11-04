@@ -1,7 +1,11 @@
 /* Loren Metais: tokens da marca (CSS puro; mesmos valores do Manual da marca). Mesma estrutura dos tokens da Conceito
    (--cm-*): os azuis saem da logo (vetorizada em 03/11) e os cinzas são os mesmos da Conceito, padrão entre as marcas.
-   Contraste (WCAG): botão #018086 x branco 4,7:1; hover #016A6F 6,4:1; texto #303136 x branco 13:1; secundário #6B6C72 5,2:1.
-   Azul da logo #1394B1 (3,6:1) e onda média #009EA4 (3,3:1): só em superfícies, ícones e texto grande (24 px+).
+   COR PRIMÁRIA (Eduardo 04/11): o azul do texto da logo, #1394B1 (--lm-azul): superfícies, ícones, sublinhado do menu, bolinhas, foco e detalhes.
+   Onde há texto branco sobre a cor (botão, selo, crachá) ou texto da cor sobre branco (link), o mesmo tom escurecido: #107E96 (--lm-botao),
+   hover #0F738A (--lm-botao-hover). Contraste (WCAG) com branco: #107E96 4,7:1; #0F738A 5,5:1; #018086 4,7:1; texto #303136 13:1; secundário #6B6C72 5,2:1.
+   #1394B1 (3,6:1), #009EA4 (3,3:1) e #81BBD3 (2,1:1) NÃO levam texto pequeno: só superfícies, ícones e texto grande (24 px+).
+   Tarjas (B2B, newsletter, .lm-fab): gradiente das penas da logo, #018086 > #009EA4 > #1394B1 > #81BBD3 a 110 graus; o texto e os botões ficam na parte
+   escura (esquerda, #018086 = 4,7:1) e o claro só onde não há texto; no celular (até 1023 px) a tarja é #018086 lisa. O validador mede o gradiente na posição do texto.
    Fontes do site (Eduardo 03/11): Google Fonts, Barlow Semi Condensed (títulos, 600/700) e Inter (texto, 400/600/700),
    licença SIL OFL 1.1. A logo usa Impact convertida em curvas; a Impact não é fonte do site. Celular: até 749 px. */
 :root {
@@ -9,8 +13,11 @@
   --lm-azul: #1394B1;          /* nome LORENMETAIS */
   --lm-onda-clara: #81BBD3;
   --lm-onda-media: #009EA4;
-  --lm-onda-escura: #018086;   /* também o botão principal e os links */
-  --lm-azul-hover: #016A6F;    /* onda escura escurecida, hover do botão */
+  --lm-pena-escura: #018086;   /* 1ª parada das tarjas (texto branco 4,7:1); deixou de ser a cor principal */
+  --lm-botao: #107E96;         /* fundo de botão e cor de link: o #1394B1 escurecido, branco 4,7:1 */
+  --lm-botao-hover: #0F738A;   /* hover do botão e do link, branco 5,5:1 */
+  --lm-onda-escura: var(--lm-botao);        /* nome antigo, mesmo valor de --lm-botao (as regras das páginas já o usam) */
+  --lm-azul-hover: var(--lm-botao-hover);   /* nome antigo */
   /* cinzas (iguais aos da Conceito) */
   --lm-grafite: #303136;       /* títulos, texto, rodapé escuro */
   --lm-branco: #FFFFFF;
@@ -46,7 +53,7 @@
   --lm-corpo-entrelinha: 1.6;
   /* layout: uma largura só e espaços em múltiplos de 8 */
   --lm-largura: 1200px;
-  --lm-margem: clamp(1rem, 4vw, 2.5rem);
+  --lm-margem: 16px;          /* margem lateral do celular (padrão da Conceito); no computador sobe com a tela, ver o @media no fim */
   --lm-vao: 24px;
   --lm-vao-celular: 16px;
   --lm-esp-1: 8px; --lm-esp-2: 16px; --lm-esp-3: 24px; --lm-esp-4: 32px; --lm-esp-6: 48px; --lm-esp-8: 64px;
@@ -55,12 +62,14 @@
   --lm-btn-peso: 700;          /* Eduardo 04/11: pill com gradiente, negrito, caixa alta (opção C2) */
   --lm-btn-letras: 0.04em;
   --lm-btn-raio: 999px;
-  --lm-btn-gradiente: var(--lm-onda-escura);        /* fundo do botão: cor fixa (Eduardo 04/11), texto branco 4,7:1; o nome ficou por compatibilidade */
-  --lm-btn-gradiente-hover: var(--lm-azul-hover);  /* hover: azul mais escuro, sólido. Gradiente só em faixas (--lm-gradiente) */
-  --lm-gradiente: linear-gradient(110deg, #015F63 0%, #016A6F 40%, #018086 100%);  /* faixas com texto branco (>= 4,7:1 em toda a faixa) */
+  --lm-btn-gradiente: var(--lm-botao);        /* fundo do botão: cor fixa (Eduardo 04/11), texto branco 4,7:1; o nome ficou por compatibilidade */
+  --lm-btn-gradiente-hover: var(--lm-botao-hover);  /* hover: azul mais escuro, sólido. Gradiente só em faixas (--lm-gradiente) */
+  --lm-gradiente: linear-gradient(110deg, #018086 0%, #018086 56%, #009EA4 72%, #1394B1 88%, #81BBD3 100%);       /* tarja B2B: texto e botões à esquerda (até 56%) */
+  --lm-gradiente-news: linear-gradient(110deg, #018086 0%, #018086 78%, #009EA4 87%, #1394B1 94%, #81BBD3 100%);  /* newsletter: conteúdo centralizado, escuro até 78% */
+  --lm-gradiente-fab: linear-gradient(110deg, #018086 0%, #018086 86%, #009EA4 92%, #1394B1 97%, #81BBD3 100%);   /* faixa de 3 colunas: escuro até 86% */
   --lm-btn-sombra: none;  /* sem sombra azul (Eduardo 04/11: parecia que o botão brilhava) */
   --lm-btn-transicao: color .125s ease-in-out, box-shadow .125s ease-in-out, background-color .125s ease-in-out;
-  --lm-foco: 1px solid var(--lm-onda-escura);
+  --lm-foco: 1px solid var(--lm-azul);
   --lm-foco-afastamento: 3px;
   --lm-cartao-borda: var(--lm-borda-padrao);
   --lm-cartao-sombra-hover: rgba(48, 49, 54, .25) 0 10px 24px -12px;
@@ -72,3 +81,5 @@
   --lm-chat-tamanho: 56px;
   --lm-chat-tamanho-celular: 60px;  /* igual à Conceito no celular */
 }
+@media (max-width: 1023px) { :root { --lm-gradiente: var(--lm-pena-escura); --lm-gradiente-news: var(--lm-pena-escura); --lm-gradiente-fab: var(--lm-pena-escura); } }
+@media (min-width: 768px) { :root { --lm-margem: clamp(1.5rem, 4vw, 2.5rem); } }

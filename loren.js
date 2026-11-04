@@ -12,7 +12,12 @@
   // um par de arquivos por tipo de página (cada agente mexe no seu): categoria.* (categoria e busca), produto.*
   const pagina = () => { const c = document.body.className; return /pagina-categoria|pagina-busca/.test(c) ? 'categoria' : /pagina-produto/.test(c) ? 'produto' : /pagina-inicial/.test(c) ? '' : 'paginas'; };  // paginas.*: institucionais, carrinho, conta (Marty)
   // modais.* (formulários em janela, como o Pedir orçamento) vale em toda página
-  const extra = () => { if (!BASE) return; for (const n of [pagina(), 'modais'].filter(Boolean)) { const l = document.createElement('link'); l.rel = 'stylesheet'; l.href = BASE + n + '.css'; document.head.append(l); const j = document.createElement('script'); j.src = BASE + n + '.js'; document.head.append(j); } };
+  // no live o código do cabeçalho já traz o CSS (head); aqui entram o que faltar e o JS da página. Devolve uma promessa para o html.lm-pronto esperar
+  const extra = () => { if (!BASE) return Promise.resolve(); const espera = []; const nova = (el) => { espera.push(new Promise((ok) => { el.onload = el.onerror = ok; })); document.head.append(el); };
+    for (const n of [pagina(), 'modais'].filter(Boolean)) {
+      if (!document.querySelector(`link[href*="/${n}.css"]`)) { const l = document.createElement('link'); l.rel = 'stylesheet'; l.href = BASE + n + '.css'; nova(l); }
+      if (!document.querySelector(`script[src*="/${n}.js"]`)) { const j = document.createElement('script'); j.src = BASE + n + '.js'; nova(j); } }
+    return Promise.all(espera); };
 
   const monta = () => {
     if (document.body.dataset.lm) return; document.body.dataset.lm = '1';
@@ -97,6 +102,7 @@
     document.querySelectorAll('.secao-banners .banner.cheio img').forEach((img) => {
       const n = BANNERS[(img.alt || '').trim().toLowerCase()]; if (!n || !BASE) return;
       const arq = BASE + 'banners/' + n + (celular ? '-celular' : '-1920');  // AVIF bem comprimido; JPG só se o navegador não abrir AVIF
+      img.width = celular ? 750 : 1920; img.height = celular ? 960 : 505;  // o tamanho já na tag reserva o espaço antes de a imagem chegar
       img.onerror = () => { img.onerror = null; img.src = arq + '.jpg'; }; img.src = arq + '.avif'; img.removeAttribute('srcset');
     });
     // vitrines: mostra 8 (4 no celular) e um botão para ver o resto
@@ -122,6 +128,9 @@
     document.querySelector('#barraNewsletter')?.insertAdjacentHTML('beforebegin', `<section class="lm-sec lm-cinza lm-pq"><div class="lm-wrap"><div><span class="lm-tag">Quem somos</span><h2>Fabricante em Indaiatuba, perto de Viracopos</h2><p>Torneiras clínicas, linha hospitalar e acessibilidade para banheiros, clínicas, hospitais, escolas e cozinhas.</p><a class="lm-btn" style="background:var(--lm-onda-escura);color:#fff" href="/pagina/obras-finalizadas.html">Ver obras finalizadas</a></div>
       <ul><li><b>Fabricação própria</b><span>Produtos com peças de reposição e pós-venda.</span></li><li><b>Linha de acessibilidade</b><span>Barras de apoio, assentos e torneiras para banheiros PNE.</span></li><li><b>Retirada agendada</b><span>Centro de distribuição em Indaiatuba, a 500 m da rodovia.</span></li></ul></div></section>`);
   };
-  const tudo = () => { extra(); monta(); };
-  document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', tudo) : tudo();
+  // html.lm-pronto: o loren.css reserva o espaço do que o JS monta e esconde o que ele troca até esta classe; o snippet do cabeçalho a liga sozinho em 3 s se o JS falhar
+  const tudo = () => { const carga = extra(); monta(); Promise.race([carga, new Promise((ok) => setTimeout(ok, 2500))]).then(() => document.documentElement.classList.add('lm-pronto')); };
+  // o tema monta o menu e a gaveta no ready do jQuery (LI.methods.otherCategories joga para "Outros" tudo que passa de 6 itens, inclusive o nosso Obras finalizadas): entramos depois dele
+  const arranca = () => (window.jQuery ? window.jQuery(() => setTimeout(tudo, 0)) : tudo());
+  document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', arranca) : arranca();
 })();

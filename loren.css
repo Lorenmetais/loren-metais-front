@@ -39,6 +39,10 @@ html.lm-novo .titulo-categoria strong, html.lm-novo .titulo-categoria span { fon
 /* cards de produto (vitrines, categoria, busca, relacionados) */
 html.lm-novo .listagem .listagem-item { border: var(--lm-cartao-borda) !important; background: var(--lm-branco) !important; padding: 0 16px 16px !important; box-shadow: none !important; }
 html.lm-novo .listagem .listagem-item:hover { box-shadow: var(--lm-cartao-sombra-hover) !important; transform: translateY(-2px); }
+/* hover do cartão: só a subidinha. O tema esmaecia nome e preço (.info-produto a 40%) e trocava a foto por uma segunda com fade (.imagem-zoom), o que parecia desbotar */
+html.lm-novo .listagem .listagem-item:not(.produto-adicionado):hover :is(.info-produto, .imagem-produto) { opacity: 1 !important; }
+html.lm-novo .listagem .listagem-item .imagem-produto.has-zoom .imagem-principal { opacity: 1 !important; transition: none !important; }
+html.lm-novo .listagem .listagem-item .imagem-produto.has-zoom .imagem-zoom { display: none !important; }
 html.lm-novo .listagem .imagem-produto { border: 0 !important; background: var(--lm-branco); }
 html.lm-novo .listagem .nome-produto { font: 600 15px/1.35 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; text-transform: none !important; text-align: left !important; }
 html.lm-novo .listagem .preco-produto { text-align: left !important; }
@@ -48,10 +52,63 @@ html.lm-novo .listagem .preco-produto .titulo { font: 600 14px/1.4 var(--lm-font
 html.lm-novo .listagem .preco-parcela, html.lm-novo .listagem .preco-produto .cor-secundaria { color: var(--lm-texto-secundario) !important; font-size: 13px !important; }
 html.lm-novo .bandeiras-produto .bandeira-promocao { background: var(--lm-onda-escura) !important; font: 700 12px/1 var(--lm-fonte-texto) !important; }
 
-html.lm-novo #rodape .institucional { background: var(--lm-grafite) !important; }
-html.lm-novo #rodape .institucional, html.lm-novo #rodape .institucional a, html.lm-novo #rodape .institucional p { color: var(--lm-sobre-escuro-2) !important; font-size: 14px !important; }
-html.lm-novo #rodape .institucional .titulo, html.lm-novo #rodape .institucional h4 { color: var(--lm-branco) !important; font: 700 16px/1 var(--lm-fonte-titulo) !important; text-transform: none !important; }
+/* ===== rodapé (04/11): grade de 8, 4 colunas alinhadas ao site (categorias, conteúdo, atendimento, redes), títulos e links no padrão, pagamento e selos na mesma grade ===== */
+html.lm-novo #rodape { text-align: left; }
+html.lm-novo #rodape .institucional { min-height: 0 !important; padding: var(--lm-sec) 0 !important; background: var(--lm-grafite) !important; }
+html.lm-novo #rodape .pagamento-selos { padding: var(--lm-esp-4) 0 !important; background: var(--lm-grafite) !important; border-top: 1px solid var(--lm-linha-escuro); }
+html.lm-novo #rodape .institucional .conteiner > .row-fluid, html.lm-novo #rodape .pagamento-selos .conteiner > .row-fluid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--lm-esp-4); }
+html.lm-novo #rodape .institucional .conteiner > .row-fluid::before, html.lm-novo #rodape .institucional .conteiner > .row-fluid::after, html.lm-novo #rodape .pagamento-selos .conteiner > .row-fluid::before, html.lm-novo #rodape .pagamento-selos .conteiner > .row-fluid::after { display: none; }
+html.lm-novo #rodape .institucional .conteiner > .row-fluid > .span9, html.lm-novo #rodape .institucional .span9 > .row-fluid { display: contents; }
+html.lm-novo #rodape :is(.links-rodape, .span3, .pagamento, .selos) { float: none; width: auto; margin: 0; min-width: 0; }
+html.lm-novo #rodape .pagamento { grid-column: span 2; }
+/* título de coluna */
+html.lm-novo #rodape :is(.institucional, .pagamento-selos) .titulo { display: block; margin: 0 0 var(--lm-esp-2) !important; padding: 0 !important; border: 0 !important; color: var(--lm-branco) !important; font: 700 16px/1.2 var(--lm-fonte-titulo) !important; text-transform: none !important; letter-spacing: 0 !important; }
+html.lm-novo #rodape .links-rodape-atendimento .titulo { text-transform: lowercase !important; }
+html.lm-novo #rodape .links-rodape-atendimento .titulo::first-letter { text-transform: uppercase; }
+/* links */
+html.lm-novo #rodape .institucional ul { margin: 0; padding: 0; list-style: none; }
+html.lm-novo #rodape .institucional li { margin: 0; padding: 0; list-style: none; border: 0; }
+html.lm-novo #rodape .institucional li a, html.lm-novo #rodape .institucional p { display: block; margin: 0 !important; padding: var(--lm-esp-1) 0; color: var(--lm-sobre-escuro-2) !important; font-size: 14px !important; line-height: 1.4; }
 html.lm-novo #rodape .institucional a:hover { color: var(--lm-branco) !important; }
+html.lm-novo #rodape .links-rodape-atendimento ul { margin: 0; padding: 0; border: 0; }
+html.lm-novo #rodape .institucional a i { margin-right: var(--lm-esp-1); color: var(--lm-sobre-escuro-2) !important; }
+html.lm-novo #rodape .institucional svg { fill: var(--lm-sobre-escuro-2) !important; }
+/* redes sociais */
+html.lm-novo #rodape .redes-sociais { position: static; width: auto; margin: 0; padding: 0; border: 0; background: none; box-shadow: none; }
+html.lm-novo #rodape .lista-redes ul { display: flex; gap: var(--lm-esp-1); }
+html.lm-novo #rodape .lista-redes ul li { float: none; margin: 0; border: 0; }
+html.lm-novo #rodape .lista-redes ul li a { display: grid; place-items: center; width: var(--lm-campo-altura); height: var(--lm-campo-altura); padding: 0; border: 1px solid var(--lm-linha-escuro-2); color: var(--lm-branco) !important; line-height: 1; }
+html.lm-novo #rodape .lista-redes ul li a i { width: auto; height: auto; margin: 0; background: none !important; color: var(--lm-branco) !important; font-size: 16px; line-height: 1; }
+html.lm-novo #rodape .lista-redes ul li a:hover { background: var(--lm-branco); border-color: var(--lm-branco); }
+html.lm-novo #rodape .lista-redes ul li a:hover i { color: var(--lm-grafite) !important; }
+/* pagamento e selos */
+html.lm-novo #rodape .pagamento-selos ul { margin: 0; padding: 0; list-style: none; }
+html.lm-novo #rodape .bandeiras-pagamento, html.lm-novo #rodape .selos > ul { display: flex; flex-wrap: wrap; align-items: center; gap: var(--lm-esp-1); }
+html.lm-novo #rodape .bandeiras-pagamento li, html.lm-novo #rodape .selos li { float: none; margin: 0; }
+html.lm-novo #rodape .bandeiras-pagamento i { display: block; }
+html.lm-novo #rodape .selos img { display: block; height: var(--lm-esp-6); width: auto; }
+html.lm-novo #rodape .gateways-rodape { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: auto; max-width: 320px; margin-top: var(--lm-esp-2); border: 0; border-radius: 0; background: var(--lm-branco); }
+html.lm-novo #rodape .gateways-rodape li { display: grid; place-items: center; width: auto; padding: var(--lm-esp-1); border: 0 !important; margin: 0 !important; }
+html.lm-novo #rodape .gateways-rodape img { max-width: 100%; height: var(--lm-esp-4); object-fit: contain; }
+/* faixa final: direitos e marcas da plataforma, centradas e discretas (a Loja Integrada fixa o tamanho em style inline) */
+html.lm-novo #rodape > div:last-child { background: var(--lm-grafite) !important; border-top: 1px solid var(--lm-linha-escuro) !important; }
+html.lm-novo #rodape > div:last-child .conteiner { padding: var(--lm-esp-2) var(--lm-margem) !important; }
+html.lm-novo #rodape > div:last-child p { color: var(--lm-sobre-escuro-3) !important; font-size: 12px !important; line-height: 1.4; }
+html.lm-novo #rodape > div:last-child img, html.lm-novo #rodape > div:last-child svg { filter: grayscale(1) brightness(0) invert(1); opacity: .64; }
+@media (max-width: 767px) {
+  html.lm-novo #rodape .institucional { padding: var(--lm-esp-4) 0 !important; }
+  html.lm-novo #rodape .institucional .conteiner > .row-fluid, html.lm-novo #rodape .pagamento-selos .conteiner > .row-fluid { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  html.lm-novo #rodape .pagamento { grid-column: auto; }
+  /* o tema abre e fecha cada coluna (acordeão): linha entre elas no lugar das caixas brancas, título à esquerda, seta à direita */
+  html.lm-novo #rodape .links-rodape { border: 0; border-bottom: 1px solid var(--lm-linha-escuro); }
+  html.lm-novo #rodape .links-rodape .titulo { position: relative; margin: 0 !important; padding: var(--lm-esp-2) 0 !important; text-align: left; }
+  html.lm-novo #rodape .links-rodape .titulo::after { right: 0; color: var(--lm-sobre-escuro-2); }
+  html.lm-novo #rodape .links-rodape ul.active { padding-bottom: var(--lm-esp-2); }
+  html.lm-novo #rodape .redes-sociais { padding: var(--lm-esp-3) 0; }
+  html.lm-novo #rodape .redes-sociais .titulo { display: block !important; }
+  html.lm-novo #rodape .pagamento-selos { padding: var(--lm-esp-3) 0 !important; }
+  html.lm-novo #rodape .selos { margin-top: var(--lm-esp-3); }
+}
 
 /* contato flutuante: só o WhatsApp (e-mail e Skype saem) */
 html.lm-novo .mail-floating { display: none !important; }
@@ -94,7 +151,7 @@ html.lm-novo .lm-vant p { margin: 0; }
 html.lm-novo .lm-wrap { max-width: var(--lm-largura); margin: 0 auto; padding-inline: var(--lm-margem); box-sizing: content-box; }
 html.lm-novo .lm-vant .lm-wrap { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; padding-block: 24px; }
 html.lm-novo .lm-vant .lm-item { display: flex; gap: 16px; align-items: center; padding: 16px; border: var(--lm-borda-padrao); background: var(--lm-branco); }
-html.lm-novo .lm-vant .lm-ico { width: 40px; height: 40px; flex: none; display: grid; place-items: center; background: var(--lm-fundo); color: var(--lm-onda-escura); }
+html.lm-novo .lm-vant .lm-ico { width: 40px; height: 40px; flex: none; display: grid; place-items: center; background: var(--lm-fundo); color: var(--lm-azul); }
 html.lm-novo .lm-vant .lm-ico svg { width: 22px; height: 22px; }
 html.lm-novo .lm-vant b { display: block; font: 700 18px/1.1 var(--lm-fonte-titulo); color: var(--lm-grafite); }
 html.lm-novo .lm-vant small { font-size: 13px; color: var(--lm-texto-secundario); }
@@ -126,12 +183,11 @@ html.lm-novo .listagem .botao-comprar { width: 100% !important; }
 html.lm-novo .listagem .produto-sobrepor { z-index: 1; }
 /* faixa para empresas */
 html.lm-novo .lm-b2b { color: var(--lm-branco); }
-html.lm-novo .lm-b2b .lm-wrap { display: flex; justify-content: space-between; align-items: center; gap: 24px; padding-block: 48px; flex-wrap: wrap; }
+html.lm-novo .lm-b2b .lm-wrap { display: flex; flex-direction: column; align-items: flex-start; gap: 24px; padding-block: 48px; }
+html.lm-novo .lm-b2b .lm-wrap > div:first-child { max-width: 720px; }  /* o texto fica sobre a parte escura do gradiente */
 html.lm-novo .lm-b2b h2 { color: var(--lm-branco); margin: 0 0 16px; font: 700 var(--lm-h2)/1 var(--lm-fonte-titulo); }
 html.lm-novo .lm-b2b p { margin: 0; opacity: .92; color: var(--lm-branco); }
 html.lm-novo .lm-btn, html.lm-novo .lm-btn2 { text-decoration: none !important; cursor: pointer; }
-html.lm-novo .lm-b2b .lm-btn { background: var(--lm-branco); color: var(--lm-onda-escura) !important; }
-html.lm-novo .lm-b2b .lm-btn2 { color: var(--lm-branco) !important; box-shadow: inset 0 0 0 1px var(--lm-branco); }
 html.lm-novo .lm-acs { display: flex; gap: 16px; flex-wrap: wrap; }
 /* quem somos */
 html.lm-novo .lm-pq .lm-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
@@ -141,9 +197,6 @@ html.lm-novo .lm-pq li b { display: block; font: 700 18px/1.2 var(--lm-fonte-tit
 html.lm-novo .lm-pq li span { color: var(--lm-texto-secundario); font-size: 15px; }
 html.lm-novo .lm-pq p { color: var(--lm-texto-secundario); font-size: 17px; }
 html.lm-novo .lm-tag { font: 600 13px/1 var(--lm-fonte-texto); letter-spacing: .06em; text-transform: uppercase; color: var(--lm-onda-escura); margin-bottom: 16px; display: block; }
-/* rodapé: pagamentos e selos também no grafite */
-html.lm-novo #rodape .pagamento-selos, html.lm-novo #rodape > div:last-child { background: var(--lm-grafite) !important; border-top: 1px solid var(--lm-linha-escuro); }
-html.lm-novo #rodape .pagamento-selos *, html.lm-novo #rodape > div:last-child * { color: var(--lm-sobre-escuro-3) !important; }
 /* aviso de cookies menor, embaixo */
 html.lm-novo #avisoCookies { position: fixed !important; top: auto !important; bottom: 16px !important; left: 16px !important; right: auto !important; max-width: 420px; background: var(--lm-branco) !important; border: var(--lm-borda-padrao) !important; box-shadow: var(--lm-cartao-sombra-hover) !important; z-index: 60; }
 html.lm-novo #avisoCookies .conteiner { width: auto !important; padding: 16px !important; display: flex; gap: 16px; align-items: center; }
@@ -193,10 +246,16 @@ html.lm-novo .lm-chat__assuntos a:hover { border-color: var(--lm-grafite); }
 html.lm-novo .lm-chat__assuntos svg { flex-shrink: 0; width: 20px; height: 20px; color: var(--lm-whatsapp-escuro); }
 
 @media (max-width: 767px) {
-  html.lm-novo .lm-vant .lm-wrap { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; padding-block: 16px; }
-  html.lm-novo .lm-vant .lm-item { padding: 8px; gap: 8px; align-items: flex-start; }
+  /* vantagens: uma faixa que rola de lado (cada cartão cabe em 2 linhas: título 14 e texto 13), todos da mesma altura */
+  html.lm-novo .lm-vant .lm-wrap { display: flex; gap: 8px; padding-block: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--lm-margem); scrollbar-width: none; }
+  html.lm-novo .lm-vant .lm-wrap::-webkit-scrollbar { display: none; }
+  html.lm-novo .lm-vant .lm-item { flex: 0 0 72%; scroll-snap-align: start; align-items: center; gap: 8px; padding: 8px 16px; }
   html.lm-novo .lm-vant .lm-ico { width: 32px; height: 32px; }
-  html.lm-novo .lm-vant b { font-size: 16px; }
+  html.lm-novo .lm-vant .lm-ico svg { width: 16px; height: 16px; }
+  html.lm-novo .lm-vant p { min-width: 0; }
+  html.lm-novo .lm-vant b, html.lm-novo .lm-vant small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; line-height: 1.4; }
+  html.lm-novo .lm-vant b { font-size: 14px; }
+  html.lm-novo .lm-vant small { font-size: 13px; }
   html.lm-novo .lm-sec { padding-block: 32px; }
   html.lm-novo .listagem > ul:not(.produtos-carrossel), html.lm-novo .listagem .listagem-linha > ul { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px !important; margin-bottom: 8px !important; }
   html.lm-novo .listagem .nome-produto { font-size: 14px !important; }
@@ -220,7 +279,7 @@ html.lm-novo ol.flex-control-nav.flex-control-paging { position: static !importa
 html.lm-novo .flex-control-paging li { display: block !important; width: 24px !important; height: 24px !important; margin: 0 !important; padding: 0 !important; line-height: 0 !important; }
 html.lm-novo .flex-control-paging li a { position: relative; display: block !important; width: 24px !important; height: 24px !important; overflow: hidden; font-size: 0 !important; line-height: 0 !important; color: transparent !important; text-indent: 0 !important; background: none !important; border: 0 !important; box-shadow: none !important; cursor: pointer; }
 html.lm-novo .flex-control-paging li a::after { content: ''; position: absolute; top: 8px; left: 8px; width: 8px; height: 8px; border-radius: 50% !important; background: var(--lm-borda); }
-html.lm-novo .flex-control-paging li a.flex-active::after { background: var(--lm-onda-escura); }
+html.lm-novo .flex-control-paging li a.flex-active::after { background: var(--lm-azul); }
 
 /* ===== cabeçalho nosso (04/11) ===== o original do tema fica no HTML, escondido; a busca e o menu do celular foram movidos */
 html.lm-novo #cabecalho { padding: 0 !important; border-bottom: 0 !important; }
@@ -235,7 +294,7 @@ html.lm-novo .lm-topo__busca form { position: relative; display: flex; align-ite
 /* campo padrão (.lm-campo): 48 de altura, pill, fundo e borda dos tokens. :where() deixa a base com especificidade mínima: cada uso só
    escreve o que muda (largura, padding lateral, raio de um lado). Vale para busca, CEP e newsletter; as páginas usam a classe .lm-campo */
 html.lm-novo :where(.lm-campo, .lm-topo__busca input, .input-cep, .componente.newsletter input) { box-sizing: border-box !important; height: var(--lm-campo-altura) !important; min-height: 0 !important; margin: 0 !important; padding: 0 24px !important; border: var(--lm-campo-borda) !important; border-radius: var(--lm-btn-raio) !important; background: var(--lm-campo-fundo) !important; color: var(--lm-grafite) !important; font: 400 15px/1 var(--lm-fonte-texto) !important; box-shadow: none !important; }
-html.lm-novo :where(.lm-campo, .lm-topo__busca input, .input-cep, .componente.newsletter input):focus { outline: 0; border-color: var(--lm-onda-escura) !important; background: var(--lm-branco) !important; }
+html.lm-novo :where(.lm-campo, .lm-topo__busca input, .input-cep, .componente.newsletter input):focus { outline: 0; border-color: var(--lm-azul) !important; background: var(--lm-branco) !important; }
 html.lm-novo .lm-topo__busca input { flex: 1; width: auto !important; height: 100% !important; padding: 0 16px 0 24px !important; border-right: 0 !important; border-radius: var(--lm-btn-raio) 0 0 var(--lm-btn-raio) !important; }
 html.lm-novo .lm-topo__busca button { position: static !important; flex: none; width: var(--lm-campo-altura) !important; height: 100% !important; min-height: 0 !important; box-sizing: border-box !important; margin: 0 !important; padding: 0 !important; border: 1px solid transparent !important; border-radius: 0 var(--lm-btn-raio) var(--lm-btn-raio) 0 !important; background: var(--lm-btn-gradiente) !important; color: var(--lm-branco) !important; box-shadow: none !important; font-size: 16px !important; }
 html.lm-novo .lm-topo__busca button:hover { background: var(--lm-btn-gradiente-hover) !important; }
@@ -263,17 +322,33 @@ html.lm-novo .busca-mobile.fixed { position: static !important; box-shadow: none
   html.lm-novo .lm-topo__busca { order: 3; flex: 0 0 100%; max-width: none; }
   html.lm-novo .lm-topo__busca form { height: 44px; }
   html.lm-novo .lm-topo__busca input { font-size: 16px !important; }
-  html.lm-novo .lm-topo .menu.superior { order: 4; width: 100%; }
+}
+
+/* menu do celular (gaveta do tema): o loren.js move o .menu.superior.visible-phone para o .lm-topo, e as regras do tema só valem dentro de .conteudo-topo;
+   aqui ela volta a ser uma gaveta fixa que abre pelo hambúrguer (o tema põe .menu-active) e fecha no X ou no fundo escuro */
+@media (max-width: 767px) {
+  html.lm-novo .lm-topo .menu.superior.visible-phone { position: fixed; top: 0; bottom: 0; left: -100%; z-index: 1000; width: 100%; margin: 0 !important; padding: 0; border: 0 !important; background: rgba(48, 49, 54, .4) !important; visibility: hidden; opacity: 0; transition: left .2s ease-out, opacity .2s ease-out, visibility .2s; }
+  html.lm-novo .lm-topo .menu.superior.visible-phone.menu-active { left: 0; visibility: visible; opacity: 1; }
+  html.lm-novo .lm-topo .menu.superior.visible-phone::before { content: 'Categorias'; display: block; width: 80%; box-sizing: border-box; padding: var(--lm-esp-3) var(--lm-esp-2) var(--lm-esp-2); background: var(--lm-branco); color: var(--lm-grafite); font: 700 20px/1.2 var(--lm-fonte-titulo); }
+  html.lm-novo .lm-topo .menu.superior.visible-phone .wrap { width: 80%; height: calc(100% - 64px); overflow-y: auto; background: var(--lm-branco); }
+  html.lm-novo .lm-topo .menu.superior.visible-phone ul { margin: 0; padding: 0; border: 0; list-style: none; }
+  html.lm-novo .lm-topo .menu.superior.visible-phone ul.nivel-um { display: block !important; height: auto; overflow: visible; }
+  html.lm-novo .lm-topo .menu.superior.visible-phone li { position: relative; margin: 0; padding: 0; border: 0; }
+  html.lm-novo .lm-topo .menu.superior.visible-phone li > a { display: block; padding: var(--lm-esp-2); color: var(--lm-grafite) !important; font: 600 15px/1.4 var(--lm-fonte-texto) !important; text-transform: none !important; }
+  html.lm-novo .lm-topo .menu.superior.visible-phone li > a .titulo { margin: 0; font: inherit !important; }
+  html.lm-novo .lm-topo .menu.superior.visible-phone li > a > i { position: absolute; top: 0; right: 0; display: grid; place-items: center; width: var(--lm-campo-altura); height: var(--lm-campo-altura); background: none !important; color: var(--lm-texto-secundario) !important; }
+  html.lm-novo .lm-topo .menu.superior.visible-phone ul.nivel-dois { display: none; position: static; width: auto; margin: 0; padding: 0 0 var(--lm-esp-1) var(--lm-esp-2); border: 0 !important; box-shadow: none !important; }
+  html.lm-novo .lm-topo .menu.superior.visible-phone ul.nivel-dois.active { display: block; }
+  html.lm-novo .lm-topo .menu.superior.visible-phone ul.nivel-dois li > a { font-weight: 400 !important; }
+  html.lm-novo .lm-topo .menu.superior.visible-phone ul.action-links { border-top: var(--lm-borda-padrao); }
+  html.lm-novo .lm-topo .menu.superior.visible-phone .menu-close { position: absolute; top: 0; right: 0; width: 20%; height: 100%; padding: 0; border: 0; background: none; cursor: pointer; }
+  html.lm-novo .lm-topo .menu.superior.visible-phone .menu-close::after { content: ' d7'; position: absolute; top: var(--lm-esp-1); right: var(--lm-esp-1); display: grid; place-items: center; width: var(--lm-campo-altura); height: var(--lm-campo-altura); border-radius: 50% !important; background: var(--lm-branco); color: var(--lm-grafite); font: 400 32px/1 var(--lm-fonte-texto); }
 }
 
 /* ===== correções da varredura (04/11) ===== */
 /* faixa para empresas: fundo onda escura (texto branco 4,7:1), texto maior */
 html.lm-novo .lm-b2b p { font-size: 16px !important; line-height: 1.5; opacity: 1 !important; }
 html.lm-novo .lm-tag { color: var(--lm-azul-hover) !important; }
-/* rodapé: ícones e redes sociais claros sobre o grafite */
-html.lm-novo #rodape a[class*="icon-"], html.lm-novo #rodape [class*="icon-"], html.lm-novo #rodape .redes-sociais a, html.lm-novo #rodape .lista-redes a { color: var(--lm-branco) !important; border-color: var(--lm-linha-escuro-2) !important; background: transparent !important; }
-html.lm-novo #rodape svg, html.lm-novo #rodape svg path { fill: var(--lm-sobre-escuro-2) !important; }
-html.lm-novo #rodape .titulo, html.lm-novo #rodape h4, html.lm-novo #rodape strong { color: var(--lm-branco) !important; }
 /* trilha e textos "cor secundária" do tema (azul claro e cinza claro, sem contraste) */
 html.lm-novo :is(#corpo, #cabecalho) .cor-secundaria:not(.botao):not([class*="fundo-"]) { color: var(--lm-grafite) !important; }
 html.lm-novo .breadcrumbs, html.lm-novo .breadcrumbs a, html.lm-novo .breadcrumbs span, html.lm-novo .breadcrumbs strong { color: var(--lm-texto-secundario) !important; }
@@ -322,15 +397,16 @@ html.lm-novo .scrollToTop { display: none !important; }
 /* secundário: contorno, no hover vira o gradiente */
 html.lm-novo :is(.lm-btn2, .lm-mais) { background: var(--lm-branco) !important; color: var(--lm-onda-escura) !important; box-shadow: inset 0 0 0 2px var(--lm-onda-escura) !important; border: 0 !important; border-radius: var(--lm-btn-raio) !important; font: 700 15px/1.2 var(--lm-fonte-texto) !important; letter-spacing: .04em !important; text-transform: uppercase !important; }
 html.lm-novo :is(.lm-btn2, .lm-mais):hover { background: var(--lm-btn-gradiente) !important; color: var(--lm-branco) !important; box-shadow: none !important; }
-/* sobre faixa colorida: principal branco, secundário contorno branco */
-html.lm-novo .lm-b2b .lm-btn { background: var(--lm-branco) !important; color: var(--lm-azul-hover) !important; box-shadow: none !important; }
-html.lm-novo .lm-b2b .lm-btn2 { background: transparent !important; color: var(--lm-branco) !important; box-shadow: inset 0 0 0 2px var(--lm-branco) !important; }
-html.lm-novo .lm-b2b .lm-btn2:hover { background: rgba(255, 255, 255, .15) !important; }
+/* botão sobre faixa colorida (B2B, newsletter, .lm-fab): UMA regra. Principal: branco com texto azul, hover grafite com texto branco.
+   Secundário: contorno branco, hover fundo branco com texto azul. O ID no :is() dá peso para vencer a regra geral de hover dos botões (que deixava azul sobre azul) */
+html.lm-novo :is(.lm-b2b, #barraNewsletter, .lm-fab) :is(.lm-btn, .botao):not(.lm-btn2) { background: var(--lm-branco) !important; color: var(--lm-btn-gradiente) !important; box-shadow: none !important; }
+html.lm-novo :is(.lm-b2b, #barraNewsletter, .lm-fab) :is(.lm-btn, .botao):not(.lm-btn2):hover { background: var(--lm-grafite) !important; color: var(--lm-branco) !important; }
+html.lm-novo :is(.lm-b2b, #barraNewsletter, .lm-fab) .lm-btn2 { background: transparent !important; color: var(--lm-branco) !important; box-shadow: inset 0 0 0 2px var(--lm-branco) !important; }
+html.lm-novo :is(.lm-b2b, #barraNewsletter, .lm-fab) .lm-btn2:hover { background: var(--lm-branco) !important; color: var(--lm-btn-gradiente) !important; }
 /* selos de desconto acompanham o pill */
 html.lm-novo .listagem .bandeiras-produto > * { border-radius: var(--lm-btn-raio) !important; background: var(--lm-btn-gradiente) !important; }
 /* ===== títulos sem caixa alta (como na Conceito) ===== */
 html.lm-novo :is(h1, h2, h3, h4, h5, .titulo, .titulo-categoria, .nome-produto) { text-transform: none !important; }
-html.lm-novo #rodape :is(.titulo, h4, strong, span.titulo) { text-transform: none !important; letter-spacing: 0 !important; }
 /* newsletter: um componente só para a faixa do rodapé, a coluna dos filtros e a janela do celular (mesma .componente.newsletter do tema) */
 html.lm-novo .componente.newsletter { border: 0 !important; box-shadow: none !important; }
 html.lm-novo .componente.newsletter :is(.titulo, .texto-newsletter) { font: 700 var(--lm-h3)/1.15 var(--lm-fonte-titulo) !important; text-transform: none !important; letter-spacing: 0 !important; }
@@ -342,10 +418,10 @@ html.lm-novo .componente.newsletter .botao::before, html.lm-novo .componente.new
 /* a setinha do tema (ícone no ::after) ocupava espaço invisível ao lado do texto e tirava o ASSINAR do centro */
 html.lm-novo .componente.newsletter .botao::after { content: none !important; display: none !important; }
 /* na faixa azul do rodapé: tudo branco e o Assinar branco com texto azul (azul sobre azul sumia) */
-html.lm-novo #barraNewsletter, html.lm-novo #barraNewsletter .componente { background: var(--lm-onda-escura) !important; }
+html.lm-novo #barraNewsletter { background: var(--lm-gradiente-news) !important; }
+html.lm-novo #barraNewsletter .componente { background: none !important; }
+html.lm-novo .lm-fab { background: var(--lm-gradiente-fab) !important; }
 html.lm-novo #barraNewsletter :is(.titulo, span, p, i, strong, label, h4) { color: var(--lm-branco) !important; }
-html.lm-novo #barraNewsletter .botao { background: var(--lm-branco) !important; color: var(--lm-onda-escura) !important; }
-html.lm-novo #barraNewsletter .botao:hover { background: var(--lm-grafite) !important; color: var(--lm-branco) !important; }
 /* na coluna dos filtros: mesmo desenho dos outros blocos da coluna (título como "Filtrar por Preço", texto comum, alinhado à esquerda) */
 html.lm-novo .coluna .componente.newsletter, html.lm-novo .coluna .componente.newsletter * { text-align: left !important; }
 html.lm-novo .coluna .componente.newsletter .titulo { display: block !important; margin: 0 0 8px !important; padding: 0 !important; font: 700 18px/1.2 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; }
@@ -415,4 +491,29 @@ html.lm-novo .listagem .info-produto > div:has(.preco-produto) { margin-top: aut
   html.lm-novo .listagem .listagem-item { padding: 0 8px 8px !important; }
   html.lm-novo .listagem .imagem-produto { margin: 0 -8px 8px !important; }
   html.lm-novo .listagem .acoes-produto { margin-top: 8px !important; }
+}
+
+/* ===== carregamento sem quebra no live (04/11) =====
+   O loren.css entra no head e html.lm-novo liga antes do HTML; o loren.js monta as peças e liga html.lm-pronto (o snippet do cabeçalho liga em 3 s se o JS falhar).
+   Até lá, o CSS reserva o espaço do que o JS monta, na altura exata da peça, e esconde o que o JS troca; ao ligar a classe a peça real ocupa o mesmo lugar, sem salto. */
+html.lm-novo:not(.lm-pronto) body::before { content: ''; display: block; height: 33px; }   /* barra do topo (.lm-barra) */
+html.lm-novo:not(.lm-pronto) #cabecalho::before { content: ''; display: block; height: 81px; }  /* cabeçalho nosso (.lm-topo) */
+html.lm-novo:not(.lm-pronto) .secao-banners::after { content: ''; display: block; height: 115px; }  /* faixa de vantagens (.lm-vant) */
+/* o resto da página só aparece montado: visibility não conta como salto e a caixa já está no lugar (o JS de cada página reorganiza o conteúdo antes de ligar html.lm-pronto) */
+html.lm-novo:not(.lm-pronto) :is(.secao-banners, #corpo, #barraNewsletter, #rodape) { visibility: hidden; }
+/* banner do computador: a caixa tem a proporção da arte (1920 x 505); o carrossel do tema fixava a altura só depois de a imagem chegar */
+@media (min-width: 768px) { html.lm-novo .secao-banners .banner.cheio .flexslider { aspect-ratio: 1920 / 505; } }
+@media (max-width: 767px) {
+  html.lm-novo:not(.lm-pronto) body::before { height: 50px; }
+  html.lm-novo:not(.lm-pronto) #cabecalho::before { height: 125px; }
+  html.lm-novo:not(.lm-pronto) .secao-banners::after { height: 72px; }
+  /* banner do celular: a arte vertical (750 x 960) troca a do computador; a caixa já nasce com a proporção dela e a imagem só aparece pronta */
+  html.lm-novo:not(.lm-pronto) .secao-banners .flexslider { aspect-ratio: 750 / 960; overflow: hidden; }
+  html.lm-novo:not(.lm-pronto) .secao-banners .flexslider img { visibility: hidden; }
+}
+
+/* margem lateral do celular: 16 em tudo (o .conteiner do tema usa 10); o banner continua de ponta a ponta */
+@media (max-width: 767px) {
+  html.lm-novo :is(#corpo, #rodape, #barraNewsletter) .conteiner { box-sizing: border-box !important; padding-left: var(--lm-margem) !important; padding-right: var(--lm-margem) !important; }
+  html.lm-novo :is(#corpo, #rodape, #barraNewsletter) .conteiner .conteiner { padding-left: 0 !important; padding-right: 0 !important; }
 }
