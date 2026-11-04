@@ -77,10 +77,7 @@
       <div class="lm-item">${ico('<path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/>')}<p style="margin:0"><b>Entrega em todo o Brasil</b><small>Envio em 24h</small></p></div>
       <div class="lm-item">${ico('<path d="M19 5 5 19"/><circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="17" r="2.5"/>')}<p style="margin:0"><b>10% no Pix ou boleto</b><small>Desconto aplicado no checkout</small></p></div>
       <div class="lm-item">${ico('<rect x="2" y="5" width="20" height="14"/><path d="M2 10h20M6 15h4"/>')}<p style="margin:0"><b>Até 4x no cartão</b><small>Sem juros</small></p></div></div></section>`);
-    // categorias: as mesmas do menu (nomes e links vêm da loja, sem nada fixo)
-    const cats = [...document.querySelectorAll('.full.menu .nivel-um > li:not(.categoria-paginas):not(.other-categories):not(.lm-obras) > a')].slice(0, 6);
-    if (cats.length) document.querySelector('.lm-vant')?.insertAdjacentHTML('afterend', `<section class="lm-sec"><div class="lm-wrap"><h2>Compre por categoria</h2><div class="lm-cats">${cats.map((a) => `<a href="${a.href}"><b>${a.textContent.trim()}</b><span>Ver produtos →</span></a>`).join('')}</div></div></section>`);
-    // faixa para empresas depois da 1ª vitrine
+    // (Compre por categoria saiu em 04/11, pedido do Eduardo: os produtos vêm direto)
     // as 3 vitrines estão numa caixa só: a faixa entra depois da 1ª lista (e do seu Ver mais), não depois da caixa
     const v1 = document.querySelector('#corpo .listagem.com-caixa > ul'); const depois = v1?.nextElementSibling?.classList.contains('lm-mais') ? v1.nextElementSibling : v1;
     depois?.insertAdjacentHTML('afterend', `<section class="lm-b2b" style="margin-inline:calc(50% - 50vw)"><div class="lm-wrap"><div><h2>Compra para obra, empresa ou licitação?</h2><p>Mande a lista de itens e receba preço especial de fábrica, com nota fiscal e prazo de entrega.</p></div>

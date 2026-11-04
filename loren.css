@@ -278,3 +278,45 @@ html.lm-novo .scrollToTop { right: 28px !important; bottom: 96px !important; lef
 html.lm-novo #cabecalho .full.menu .nivel-um > li > a > strong.titulo, html.lm-novo #cabecalho .full.menu .nivel-um > li > a { color: var(--lm-grafite) !important; opacity: 1 !important; }
 html.lm-novo #cabecalho .full.menu .nivel-um > li.lm-obras > a { color: var(--lm-onda-escura) !important; }
 html.lm-novo .botao, html.lm-novo .botao-comprar, html.lm-novo .tag-comprar { transition: none !important; }
+
+/* ===== padronização (Eduardo 04/11): um ritmo de espaçamento, um desenho de botão, selos e menu alinhados ===== */
+html.lm-novo {
+  --lm-sec: 48px;              /* espaço entre seções */
+  --lm-sec-titulo: 24px;       /* título da seção até o conteúdo */
+  --lm-btn-altura: 48px; --lm-btn-altura-card: 44px;
+  --lm-btn-raio: 0;            /* trocar aqui quando o Eduardo escolher o desenho dos botões */
+  --lm-btn-fundo: var(--lm-onda-escura); --lm-btn-fundo-hover: var(--lm-azul-hover);
+}
+@media (max-width: 767px) { html.lm-novo { --lm-sec: 32px; --lm-sec-titulo: 16px; } }
+/* botões: texto sempre no centro (o tema usava padding em cima e altura fixa, o texto subia) */
+html.lm-novo :is(.botao, .botao-comprar, .tag-comprar, .lm-btn, .lm-btn2, .lm-mais) { display: inline-flex !important; align-items: center !important; justify-content: center !important; gap: 8px; min-height: var(--lm-btn-altura) !important; height: auto !important; padding: 0 24px !important; line-height: 1.2 !important; border-radius: var(--lm-btn-raio) !important; box-sizing: border-box !important; text-align: center; vertical-align: middle; }
+html.lm-novo .listagem :is(.botao-comprar, .tag-comprar) { display: flex !important; min-height: var(--lm-btn-altura-card) !important; padding: 0 12px !important; background: var(--lm-btn-fundo) !important; }
+html.lm-novo .listagem :is(.botao-comprar, .tag-comprar):hover, html.lm-novo .lm-btn:hover { background: var(--lm-btn-fundo-hover) !important; }
+html.lm-novo .botao-comprar > svg, html.lm-novo .botao-comprar > i { display: none !important; }
+/* busca no azul */
+html.lm-novo .lm-topo__busca button { background: var(--lm-onda-escura) !important; border-radius: 0 var(--lm-btn-raio) var(--lm-btn-raio) 0 !important; }
+html.lm-novo .lm-topo__busca button:hover { background: var(--lm-azul-hover) !important; }
+/* menu: item com a mesma altura em cima e embaixo; Obras finalizadas junto dos outros itens */
+html.lm-novo #cabecalho .full.menu .nivel-um { height: 52px !important; align-items: stretch !important; }
+html.lm-novo #cabecalho .full.menu .nivel-um > li { display: flex; align-items: stretch; }
+html.lm-novo #cabecalho .full.menu .nivel-um > li > a { padding: 0 !important; height: 100% !important; display: flex !important; align-items: center !important; box-shadow: inset 0 -3px 0 transparent; }
+html.lm-novo #cabecalho .full.menu .nivel-um > li:hover > a { box-shadow: inset 0 -3px 0 var(--lm-azul); }
+html.lm-novo .full.menu .nivel-um > li.lm-obras { margin-left: 0 !important; }
+/* ritmo das seções da página inicial */
+html.lm-novo #corpo .listagem.com-caixa { margin-top: var(--lm-sec) !important; }
+html.lm-novo #corpo .listagem.com-caixa > ul { margin-bottom: 16px !important; }
+html.lm-novo #corpo .titulo-categoria, html.lm-novo .lm-sec h2 { margin-bottom: var(--lm-sec-titulo) !important; }
+html.lm-novo .lm-vant .lm-wrap { padding-block: var(--lm-sec-titulo) !important; }
+html.lm-novo .lm-mais { margin: 8px auto var(--lm-sec) !important; }
+html.lm-novo .lm-b2b { margin-block: var(--lm-sec) !important; background: linear-gradient(110deg, var(--lm-onda-escura) 0%, var(--lm-onda-media) 60%, var(--lm-azul) 100%) !important; }
+html.lm-novo .lm-pq, html.lm-novo .lm-sec { padding-block: var(--lm-sec) !important; margin-top: 0 !important; }
+/* selos de desconto: pequenos, no canto, texto no centro */
+html.lm-novo .listagem .bandeiras-produto { position: absolute !important; top: 10px !important; left: 10px !important; right: auto !important; z-index: 3; display: flex !important; gap: 6px; width: auto !important; height: auto !important; margin: 0 !important; padding: 0 !important; }
+html.lm-novo .listagem .bandeiras-produto > * { position: static !important; display: inline-flex !important; align-items: center; justify-content: center; width: auto !important; height: 24px !important; min-width: 0 !important; margin: 0 !important; padding: 0 9px !important; font: 700 12px/1 var(--lm-fonte-texto) !important; letter-spacing: .02em; color: #fff !important; background: var(--lm-onda-escura) !important; border-radius: var(--lm-btn-raio) !important; box-shadow: none !important; text-shadow: none !important; }
+html.lm-novo .listagem .listagem-item { position: relative; }
+
+html.lm-novo #cabecalho .full.menu .nivel-um { justify-content: flex-start !important; text-align: left !important; }
+html.lm-novo #cabecalho .full.menu .nivel-um > li, html.lm-novo #cabecalho .full.menu .nivel-um > li > a { background: none !important; }
+html.lm-novo #cabecalho .full.menu .nivel-um > li > a > i, html.lm-novo #cabecalho .full.menu .nivel-um > li > a > img, html.lm-novo #cabecalho .full.menu .nivel-um > li > a > svg { display: none !important; }
+html.lm-novo .lm-mais { display: flex !important; width: max-content !important; margin-inline: auto !important; }
+html.lm-novo .lm-topo .lm-topo__busca form button { background: var(--lm-onda-escura) !important; } html.lm-novo .lm-topo .lm-topo__busca form button:hover { background: var(--lm-azul-hover) !important; }
