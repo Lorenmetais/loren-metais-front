@@ -203,3 +203,6 @@ html.lm-novo .lm-wa svg { width: 30px; height: 30px; fill: #fff; }
 
 /* banner cheio no celular: a arte vertical (750 x 960) ocupa a largura toda, sem corte */
 @media (max-width: 767px) { html.lm-novo .secao-banners .banner.cheio img { width: 100% !important; height: auto !important; max-height: none !important; object-fit: contain; } html.lm-novo .secao-banners .flexslider, html.lm-novo .secao-banners .flexslider .slides li { height: auto !important; } }
+/* setas do carrossel: discretas no computador, fora no celular (lá o cliente arrasta) */
+html.lm-novo .secao-banners .flex-direction-nav a { background: rgba(48, 49, 54, .55) !important; color: #fff !important; border-radius: 0 !important; }
+@media (max-width: 767px) { html.lm-novo .secao-banners .flex-direction-nav { display: none !important; } }
