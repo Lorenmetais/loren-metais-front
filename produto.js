@@ -172,7 +172,7 @@
     const sku = document.querySelector('.pagina-produto .codigo-produto span > span')?.textContent.trim().replace(/^0+(?=\d)/, '');  // chave do fichas.json: o Código sem zero à esquerda
     let fichas = /fichas-exemplo/.test(location.hash) ? FICHAS_EXEMPLO : null, base = location.href;
     if (!fichas && FICHAS_URL) { try { fichas = await (await fetch(FICHAS_URL)).json(); base = FICHAS_URL; } catch { return; } }
-    const f = sku && fichas?.[sku]; if (!f) return;
+    const f = sku && (fichas?.[sku] || fichas?.[sku.match(/^0*(\d+)/)?.[1]]); if (!f) return;  // variação (1057_1, 1046-2): os dígitos do começo
     const tabela = (linhas) => { const tb = document.createElement('table'); tb.className = 'lm-specs'; linhas.forEach(([r, v]) => { const tr = tb.insertRow(), th = document.createElement('th'); th.scope = 'row'; th.textContent = r; tr.append(th); tr.insertCell().textContent = v; }); return tb; };
     const lado = document.createElement('aside'); lado.className = 'lm-ficha'; lado.setAttribute('aria-labelledby', 'lm-ficha-tit');
     lado.innerHTML = '<h2 id="lm-ficha-tit">Especificações técnicas</h2>';

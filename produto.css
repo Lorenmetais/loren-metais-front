@@ -135,6 +135,9 @@ html.lm-novo .pagina-produto .parcelas-produto .accordion-inner ul { margin: 0 !
 html.lm-novo .pagina-produto .parcelas-produto :is(.cor-secundaria, span, a, li) { color: var(--lm-grafite) !important; font-size: 13px !important; }
 html.lm-novo .pagina-produto .parcelas-produto .cor-principal { color: var(--lm-grafite) !important; }
 html.lm-novo .pagina-produto .principal .cep { margin: 0 !important; padding: 0 !important; }
+html.lm-novo .pagina-produto .principal #formCalcularCep { max-width: none; width: 100%; }  /* na largura da caixa (a base limita a 360 e estourava em telas de 360) */
+html.lm-novo .pagina-produto .principal #formCalcularCep :is(.form-inline, .input-append) { display: block; width: 100%; margin: 0; }
+html.lm-novo .pagina-produto .principal #formCalcularCep .input-cep { width: 100% !important; min-width: 0; box-sizing: border-box; }
 html.lm-novo .pagina-produto .principal .cep:not(:has(*)) { display: none !important; }  /* .cep vazia não soma espaço */
 html.lm-novo .pagina-produto .acoes-flutuante { display: none !important; }  /* balão de compra que aparecia ao rolar (tema) */
 /* resultado do frete: uma linha por opção (nome e prazo à esquerda, valor à direita) */
@@ -180,14 +183,22 @@ html.lm-novo .pagina-produto .lm-ficha { position: sticky; top: var(--lm-esp-3);
 html.lm-novo .pagina-produto .lm-ficha h2 { font: 700 var(--lm-h3)/1.1 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; text-transform: none !important; margin: 0 0 var(--lm-esp-2) !important; }
 html.lm-novo .pagina-produto .lm-ficha h3 { font: 700 1.125rem/1.2 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; margin: var(--lm-esp-3) 0 var(--lm-esp-1) !important; }
 html.lm-novo .pagina-produto .lm-ficha .lm-specs { margin: 0; }
-html.lm-novo .pagina-produto .lm-ficha .lm-specs th { width: 50%; }
+html.lm-novo .pagina-produto .lm-ficha .lm-specs th { width: 40%; white-space: nowrap; }  /* rótulo numa linha; a coluna cresce só se o rótulo for longo */
+html.lm-novo .pagina-produto .lm-ficha .lm-specs :is(th, td) { padding: 10px 12px !important; }
+@media (max-width: 399px) {  /* tela estreita: rótulo em cima do valor */
+  html.lm-novo .pagina-produto .lm-ficha .lm-specs, html.lm-novo .pagina-produto .lm-ficha .lm-specs :is(tbody, tr, th, td) { display: block; width: auto; }
+  html.lm-novo .pagina-produto .lm-ficha .lm-specs { border: 0 !important; border-top: var(--lm-borda-padrao) !important; }
+  html.lm-novo .pagina-produto .lm-ficha .lm-specs tr { padding: var(--lm-esp-1) 0; border-bottom: var(--lm-borda-padrao); }
+  html.lm-novo .pagina-produto .lm-ficha .lm-specs :is(th, td) { padding: 0 !important; border: 0; background-color: transparent !important; }
+  html.lm-novo .pagina-produto .lm-ficha .lm-specs th { white-space: normal; font-size: 13px !important; color: var(--lm-texto-secundario); }
+}
 html.lm-novo .pagina-produto .lm-ficha__baixar { width: 100%; margin-top: var(--lm-esp-3) !important; }
 /* relacionados: mesma seção, mesmo título */
 html.lm-novo .pagina-produto .lm-prod-rel { margin: var(--lm-sec) 0 0 !important; }
 html.lm-novo .pagina-produto .lm-prod-rel .aproveite-tambem { margin: 0 !important; padding: 0 !important; border: 0 !important; background: none !important; box-shadow: none !important; }
 
 @media (max-width: 767px) {
-  html.lm-novo .pagina-produto .lm-prod-topo { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  html.lm-novo .pagina-produto .lm-prod-topo { grid-template-columns: minmax(0, 1fr); gap: var(--lm-esp-2); }
   html.lm-novo .pagina-produto .lm-prod-gal { display: block; }
   html.lm-novo .pagina-produto .lm-prod-gal:has(.lm-galeria) :is(.conteiner-imagem, .produto-thumbs, .lm-miniaturas) { display: none !important; }  /* celular: deslizar + bolinhas, sem setas */
   html.lm-novo .pagina-produto .lm-galeria { display: block; }
