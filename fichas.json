@@ -35,10 +35,6 @@
    [
     "Profundidade",
     "13cm"
-   ],
-   [
-    "Altura",
-    "3cm base A.C.S FARIA COM. DE FERR. IMPORT. EXPORTAÇÃO"
    ]
   ]
  },
@@ -125,10 +121,6 @@
    [
     "Altura",
     "3cm base | 12,5cm Alavanca"
-   ],
-   [
-    "Peso",
-    "0.96kg A.C.S FARIA COM. DE FERR. IMPORT. EXPORTAÇÃO"
    ]
   ]
  },
@@ -8169,6 +8161,139 @@
  "13078": {
   "pdf": "13078.pdf",
   "resumo": [],
+  "medidas": []
+ },
+ "1059": {
+  "pdf": "1059.pdf",
+  "resumo": [
+   [
+    "Acabamento",
+    "Pintura eletrostática branca"
+   ],
+   [
+    "Medida",
+    "70 x 45 cm"
+   ],
+   [
+    "Norma",
+    "NBR 9050/2024"
+   ],
+   [
+    "Acompanha",
+    "Parafuso e bucha"
+   ]
+  ],
+  "medidas": [
+   [
+    "Largura",
+    "70 cm"
+   ],
+   [
+    "Comprimento",
+    "45 cm"
+   ]
+  ]
+ },
+ "1061-": {
+  "pdf": "1061.pdf",
+  "resumo": [],
+  "medidas": []
+ },
+ "1059-1": {
+  "pdf": "1059.pdf",
+  "resumo": [
+   [
+    "Acabamento",
+    "Pintura eletrostática branca"
+   ],
+   [
+    "Medida",
+    "70 x 45 cm"
+   ],
+   [
+    "Norma",
+    "NBR 9050/2024"
+   ],
+   [
+    "Acompanha",
+    "Parafuso e bucha"
+   ]
+  ],
+  "medidas": [
+   [
+    "Largura",
+    "70 cm"
+   ],
+   [
+    "Comprimento",
+    "45 cm"
+   ]
+  ]
+ },
+ "13152p": {
+  "pdf": "13152.pdf",
+  "resumo": [
+   [
+    "Acionamento",
+    "Alavanca reforçada e longa"
+   ],
+   [
+    "Instalação",
+    "Mesa"
+   ],
+   [
+    "Mecanismo",
+    "1/4 de volta, metal e cerâmica"
+   ],
+   [
+    "Bica",
+    "Alta e móvel"
+   ]
+  ],
+  "medidas": []
+ },
+ "12003-N79T8RAWL": {
+  "pdf": "12003.pdf",
+  "resumo": [
+   [
+    "Material",
+    "Metal"
+   ],
+   [
+    "Acionamento",
+    "Alavanca reforçada e longa"
+   ],
+   [
+    "Instalação",
+    "Mesa"
+   ],
+   [
+    "Mecanismo",
+    "1/4 de volta, metal e cerâmica"
+   ]
+  ],
+  "medidas": []
+ },
+ "12022P": {
+  "pdf": "12022.pdf",
+  "resumo": [
+   [
+    "Material",
+    "Metal cromado"
+   ],
+   [
+    "Acionamento",
+    "Alavanca reforçada, por cotovelo"
+   ],
+   [
+    "Mecanismo",
+    "Cerâmico de 1/4 de volta"
+   ],
+   [
+    "Bica",
+    "Alta e móvel"
+   ]
+  ],
   "medidas": []
  }
 }
