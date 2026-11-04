@@ -404,6 +404,11 @@ html.lm-novo .coluna .componente.newsletter :is(input, .botao) { display: block 
 html.lm-novo #barraNewsletter { padding: 32px 0 !important; }
 html.lm-novo #barraNewsletter :is(.conteiner, .row-fluid, .span, .componente, .interno, .interno-conteudo, .input-conteiner, .newsletter-cadastro) { margin-top: 0 !important; margin-bottom: 0 !important; padding-top: 0 !important; padding-bottom: 0 !important; min-height: 0 !important; }
 html.lm-novo #barraNewsletter .texto-newsletter { margin: 0 0 16px !important; }
+/* campo + Assinar: o botão do tamanho do texto, separado do campo por 8 px, e o par centralizado sob o título */
+html.lm-novo #barraNewsletter .input-conteiner { display: flex !important; gap: 8px; max-width: 560px; margin-inline: auto !important; }
+html.lm-novo #barraNewsletter .input-conteiner input { flex: 1 1 auto; width: auto !important; min-width: 0; }
+html.lm-novo #barraNewsletter .input-conteiner .botao { position: static !important; flex: none; width: auto !important; padding: 0 32px !important; margin: 0 !important; }
+@media (max-width: 767px) { html.lm-novo #barraNewsletter .input-conteiner { flex-direction: column; } html.lm-novo #barraNewsletter .input-conteiner .botao { width: 100% !important; } }
 @media (max-width: 767px) { html.lm-novo #barraNewsletter { padding: 24px 0 !important; } }
 
 /* busca: o tema pinta o botão por #form-buscar (id), por isso o seletor com id */
