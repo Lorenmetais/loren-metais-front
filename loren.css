@@ -177,10 +177,48 @@ html.lm-novo #avisoCookies { position: fixed !important; top: auto !important; b
 html.lm-novo #avisoCookies .conteiner { width: auto !important; padding: 14px 16px !important; display: flex; gap: 12px; align-items: center; }
 html.lm-novo #avisoCookies p { font-size: 12px !important; line-height: 1.4 !important; margin: 0 !important; color: var(--lm-texto-secundario) !important; }
 html.lm-novo #avisoCookies .botao { background: var(--lm-grafite) !important; color: #fff !important; border: 0 !important; flex: none; }
-/* contato: só o nosso botão de WhatsApp */
+/* contato: só o nosso botão de chat, igual ao da Conceito (assets/custom.css, .custom-contact-float) em azul */
 html.lm-novo .float-contact, html.lm-novo .li-whatsapp { display: none !important; }
-html.lm-novo .lm-wa { position: fixed; right: 24px; bottom: 24px; width: var(--lm-chat-tamanho); height: var(--lm-chat-tamanho); border-radius: 50% !important; background: var(--lm-whatsapp); box-shadow: rgba(0, 0, 0, .25) 0 4px 14px; display: grid; place-items: center; z-index: 55; }
-html.lm-novo .lm-wa svg { width: 30px; height: 30px; fill: #fff; }
+html.lm-novo .lm-chat { position: fixed; right: 20px; bottom: 20px; z-index: 55; }
+html.lm-novo .lm-chat__abre, html.lm-novo .lm-chat__canal { display: flex; align-items: center; justify-content: center; width: var(--lm-chat-tamanho); height: var(--lm-chat-tamanho); padding: 0; border: 0; border-radius: 50% !important; cursor: pointer; }
+html.lm-novo .lm-chat__abre { background: var(--lm-btn-gradiente); box-shadow: 0 4px 14px rgba(0, 0, 0, .25); transition: transform .15s ease, box-shadow .15s ease, background-color .2s ease; }
+html.lm-novo .lm-chat__abre:hover, html.lm-novo .lm-chat__abre:focus-visible { transform: scale(1.06); box-shadow: 0 6px 18px rgba(0, 0, 0, .3); }
+html.lm-novo .lm-chat__abre svg { width: 28px; height: 28px; fill: #fff; }
+html.lm-novo .lm-chat__i-fecha { display: none; fill: none !important; stroke: var(--lm-grafite); stroke-width: 2.4; stroke-linecap: round; }
+/* aberto: vira o fechar branco com X (azul aberto pareceria um 3º canal) */
+html.lm-novo .lm-chat[data-open='true'] .lm-chat__abre { background: #fff; box-shadow: 0 0 0 1px var(--lm-borda), 0 4px 14px rgba(0, 0, 0, .2); }
+html.lm-novo .lm-chat[data-open='true'] .lm-chat__i-chat { display: none; }
+html.lm-novo .lm-chat[data-open='true'] .lm-chat__i-fecha { display: block; }
+/* canais escondidos até abrir, com atraso e easing "back" para o bounce */
+html.lm-novo .lm-chat__dial { position: absolute; left: 50%; bottom: calc(var(--lm-chat-tamanho) + 12px); transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 12px; pointer-events: none; }
+html.lm-novo .lm-chat__canal { position: relative; box-shadow: 0 4px 12px rgba(0, 0, 0, .25); opacity: 0; visibility: hidden; pointer-events: none; transform: scale(.4) translateY(12px); transition: transform .35s cubic-bezier(.34, 1.56, .64, 1), opacity .2s ease, visibility 0s linear .35s; }
+html.lm-novo .lm-chat__canal svg { width: 26px; height: 26px; fill: #fff; }
+html.lm-novo .lm-chat__canal--wa { background: var(--lm-whatsapp); }
+html.lm-novo .lm-chat__canal--email { background: var(--lm-btn-gradiente); }
+html.lm-novo .lm-chat[data-open='true'] .lm-chat__canal { opacity: 1; visibility: visible; pointer-events: auto; transform: none; transition-delay: .05s; }
+html.lm-novo .lm-chat[data-open='true'] .lm-chat__canal--email { transition-delay: .12s; }
+/* dica do e-mail abre para a esquerda (o botão fica na borda direita) */
+html.lm-novo .lm-chat__dica { position: absolute; right: calc(100% + 12px); top: 50%; transform: translateY(-50%); width: max-content; max-width: 200px; padding: 8px 12px; border: var(--lm-borda-padrao); background: #fff; color: var(--lm-grafite); font-size: 13px; line-height: 1.3; text-align: left; opacity: 0; pointer-events: none; transition: opacity .15s ease; }
+html.lm-novo .lm-chat__dica::after { content: ''; position: absolute; left: 100%; top: 50%; width: 8px; height: 8px; border-top: var(--lm-borda-padrao); border-right: var(--lm-borda-padrao); background: #fff; transform: translate(-50%, -50%) rotate(45deg); }
+html.lm-novo .lm-chat__canal--email:hover .lm-chat__dica, html.lm-novo .lm-chat__canal--email:focus-visible .lm-chat__dica, html.lm-novo .lm-chat__dica.is-visible { opacity: 1; }
+/* janela do WhatsApp: arredondada de propósito, como na Conceito (chat mais amigável) */
+html.lm-novo .lm-chat__janela { box-sizing: border-box; position: fixed; inset: 50% auto auto 50%; transform: translate(-50%, -50%); margin: 0; padding: 0; width: calc(100vw - 32px); max-width: 360px; max-height: calc(100dvh - 32px); overflow-y: auto; border: 0; border-radius: 16px !important; background: #fff; color: var(--lm-grafite); box-shadow: 0 20px 50px rgba(0, 0, 0, .25); }
+html.lm-novo .lm-chat__janela::backdrop { background: rgba(20, 22, 26, .5); }
+html.lm-novo .lm-chat__topo { display: flex; align-items: center; gap: 12px; padding: 14px 14px 14px 20px; background: var(--lm-whatsapp-escuro); }
+html.lm-novo .lm-chat__topo > svg { flex-shrink: 0; width: 32px; height: 32px; fill: #fff; }
+html.lm-novo .lm-chat__titulos { display: flex; flex: 1; flex-direction: column; align-items: center; text-align: center; }
+html.lm-novo .lm-chat__titulos h2 { margin: 0 !important; color: #fff !important; font-size: 16px !important; line-height: 1.3 !important; }
+html.lm-novo .lm-chat__online { display: inline-flex; align-items: center; gap: 6px; margin-top: 6px; padding: 4px 10px; border-radius: 999px !important; background: #fff; color: #1d7a35; font-size: 12px; font-weight: 600; }
+html.lm-novo .lm-chat__online[hidden] { display: none; }
+html.lm-novo .lm-chat__ponto { width: 8px; height: 8px; border-radius: 50% !important; background: #2ea043; animation: lm-pulso 1.5s infinite; }
+@keyframes lm-pulso { 0% { transform: scale(.95); box-shadow: 0 0 0 0 rgba(46, 160, 67, .7); } 70% { transform: scale(1); box-shadow: 0 0 0 5px rgba(46, 160, 67, 0); } 100% { transform: scale(.95); box-shadow: 0 0 0 0 rgba(46, 160, 67, 0); } }
+html.lm-novo .lm-chat__fechar { display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 44px; height: 44px; padding: 0; border: var(--lm-borda-padrao); border-radius: 50% !important; background: #fff; color: var(--lm-grafite); cursor: pointer; }
+html.lm-novo .lm-chat__fechar svg { width: 18px; height: 18px; pointer-events: none; }
+html.lm-novo .lm-chat__fechar:hover { border-color: var(--lm-btn-gradiente); color: var(--lm-btn-gradiente); }
+html.lm-novo .lm-chat__assuntos { display: flex; flex-direction: column; gap: 8px; margin: 0 !important; padding: 16px 20px 20px !important; list-style: none; }
+html.lm-novo .lm-chat__assuntos a { box-sizing: border-box; display: flex; align-items: center; gap: 10px; width: 100%; min-height: 40px; padding: 0 14px; border: var(--lm-borda-padrao); border-radius: 999px !important; background: #fff; color: var(--lm-grafite) !important; font: 600 12px/1.3 var(--lm-fonte-titulo); letter-spacing: .08em; text-transform: uppercase; text-decoration: none !important; }
+html.lm-novo .lm-chat__assuntos a:hover { border-color: var(--lm-grafite); }
+html.lm-novo .lm-chat__assuntos svg { flex-shrink: 0; width: 20px; height: 20px; color: var(--lm-whatsapp-escuro); }
 
 @media (max-width: 767px) {
   html.lm-novo .lm-vant .lm-wrap { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; padding-block: 16px; }
@@ -197,7 +235,10 @@ html.lm-novo .lm-wa svg { width: 30px; height: 30px; fill: #fff; }
   html.lm-novo .lm-pq .lm-wrap { grid-template-columns: 1fr; gap: 24px; }
   html.lm-novo .lm-b2b .lm-acs { width: 100%; }
   html.lm-novo .lm-b2b .lm-acs > * { flex: 1; }
-  html.lm-novo .lm-wa { width: var(--lm-chat-tamanho-celular); height: var(--lm-chat-tamanho-celular); right: 16px; bottom: 16px; }
+  html.lm-novo .lm-chat { --lm-chat-tamanho: var(--lm-chat-tamanho-celular); bottom: 17.5px; }
+  html.lm-novo .lm-chat__abre svg { width: 29px; height: 29px; }
+  html.lm-novo .lm-chat__canal svg { width: 31px; height: 31px; }
+  html.lm-novo .lm-chat__assuntos a { min-height: 44px; }
   html.lm-novo #avisoCookies { left: 8px !important; right: 8px !important; bottom: 8px !important; max-width: none; }
 }
 
@@ -266,12 +307,13 @@ html.lm-novo #rodape .titulo, html.lm-novo #rodape h4, html.lm-novo #rodape stro
 html.lm-novo :is(#corpo, #cabecalho) .cor-secundaria:not(.botao):not([class*="fundo-"]) { color: var(--lm-grafite) !important; }
 html.lm-novo .breadcrumbs, html.lm-novo .breadcrumbs a, html.lm-novo .breadcrumbs span, html.lm-novo .breadcrumbs strong { color: var(--lm-texto-secundario) !important; }
 html.lm-novo .breadcrumbs a:hover { color: var(--lm-onda-escura) !important; }
-/* flutuantes sem se cobrir: voltar ao topo acima do WhatsApp; no celular, WhatsApp acima do aviso de cookies */
-html.lm-novo .scrollToTop { right: 28px !important; bottom: 96px !important; left: auto !important; width: 44px !important; height: 44px !important; background: var(--lm-grafite) !important; color: #fff !important; border-radius: 0 !important; z-index: 54 !important; }
+/* flutuantes sem se cobrir: voltar ao topo centrado acima do chat (some com o chat aberto); no celular, os dois acima do aviso de cookies */
+html.lm-novo .scrollToTop { right: 26px !important; bottom: 92px !important; left: auto !important; width: 44px !important; height: 44px !important; background: var(--lm-grafite) !important; color: #fff !important; border-radius: 0 !important; z-index: 54 !important; }
+html.lm-novo body:has(.lm-chat[data-open='true']) .scrollToTop { opacity: 0 !important; pointer-events: none !important; }
 @media (max-width: 767px) {
-  html.lm-novo .scrollToTop { right: 19px !important; bottom: 80px !important; }
-  html.lm-novo body.mostrarAvisoCookie .lm-wa { bottom: 176px; }
-  html.lm-novo body.mostrarAvisoCookie .scrollToTop { bottom: 240px !important; }
+  html.lm-novo .scrollToTop { right: 28px !important; bottom: 94px !important; }
+  html.lm-novo body.mostrarAvisoCookie .lm-chat { bottom: 176px; }
+  html.lm-novo body.mostrarAvisoCookie .scrollToTop { bottom: 252px !important; }
 }
 
 /* menu: o 1º e o último item vinham cinza-claro por regra do tema; e sem transição de cor dos botões do tema */
@@ -324,10 +366,14 @@ html.lm-novo .lm-topo .lm-topo__busca form button { background: var(--lm-onda-es
 /* ===== botões: pill com gradiente, negrito em caixa alta (Eduardo 04/11, opção C2) ===== */
 html.lm-novo { --lm-btn-raio: 999px; }
 /* principal: comprar, pedir orçamento, assinar, calcular, ver obras */
-html.lm-novo :is(.botao-comprar, .tag-comprar, .botao.principal, .lm-btn, #barraNewsletter .botao) { background: var(--lm-btn-gradiente) !important; color: #fff !important; font: 700 15px/1.2 var(--lm-fonte-texto) !important; letter-spacing: .04em !important; text-transform: uppercase !important; border: 0 !important; border-radius: 999px !important; box-shadow: var(--lm-btn-sombra) !important; text-shadow: none !important; }
-html.lm-novo :is(.botao-comprar, .tag-comprar, .botao.principal, .lm-btn, #barraNewsletter .botao):hover { background: var(--lm-btn-gradiente-hover) !important; }
+html.lm-novo :is(.botao-comprar, .tag-comprar, .botao.principal, .lm-btn), html.lm-novo #barraNewsletter .botao { background: var(--lm-btn-gradiente) !important; color: #fff !important; font: 700 15px/1.2 var(--lm-fonte-texto) !important; letter-spacing: .04em !important; text-transform: uppercase !important; border: 0 !important; border-radius: 999px !important; box-shadow: var(--lm-btn-sombra) !important; text-shadow: none !important; }
+html.lm-novo :is(.botao-comprar, .tag-comprar, .botao.principal, .lm-btn):hover { background: var(--lm-btn-gradiente-hover) !important; }
 html.lm-novo .listagem :is(.botao-comprar, .tag-comprar) { font-size: 13px !important; background: var(--lm-btn-gradiente) !important; }
 html.lm-novo .listagem :is(.botao-comprar, .tag-comprar):hover { background: var(--lm-btn-gradiente-hover) !important; }
+/* newsletter: a faixa já é azul, então o Assinar é branco com texto azul (azul sobre azul sumia); chamada sem caixa alta */
+html.lm-novo #barraNewsletter .botao, html.lm-novo #barraNewsletter .botao::before, html.lm-novo #barraNewsletter .botao * { background: #fff !important; color: var(--lm-onda-escura) !important; }
+html.lm-novo #barraNewsletter .botao:hover, html.lm-novo #barraNewsletter .botao:hover::before, html.lm-novo #barraNewsletter .botao:hover * { background: var(--lm-grafite) !important; color: #fff !important; }
+html.lm-novo #barraNewsletter .texto-newsletter { text-transform: none !important; }
 /* secundário: contorno, no hover vira o gradiente */
 html.lm-novo :is(.lm-btn2, .lm-mais) { background: #fff !important; color: var(--lm-onda-escura) !important; box-shadow: inset 0 0 0 1.5px var(--lm-onda-escura) !important; border: 0 !important; border-radius: 999px !important; font: 700 15px/1.2 var(--lm-fonte-texto) !important; letter-spacing: .04em !important; text-transform: uppercase !important; }
 html.lm-novo :is(.lm-btn2, .lm-mais):hover { background: var(--lm-btn-gradiente) !important; color: #fff !important; box-shadow: none !important; }
