@@ -46,13 +46,53 @@
       dlg.addEventListener('keydown', (e) => { if (e.key === 'ArrowLeft') passa(-1); if (e.key === 'ArrowRight') passa(1); });
       tz.addEventListener('click', (e) => { if (e.target.tagName !== 'IMG') dlg.close(); });  // clique fora da foto fecha
 
-      // computador: setas e lupa na foto principal; as setas trocam pela miniatura (o tema troca a foto no clique)
-      palco.insertAdjacentHTML('beforeend', `${n > 1 ? seta('ant', 'Foto anterior') + seta('prox', 'Próxima foto') : ''}<button type="button" class="lm-lupa" aria-label="Ampliar foto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4M11 8v6M8 11h6"/></svg></button>`);
+      // computador: na foto só o botão da lupa; as setas ficam nas pontas da coluna de miniaturas (como na Conceito)
+      palco.insertAdjacentHTML('beforeend', '<button type="button" class="lm-lupa" aria-label="Ampliar foto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4M11 8v6M8 11h6"/></svg></button>');
+      const thumbs = gal.querySelector('.produto-thumbs');
+      if (n > 1 && thumbs) {
+        const col = document.createElement('div'); col.className = 'lm-miniaturas';
+        const vseta = (lado, rot, d) => `<button type="button" class="lm-seta lm-seta--${lado}" aria-label="${rot}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d}"/></svg></button>`;
+        thumbs.before(col); col.insertAdjacentHTML('beforeend', vseta('ant', 'Foto anterior', 'm18 15-6-6-6 6')); col.append(thumbs); col.insertAdjacentHTML('beforeend', vseta('prox', 'Próxima foto', 'm6 9 6 6 6-6'));
+      }
       fotos.forEach((a, i) => a.addEventListener('click', () => { atual = i; }));
       const vai = (i) => { atual = (i + n) % n; fotos[atual].click(); };
-      palco.querySelector('.lm-seta--ant')?.addEventListener('click', (e) => { e.stopPropagation(); vai(atual - 1); });
-      palco.querySelector('.lm-seta--prox')?.addEventListener('click', (e) => { e.stopPropagation(); vai(atual + 1); });
-      palco.addEventListener('click', (e) => { if (!e.target.closest('.lm-seta')) { e.preventDefault(); abre(atual); } });
+      const rola = () => { const a = fotos[atual], c = thumbs; if (!a || !c) return; const top = a.offsetTop - c.offsetTop; if (top < c.scrollTop) c.scrollTop = top; else if (top + a.offsetHeight > c.scrollTop + c.clientHeight) c.scrollTop = top + a.offsetHeight - c.clientHeight; };  // a miniatura ativa sempre à vista
+      gal.querySelector('.lm-miniaturas .lm-seta--ant')?.addEventListener('click', () => { vai(atual - 1); rola(); });
+      gal.querySelector('.lm-miniaturas .lm-seta--prox')?.addEventListener('click', () => { vai(atual + 1); rola(); });
+      palco.addEventListener('click', (e) => { e.preventDefault(); abre(atual); });
+      // lupa redonda ao passar o mouse (a da Conceito): lente de 180 px a 2,5x, foto grande baixada só no 1º hover; só com
+      // mouse. O botão do canto passa a ligar/desligar a lupa (ponteiro = ligada, lupinha = desligada); o clique na foto
+      // continua abrindo o zoom em tela cheia.
+      if (principal && matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        const ZOOM = 2.5, LADO = 180, lente = document.createElement('div');
+        lente.className = 'lm-lente'; lente.hidden = true; lente.setAttribute('aria-hidden', 'true'); document.body.append(lente);
+        let ligada = true; try { ligada = sessionStorage.getItem('lm-lupa') !== 'off'; } catch {}
+        const grandes = new Map(); let ev = null, raf = 0;
+        const bt = palco.querySelector('.lm-lupa');
+        const pinta = () => {
+          bt.setAttribute('aria-pressed', String(ligada)); bt.title = ligada ? 'Desativar lupa' : 'Ativar lupa'; bt.setAttribute('aria-label', bt.title);
+          bt.innerHTML = ligada ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 2.5l3 3M8 1.5v3M13.5 2.5l-3 3M1.5 8h3M2.5 13.5l3-3"/><path d="M8.5 8.5l13 4.6-5.5 1.9-2.4 6z" fill="currentColor"/></svg>'
+            : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>';
+        };
+        pinta();
+        bt.addEventListener('click', (e) => { e.stopPropagation(); ligada = !ligada; try { sessionStorage.setItem('lm-lupa', ligada ? 'on' : 'off'); } catch {} if (!ligada) lente.hidden = true; pinta(); });
+        // a foto usa object-fit: contain; a lupa só vale em cima da foto, não nas margens
+        const caixa = () => { const r = principal.getBoundingClientRect(), s = Math.min(r.width / principal.naturalWidth, r.height / principal.naturalHeight), w = principal.naturalWidth * s, h = principal.naturalHeight * s; return { x: r.left + (r.width - w) / 2, y: r.top + (r.height - h) / 2, w, h }; };
+        const mostra = (e) => {
+          const b = caixa(), cx = e.clientX - b.x, cy = e.clientY - b.y;
+          if (!principal.naturalWidth || cx < 0 || cy < 0 || cx > b.w || cy > b.h) { lente.hidden = true; return; }
+          const url = lista[atual]?.g || principal.src; let g = grandes.get(url);
+          if (!g) { g = { ok: false }; grandes.set(url, g); const pre = new Image(); pre.onload = () => { g.ok = true; if (ev) mostra(ev); }; pre.src = url; }
+          lente.hidden = false; lente.style.left = e.clientX + 'px'; lente.style.top = e.clientY + 'px';
+          lente.style.backgroundImage = `url("${g.ok ? url : principal.currentSrc || principal.src}")`;  // até a grande chegar, a da página
+          lente.style.backgroundSize = `${b.w * ZOOM}px ${b.h * ZOOM}px`;
+          lente.style.backgroundPosition = `${LADO / 2 - cx * ZOOM}px ${LADO / 2 - cy * ZOOM}px`;
+        };
+        palco.addEventListener('pointermove', (e) => { if (e.pointerType !== 'mouse' || !ligada || e.target.closest('button')) { lente.hidden = true; return; } ev = e; if (!raf) raf = requestAnimationFrame(() => { raf = 0; if (ev) mostra(ev); }); }, { passive: true });
+        palco.addEventListener('pointerleave', () => { ev = null; lente.hidden = true; });
+        palco.addEventListener('click', () => { lente.hidden = true; }, true);
+        document.addEventListener('wheel', () => { lente.hidden = true; }, { passive: true });
+      }
       // o zoom de passar o mouse do tema (jQuery ImageZoom) sai: o palco segura os eventos de mouse antes de chegarem à foto
       ['mouseenter', 'mouseover', 'mousemove', 'mouseleave', 'mouseout'].forEach((t) => palco.addEventListener(t, (e) => { if (!e.target.closest('button')) e.stopPropagation(); }, true));
 
@@ -123,13 +163,13 @@
   // Especificações técnicas + "Baixar ficha técnica" (ao lado da descrição no computador, embaixo no celular). Dados por SKU:
   // { "<sku>": { "pdf": "<sku>.pdf", "resumo": [["Material","Aço inox 304"]], "medidas": [["Altura","18,5 cm"]] } }; o pdf é
   // relativo ao fichas.json. Sem ficha para o SKU, o bloco não aparece. O e-mail é pedido uma vez (vai para a newsletter da LI).
-  const FICHAS_URL = '';  // apontar para o fichas.json da Wednesday quando estiver publicado
+  const FICHAS_URL = 'https://eduserpa.github.io/loren-metais-front/fichas.json';
   const FICHAS_EXEMPLO = {  // só com #fichas-exemplo na URL (teste), para nada de exemplo ir ao ar
     41018: { pdf: '41018.pdf', resumo: [['Material', 'Aço inox 304'], ['Acionamento', 'Manual por placa PUSH'], ['Saídas de água', '2 esguichos']], medidas: [['Diâmetro da cuba', '30 cm'], ['Base de fixação', '26 cm'], ['Peso', '2,85 kg']] },
     16001: { pdf: '16001.pdf', resumo: [['Material', 'Poliéster'], ['Norma', 'NBR 9050']], medidas: [['Largura', 'exemplo'], ['Profundidade', 'exemplo']] },
   };
   const fichaTecnica = async (desc) => {
-    const sku = document.querySelector('.pagina-produto .codigo-produto span > span')?.textContent.trim();
+    const sku = document.querySelector('.pagina-produto .codigo-produto span > span')?.textContent.trim().replace(/^0+(?=\d)/, '');  // chave do fichas.json: o Código sem zero à esquerda
     let fichas = /fichas-exemplo/.test(location.hash) ? FICHAS_EXEMPLO : null, base = location.href;
     if (!fichas && FICHAS_URL) { try { fichas = await (await fetch(FICHAS_URL)).json(); base = FICHAS_URL; } catch { return; } }
     const f = sku && fichas?.[sku]; if (!f) return;

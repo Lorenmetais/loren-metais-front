@@ -14,12 +14,16 @@ html.lm-novo .pagina-produto .lm-prod-topo > .span6 { width: auto !important; ma
 
 /* galeria: foto quadrada em cartão, miniaturas em coluna à esquerda */
 html.lm-novo .pagina-produto .lm-prod-gal { display: grid; grid-template-columns: 88px minmax(0, 1fr); gap: 16px; align-items: start; position: relative; }
-html.lm-novo .pagina-produto .lm-prod-gal .conteiner-imagem { grid-column: 2; grid-row: 1; aspect-ratio: 1; display: grid; place-items: center; border: var(--lm-borda-padrao); background: #fff; padding: 24px; margin: 0 !important; box-sizing: border-box; }
-html.lm-novo .pagina-produto .lm-prod-gal .conteiner-imagem > div { width: 100%; height: 100%; display: grid; place-items: center; }
+html.lm-novo .pagina-produto .lm-prod-gal .conteiner-imagem { grid-column: 2; grid-row: 1; aspect-ratio: 1; min-height: 0; overflow: hidden; display: grid; place-items: center; border: var(--lm-borda-padrao); background: #fff; padding: 24px; margin: 0 !important; box-sizing: border-box; }
+html.lm-novo .pagina-produto .lm-prod-gal .conteiner-imagem > div { width: 100% !important; height: 100% !important; min-height: 0 !important; display: grid; place-items: center; }  /* o tema põe altura inline no invólucro */
 html.lm-novo .pagina-produto .lm-prod-gal .conteiner-imagem img { width: 100% !important; height: 100% !important; max-height: none !important; object-fit: contain; }
 html.lm-novo .pagina-produto .lm-prod-gal .produto-thumbs { grid-column: 1; grid-row: 1; margin: 0 !important; height: 0; min-height: 100%; overflow-y: auto; scrollbar-width: none; }  /* altura da foto: com muitas fotos, rola */
+/* coluna de miniaturas com as setas nas pontas (produto.js): seta, miniaturas que rolam, seta; na altura da foto */
+html.lm-novo .pagina-produto .lm-prod-gal .lm-miniaturas { grid-column: 1; grid-row: 1; align-self: stretch; contain: size; display: flex; flex-direction: column; align-items: center; gap: var(--lm-esp-1); }  /* contain: não conta para a altura da linha, só estica até a foto */
+html.lm-novo .pagina-produto .lm-prod-gal .lm-miniaturas .produto-thumbs { flex: 1; height: auto; min-height: 0; width: 100%; }
+html.lm-novo .pagina-produto .lm-miniaturas .lm-seta { position: static !important; transform: none !important; flex: none; width: 44px !important; height: 44px !important; }
 html.lm-novo .pagina-produto .lm-prod-gal .produto-thumbs::-webkit-scrollbar { display: none; }
-html.lm-novo .pagina-produto .lm-prod-gal > :not(.conteiner-imagem, .produto-thumbs, .bandeiras-produto, .lm-galeria) { grid-column: 1 / -1; }  /* vídeo e outros blocos da galeria na largura toda */
+html.lm-novo .pagina-produto .lm-prod-gal > :not(.conteiner-imagem, .produto-thumbs, .lm-miniaturas, .bandeiras-produto, .lm-galeria) { grid-column: 1 / -1; }  /* vídeo e outros blocos da galeria na largura toda */
 html.lm-novo .pagina-produto .lm-prod-gal .produto-thumbs :is(.flexslider, .flex-viewport) { margin: 0 !important; padding: 0 !important; height: auto !important; overflow: visible !important; border: 0 !important; box-shadow: none !important; background: none !important; }
 html.lm-novo .pagina-produto .lm-prod-gal .produto-thumbs .slides { width: auto !important; transform: none !important; display: flex !important; flex-direction: column; gap: 8px; margin: 0 !important; padding: 0 !important; }
 html.lm-novo .pagina-produto .lm-prod-gal .produto-thumbs .slides > li { width: auto !important; float: none !important; margin: 0 !important; display: flex !important; flex-direction: column; gap: 8px; }
@@ -34,12 +38,14 @@ html.lm-novo .pagina-produto .lm-galeria { display: none; }
 html.lm-novo :is(.zm-viewer, .zm-handler, .zoomContainer, .zoomWindowContainer, .zoomLens) { display: none !important; }  /* camadas do zoom de passar o mouse do tema */
 /* setas e lupa na foto principal */
 html.lm-novo .pagina-produto .lm-prod-gal .conteiner-imagem { position: relative; cursor: zoom-in; }
-html.lm-novo .pagina-produto :is(.conteiner-imagem, .lm-zoom) .lm-seta, html.lm-novo .pagina-produto .lm-lupa, html.lm-novo .lm-zoom__fechar { position: absolute; z-index: 3; display: grid; place-items: center; width: 48px; height: 48px; padding: 0; border: var(--lm-borda-padrao); border-radius: 50% !important; background: #fff; color: var(--lm-grafite); cursor: pointer; }
-html.lm-novo .pagina-produto :is(.conteiner-imagem, .lm-zoom) .lm-seta:hover, html.lm-novo .pagina-produto .lm-lupa:hover, html.lm-novo .lm-zoom__fechar:hover { border-color: var(--lm-onda-escura); color: var(--lm-onda-escura); }
+html.lm-novo .pagina-produto :is(.lm-miniaturas, .lm-zoom) .lm-seta, html.lm-novo .pagina-produto .lm-lupa, html.lm-novo .lm-zoom__fechar { position: absolute; z-index: 3; display: grid; place-items: center; width: 48px; height: 48px; padding: 0; border: var(--lm-borda-padrao); border-radius: 50% !important; background: #fff; color: var(--lm-grafite); cursor: pointer; }
+html.lm-novo .pagina-produto :is(.lm-miniaturas, .lm-zoom) .lm-seta:hover, html.lm-novo .pagina-produto .lm-lupa:hover, html.lm-novo .lm-zoom__fechar:hover { border-color: var(--lm-onda-escura); color: var(--lm-onda-escura); }
 html.lm-novo .pagina-produto :is(.lm-seta, .lm-lupa, .lm-zoom__fechar) svg { width: 24px; height: 24px; }
-html.lm-novo .pagina-produto .conteiner-imagem .lm-seta { top: 50%; transform: translateY(-50%); }
-html.lm-novo .pagina-produto .lm-seta--ant { left: 16px; } html.lm-novo .pagina-produto .lm-seta--prox { right: 16px; }
+html.lm-novo .lm-zoom .lm-seta--ant { left: 16px; } html.lm-novo .lm-zoom .lm-seta--prox { right: 16px; }
 html.lm-novo .pagina-produto .lm-lupa { top: 16px; right: 16px; }
+/* lupa redonda que segue o mouse (produto.js; só computador com mouse) */
+html.lm-novo .lm-lente { position: fixed; z-index: 50; width: 180px; height: 180px; border: var(--lm-borda-padrao); border-radius: 50% !important; background-color: #fff; background-repeat: no-repeat; box-shadow: var(--lm-cartao-sombra-hover); pointer-events: none; transform: translate(-50%, -50%); }
+html.lm-novo .lm-lente[hidden] { display: none; }
 /* zoom em tela cheia */
 html.lm-novo .lm-zoom { position: fixed; inset: 0; width: 100vw; height: 100vh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: #fff; overflow: hidden; }
 html.lm-novo .lm-zoom::backdrop { background: rgba(48, 49, 54, .6); }
@@ -183,7 +189,7 @@ html.lm-novo .pagina-produto .lm-prod-rel .aproveite-tambem { margin: 0 !importa
 @media (max-width: 767px) {
   html.lm-novo .pagina-produto .lm-prod-topo { grid-template-columns: minmax(0, 1fr); gap: 24px; }
   html.lm-novo .pagina-produto .lm-prod-gal { display: block; }
-  html.lm-novo .pagina-produto .lm-prod-gal:has(.lm-galeria) :is(.conteiner-imagem, .produto-thumbs) { display: none !important; }
+  html.lm-novo .pagina-produto .lm-prod-gal:has(.lm-galeria) :is(.conteiner-imagem, .produto-thumbs, .lm-miniaturas) { display: none !important; }  /* celular: deslizar + bolinhas, sem setas */
   html.lm-novo .pagina-produto .lm-galeria { display: block; }
   html.lm-novo .pagina-produto .lm-galeria__fotos { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; border: var(--lm-borda-padrao); background: #fff; }
   html.lm-novo .pagina-produto .lm-galeria__fotos::-webkit-scrollbar { display: none; }
