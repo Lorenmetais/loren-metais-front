@@ -28,6 +28,15 @@
 
     const inicio = /^\/(home)?$/.test(location.pathname);
     if (!inicio) return;
+    // banners novos (Ellie 04/11): no celular, a versão vertical; no computador, a versão nítida enquanto o painel não for
+    // atualizado. A troca é pelo texto alternativo do banner no painel (mesmo nome), então a ordem e os links continuam os do painel.
+    const BANNERS = { 'compre direto pela fábrica': 'fabrica', 'clínicas hospitalares': 'clinicas', 'cozinhas industriais': 'cozinhas',
+      'shoppings e industrias': 'shoppings', 'shoppings e indústrias': 'shoppings', 'empresas': 'empresas', 'quem somos': 'quem-somos' };
+    const celular = matchMedia('(max-width: 767px)').matches;
+    document.querySelectorAll('.secao-banners .banner.cheio img').forEach((img) => {
+      const n = BANNERS[(img.alt || '').trim().toLowerCase()]; if (!n || !BASE) return;
+      img.src = BASE + 'banners/' + n + (celular ? '-celular.jpg' : '-1920.jpg'); img.removeAttribute('srcset');
+    });
     // vitrines: mostra 8 (4 no celular) e um botão para ver o resto
     document.querySelectorAll('#corpo .listagem.com-caixa > ul').forEach((ul) => {
       if (ul.children.length <= 4) return;

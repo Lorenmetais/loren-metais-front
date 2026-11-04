@@ -200,3 +200,6 @@ html.lm-novo .lm-wa svg { width: 30px; height: 30px; fill: #fff; }
   html.lm-novo .lm-wa { width: var(--lm-chat-tamanho-celular); height: var(--lm-chat-tamanho-celular); right: 16px; bottom: 16px; }
   html.lm-novo #avisoCookies { left: 8px !important; right: 8px !important; bottom: 8px !important; max-width: none; }
 }
+
+/* banner cheio no celular: a arte vertical (750 x 960) ocupa a largura toda, sem corte */
+@media (max-width: 767px) { html.lm-novo .secao-banners .banner.cheio img { width: 100% !important; height: auto !important; max-height: none !important; object-fit: contain; } html.lm-novo .secao-banners .flexslider, html.lm-novo .secao-banners .flexslider .slides li { height: auto !important; } }
