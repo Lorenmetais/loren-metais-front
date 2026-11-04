@@ -31,6 +31,7 @@ html.lm-novo .pagina-produto .lm-prod-gal .produto-thumbs .flex-direction-nav { 
 html.lm-novo .pagina-produto .lm-prod-gal .bandeiras-produto { position: absolute; top: 16px; left: 120px; z-index: 2; margin: 0 !important; }
 html.lm-novo .pagina-produto .lm-prod-gal .bandeiras-produto span { display: inline-block; padding: 4px 12px; border-radius: 999px !important; background: var(--lm-onda-escura) !important; color: #fff !important; font: 700 13px/1.4 var(--lm-fonte-texto) !important; }
 html.lm-novo .pagina-produto .lm-galeria { display: none; }
+html.lm-novo :is(.zm-viewer, .zm-handler, .zoomContainer, .zoomWindowContainer, .zoomLens) { display: none !important; }  /* camadas do zoom de passar o mouse do tema */
 /* setas e lupa na foto principal */
 html.lm-novo .pagina-produto .lm-prod-gal .conteiner-imagem { position: relative; cursor: zoom-in; }
 html.lm-novo .pagina-produto :is(.conteiner-imagem, .lm-zoom) .lm-seta, html.lm-novo .pagina-produto .lm-lupa, html.lm-novo .lm-zoom__fechar { position: absolute; z-index: 3; display: grid; place-items: center; width: 48px; height: 48px; padding: 0; border: var(--lm-borda-padrao); border-radius: 50% !important; background: #fff; color: var(--lm-grafite); cursor: pointer; }
@@ -54,14 +55,14 @@ html.lm-novo .pagina-produto .produto-compartilhar, html.lm-novo .pagina-produto
 /* caixa de compra */
 html.lm-novo .pagina-produto .lm-prod-compra > .principal { border: var(--lm-borda-padrao) !important; background: #fff; padding: 32px !important; margin: 0 !important; box-shadow: none !important; }
 html.lm-novo .pagina-produto h1.nome-produto { font: 700 clamp(1.75rem, 2.4vw, 2rem)/1.15 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; text-transform: none !important; margin: 0 0 8px !important; }
-html.lm-novo .pagina-produto .codigo-produto { display: flex; flex-wrap: wrap; gap: 4px 16px; padding: 0 0 16px; margin: 0 0 24px !important; border-bottom: var(--lm-borda-padrao); }
+html.lm-novo .pagina-produto .codigo-produto { display: flex; flex-wrap: wrap; gap: 4px 16px; padding: 0 0 var(--lm-esp-3); margin: 0 !important; border-bottom: var(--lm-borda-padrao); }
 html.lm-novo .pagina-produto .codigo-produto > span { float: none !important; }
 html.lm-novo .pagina-produto .codigo-produto, html.lm-novo .pagina-produto .codigo-produto * { font: 400 13px/1.5 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; text-transform: none !important; }
 html.lm-novo .pagina-produto .codigo-produto { align-items: baseline; }
 html.lm-novo .pagina-produto .codigo-produto > span { display: inline-flex; align-items: baseline; gap: 4px; margin: 0 !important; padding: 0 !important; line-height: 1.5 !important; }
 html.lm-novo .pagina-produto .codigo-produto > span > :is(span, a) { color: var(--lm-grafite) !important; font-weight: 600 !important; text-decoration: none; }  /* valor; o rótulo (b) fica no secundário */
 /* variações */
-html.lm-novo .pagina-produto .atributos { margin: 0 0 24px !important; }
+html.lm-novo .pagina-produto .atributos { margin: 0 !important; }
 html.lm-novo .pagina-produto .atributos, html.lm-novo .pagina-produto .atributos * { font-family: var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
 html.lm-novo .pagina-produto .atributos .atributo-comum > span { display: block; margin: 0 0 8px; font-size: 14px; }
 html.lm-novo .pagina-produto .atributos ul { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 !important; padding: 0 !important; }
@@ -69,10 +70,10 @@ html.lm-novo .pagina-produto .atributos li { list-style: none; margin: 0 !import
 html.lm-novo .pagina-produto .atributos .atributo-item { display: inline-flex !important; align-items: center; justify-content: center; min-width: 72px; height: 40px; box-sizing: border-box; padding: 0 16px !important; border: var(--lm-borda-padrao) !important; border-radius: 999px !important; background: #fff !important; font-weight: 600 !important; font-size: 14px !important; }
 html.lm-novo .pagina-produto .atributos :is(.active .atributo-item, .atributo-item.active, .atributo-item.selecionado) { box-shadow: inset 0 0 0 2px var(--lm-onda-escura) !important; border-color: transparent !important; }
 /* preço: de (riscado), por em destaque e parcelas */
-html.lm-novo .pagina-produto .acoes-produto { margin: 0 !important; }
+html.lm-novo .pagina-produto .acoes-produto { margin: 0 !important; padding: 0 !important; }  /* o tema põe 25 px embaixo */
 html.lm-novo .pagina-produto .acoes-produto .preco-produto { display: flex !important; flex-direction: column-reverse; gap: 4px; margin: 0 0 24px !important; text-align: left !important; }
 html.lm-novo .pagina-produto .acoes-produto .preco-produto > div { margin: 0 !important; }
-html.lm-novo .pagina-produto .acoes-produto .preco-promocional { display: block; font: 700 2.25rem/1 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; }
+html.lm-novo .pagina-produto :is(.acoes-produto .preco-promocional, .lm-prod-sob) { display: block; font: 700 40px/1.1 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; }  /* preço efetivo e "Preço sob consulta" no mesmo lugar e estilo */
 html.lm-novo .pagina-produto .acoes-produto .preco-venda { display: block; margin-bottom: 4px; font: 400 15px/1.3 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; }
 html.lm-novo .pagina-produto .acoes-produto .preco-parcela, html.lm-novo .pagina-produto .acoes-produto .preco-parcela * { font: 400 15px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; }
 html.lm-novo .pagina-produto .acoes-produto .preco-parcela strong { color: var(--lm-grafite) !important; font-weight: 700 !important; }
@@ -85,8 +86,8 @@ html.lm-novo .pagina-produto .acoes-produto .comprar .botao-comprar, html.lm-nov
 html.lm-novo .pagina-produto .acoes-produto .comprar .botao-comprar i { display: none !important; }
 html.lm-novo .pagina-produto .acoes-produto .preco-produto > .botao.principal { width: 100% !important; flex: none; height: var(--lm-btn-altura) !important; }  /* sob consulta: "Consulte o preço" na largura toda */
 html.lm-novo .pagina-produto .lm-prod-consulta :is(.acoes-produto, .acoes-produto > div, .acoes-produto .preco-produto) { width: 100% !important; float: none !important; }
-html.lm-novo .pagina-produto .lm-prod-consulta .acoes-produto .preco-produto { flex-direction: column; align-items: stretch; }
-html.lm-novo .pagina-produto .lm-prod-sob { margin: 0 0 8px !important; font: 400 14px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; }
+html.lm-novo .pagina-produto .lm-prod-consulta .acoes-produto .preco-produto { flex-direction: column; align-items: stretch; margin-bottom: 0 !important; }  /* o botão é o fim do bloco */
+html.lm-novo .pagina-produto .lm-prod-sob { margin: 0 0 24px !important; }
 html.lm-novo .pagina-produto .lm-prod-consulta .grandes_qtd { display: none !important; }  /* o mesmo chamado do botão: fica um só */
 html.lm-novo .pagina-produto .disponibilidade-produto { flex-basis: 100%; margin: 4px 0 0 !important; font: 400 13px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; }
 html.lm-novo .pagina-produto .disponibilidade-produto b { color: var(--lm-sucesso) !important; font-weight: 600 !important; }
@@ -96,13 +97,15 @@ html.lm-novo .pagina-produto .grandes_qtd, html.lm-novo .pagina-produto .grandes
 html.lm-novo .pagina-produto .grandes_qtd b { font-weight: 700 !important; }
 html.lm-novo .pagina-produto .grandes_qtd:hover { background: var(--lm-onda-escura) !important; } html.lm-novo .pagina-produto .grandes_qtd:hover * { color: #fff !important; }
 /* selos curtos (produto.js) */
-html.lm-novo .pagina-produto .lm-selos { list-style: none; margin: 24px 0 0 !important; padding: 24px 0 0 !important; border-top: var(--lm-borda-padrao); display: grid; gap: 8px; }
+html.lm-novo .pagina-produto .lm-selos { list-style: none; margin: 0 !important; padding: var(--lm-esp-3) 0 0 !important; border-top: var(--lm-borda-padrao); display: grid; gap: 8px; }
 html.lm-novo .pagina-produto .lm-selos li { display: flex; align-items: center; gap: 12px; margin: 0; font: 400 14px/1.4 var(--lm-fonte-texto); color: var(--lm-grafite); }
 html.lm-novo .pagina-produto .lm-selos .lm-ico { width: 32px; height: 32px; flex: none; display: grid; place-items: center; background: var(--lm-fundo); color: var(--lm-onda-escura); }
 html.lm-novo .pagina-produto .lm-selos .lm-ico svg { width: 18px; height: 18px; }
 /* ordem na caixa sem mexer no HTML: frete logo abaixo do Adicionar, depois orçamento, selos e formas de pagamento.
    O bloco de pagamento vira "contents" para o frete (que mora dentro dele) poder subir. */
-html.lm-novo .pagina-produto .lm-prod-compra > .principal { display: flex; flex-direction: column; }
+html.lm-novo .pagina-produto .lm-prod-compra > .principal { display: flex; flex-direction: column; gap: var(--lm-esp-3); }  /* ritmo único da caixa: 24 (16 no celular) */
+html.lm-novo .pagina-produto .lm-prod-compra > .principal > *, html.lm-novo .pagina-produto .lm-prod-compra > .principal > .parcelas-produto > * { margin-top: 0 !important; margin-bottom: 0 !important; }
+html.lm-novo .pagina-produto .lm-prod-compra > .principal > :not(:has(*)), html.lm-novo .pagina-produto .lm-prod-compra > .principal > .parcelas-produto > :not(:has(*)) { display: none !important; }  /* bloco vazio não soma espaço */
 html.lm-novo .pagina-produto .lm-prod-compra > .principal > * { order: 9; }
 html.lm-novo .pagina-produto .lm-prod-compra > .principal > :is(.info-principal-produto, .atributos, .acoes-produto) { order: 1; }
 html.lm-novo .pagina-produto .lm-prod-compra > .principal > .parcelas-produto:not(.hide):not([style*="none"]) { display: contents !important; }  /* as das outras variações o tema esconde com style inline */
@@ -110,7 +113,7 @@ html.lm-novo .pagina-produto .lm-prod-compra > .principal > .parcelas-produto > 
 html.lm-novo .pagina-produto .lm-prod-compra > .principal > .cep { order: 2; }  /* a calculadora (quando a LI a põe direto na caixa) logo abaixo do Adicionar */
 html.lm-novo .pagina-produto .lm-prod-compra > .principal > .grandes_qtd { order: 3; }
 html.lm-novo .pagina-produto .lm-prod-compra > .principal > .lm-selos { order: 4; }
-html.lm-novo .pagina-produto .lm-prod-compra > .principal > .parcelas-produto > .accordion { order: 5; margin-top: 24px !important; border: var(--lm-borda-padrao) !important; background: #fff; }
+html.lm-novo .pagina-produto .lm-prod-compra > .principal > .parcelas-produto > .accordion { order: 5; border: var(--lm-borda-padrao) !important; background: #fff; }
 /* formas de pagamento: lista compacta */
 
 html.lm-novo .pagina-produto .parcelas-produto * { font-family: var(--lm-fonte-texto) !important; }
@@ -125,7 +128,7 @@ html.lm-novo .pagina-produto .parcelas-produto .accordion-inner { border: 0 !imp
 html.lm-novo .pagina-produto .parcelas-produto .accordion-inner ul { margin: 0 !important; }
 html.lm-novo .pagina-produto .parcelas-produto :is(.cor-secundaria, span, a, li) { color: var(--lm-grafite) !important; font-size: 13px !important; }
 html.lm-novo .pagina-produto .parcelas-produto .cor-principal { color: var(--lm-grafite) !important; }
-html.lm-novo .pagina-produto .principal .cep { margin: 16px 0 0 !important; padding: 0 !important; }
+html.lm-novo .pagina-produto .principal .cep { margin: 0 !important; padding: 0 !important; }
 html.lm-novo .pagina-produto .principal .cep:not(:has(*)) { display: none !important; }  /* .cep vazia não soma espaço */
 html.lm-novo .pagina-produto .acoes-flutuante { display: none !important; }  /* balão de compra que aparecia ao rolar (tema) */
 /* resultado do frete: uma linha por opção (nome e prazo à esquerda, valor à direita) */
@@ -138,16 +141,36 @@ html.lm-novo .pagina-produto .principal .cep li .valor { grid-area: valor; align
 html.lm-novo .pagina-produto .principal .cep .aviso-disponibilidade { margin-top: 8px; font: 400 12px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; }
 html.lm-novo .pagina-produto .principal .cep p { margin: 0; font: 400 13px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; }
 
-/* descrição larga e legível */
-html.lm-novo .pagina-produto .abas-custom { margin-top: 48px; }
-html.lm-novo .pagina-produto .abas-custom .nav-tabs { border: 0 !important; }
-html.lm-novo .pagina-produto #descricao { max-width: 860px; font: 400 16px/1.7 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
-html.lm-novo .pagina-produto #descricao * { font-family: var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; font-size: 16px !important; }
-html.lm-novo .pagina-produto #descricao :is(h2, h3, h4) { font: 700 22px/1.2 var(--lm-fonte-titulo) !important; margin: 24px 0 8px !important; }
-html.lm-novo .pagina-produto .abas-custom .titulo, html.lm-novo .pagina-produto .aproveite-tambem > .titulo, html.lm-novo .pagina-produto .aproveite-tambem > h4 { font: 700 var(--lm-h2)/1 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; text-transform: none !important; text-align: left !important; border: 0 !important; padding: 0 0 8px !important; }
-html.lm-novo .pagina-produto .abas-custom :is(h2, h3, h4, .titulo, .nav-tabs a, .nav-tabs li) { font: 700 var(--lm-h2)/1 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; text-transform: none !important; text-align: left !important; border: 0 !important; background: none !important; padding-left: 0 !important; }
-html.lm-novo .pagina-produto .abas-custom .nav-tabs { text-align: left !important; margin-bottom: 16px !important; }
+/* descrição: seção no ritmo da página, coluna de leitura de 760 px, Inter 16/1.7; o Word deixou fonte e tamanho em cada trecho */
+html.lm-novo .pagina-produto .lm-prod-desc { margin: var(--lm-sec) 0 0 !important; }
+html.lm-novo .pagina-produto .abas-custom { margin: 0 !important; border: 0 !important; background: none !important; box-shadow: none !important; }
+html.lm-novo .pagina-produto .abas-custom .nav-tabs { border: 0 !important; text-align: left !important; margin: 0 0 var(--lm-sec-titulo) !important; }
 html.lm-novo .pagina-produto .abas-custom .nav-tabs::after, html.lm-novo .pagina-produto .abas-custom .nav-tabs::before { display: none !important; }
+html.lm-novo .pagina-produto :is(.abas-custom :is(h2, h3, h4, .titulo, .nav-tabs a, .nav-tabs li), .aproveite-tambem > :is(h2, h3, h4, .titulo)) { font: 700 var(--lm-h2)/1 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; text-transform: none !important; text-align: left !important; border: 0 !important; background: none !important; padding: 0 !important; margin: 0 0 var(--lm-sec-titulo) !important; }
+/* o título "Descrição do Produto" é um ::before do CSS do painel: mesmo estilo dos títulos de seção */
+html.lm-novo .pagina-produto .lm-prod-desc :is(.abas-custom, .tab-content, .tab-pane, #descricao)::before { display: block; width: auto; font: 700 var(--lm-h2)/1 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; text-transform: none !important; text-align: left !important; letter-spacing: 0 !important; border: 0 !important; padding: 0 !important; margin: 0 0 var(--lm-sec-titulo) !important; background: none !important; }
+html.lm-novo .pagina-produto #descricao { max-width: 760px; padding: 0 !important; font: 400 16px/1.7 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
+html.lm-novo .pagina-produto #descricao * { font-family: inherit !important; font-size: inherit !important; line-height: inherit !important; color: inherit !important; white-space: normal !important; background-color: transparent !important; }
+html.lm-novo .pagina-produto #descricao p { margin: 0 0 16px !important; text-align: left !important; }
+html.lm-novo .pagina-produto #descricao :is(strong, b) { font-weight: 700; }
+html.lm-novo .pagina-produto #descricao .lm-vazio { display: none !important; }
+html.lm-novo .pagina-produto #descricao :is(h2, h3, h4, .lm-desc-tit) { font: 700 1.25rem/1.2 var(--lm-fonte-titulo) !important; margin: 32px 0 12px !important; }
+html.lm-novo .pagina-produto #descricao .lm-desc-tit * { font: inherit !important; }
+html.lm-novo .pagina-produto #descricao :is(ul, ol) { margin: 0 0 16px !important; padding-left: 22px !important; }
+html.lm-novo .pagina-produto #descricao li { margin: 0 0 4px; } html.lm-novo .pagina-produto #descricao li p { margin: 0 !important; }
+html.lm-novo .pagina-produto #descricao a { color: var(--lm-onda-escura) !important; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+html.lm-novo .pagina-produto #descricao img { max-width: 100% !important; height: auto !important; }
+/* links sozinhos (produtos semelhantes) em lista */
+html.lm-novo .pagina-produto #descricao .lm-desc-link { margin: 0 !important; padding: 8px 0; border-bottom: var(--lm-borda-padrao); }
+html.lm-novo .pagina-produto #descricao .lm-desc-link a { text-decoration: none; }
+html.lm-novo .pagina-produto #descricao .lm-desc-link a:hover { text-decoration: underline; }
+/* especificações (listas "Rótulo: valor") em tabela */
+html.lm-novo .pagina-produto .lm-specs { width: 100%; border-collapse: collapse; margin: 0 0 24px; border: var(--lm-borda-padrao); }
+html.lm-novo .pagina-produto .lm-specs :is(th, td) { padding: 12px 16px !important; border-bottom: var(--lm-borda-padrao); text-align: left; vertical-align: top; font-size: 15px !important; line-height: 1.5 !important; }
+html.lm-novo .pagina-produto .lm-specs th { width: 40%; font-weight: 600; background-color: var(--lm-fundo) !important; }
+/* relacionados: mesma seção, mesmo título */
+html.lm-novo .pagina-produto .lm-prod-rel { margin: var(--lm-sec) 0 0 !important; }
+html.lm-novo .pagina-produto .lm-prod-rel .aproveite-tambem { margin: 0 !important; padding: 0 !important; border: 0 !important; background: none !important; box-shadow: none !important; }
 
 @media (max-width: 767px) {
   html.lm-novo .pagina-produto .lm-prod-topo { grid-template-columns: minmax(0, 1fr); gap: 24px; }
@@ -159,8 +182,12 @@ html.lm-novo .pagina-produto .abas-custom .nav-tabs::after, html.lm-novo .pagina
   html.lm-novo .pagina-produto .lm-galeria__fotos img { flex: 0 0 100%; width: 100%; aspect-ratio: 1; object-fit: contain; padding: 16px; box-sizing: border-box; scroll-snap-align: start; }
   html.lm-novo .pagina-produto .lm-galeria .flex-control-paging { margin-top: 8px !important; }
   html.lm-novo .pagina-produto .lm-prod-gal .bandeiras-produto { left: 16px; }
-  html.lm-novo .pagina-produto .lm-prod-compra > .principal { padding: 24px 16px !important; }
+  html.lm-novo .pagina-produto .lm-prod-compra > .principal { padding: var(--lm-esp-2) !important; gap: var(--lm-esp-2); }
+  html.lm-novo .pagina-produto .codigo-produto, html.lm-novo .pagina-produto .lm-selos { padding-bottom: 0; }
+  html.lm-novo .pagina-produto .lm-selos { padding-top: var(--lm-esp-2) !important; }
+  html.lm-novo .pagina-produto .codigo-produto { padding-bottom: var(--lm-esp-2); }
   html.lm-novo .pagina-produto #corpo .produto { padding-top: var(--lm-esp-2) !important; }
+  html.lm-novo .pagina-produto :is(.acoes-produto .preco-promocional, .lm-prod-sob) { font-size: 32px !important; }
   html.lm-novo .pagina-produto #corpo .produto > .breadcrumbs li { display: inline-block !important; }  /* o tema escondia a categoria no celular */
   html.lm-novo .lm-zoom figure { padding: 64px 16px 96px; }
   html.lm-novo .lm-zoom figure img { height: calc(100vh - 160px); }

@@ -53,6 +53,8 @@
       palco.querySelector('.lm-seta--ant')?.addEventListener('click', (e) => { e.stopPropagation(); vai(atual - 1); });
       palco.querySelector('.lm-seta--prox')?.addEventListener('click', (e) => { e.stopPropagation(); vai(atual + 1); });
       palco.addEventListener('click', (e) => { if (!e.target.closest('.lm-seta')) { e.preventDefault(); abre(atual); } });
+      // o zoom de passar o mouse do tema (jQuery ImageZoom) sai: o palco segura os eventos de mouse antes de chegarem à foto
+      ['mouseenter', 'mouseover', 'mousemove', 'mouseleave', 'mouseout'].forEach((t) => palco.addEventListener(t, (e) => { if (!e.target.closest('button')) e.stopPropagation(); }, true));
 
       // celular: carrossel de arrastar com pontos (o desenho dos pontos é o do loren.css); tocar na foto abre o zoom
       if (n > 1) {
@@ -66,6 +68,28 @@
         [...trilho.children].forEach((im, i) => im.addEventListener('click', () => abre(i)));
       }
     }
+
+    // descrição: coluna de leitura; rótulos curtos ("Características e Medidas:") viram subtítulo, links sozinhos viram
+    // lista e listas "Rótulo: valor" viram tabela de especificações (o mesmo texto, dividido no primeiro ":")
+    const desc = document.querySelector('.pagina-produto #descricao');
+    if (desc) {
+      desc.closest('.row-fluid')?.classList.add('lm-prod-desc');
+      const txt = (e) => e.textContent.replace(/[\s ]+/g, ' ').trim();
+      desc.querySelectorAll(':scope > p').forEach((p) => {
+        const t = txt(p);
+        if (!t && !p.querySelector('img, iframe, video, table')) p.classList.add('lm-vazio');
+        else if (t.length <= 70 && !p.querySelector('br') && (/:$/.test(t) || /^produtos semelhantes/i.test(t))) p.classList.add('lm-desc-tit');
+        else if (p.querySelector('a') && txt(p.querySelector('a')) === t) p.classList.add('lm-desc-link');
+      });
+      desc.querySelectorAll('ul').forEach((ul) => {
+        const itens = [...ul.children].map(txt);
+        if (itens.length < 3 || !itens.every((t) => /^[^:]{2,40}:\s*\S/.test(t))) return;
+        const tb = document.createElement('table'); tb.className = 'lm-specs';
+        itens.forEach((t) => { const i = t.indexOf(':'), tr = tb.insertRow(), th = document.createElement('th'); th.scope = 'row'; th.textContent = t.slice(0, i); tr.append(th); tr.insertCell().textContent = t.slice(i + 1).trim(); });
+        ul.replaceWith(tb);
+      });
+    }
+    document.querySelector('.pagina-produto .aproveite-tambem')?.closest('.row-fluid')?.classList.add('lm-prod-rel');
 
     // sob consulta: um só chamado (o botão "Consulte o preço"), com "Preço sob consulta" pequeno no lugar do preço
     const consulta = compra?.querySelector('#produto-consulta-preco');
