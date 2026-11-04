@@ -87,11 +87,6 @@ html.lm-novo body.lm-cat .ordenar-listagem.rodape { border: 0 !important; backgr
 html.lm-novo body.lm-cat #listagemProdutos > ul > li.lm-cat-pag { grid-column: 1 / -1; list-style: none; }
 html.lm-novo body.lm-cat .lm-cat-pag .ordenar-listagem.rodape { padding: 0 !important; }
 html.lm-novo body.lm-cat .ordenar-listagem.rodape.lm-cat-sem-pag { display: none !important; }
-html.lm-novo body.lm-cat .ordenar-listagem.rodape .pagination { margin: 0 !important; text-align: center; }
-html.lm-novo body.lm-cat .ordenar-listagem.rodape .pagination ul { display: flex !important; justify-content: center; flex-wrap: wrap; gap: 8px; box-shadow: none !important; margin: 0 !important; }
-html.lm-novo body.lm-cat .ordenar-listagem.rodape .pagination li > a, html.lm-novo body.lm-cat .ordenar-listagem.rodape .pagination li > span { float: none !important; min-width: 40px; height: 40px; box-sizing: border-box; display: grid !important; place-content: center; padding: 0 8px !important; border: var(--lm-borda-padrao) !important; border-radius: 0 !important; background: #fff !important; color: var(--lm-grafite) !important; font: 600 .9375rem/1 var(--lm-fonte-texto) !important; }
-html.lm-novo body.lm-cat .ordenar-listagem.rodape .pagination li.active > a { background: var(--lm-grafite) !important; border-color: var(--lm-grafite) !important; color: #fff !important; }
-html.lm-novo body.lm-cat .ordenar-listagem.rodape .pagination li.disabled > a { opacity: .4; }
 
 /* Saiba mais: resto da descrição e perguntas frequentes */
 html.lm-novo body.lm-cat .lm-cat-saiba { border-top: var(--lm-borda-padrao); margin-top: 48px; padding-block: 48px; }
@@ -111,7 +106,7 @@ html.lm-novo body.lm-cat .lm-cat-faq details p { margin: 8px 0 0; color: var(--l
 @media (max-width: 767px) {
   html.lm-novo body.lm-cat #corpo .secao-principal { grid-template-columns: minmax(0, 1fr); gap: 0; }
   html.lm-novo body.lm-cat:not(.lm-filtros) #corpo .secao-principal > .coluna { display: none !important; }
-  html.lm-novo body.lm-filtros #corpo .secao-principal > .coluna { position: fixed !important; inset: 0; z-index: 1000; background: #fff; overflow-y: auto; padding: 0 16px 32px !important; }
+  html.lm-novo body.lm-filtros #corpo .secao-principal > .coluna { position: fixed !important; inset: 0; z-index: 1002;  /* acima do cabeçalho sticky (topo 1001, menu 1000) */ background: #fff; overflow-y: auto; padding: 0 16px 32px !important; }
   html.lm-novo body.lm-filtros .lm-cat-fechar { display: block; position: sticky; top: 0; z-index: 1; width: calc(100% + 32px); margin: 0 -16px 16px; height: 52px; border: 0; border-bottom: var(--lm-borda-padrao); background: #fff; text-align: right; padding: 0 16px; font: 600 .9375rem/1 var(--lm-fonte-texto); color: var(--lm-onda-escura); }
   html.lm-novo body.lm-cat .lm-cat-topo { padding: 8px 0 16px; }
   html.lm-novo body.lm-cat .lm-cat-intro { font-size: var(--lm-corpo-celular); }
@@ -128,3 +123,27 @@ html.lm-novo body.lm-cat .lm-cat-faq details p { margin: 8px 0 0; color: var(--l
   html.lm-novo body.lm-cat .lm-cat-cols { grid-template-columns: minmax(0, 1fr); gap: 24px; }
   html.lm-novo body.lm-cat .lm-cat-faq { padding: 16px; }
 }
+
+/* ===== revisão da categoria (Ellie 04/11) ===== */
+/* paginação: uma linha centralizada sob a grade, botões redondos de 40 px, página atual na cor da marca. Ela vem numa
+   linha do tema com .span6 (no computador ficava na metade direita; no celular empilhava um botão por linha) */
+html.lm-novo body.lm-cat .lm-cat-pag :is(.row-fluid, [class*="span"]) { display: block !important; width: 100% !important; margin: 0 !important; float: none !important; }
+html.lm-novo body.lm-cat .lm-cat-pag .row-fluid::before, html.lm-novo body.lm-cat .lm-cat-pag .row-fluid::after { display: none !important; }
+html.lm-novo body.lm-cat .lm-cat-pag .pagination { float: none !important; width: 100% !important; margin: 0 !important; text-align: center; }  /* o tema põe float: right */
+html.lm-novo body.lm-cat .lm-cat-pag .pagination ul { display: flex !important; justify-content: center; flex-wrap: wrap; gap: 8px; margin: 0 !important; padding: 0 !important; box-shadow: none !important; }
+html.lm-novo body.lm-cat .lm-cat-pag .pagination li { display: block !important; flex: none; width: auto !important; float: none !important; margin: 0 !important; }  /* no celular o tema dava 100% a cada item */
+html.lm-novo body.lm-cat .lm-cat-pag .pagination li > :is(a, span) { box-sizing: border-box; display: grid !important; place-content: center; min-width: 40px; height: 40px; padding: 0 12px !important; margin: 0 !important; border: var(--lm-borda-padrao) !important; border-radius: 999px !important; background: #fff !important; color: var(--lm-grafite) !important; font: 600 15px/1 var(--lm-fonte-texto) !important; text-decoration: none !important; float: none !important; }
+html.lm-novo body.lm-cat .lm-cat-pag .pagination li:not(.active, .disabled) > a:hover { border-color: var(--lm-onda-escura) !important; color: var(--lm-onda-escura) !important; }
+html.lm-novo body.lm-cat .lm-cat-pag .pagination li.active > :is(a, span) { background: var(--lm-onda-escura) !important; border-color: var(--lm-onda-escura) !important; color: #fff !important; }
+html.lm-novo body.lm-cat .lm-cat-pag .pagination li.disabled > :is(a, span) { opacity: .4; pointer-events: none; }
+@media (max-width: 767px) { html.lm-novo body.lm-cat .lm-cat-pag .pagination ul { gap: 4px; } }  /* 8 botões de 40 cabem nos 358 px */
+
+/* Ordenar: campo pill de 48 (como os outros campos do site); Filtrar (celular): botão secundário pill de 48, contorno na
+   cor da marca, como o .lm-btn2 (sem a classe: o display dela passaria por cima do "só no celular") */
+html.lm-novo body.lm-cat .ordenar-listagem .input-append { height: var(--lm-campo-altura) !important; padding: 0 8px 0 20px !important; border-radius: 999px !important; }
+html.lm-novo body.lm-cat .ordenar-listagem .input-append .btn { height: 46px !important; border-radius: 999px !important; }
+html.lm-novo body.lm-cat .lm-cat-filtrar { height: var(--lm-campo-altura); padding: 0 24px; border: 0; border-radius: 999px !important; background: #fff; box-shadow: inset 0 0 0 2px var(--lm-onda-escura); color: var(--lm-onda-escura); font: 700 15px/1 var(--lm-fonte-texto); letter-spacing: .04em; text-transform: uppercase; }
+html.lm-novo body.lm-cat .lm-cat-filtrar:hover { background: var(--lm-btn-gradiente); color: #fff; box-shadow: none; }
+
+/* Fechar do painel de filtros (celular): linha de baixo como sombra interna, texto na cor da marca */
+html.lm-novo body.lm-filtros .lm-cat-fechar { border: 0 !important; box-shadow: inset 0 -1px 0 var(--lm-borda) !important; color: var(--lm-onda-escura) !important; font: 700 15px/1 var(--lm-fonte-texto) !important; letter-spacing: .04em; text-transform: uppercase; }
