@@ -1,5 +1,5 @@
-/* Loren Metais, visual novo por cima da Loja Integrada (tema Alpha Beauty). 1ª camada (03/11): base, topo, menu,
-   cards das vitrines, rodapé e contato. Tudo dentro de html.lm-novo (o loren.js liga a classe), então sem a classe o
+/* Loren Metais, visual novo por cima da Loja Integrada (tema Alpha Beauty). 1ª camada: base, topo, menu, cards,
+   rodapé e contato; 2ª camada: estrutura do wireframe (cabeçalho em linha, vantagens, categorias, empresas). Tudo dentro de html.lm-novo (o loren.js liga a classe), então sem a classe o
    site fica exatamente como hoje. Nunca carregado no checkout (o loren.js não roda lá). */
 @import url('brand-tokens.css');
 @import url('https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700&family=Inter:wght@400;600;700&display=swap');
@@ -22,7 +22,7 @@ html.lm-novo .bloco_head.bloco_whats { background: var(--lm-whatsapp-escuro) !im
 
 /* cabeçalho */
 html.lm-novo #cabecalho { background: #fff !important; border-bottom: var(--lm-borda-padrao); }
-html.lm-novo #cabecalho .logo img { height: 46px !important; width: auto !important; max-width: none !important; }
+html.lm-novo #cabecalho .logo img { height: 46px !important; width: 203px !important; max-width: none !important; max-height: none !important; }  /* largura fixa: o SVG não tem tamanho próprio */
 html.lm-novo #cabecalho .busca { border: 0 !important; background: none !important; }
 html.lm-novo #cabecalho .busca input#auto-complete { height: 48px !important; background: var(--lm-campo-fundo) !important; border: var(--lm-campo-borda) !important; box-shadow: none !important; font-size: 16px !important; padding: 0 56px 0 16px !important; color: var(--lm-grafite) !important; }
 html.lm-novo #cabecalho .botao-busca { background: var(--lm-grafite) !important; height: 48px !important; width: 48px !important; }
@@ -70,3 +70,124 @@ html.lm-novo #rodape .institucional a:hover { color: #fff !important; }
 
 /* contato flutuante: só o WhatsApp (e-mail e Skype saem) */
 html.lm-novo .float-contact .float-skype, html.lm-novo .float-contact a[href^="skype:"], html.lm-novo .mail-floating { display: none !important; }
+
+/* ===== 2ª camada (03/11): estrutura igual ao wireframe ===== */
+/* barra do topo: uma linha só, no fluxo (sem fixar), com o texto curto; contatos e botões grandes saem */
+html.lm-novo #topbar { position: static !important; height: auto !important; width: auto !important; display: block !important; }
+html.lm-novo #topbar .container { width: auto !important; max-width: none; padding: 0 !important; }
+html.lm-novo #topbar .row { display: none !important; }
+html.lm-novo #cabecalho { margin-top: 0 !important; }
+html.lm-novo .lm-barra { color: var(--lm-texto-sobre-escuro); font: 500 13px/1.3 var(--lm-fonte-texto); text-align: center; padding: 9px 16px; }
+@media (min-width: 768px) {
+/* cabeçalho em uma linha: logo | busca | conta, orçamento, carrinho */
+html.lm-novo #cabecalho > .conteiner > .row-fluid { display: flex; align-items: center; gap: 24px; min-height: 88px; }
+html.lm-novo #cabecalho > .conteiner > .row-fluid > .span3 { width: 203px !important; flex: 0 0 203px; margin: 0 !important; overflow: visible !important; }  /* largura da logo horizontal a 46 px */
+html.lm-novo #cabecalho .logo, html.lm-novo #cabecalho .logo a { width: auto !important; display: inline-block !important; margin: 0 !important; padding: 0 !important; height: auto !important; line-height: 0 !important; }
+html.lm-novo #cabecalho .conteudo-topo { flex: 1; width: auto !important; margin: 0 !important; display: flex; align-items: center; gap: 24px; }
+html.lm-novo #cabecalho .conteudo-topo .superior { order: 2; width: auto !important; margin: 0 !important; display: flex !important; align-items: center; }
+html.lm-novo #cabecalho .conteudo-topo .superior .span8 { display: none !important; }
+html.lm-novo #cabecalho .conteudo-topo .superior .span4 { width: auto !important; margin: 0 !important; }
+html.lm-novo #cabecalho .acoes-conta { display: flex; gap: 20px; margin: 0 !important; border: 0 !important; }
+html.lm-novo #cabecalho .acoes-conta li { margin: 0 !important; padding: 0 !important; border: 0 !important; float: none !important; }
+html.lm-novo #cabecalho .acoes-conta li i { display: none !important; }
+html.lm-novo #cabecalho .acoes-conta li:not(.lm-li-orc) { display: none !important; }  /* Meus pedidos e Minha conta já estão nos ícones do tema */
+html.lm-novo #cabecalho .conteudo-topo .inferior { order: 1; flex: 1; display: flex !important; align-items: center; gap: 24px; margin: 0 !important; }
+html.lm-novo #cabecalho .conteudo-topo .inferior .busca-mobile { flex: 1; width: auto !important; margin: 0 !important; }
+html.lm-novo #cabecalho .conteudo-topo .inferior > .span4 { width: auto !important; margin: 0 !important; order: 2; }
+html.lm-novo #cabecalho .busca { margin: 0 !important; position: relative; }
+html.lm-novo #cabecalho .busca .botao-busca { position: absolute !important; right: 0; top: 0; }
+html.lm-novo #cabecalho .logo img { display: block; }
+html.lm-novo .lm-orc { font: 600 14px/1.2 var(--lm-fonte-texto); color: var(--lm-onda-escura) !important; text-decoration: none; white-space: nowrap; }
+}
+/* menu: itens à esquerda, sem a caixa "Páginas", obras à direita */
+html.lm-novo .full.menu { height: auto !important; }
+html.lm-novo .full.menu > .conteiner { width: auto !important; max-width: var(--lm-largura); padding: 0 !important; }
+html.lm-novo .full.menu .nivel-um { display: flex !important; gap: 32px; align-items: center; height: 52px; margin: 0 !important; }
+html.lm-novo .full.menu .nivel-um > li { width: auto !important; float: none !important; height: auto !important; position: relative; }
+html.lm-novo .full.menu .nivel-um > li > a { padding: 16px 0 !important; height: auto !important; line-height: 1 !important; display: flex !important; align-items: center; gap: 6px; text-align: left !important; }
+html.lm-novo .full.menu .nivel-um > li.categoria-paginas { display: none !important; }
+html.lm-novo .full.menu .nivel-um > li.lm-obras { margin-left: auto; }
+html.lm-novo .full.menu .nivel-um > li.lm-obras a { color: var(--lm-onda-escura) !important; font: 600 15px/1 var(--lm-fonte-texto) !important; }
+/* banners: os 4 mini banners em imagem saem; entra a faixa de vantagens em HTML */
+html.lm-novo .secao-banners .banner.tarja, html.lm-novo .secao-banners .row-fluid.banner.hidden-phone { display: none !important; }
+html.lm-novo .lm-wrap { max-width: var(--lm-largura); margin: 0 auto; padding-inline: var(--lm-margem); box-sizing: content-box; }
+html.lm-novo .lm-vant .lm-wrap { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; padding-block: 24px; }
+html.lm-novo .lm-vant .lm-item { display: flex; gap: 12px; align-items: center; padding: 16px; border: var(--lm-borda-padrao); background: #fff; }
+html.lm-novo .lm-vant .lm-ico { width: 40px; height: 40px; flex: none; display: grid; place-items: center; background: var(--lm-fundo); color: var(--lm-onda-escura); }
+html.lm-novo .lm-vant .lm-ico svg { width: 22px; height: 22px; }
+html.lm-novo .lm-vant b { display: block; font: 700 18px/1.1 var(--lm-fonte-titulo); color: var(--lm-grafite); }
+html.lm-novo .lm-vant small { font-size: 13px; color: var(--lm-texto-secundario); }
+/* categorias */
+html.lm-novo .lm-sec { padding-block: 48px; }
+html.lm-novo .lm-sec.lm-cinza { background: var(--lm-fundo); }
+html.lm-novo .lm-sec h2 { font: 700 var(--lm-h2)/1 var(--lm-fonte-titulo); color: var(--lm-grafite); margin: 0 0 24px; }
+html.lm-novo .lm-cats { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 16px; }
+html.lm-novo .lm-cats a { display: flex; flex-direction: column; justify-content: space-between; gap: 24px; min-height: 120px; padding: 20px; border: var(--lm-borda-padrao); background: #fff; color: var(--lm-grafite) !important; text-decoration: none !important; transition: var(--lm-cartao-transicao); }
+html.lm-novo .lm-cats a:hover { box-shadow: var(--lm-cartao-sombra-hover); transform: translateY(-2px); }
+html.lm-novo .lm-cats a b { font: 700 20px/1.1 var(--lm-fonte-titulo); }
+html.lm-novo .lm-cats a span { font: 600 13px/1 var(--lm-fonte-texto); color: var(--lm-onda-escura); }
+/* vitrines: título à esquerda, grade de 4 com vão fixo, cards do mesmo tamanho */
+html.lm-novo #corpo { padding-top: 0 !important; }
+html.lm-novo #corpo .listagem.com-caixa { border: 0 !important; background: none !important; padding: 0 !important; margin: 48px 0 0 !important; box-shadow: none !important; }
+html.lm-novo #corpo .titulo-categoria { display: block; border: 0 !important; padding: 0 !important; margin: 0 0 24px !important; background: none !important; }
+html.lm-novo #corpo .titulo-categoria strong { font: 700 var(--lm-h2)/1 var(--lm-fonte-titulo) !important; text-transform: none !important; color: var(--lm-grafite) !important; }
+html.lm-novo #corpo .titulo-categoria::after, html.lm-novo #corpo .titulo-categoria::before { display: none !important; }
+html.lm-novo .listagem > ul:not(.produtos-carrossel), html.lm-novo .listagem .listagem-linha > ul { display: grid !important; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; align-items: stretch !important; margin: 0 0 24px !important; }
+html.lm-novo .listagem > ul:not(.produtos-carrossel)::before, html.lm-novo .listagem > ul:not(.produtos-carrossel)::after, html.lm-novo .listagem .listagem-linha > ul::before, html.lm-novo .listagem .listagem-linha > ul::after { display: none !important; }
+html.lm-novo .listagem > ul:not(.produtos-carrossel) > li, html.lm-novo .listagem .listagem-linha > ul > li { width: auto !important; margin: 0 !important; float: none !important; }
+html.lm-novo .listagem .prod-counter { display: none !important; }  /* quantidade fica na página do produto */
+html.lm-novo .listagem .listagem-item { height: 100%; display: flex !important; flex-direction: column; box-sizing: border-box; }
+html.lm-novo .listagem .listagem-item .info-produto { flex: 1; }
+html.lm-novo .listagem .acoes-produto { position: relative !important; z-index: 2; opacity: 1 !important; visibility: visible !important; margin-top: 12px; }
+html.lm-novo .listagem .botao-comprar { display: block !important; width: 100% !important; text-align: center; }
+html.lm-novo .listagem .botao-comprar svg { display: none !important; }
+html.lm-novo .listagem .produto-sobrepor { z-index: 1; }
+/* faixa para empresas */
+html.lm-novo .lm-b2b { background: var(--lm-azul); color: #fff; margin-top: 48px; }
+html.lm-novo .lm-b2b .lm-wrap { display: flex; justify-content: space-between; align-items: center; gap: 24px; padding-block: 40px; flex-wrap: wrap; }
+html.lm-novo .lm-b2b h2 { color: #fff; margin: 0 0 8px; font: 700 var(--lm-h2)/1 var(--lm-fonte-titulo); }
+html.lm-novo .lm-b2b p { margin: 0; opacity: .92; color: #fff; }
+html.lm-novo .lm-btn, html.lm-novo .lm-btn2 { display: inline-grid; place-content: center; text-align: center; padding: 16px 24px; font: 600 15px/1.2 var(--lm-fonte-texto) !important; letter-spacing: .06em; text-transform: uppercase; text-decoration: none !important; cursor: pointer; }
+html.lm-novo .lm-b2b .lm-btn { background: #fff; color: var(--lm-onda-escura) !important; }
+html.lm-novo .lm-b2b .lm-btn2 { color: #fff !important; box-shadow: inset 0 0 0 1px #fff; }
+html.lm-novo .lm-acs { display: flex; gap: 12px; flex-wrap: wrap; }
+/* quem somos */
+html.lm-novo .lm-pq .lm-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+html.lm-novo .lm-pq ul { list-style: none; padding: 0; margin: 0; }
+html.lm-novo .lm-pq li { padding: 14px 0; border-top: var(--lm-borda-padrao); }
+html.lm-novo .lm-pq li b { display: block; font: 700 18px/1.2 var(--lm-fonte-titulo); }
+html.lm-novo .lm-pq li span { color: var(--lm-texto-secundario); font-size: 15px; }
+html.lm-novo .lm-pq p { color: var(--lm-texto-secundario); font-size: 17px; }
+html.lm-novo .lm-tag { font: 600 13px/1 var(--lm-fonte-texto); letter-spacing: .06em; text-transform: uppercase; color: var(--lm-onda-escura); margin-bottom: 12px; display: block; }
+/* rodapé: pagamentos e selos também no grafite */
+html.lm-novo #rodape .pagamento-selos, html.lm-novo #rodape > div:last-child { background: var(--lm-grafite) !important; border-top: 1px solid #45464c; }
+html.lm-novo #rodape .pagamento-selos *, html.lm-novo #rodape > div:last-child * { color: #a9aab0 !important; }
+html.lm-novo #rodape .titulo { color: #fff !important; }
+/* aviso de cookies menor, embaixo */
+html.lm-novo #avisoCookies { position: fixed !important; top: auto !important; bottom: 16px !important; left: 16px !important; right: auto !important; max-width: 420px; background: #fff !important; border: var(--lm-borda-padrao) !important; box-shadow: var(--lm-cartao-sombra-hover) !important; z-index: 60; }
+html.lm-novo #avisoCookies .conteiner { width: auto !important; padding: 14px 16px !important; display: flex; gap: 12px; align-items: center; }
+html.lm-novo #avisoCookies p { font-size: 12px !important; line-height: 1.4 !important; margin: 0 !important; color: var(--lm-texto-secundario) !important; }
+html.lm-novo #avisoCookies .botao { background: var(--lm-grafite) !important; color: #fff !important; border: 0 !important; flex: none; }
+/* contato: só o nosso botão de WhatsApp */
+html.lm-novo .float-contact, html.lm-novo .li-whatsapp { display: none !important; }
+html.lm-novo .lm-wa { position: fixed; right: 24px; bottom: 24px; width: var(--lm-chat-tamanho); height: var(--lm-chat-tamanho); border-radius: 50% !important; background: var(--lm-whatsapp); box-shadow: rgba(0, 0, 0, .25) 0 4px 14px; display: grid; place-items: center; z-index: 55; }
+html.lm-novo .lm-wa svg { width: 30px; height: 30px; fill: #fff; }
+
+@media (max-width: 767px) {
+  html.lm-novo .lm-vant .lm-wrap { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; padding-block: 16px; }
+  html.lm-novo .lm-vant .lm-item { padding: 12px; align-items: flex-start; }
+  html.lm-novo .lm-vant .lm-ico { width: 32px; height: 32px; }
+  html.lm-novo .lm-vant b { font-size: 16px; }
+  html.lm-novo .lm-cats { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 8px; margin-inline: calc(-1 * var(--lm-margem)); padding-inline: var(--lm-margem); }
+  html.lm-novo .lm-cats a { flex: 0 0 44%; scroll-snap-align: start; min-height: 100px; padding: 16px; }
+  html.lm-novo .lm-sec { padding-block: 32px; }
+  html.lm-novo .listagem > ul:not(.produtos-carrossel), html.lm-novo .listagem .listagem-linha > ul { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 12px !important; }
+  html.lm-novo .listagem .listagem-item { padding: 0 10px 10px !important; }
+  html.lm-novo .listagem .imagem-produto { margin: 0 -10px 10px !important; }
+  html.lm-novo .listagem .nome-produto { font-size: 14px !important; }
+  html.lm-novo .lm-pq .lm-wrap { grid-template-columns: 1fr; gap: 24px; }
+  html.lm-novo .lm-b2b .lm-acs { width: 100%; }
+  html.lm-novo .lm-b2b .lm-acs > * { flex: 1; }
+  html.lm-novo .lm-wa { width: var(--lm-chat-tamanho-celular); height: var(--lm-chat-tamanho-celular); right: 16px; bottom: 16px; }
+  html.lm-novo #avisoCookies { left: 8px !important; right: 8px !important; bottom: 8px !important; max-width: none; }
+}
