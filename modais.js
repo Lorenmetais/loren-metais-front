@@ -20,12 +20,12 @@
       if (!c.id) c.id = 'lm-campo-' + ++n;
       // rótulo que o tema já tem: ligado pelo for ou irmão escondido (login: <label class="control-label hide">)
       const proprio = raiz.querySelector(`label[for="${c.id}"]`) || [...c.parentElement.children].find((e) => e.tagName === 'LABEL' && e !== c && temTexto(e));
-      if (proprio) { proprio.classList.remove('hide'); proprio.htmlFor = c.id; return; }
+      if (proprio) { proprio.classList.remove('hide'); proprio.classList.add('lm-rotulo'); proprio.htmlFor = c.id; return; }
       const texto = maiuscula(limpa(c.tagName === 'SELECT' ? c.options[0]?.text : c.placeholder));
       if (!texto) return;
       // campo dentro de <label> sem texto (avise-me: ícone + campo): o grupo envolve o label inteiro
       const alvo = c.parentElement.tagName === 'LABEL' && !temTexto(c.parentElement) ? c.parentElement : c;
-      const grupo = document.createElement('div'); grupo.className = 'lm-grupo';
+      const grupo = document.createElement('div'); grupo.className = 'lm-grupo'; grupo.dataset.campo = c.name || '';   // ordem na grade das janelas grandes
       alvo.before(grupo);
       grupo.innerHTML = `<label class="lm-rotulo" for="${c.id}"></label>`; grupo.firstChild.textContent = texto;
       grupo.append(alvo);
@@ -58,7 +58,7 @@
     ].filter(Boolean);
     const antes = msg.closest('.lm-grupo') || msg;
     for (const [, rotulo, html, par] of campos) {
-      const g = document.createElement('div'); g.className = 'lm-grupo' + (par ? ' lm-par' : '');
+      const g = document.createElement('div'); g.className = 'lm-grupo' + (par ? ' lm-par' : ''); g.dataset.campo = html.match(/data-lm="(\w+)"/)[1];
       g.innerHTML = `<label class="lm-rotulo"></label>${html}`; g.lastChild.classList.add('lm-campo'); g.firstChild.textContent = rotulo; g.firstChild.htmlFor = g.lastChild.id;
       antes.before(g);
     }
@@ -84,6 +84,8 @@
 
   const prepara = () => {
     ['#modal_consulte', '#modal_qtds', '#avise-me-cadastro', '#login-content', '#comprar-ajax-status'].forEach((s) => rotula(document.querySelector(s)));
+    // as outras janelas do tema que já estão na página (ex.: recuperar senha do login, que abre sozinha pelo #recuperar_senha)
+    document.querySelectorAll('.modal').forEach(rotula);
     document.querySelectorAll('.modal form.consulta').forEach((f) => { novos(f); pares(f); });
     // fale conosco: o formulário chega por ajax de /contato/popup/
     const contato = document.querySelector('#modalContato');

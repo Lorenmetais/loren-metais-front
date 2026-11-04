@@ -8,7 +8,18 @@
   const sec = document.querySelector('#corpo .secao-principal');
   const conteudo = sec?.querySelector(':scope > .conteudo');
   const lista = conteudo?.querySelector('#listagemProdutos');  // a página tem outros #listagemProdutos (vitrines do menu)
-  if (!conteudo || !lista) return;
+  if (!conteudo || !lista) {
+    // busca sem resultado (sem lista): cabeçalho de página com o h1 de texto da própria página (lmPagcab do loren.js)
+    // e as dicas ("Tente palavras menos específicas...") no texto secundário (Ellie 04/11)
+    if (/pagina-busca/.test(b.className)) {
+      b.dataset.lmCat = '1';
+      const h1 = document.querySelector('#corpo h1');
+      if (h1 && window.lmPagcab) window.lmPagcab(h1);
+      document.querySelectorAll('#corpo li').forEach((li) => { if (/^tente\s/i.test(li.textContent.trim())) li.closest('ul, ol')?.classList.add('lm-busca-dicas'); });
+      b.classList.add('lm-busca-vazia');
+    }
+    return;
+  }
   b.dataset.lmCat = '1';
   const coluna = sec.querySelector(':scope > .coluna');
   const limpa = (t) => t.replace(/\s+/g, ' ').trim();
@@ -76,12 +87,21 @@
     bt.addEventListener('click', () => { const on = p.classList.toggle('lm-aberto'); bt.textContent = on ? 'Ler menos' : 'Ler mais'; bt.setAttribute('aria-expanded', on); });
   });
 
+  // cabeçalho de página (lmPagcab do loren.js): trilha + h1 + o 1º parágrafo com o Ler mais como linha de apoio, na
+  // faixa; os chips (celular) ficam logo abaixo, no .lm-cat-topo (Ellie 04/11)
+  if (h1 && window.lmPagcab) {
+    const ap = document.createElement('div'); ap.className = 'lm-cat-apoio';
+    topo.querySelectorAll(':scope > .lm-cat-intro, :scope > .lm-cat-mais').forEach((n) => ap.append(n));
+    window.lmPagcab(h1, ap.childElementCount ? { apoio: ap } : {});
+    if (!topo.childElementCount) topo.classList.add('lm-cat-topo-vazio');
+  }
+
   // preço: a LI aceita qualquer faixa em fq=price_range:min-max (testado 04/11), então as faixas fixas viram mínimo/máximo
   const preco = coluna?.querySelector('.faceta-preco .filtro');
   if (preco) {
     const fq = new URL(location.href).searchParams.getAll('fq').find((v) => v.startsWith('price_range:'));
     const [mi, ma] = fq ? fq.slice(12).split('-').map(Number) : [];
-    const campo = (n, rot, v) => `<label>${rot}<input type="number" name="${n}" min="0" step="1" inputmode="numeric" placeholder="R$" value="${v > 0 && v < 999999 ? Math.round(v) : ''}"></label>`;
+    const campo = (n, rot, v) => `<label>${rot}<input class="lm-campo" type="number" name="${n}" min="0" step="1" inputmode="numeric" placeholder="R$" value="${v > 0 && v < 999999 ? Math.round(v) : ''}"></label>`;
     preco.querySelector('.atributo-lista').insertAdjacentHTML('beforebegin', `<form class="lm-preco">${campo('min', 'Mínimo', mi)}${campo('max', 'Máximo', ma)}<button type="submit" class="botao principal">Filtrar</button>${fq ? '<a class="lm-preco-limpa" href="#">Limpar preço</a>' : ''}</form>`);
     preco.classList.add('lm-preco-livre');
     const vai = (faixa) => {

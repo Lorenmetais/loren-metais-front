@@ -108,3 +108,47 @@ html.lm-novo #modalContato .modal-body :is(b, strong, p, span, td, li, dt, dd) {
   html.lm-novo .fancybox-wrap .fancybox-inner { padding: 16px !important; }
   html.lm-novo :is(.modal .modal-header :is(h1, h2, h3, h4, h5, h6, .titulo), .modal .modal-header > span:first-of-type, .fancybox-wrap :is(.avise-tit, .identificacao-title, .titulo)) { font-size: 22px !important; }
 }
+
+/* ===== janelas grandes de formulário (Eduardo 04/11: "mais encorpada"): orçamento geral, orçamento do produto e fale
+   conosco com 720 px no computador, 32 de respiro dentro, pares lado a lado; as pequenas (avise-me, login, ficha
+   técnica, avisos) seguem com 480. Toda janela fica a 32 px ou mais do topo e do fundo da tela, rolando por dentro só
+   se precisar ===== */
+@media (min-width: 750px) {
+  html.lm-novo :is(.modal, .fancybox-wrap) { max-height: calc(100vh - 64px) !important; max-height: calc(100dvh - 64px) !important; }
+  html.lm-novo :is(#modal_consulte, #modal_qtds, #modalContato) { width: min(720px, calc(100vw - 64px)) !important; }
+  html.lm-novo :is(#modal_consulte, #modal_qtds, #modalContato) .modal-header { padding: 32px 72px 0 32px !important; }
+  html.lm-novo :is(#modal_consulte, #modal_qtds, #modalContato) .modal-body { padding: 16px 32px 32px !important; }
+  html.lm-novo :is(#modal_consulte, #modal_qtds, #modalContato) .modal-footer { padding: 0 32px 32px !important; }
+  /* orçamentos: grade de 2 colunas na ordem Nome | CPF/CNPJ, E-mail | Telefone, CEP | Estado, Cidade | Tipo de compra,
+     Quantidade | Prazo, Mensagem inteira (modais.js marca cada grupo com data-campo; os grupos de pessoa física/jurídica
+     viram parte da grade) */
+  html.lm-novo :is(#modal_consulte, #modal_qtds) form.consulta { display: grid !important; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 24px; }
+  html.lm-novo :is(#modal_consulte, #modal_qtds) :where(form.consulta > *) { grid-column: auto; }  /* :where: não pesa mais que as regras de cada grupo abaixo */
+  html.lm-novo :is(#modal_consulte, #modal_qtds) :is(.contato-empresa, .contato-pessoa):not(.naomostrar) { display: contents !important; }
+  html.lm-novo :is(#modal_consulte, #modal_qtds) form.consulta > p { order: 1; grid-column: 1 / -1; }
+  html.lm-novo :is(#modal_consulte, #modal_qtds) .selecionar_pessoa { order: 2; grid-column: 1 / -1; }
+  html.lm-novo :is(#modal_consulte, #modal_qtds) [data-campo="nome"] { order: 3; }
+  html.lm-novo :is(#modal_consulte, #modal_qtds) :is([data-campo="cpf"], [data-campo="cnpj"]) { order: 4; }
+  html.lm-novo :is(#modal_consulte, #modal_qtds) [data-campo="empresa"] { order: 5; grid-column: 1 / -1; }
+  html.lm-novo :is(#modal_consulte, #modal_qtds) [data-campo="email"] { order: 6; }
+  html.lm-novo :is(#modal_consulte, #modal_qtds) [data-campo="tel"] { order: 7; }
+  html.lm-novo :is(#modal_consulte, #modal_qtds) [data-campo="cep"] { order: 8; }
+  html.lm-novo :is(#modal_consulte, #modal_qtds) [data-campo="estado"] { order: 9; }
+  html.lm-novo :is(#modal_consulte, #modal_qtds) [data-campo="cidade"] { order: 10; }
+  html.lm-novo :is(#modal_consulte, #modal_qtds) [data-campo="tipo"] { order: 11; }
+  html.lm-novo :is(#modal_consulte, #modal_qtds) :is([data-campo="qtd"], .prod_qtd) { order: 12; }
+  html.lm-novo :is(#modal_consulte, #modal_qtds) [data-campo="prazo"] { order: 13; }
+  html.lm-novo :is(#modal_consulte, #modal_qtds) [data-campo="mensagem"] { order: 14; grid-column: 1 / -1; }
+  html.lm-novo :is(#modal_consulte, #modal_qtds) form.consulta > button[type=submit] { order: 15; grid-column: 1 / -1; }
+  html.lm-novo :is(#modal_consulte, #modal_qtds) .prod_qtd input { width: 100% !important; }
+  /* fale conosco: os grupos do formulário em pares (Nome | E-mail, Telefone | Nº do pedido), Mensagem inteira */
+  html.lm-novo #modalContato .modal-body [class*="span"]:has(> .control-group) { display: grid !important; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 24px; }
+  html.lm-novo #modalContato .modal-body [class*="span"]:has(> .control-group) > * { grid-column: 1 / -1; }
+  html.lm-novo #modalContato .g-recaptcha { margin: 0 !important; }  /* alinhado com os campos */
+  /* em pares só os campos de uma linha; mensagem, reCAPTCHA e botões na largura toda */
+  html.lm-novo #modalContato .modal-body [class*="span"]:has(> .control-group) > .control-group:has(input.lm-campo):not(:has(textarea, .g-recaptcha, button)) { grid-column: auto; }
+}
+
+/* com uma janela aberta (o fundo escurecido existe), o aviso de cookies sai da frente; volta quando ela fecha.
+   O fundo é o sinal porque o #modal_consulte já vem com a classe .in na marcação mesmo fechado */
+html.lm-novo body:has(> .modal-backdrop, .fancybox-overlay) #avisoCookies { display: none !important; }

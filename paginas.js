@@ -71,31 +71,30 @@
   // frete/cupom do carrinho e campos do login: classe .lm-campo (o campo padrão do loren.css); aqui só as larguras no CSS
   document.querySelectorAll('body.pagina-carrinho .tabela-carrinho .input-append input, body.pagina-login .cadastro-logar input:is([type=text], [type=password], [type=email])').forEach((i) => i.classList.add('lm-campo'));
 
-  // cabeçalho de página padrão (Ellie 04/11): trilha + título + a linha de apoio que a página já tem (subtítulo do Word,
-  // o <small> do título da conta/carrinho, o texto da 404), numa faixa só, com o mesmo respiro em todas. Só move elementos.
+  // cadastro (/conta/criar): campos com .lm-campo; Cancelar e Criar conta numa linha de ações (Ellie 04/11)
+  const criar = b.classList.contains('pagina-cadastro') && document.querySelector('#corpo form[action*="criar"]');
+  if (criar) {
+    criar.querySelectorAll('input:is([type=text], [type=tel], [type=email], [type=password]), select').forEach((c) => c.classList.add('lm-campo'));
+    const enviar = criar.querySelector('button[type=submit], input[type=submit]');
+    if (enviar) {
+      enviar.parentElement.classList.add('lm-acoes');
+      enviar.parentElement.querySelectorAll('a.botao:not(.principal)').forEach((a) => a.classList.add('lm-btn2'));
+    }
+  }
+
+  // cabeçalho de página: componente do loren.js (window.lmPagcab, Rocky). Aqui só a escolha do título e da linha de
+  // apoio de cada página: institucionais = o subtítulo do Word (h2-h4 ou parágrafo todo em negrito, curto, diferente do
+  // título); 404 = o texto da .box-destaque; conta/carrinho = o <small> do título (padrão da função).
   const corpo = document.querySelector('#corpo');
   const h1 = corpo && corpo.querySelector('.lm-inst > h1, .cabecalho-interno h1, .box-destaque > h1');
-  if (h1 && !corpo.querySelector('.lm-pagcab')) {
-    const base = corpo.querySelector(':scope > .conteiner') || h1.closest('.conteiner') || corpo;
-    let apoio = h1.querySelector('small') || (h1.closest('.box-destaque') && h1.parentElement.querySelector(':scope > p'));
+  if (h1 && window.lmPagcab) {
+    let apoio = h1.closest('.box-destaque') ? h1.parentElement.querySelector(':scope > p') : null;
     if (!apoio && txt) {
       const p1 = [...txt.children].find((e) => !e.classList.contains('lm-vazio'));
       const negrito = p1 && p1.tagName === 'P' && p1.querySelector('strong, b') && p1.textContent.trim() === p1.querySelector('strong, b').textContent.trim();
       const t = p1 ? p1.textContent.trim() : '';
       if (p1 && (/^H[2-4]$/.test(p1.tagName) || negrito) && t && t.length <= 140 && t.toLowerCase() !== h1.textContent.trim().toLowerCase() && !p1.querySelector('a, img')) apoio = p1;
     }
-    const cab = document.createElement('header'); cab.className = 'lm-pagcab' + (h1.closest('.lm-inst:not(.lm-obras-pag)') ? ' lm-pagcab--leitura' : '');
-    cab.innerHTML = '<div class="lm-pagcab__in"></div>';
-    const dentro = cab.firstChild; const trilha = corpo.querySelector('.breadcrumbs');
-    if (trilha) dentro.append(trilha);
-    dentro.append(h1);
-    if (apoio) {
-      // o <small> sai de dentro do h1 (vira linha própria); h2/p do Word mantêm a tag
-      if (apoio.tagName === 'SMALL') { const p = document.createElement('p'); p.textContent = apoio.textContent.trim(); apoio.remove(); apoio = p; }
-      apoio.classList.add('lm-pagcab__apoio'); dentro.append(apoio);
-    }
-    base.prepend(cab);
-    b.classList.add('lm-com-cab');
-    corpo.querySelectorAll('.cabecalho-interno, .box-destaque').forEach((e) => { if (!temTexto(e)) e.classList.add('lm-vazio-cab'); });
+    window.lmPagcab(h1, { apoio: apoio || undefined, leitura: !!h1.closest('.lm-inst:not(.lm-obras-pag)') });
   }
 })();
