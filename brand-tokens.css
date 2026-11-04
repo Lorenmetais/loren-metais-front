@@ -46,8 +46,12 @@
   --lm-esp-1: 8px; --lm-esp-2: 16px; --lm-esp-3: 24px; --lm-esp-4: 32px; --lm-esp-6: 48px; --lm-esp-8: 64px;
   /* componentes (mesmo desenho da Conceito) */
   --lm-btn-padding: 16px 24px;
-  --lm-btn-peso: 600;
-  --lm-btn-letras: 0.06em;
+  --lm-btn-peso: 700;          /* Eduardo 04/11: pill com gradiente, negrito, caixa alta (opção C2) */
+  --lm-btn-letras: 0.04em;
+  --lm-btn-raio: 999px;
+  --lm-btn-gradiente: linear-gradient(110deg, #016A6F, #018086 55%, #009EA4);
+  --lm-btn-gradiente-hover: linear-gradient(110deg, #015F63, #016A6F 55%, #018086);
+  --lm-btn-sombra: 0 6px 16px -8px rgba(1, 106, 111, .7);
   --lm-btn-transicao: color .125s ease-in-out, box-shadow .125s ease-in-out, background-color .125s ease-in-out;
   --lm-foco: 1px solid #018086;
   --lm-foco-afastamento: 3px;

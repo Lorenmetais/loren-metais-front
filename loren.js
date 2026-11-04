@@ -10,7 +10,7 @@
   const ico = (d) => `<span class="lm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${d}</svg></span>`;
   document.documentElement.classList.add('lm-novo');
   // um par de arquivos por tipo de página (cada agente mexe no seu): categoria.* (categoria e busca), produto.*
-  const pagina = () => { const c = document.body.className; return /pagina-categoria|pagina-busca/.test(c) ? 'categoria' : /pagina-produto/.test(c) ? 'produto' : ''; };
+  const pagina = () => { const c = document.body.className; return /pagina-categoria|pagina-busca/.test(c) ? 'categoria' : /pagina-produto/.test(c) ? 'produto' : /pagina-inicial/.test(c) ? '' : 'paginas'; };  // paginas.*: institucionais, carrinho, conta (Marty)
   const extra = () => { const n = pagina(); if (!n || !BASE) return; const l = document.createElement('link'); l.rel = 'stylesheet'; l.href = BASE + n + '.css'; document.head.append(l); const j = document.createElement('script'); j.src = BASE + n + '.js'; document.head.append(j); };
 
   const monta = () => {

@@ -320,3 +320,44 @@ html.lm-novo #cabecalho .full.menu .nivel-um > li, html.lm-novo #cabecalho .full
 html.lm-novo #cabecalho .full.menu .nivel-um > li > a > i, html.lm-novo #cabecalho .full.menu .nivel-um > li > a > img, html.lm-novo #cabecalho .full.menu .nivel-um > li > a > svg { display: none !important; }
 html.lm-novo .lm-mais { display: flex !important; width: max-content !important; margin-inline: auto !important; }
 html.lm-novo .lm-topo .lm-topo__busca form button { background: var(--lm-onda-escura) !important; } html.lm-novo .lm-topo .lm-topo__busca form button:hover { background: var(--lm-azul-hover) !important; }
+
+/* ===== botões: pill com gradiente, negrito em caixa alta (Eduardo 04/11, opção C2) ===== */
+html.lm-novo { --lm-btn-raio: 999px; }
+/* principal: comprar, pedir orçamento, assinar, calcular, ver obras */
+html.lm-novo :is(.botao-comprar, .tag-comprar, .botao.principal, .lm-btn, #barraNewsletter .botao) { background: var(--lm-btn-gradiente) !important; color: #fff !important; font: 700 15px/1.2 var(--lm-fonte-texto) !important; letter-spacing: .04em !important; text-transform: uppercase !important; border: 0 !important; border-radius: 999px !important; box-shadow: var(--lm-btn-sombra) !important; text-shadow: none !important; }
+html.lm-novo :is(.botao-comprar, .tag-comprar, .botao.principal, .lm-btn, #barraNewsletter .botao):hover { background: var(--lm-btn-gradiente-hover) !important; }
+html.lm-novo .listagem :is(.botao-comprar, .tag-comprar) { font-size: 13px !important; background: var(--lm-btn-gradiente) !important; }
+html.lm-novo .listagem :is(.botao-comprar, .tag-comprar):hover { background: var(--lm-btn-gradiente-hover) !important; }
+/* secundário: contorno, no hover vira o gradiente */
+html.lm-novo :is(.lm-btn2, .lm-mais) { background: #fff !important; color: var(--lm-onda-escura) !important; box-shadow: inset 0 0 0 1.5px var(--lm-onda-escura) !important; border: 0 !important; border-radius: 999px !important; font: 700 15px/1.2 var(--lm-fonte-texto) !important; letter-spacing: .04em !important; text-transform: uppercase !important; }
+html.lm-novo :is(.lm-btn2, .lm-mais):hover { background: var(--lm-btn-gradiente) !important; color: #fff !important; box-shadow: none !important; }
+/* sobre faixa colorida: principal branco, secundário contorno branco */
+html.lm-novo .lm-b2b .lm-btn { background: #fff !important; color: var(--lm-azul-hover) !important; box-shadow: none !important; }
+html.lm-novo .lm-b2b .lm-btn2 { background: transparent !important; color: #fff !important; box-shadow: inset 0 0 0 1.5px #fff !important; }
+html.lm-novo .lm-b2b .lm-btn2:hover { background: rgba(255, 255, 255, .15) !important; }
+/* busca: campo e botão formam um pill só */
+html.lm-novo .lm-topo .lm-topo__busca input { border-radius: 999px 0 0 999px !important; padding-left: 20px !important; }
+html.lm-novo .lm-topo .lm-topo__busca form button { border-radius: 0 999px 999px 0 !important; background: var(--lm-btn-gradiente) !important; width: 56px !important; }
+html.lm-novo .lm-topo .lm-topo__busca form button:hover { background: var(--lm-btn-gradiente-hover) !important; }
+/* newsletter: campo pill */
+html.lm-novo #barraNewsletter input { border-radius: 999px !important; padding-left: 20px !important; }
+/* selos de desconto acompanham o pill */
+html.lm-novo .listagem .bandeiras-produto > * { border-radius: 999px !important; background: var(--lm-btn-gradiente) !important; }
+/* ===== títulos sem caixa alta (como na Conceito) ===== */
+html.lm-novo :is(h1, h2, h3, h4, h5, .titulo, .titulo-categoria, .nome-produto) { text-transform: none !important; }
+html.lm-novo #rodape :is(.titulo, h4, strong, span.titulo), html.lm-novo #barraNewsletter .titulo { text-transform: none !important; letter-spacing: 0 !important; }
+
+/* busca: o tema pinta o botão por #form-buscar (id), por isso o seletor com id */
+html.lm-novo #form-buscar .botao-busca { background: var(--lm-btn-gradiente) !important; color: #fff !important; }
+html.lm-novo #form-buscar .botao-busca:hover { background: var(--lm-btn-gradiente-hover) !important; }
+/* calcular frete: o botão real é o "OK" do tema, que mostra "Calcular" por pseudo-elemento; só o visual muda */
+html.lm-novo #formCalcularCep { position: relative; display: flex; flex-wrap: wrap; align-items: center; max-width: 360px; }
+html.lm-novo #formCalcularCep > :not(input):not(button) { flex-basis: 100%; margin-bottom: 8px; font: 600 13px/1.3 var(--lm-fonte-texto) !important; letter-spacing: .04em; }
+html.lm-novo #formCalcularCep .input-cep { flex: 1; width: auto !important; height: 48px !important; border-radius: 999px !important; padding: 0 130px 0 20px !important; background: var(--lm-campo-fundo) !important; border: var(--lm-campo-borda) !important; box-shadow: none !important; font: 400 15px/1 var(--lm-fonte-texto) !important; }
+html.lm-novo #formCalcularCep button.btn { position: absolute !important; bottom: 4px !important; top: auto !important; right: 4px !important; height: 40px !important; min-height: 0 !important; width: auto !important; padding: 0 20px !important; border: 0 !important; border-radius: 999px !important; background: var(--lm-btn-gradiente) !important; color: #fff !important; font: 700 13px/1 var(--lm-fonte-texto) !important; letter-spacing: .04em; text-transform: uppercase; box-shadow: none !important; text-shadow: none !important; }
+html.lm-novo #formCalcularCep button.btn:hover { background: var(--lm-btn-gradiente-hover) !important; }
+html.lm-novo #formCalcularCep button.btn { font-size: 0 !important; }  /* o texto que aparece (Calcular) vem do pseudo-elemento do tema */
+html.lm-novo #formCalcularCep button.btn::before, html.lm-novo #formCalcularCep button.btn::after { font: 700 13px/1 var(--lm-fonte-texto) !important; color: #fff !important; letter-spacing: .04em; position: static !important; background: none !important; }
+html.lm-novo .pagina-produto .cep :is(span, label, a)[class*="calcul"], html.lm-novo .pagina-produto #formCalcularCep + span { display: none !important; }
+/* botão de compra desabilitado (falta escolher a variação): mais claro e com aviso de cursor */
+html.lm-novo .pagina-produto .botao-comprar.desativo, html.lm-novo .pagina-produto .botao-comprar[disabled], html.lm-novo .pagina-produto .botao-comprar.disabled { opacity: .55 !important; cursor: not-allowed; box-shadow: none !important; }
