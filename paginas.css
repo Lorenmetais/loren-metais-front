@@ -4,12 +4,14 @@ html.lm-novo #corpo .breadcrumbs :is(ul, li) { margin: 0 !important; padding: 0 
 html.lm-novo #corpo:has(.lm-inst:not(.lm-obras-pag)) .breadcrumbs { max-width: 760px; margin: 0 auto !important; }  /* trilha na coluna de leitura */
 
 /* ===== institucionais: coluna de leitura de 760 px, Inter 16/1.7, títulos Barlow sem caixa alta ===== */
-html.lm-novo #corpo .lm-inst { max-width: 760px; margin: 0 auto !important; padding: 24px 0 48px !important; border: 0 !important; background: none !important; box-shadow: none !important; }
+/* a mesma coluna em todas: na Acessibilidade a seção da página vinha com 650 px (regra do tema/painel só nela) (Ellie 04/11) */
+html.lm-novo body.pagina-pagina #corpo .secao-principal:has(.lm-inst) { width: auto !important; max-width: none !important; margin-left: 0 !important; margin-right: 0 !important; }
+html.lm-novo #corpo .lm-inst { box-sizing: border-box; width: min(760px, 100%) !important; max-width: 760px !important; margin: 0 auto !important; padding: 24px 0 48px !important; border: 0 !important; background: none !important; box-shadow: none !important; }
 html.lm-novo #corpo .lm-inst > h1 { font: 700 var(--lm-h1)/1 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; text-transform: none !important; border: 0 !important; margin: 0 0 24px !important; padding: 0 !important; }
 html.lm-novo #corpo .lm-inst > div { font: 400 16px/1.7 var(--lm-fonte-texto); color: var(--lm-grafite); }
 /* o Word deixou fonte, tamanho, cor e entrelinha em cada trecho: tudo herda do bloco (o texto fica igual) */
 html.lm-novo #corpo .lm-inst > div * { font-family: inherit !important; font-size: inherit !important; line-height: inherit !important; color: inherit !important; white-space: normal !important; font-variant: normal !important; background-color: transparent !important; }
-html.lm-novo #corpo .lm-inst > div :is(h2, h3, h4) { font-family: var(--lm-fonte-titulo) !important; font-weight: 700; color: var(--lm-grafite) !important; text-transform: none !important; line-height: 1.15 !important; margin: 32px 0 12px !important; }
+html.lm-novo #corpo .lm-inst > div :is(h2, h3, h4) { font-family: var(--lm-fonte-titulo) !important; font-weight: 700; color: var(--lm-grafite) !important; text-transform: none !important; line-height: 1.15 !important; margin: 32px 0 16px !important; }
 html.lm-novo #corpo .lm-inst > div h2 { font-size: var(--lm-h3) !important; }
 html.lm-novo #corpo .lm-inst > div :is(h3, h4) { font-size: 1.25rem !important; }
 html.lm-novo #corpo .lm-inst > div :is(h2, h3, h4) * { font-family: inherit !important; font-weight: inherit !important; }
@@ -19,38 +21,47 @@ html.lm-novo #corpo .lm-inst > div :is(strong, b) { font-weight: 700; }
 html.lm-novo #corpo .lm-inst > div a:not(.lm-btn2) { color: var(--lm-onda-escura) !important; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; display: inline !important; padding: 0 !important; margin: 0 !important; text-align: inherit !important; transition: none !important; }
 html.lm-novo #corpo .lm-inst > div a.lm-btn2 { display: inline-flex !important; transition: box-shadow .125s !important; background: #fff !important; color: var(--lm-onda-escura) !important; margin: 4px 0 8px; }
 html.lm-novo #corpo .lm-inst > div a.lm-btn2:hover { background: var(--lm-onda-escura) !important; color: #fff !important; }
-html.lm-novo #corpo .lm-inst > div :is(ul, ol) { margin: 0 0 16px !important; padding-left: 22px !important; }
-html.lm-novo #corpo .lm-inst > div li { margin: 0 0 6px; }
+html.lm-novo #corpo .lm-inst > div :is(ul, ol) { margin: 0 0 16px !important; padding-left: 24px !important; }
+html.lm-novo #corpo .lm-inst > div li { margin: 0 0 8px; }
 html.lm-novo #corpo .lm-inst > div img { max-width: 100% !important; height: auto !important; display: block; margin: 24px auto !important; }
 html.lm-novo #corpo .lm-inst > div .lm-vazio { display: none !important; }
 html.lm-novo #corpo .lm-inst .lm-tab { overflow-x: auto; margin: 0 0 16px; }
 html.lm-novo #corpo .lm-inst table { border-collapse: collapse; width: 100% !important; }
-html.lm-novo #corpo .lm-inst :is(td, th) { border: var(--lm-borda-padrao) !important; padding: 10px 12px !important; text-align: left; vertical-align: top; }
+html.lm-novo #corpo .lm-inst :is(td, th) { border: var(--lm-borda-padrao) !important; padding: 8px 16px !important; text-align: left; vertical-align: top; }
 html.lm-novo #corpo .lm-inst th { background: var(--lm-fundo) !important; font-weight: 700; }
 
-/* ===== Obras finalizadas: grade de cards (fotos + nome + itens) ===== */
-html.lm-novo #corpo .lm-inst.lm-obras-pag { max-width: none; }
-html.lm-novo .lm-obras { columns: 2; column-gap: 24px; }  /* alturas diferentes: colunas, sem buraco entre os cards */
-html.lm-novo .lm-obra { border: var(--lm-cartao-borda); background: #fff; break-inside: avoid; margin: 0 0 24px; }
-html.lm-novo .lm-obra-fotos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; }
-html.lm-novo #corpo .lm-inst > div .lm-obra-fotos img { width: 100% !important; aspect-ratio: 4 / 3; object-fit: cover; margin: 0 !important; }
-html.lm-novo #corpo .lm-inst > div .lm-obra-fotos img:first-child { grid-column: 1 / -1; aspect-ratio: auto; }  /* a 1ª foto inteira, sem cortar a marca */
-html.lm-novo .lm-obra-txt { padding: 20px 24px 12px; }
-html.lm-novo #corpo .lm-inst > div .lm-obra-nome { font: 700 1.375rem/1.15 var(--lm-fonte-titulo) !important; margin: 0 0 12px !important; }
-html.lm-novo #corpo .lm-inst > div .lm-obra-txt p:not(.lm-obra-nome) { margin: 0 !important; padding: 6px 0; border-top: var(--lm-borda-padrao); font-size: .9375rem !important; }
+/* ===== Obras finalizadas: cards de portfólio (Ellie 04/11). As obras têm conteúdo muito diferente (só o nome e 4 fotos
+   até descrição, 10 itens e 13 fotos): em grade de 3 os cards da linha esticavam com vazio embaixo. Um card por linha no
+   computador, fotos à esquerda (capa 4:3 + miniaturas quadradas, todas continuam na página) e nome, texto e itens à
+   direita; no celular empilha ===== */
+html.lm-novo #corpo .lm-inst.lm-obras-pag { max-width: none !important; width: 100% !important; }
+html.lm-novo .lm-obras { display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px; }
+html.lm-novo .lm-obra { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: start; border: var(--lm-cartao-borda); background: #fff; margin: 0; transition: var(--lm-cartao-transicao); }
+html.lm-novo .lm-obra:hover { box-shadow: var(--lm-cartao-sombra-hover); }
+html.lm-novo .lm-obra-fotos { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; }
+html.lm-novo #corpo .lm-inst > div .lm-obra-fotos img { width: 100% !important; height: auto !important; aspect-ratio: 1 / 1; object-fit: cover; margin: 0 !important; }
+html.lm-novo #corpo .lm-inst > div .lm-obra-fotos img:first-child { grid-column: 1 / -1; aspect-ratio: 4 / 3; }
+html.lm-novo .lm-obra-txt { padding: 32px; }
+html.lm-novo .lm-obra:not(:has(.lm-obra-fotos)) { grid-template-columns: minmax(0, 1fr); }
+html.lm-novo #corpo .lm-inst > div .lm-obra-nome { font: 700 var(--lm-h3)/1.1 var(--lm-fonte-titulo) !important; margin: 0 0 16px !important; }
+html.lm-novo #corpo .lm-inst > div .lm-obra-txt p:not(.lm-obra-nome) { margin: 0 !important; padding: 8px 0; border-top: var(--lm-borda-padrao); font-size: .9375rem !important; line-height: 1.5 !important; }
+@media (max-width: 979px) { html.lm-novo .lm-obra { grid-template-columns: minmax(0, 1fr); } html.lm-novo .lm-obra-txt { padding: 24px; } }
 
 @media (max-width: 767px) {
   html.lm-novo #corpo .lm-inst { padding: 8px 0 32px !important; }
   html.lm-novo #corpo .lm-inst > h1 { margin-bottom: 16px !important; font-size: 1.875rem !important; line-height: 1.05 !important; }
   html.lm-novo #corpo .lm-inst > div { font-size: 15px; }
-  html.lm-novo .lm-obras { columns: 1; }
-  html.lm-novo .lm-obra { margin-bottom: 16px; }
+  html.lm-novo .lm-obras { gap: 16px; }
+  html.lm-novo .lm-obra-fotos { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   html.lm-novo .lm-obra-txt { padding: 16px 16px 8px; }
 }
 
 /* ===== carrinho (/carrinho/index) ===== */
 html.lm-novo .pagina-carrinho #corpo .secao-principal { padding: 24px 0 0 !important; }
 html.lm-novo #corpo .cabecalho-interno h1 { font: 700 var(--lm-h1)/1 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; text-transform: none !important; border: 0 !important; margin: 0 0 24px !important; padding: 0 !important; }
+/* conta e carrinho não têm trilha: o título fica a 48 px do menu (16 + trilha + 24 nas institucionais, ~60) (Ellie 04/11) */
+html.lm-novo #corpo .cabecalho-interno { margin-top: 24px !important; }
+@media (max-width: 767px) { html.lm-novo #corpo .cabecalho-interno { margin-top: 16px !important; } }
 html.lm-novo #corpo .cabecalho-interno h1 small { display: block; margin-top: 8px; font: 400 15px/1.5 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; }
 html.lm-novo .pagina-carrinho .caixa-sombreada { border: 0 !important; box-shadow: none !important; background: none !important; padding: 0 !important; }
 html.lm-novo .pagina-carrinho .tabela-carrinho { border: var(--lm-borda-padrao) !important; border-collapse: collapse; background: #fff; margin: 0 !important; }
@@ -103,8 +114,22 @@ html.lm-novo .pagina-carrinho .caixa-destaque h1 { font: 700 var(--lm-h2)/1.1 va
   html.lm-novo .pagina-carrinho .caixa-destaque h1 { font-size: var(--lm-h3) !important; }
 }
 
+/* ===== página não encontrada (404): título no padrão das páginas (Barlow h1, grafite) e o texto de apoio (Ellie 04/11) ===== */
+html.lm-novo #corpo .box-destaque { margin: 0 !important; padding: 24px 0 48px !important; border: 0 !important; background: none !important; box-shadow: none !important; text-align: left !important; }
+html.lm-novo #corpo .box-destaque h1 { margin: 0 0 16px !important; padding: 0 !important; border: 0 !important; font: 700 var(--lm-h1)/1 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; text-transform: none !important; }
+html.lm-novo #corpo .box-destaque p { max-width: 760px; margin: 0 !important; font: 400 16px/1.6 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; }
+@media (max-width: 767px) {
+  html.lm-novo #corpo .box-destaque { padding: 16px 0 32px !important; }
+  html.lm-novo #corpo .box-destaque h1 { font-size: 1.875rem !important; line-height: 1.05 !important; }
+  html.lm-novo #corpo .box-destaque p { font-size: 15px !important; }
+}
+
 /* avisos do sistema (ex.: "Você deve estar autenticado"): cantos retos e texto com contraste */
 html.lm-novo .alert { border-radius: 0 !important; text-shadow: none !important; }
+/* o aviso encostava no menu (7 px): 24 px acima, texto 14/1.5 e o fechar com área de 44 px (Ellie 04/11) */
+html.lm-novo #corpo .alert { position: relative; margin: 24px 0 0 !important; padding: 12px 56px 12px 16px !important; font: 400 14px/1.5 var(--lm-fonte-texto) !important; }
+html.lm-novo #corpo .alert .close { position: absolute !important; top: 0 !important; right: 0 !important; display: grid !important; place-content: center; width: 44px; height: 44px; margin: 0 !important; padding: 0 !important; opacity: .7; font-size: 22px; line-height: 1; }
+html.lm-novo #corpo .alert .close:hover { opacity: 1; }
 html.lm-novo .alert-danger { color: #8A2826 !important; }
 
 /* ===== conta / login (/conta/login; /conta/index sem login cai aqui) ===== */
