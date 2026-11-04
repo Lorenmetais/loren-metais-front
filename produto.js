@@ -90,6 +90,7 @@
       });
     }
     document.querySelector('.pagina-produto .aproveite-tambem')?.closest('.row-fluid')?.classList.add('lm-prod-rel');
+    if (desc) fichaTecnica(desc);
 
     // sob consulta: um só chamado (o botão "Consulte o preço"), com "Preço sob consulta" pequeno no lugar do preço
     const consulta = compra?.querySelector('#produto-consulta-preco');
@@ -118,6 +119,50 @@
       <li>${ico('<path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/>')}Envio em 24h para todo o Brasil</li>
       <li>${ico('<path d="M19 5 5 19"/><circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="17" r="2.5"/>')}10% de desconto no Pix ou boleto</li></ul>`);
 
+  };
+  // Especificações técnicas + "Baixar ficha técnica" (ao lado da descrição no computador, embaixo no celular). Dados por SKU:
+  // { "<sku>": { "pdf": "<sku>.pdf", "resumo": [["Material","Aço inox 304"]], "medidas": [["Altura","18,5 cm"]] } }; o pdf é
+  // relativo ao fichas.json. Sem ficha para o SKU, o bloco não aparece. O e-mail é pedido uma vez (vai para a newsletter da LI).
+  const FICHAS_URL = '';  // apontar para o fichas.json da Wednesday quando estiver publicado
+  const FICHAS_EXEMPLO = {  // só com #fichas-exemplo na URL (teste), para nada de exemplo ir ao ar
+    41018: { pdf: '41018.pdf', resumo: [['Material', 'Aço inox 304'], ['Acionamento', 'Manual por placa PUSH'], ['Saídas de água', '2 esguichos']], medidas: [['Diâmetro da cuba', '30 cm'], ['Base de fixação', '26 cm'], ['Peso', '2,85 kg']] },
+    16001: { pdf: '16001.pdf', resumo: [['Material', 'Poliéster'], ['Norma', 'NBR 9050']], medidas: [['Largura', 'exemplo'], ['Profundidade', 'exemplo']] },
+  };
+  const fichaTecnica = async (desc) => {
+    const sku = document.querySelector('.pagina-produto .codigo-produto span > span')?.textContent.trim();
+    let fichas = /fichas-exemplo/.test(location.hash) ? FICHAS_EXEMPLO : null, base = location.href;
+    if (!fichas && FICHAS_URL) { try { fichas = await (await fetch(FICHAS_URL)).json(); base = FICHAS_URL; } catch { return; } }
+    const f = sku && fichas?.[sku]; if (!f) return;
+    const tabela = (linhas) => { const tb = document.createElement('table'); tb.className = 'lm-specs'; linhas.forEach(([r, v]) => { const tr = tb.insertRow(), th = document.createElement('th'); th.scope = 'row'; th.textContent = r; tr.append(th); tr.insertCell().textContent = v; }); return tb; };
+    const lado = document.createElement('aside'); lado.className = 'lm-ficha'; lado.setAttribute('aria-labelledby', 'lm-ficha-tit');
+    lado.innerHTML = '<h2 id="lm-ficha-tit">Especificações técnicas</h2>';
+    if (f.resumo?.length) lado.append(tabela(f.resumo));
+    if (f.medidas?.length) { lado.insertAdjacentHTML('beforeend', '<h3>Medidas</h3>'); lado.append(tabela(f.medidas)); }
+    if (f.pdf) lado.insertAdjacentHTML('beforeend', '<button type="button" class="lm-btn2 lm-ficha__baixar">Baixar ficha técnica</button>');
+    const abas = desc.closest('.abas-custom'), grade = document.createElement('div'); grade.className = 'lm-desc-grade';
+    abas.before(grade); grade.append(abas, lado);
+    if (!f.pdf) return;
+    const pdf = new URL(f.pdf, base).href;
+    const baixa = () => { const a = document.createElement('a'); a.href = pdf; a.download = ''; a.target = '_blank'; a.rel = 'noopener'; document.body.append(a); a.click(); a.remove(); };
+    const lembra = () => { try { return localStorage.getItem('lm-ficha-email'); } catch { return null; } };
+    // janela no padrão das do tema (Bootstrap .modal), que o modais.css da Ellie já desenha
+    document.body.insertAdjacentHTML('beforeend', `<div class="modal hide fade lm-ficha-modal" id="lm-ficha-modal" tabindex="-1" role="dialog" aria-labelledby="lm-ficha-modal-tit" aria-hidden="true">
+      <div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><i></i></button><h3 id="lm-ficha-modal-tit">Baixar ficha técnica</h3></div>
+      <form novalidate><div class="modal-body"><p class="p_form">Informe seu e-mail para baixar a ficha técnica.</p>
+        <div class="lm-grupo"><label class="lm-rotulo" for="lm-ficha-email">E-mail</label><input class="lm-campo" type="email" id="lm-ficha-email" name="email" required autocomplete="email" placeholder="meu@email.com.br"></div></div>
+        <div class="modal-footer"><button type="submit" class="botao principal">Baixar ficha técnica</button></div></form></div>`);
+    const modal = document.getElementById('lm-ficha-modal'), $ = window.jQuery;
+    const mostra = (on) => { if ($?.fn?.modal) $(modal).modal(on ? 'show' : 'hide'); else { modal.classList.toggle('in', on); modal.classList.toggle('hide', !on); } };
+    lado.querySelector('.lm-ficha__baixar').addEventListener('click', () => { if (lembra()) baixa(); else mostra(true); });
+    $?.(modal).on('shown', () => modal.querySelector('input').focus());  // foco no e-mail quando a janela termina de abrir
+    modal.querySelector('form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const campo = modal.querySelector('input'); if (!campo.checkValidity()) { campo.reportValidity(); return; }
+      // newsletter da própria LI (mesmo endereço do botão Assinar); o download não espera a resposta
+      fetch('https://www.lorenmetais.com.br/newsletter/assinar/', { method: 'POST', body: new URLSearchParams({ email: campo.value }), credentials: 'same-origin', keepalive: true }).catch(() => {});
+      try { localStorage.setItem('lm-ficha-email', '1'); } catch {}
+      mostra(false); baixa();
+    });
   };
   document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', go) : go();
 })();

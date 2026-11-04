@@ -168,6 +168,14 @@ html.lm-novo .pagina-produto #descricao .lm-desc-link a:hover { text-decoration:
 html.lm-novo .pagina-produto .lm-specs { width: 100%; border-collapse: collapse; margin: 0 0 24px; border: var(--lm-borda-padrao); }
 html.lm-novo .pagina-produto .lm-specs :is(th, td) { padding: 12px 16px !important; border-bottom: var(--lm-borda-padrao); text-align: left; vertical-align: top; font-size: 15px !important; line-height: 1.5 !important; }
 html.lm-novo .pagina-produto .lm-specs th { width: 40%; font-weight: 600; background-color: var(--lm-fundo) !important; }
+/* especificações técnicas + baixar ficha (produto.js): cartão à direita da descrição no computador, embaixo no celular */
+html.lm-novo .pagina-produto .lm-desc-grade { display: grid; grid-template-columns: minmax(0, 760px) minmax(0, 1fr); gap: var(--lm-esp-6); align-items: start; }
+html.lm-novo .pagina-produto .lm-ficha { position: sticky; top: var(--lm-esp-3); border: var(--lm-borda-padrao); background: #fff; padding: var(--lm-esp-4); }
+html.lm-novo .pagina-produto .lm-ficha h2 { font: 700 var(--lm-h3)/1.1 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; text-transform: none !important; margin: 0 0 var(--lm-esp-2) !important; }
+html.lm-novo .pagina-produto .lm-ficha h3 { font: 700 1.125rem/1.2 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; margin: var(--lm-esp-3) 0 var(--lm-esp-1) !important; }
+html.lm-novo .pagina-produto .lm-ficha .lm-specs { margin: 0; }
+html.lm-novo .pagina-produto .lm-ficha .lm-specs th { width: 50%; }
+html.lm-novo .pagina-produto .lm-ficha__baixar { width: 100%; margin-top: var(--lm-esp-3) !important; }
 /* relacionados: mesma seção, mesmo título */
 html.lm-novo .pagina-produto .lm-prod-rel { margin: var(--lm-sec) 0 0 !important; }
 html.lm-novo .pagina-produto .lm-prod-rel .aproveite-tambem { margin: 0 !important; padding: 0 !important; border: 0 !important; background: none !important; box-shadow: none !important; }
@@ -188,6 +196,8 @@ html.lm-novo .pagina-produto .lm-prod-rel .aproveite-tambem { margin: 0 !importa
   html.lm-novo .pagina-produto .codigo-produto { padding-bottom: var(--lm-esp-2); }
   html.lm-novo .pagina-produto #corpo .produto { padding-top: var(--lm-esp-2) !important; }
   html.lm-novo .pagina-produto :is(.acoes-produto .preco-promocional, .lm-prod-sob) { font-size: 32px !important; }
+  html.lm-novo .pagina-produto .lm-desc-grade { grid-template-columns: minmax(0, 1fr); gap: var(--lm-sec); }
+  html.lm-novo .pagina-produto .lm-ficha { position: static; padding: var(--lm-esp-2); }
   html.lm-novo .pagina-produto #corpo .produto > .breadcrumbs li { display: inline-block !important; }  /* o tema escondia a categoria no celular */
   html.lm-novo .lm-zoom figure { padding: 64px 16px 96px; }
   html.lm-novo .lm-zoom figure img { height: calc(100vh - 160px); }
