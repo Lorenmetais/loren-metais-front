@@ -74,8 +74,10 @@ html.lm-novo .pagina-carrinho .tabela-carrinho .control-label { float: none !imp
 html.lm-novo .pagina-carrinho .tabela-carrinho .controls { margin: 0 !important; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
 /* campo + botão encaixados: mesma altura e mesmo topo */
 html.lm-novo .pagina-carrinho .tabela-carrinho .input-append { display: flex !important; align-items: stretch; gap: 8px; margin: 0 !important; font-size: 0; }
-html.lm-novo .pagina-carrinho .tabela-carrinho .input-append input { width: 160px !important; height: 44px !important; box-sizing: border-box; margin: 0 !important; padding: 0 14px !important; border: var(--lm-borda-padrao) !important; border-radius: 0 !important; box-shadow: none !important; background: #fff !important; font: 400 15px/1 var(--lm-fonte-texto) !important; }
-html.lm-novo .pagina-carrinho .tabela-carrinho .input-append .btn { height: 44px !important; box-sizing: border-box; margin: 0 !important; padding: 0 20px !important; border: 0 !important; border-radius: 999px !important; background: #fff !important; box-shadow: inset 0 0 0 1.5px var(--lm-onda-escura) !important; color: var(--lm-onda-escura) !important; text-shadow: none !important; font: 700 13px/1 var(--lm-fonte-texto) !important; letter-spacing: .04em; text-transform: uppercase; display: inline-flex; align-items: center; gap: 6px; }
+/* campo padrão do site (pill 48, como busca, CEP e newsletter): um só para carrinho e conta */
+html.lm-novo :is(.pagina-carrinho .tabela-carrinho .input-append input, .pagina-login .cadastro-logar input:is([type=text], [type=password], [type=email])) { height: var(--lm-campo-altura) !important; box-sizing: border-box; margin: 0 !important; padding: 0 16px !important; border: var(--lm-campo-borda) !important; border-radius: 999px !important; box-shadow: none !important; background: var(--lm-campo-fundo) !important; font: 400 15px/1 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
+html.lm-novo .pagina-carrinho .tabela-carrinho .input-append input { width: 160px !important; }
+html.lm-novo .pagina-carrinho .tabela-carrinho .input-append .btn { height: var(--lm-campo-altura) !important; box-sizing: border-box; margin: 0 !important; padding: 0 20px !important; border: 0 !important; border-radius: 999px !important; background: #fff !important; box-shadow: inset 0 0 0 1.5px var(--lm-onda-escura) !important; color: var(--lm-onda-escura) !important; text-shadow: none !important; font: 700 13px/1 var(--lm-fonte-texto) !important; letter-spacing: .04em; text-transform: uppercase; display: inline-flex; align-items: center; gap: 6px; }
 html.lm-novo .pagina-carrinho .tabela-carrinho .input-append .btn:hover { background: var(--lm-onda-escura) !important; color: #fff !important; }
 html.lm-novo .pagina-carrinho .help-inline { padding: 0 !important; font-size: 13px; }
 html.lm-novo .pagina-carrinho .help-inline a { color: var(--lm-azul-hover) !important; text-decoration: underline; text-underline-offset: 3px; }
@@ -116,14 +118,14 @@ html.lm-novo .pagina-login .cadastro-logar legend i { color: var(--lm-onda-escur
 html.lm-novo .pagina-login .cadastro-logar .control-group { margin: 0 0 16px !important; }
 html.lm-novo .pagina-login .cadastro-logar label { float: none !important; width: auto !important; display: block; text-align: left !important; padding: 0 !important; margin: 0 0 8px !important; font: 600 14px/1.3 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
 html.lm-novo .pagina-login .cadastro-logar .controls { margin: 0 !important; }
-html.lm-novo .pagina-login .cadastro-logar input:is([type=text], [type=password], [type=email]) { width: 100% !important; height: 48px !important; box-sizing: border-box; margin: 0 !important; padding: 0 14px !important; border: var(--lm-borda-padrao) !important; border-radius: 0 !important; box-shadow: none !important; background: #fff !important; font: 400 15px/1 var(--lm-fonte-texto) !important; }
+html.lm-novo .pagina-login .cadastro-logar input:is([type=text], [type=password], [type=email]) { width: 100% !important; }
 html.lm-novo .pagina-login .cadastro-logar input:focus { outline: var(--lm-foco); outline-offset: 0; border-color: var(--lm-onda-escura) !important; }
 /* login: Prosseguir embaixo da senha, na largura do campo */
 html.lm-novo .pagina-login .cadastro-logar .form-horizontal .controls .botao { width: 100%; margin: 16px 0 0 !important; }
 /* cadastro: campo + Cadastrar lado a lado, encaixados (mesma altura e mesmo topo) */
 html.lm-novo .pagina-login .cadastro-logar fieldset > div:not([class]) { display: flex; gap: 8px; align-items: stretch; }
 html.lm-novo .pagina-login .cadastro-logar fieldset > div:not([class]) input { flex: 1; min-width: 0; }
-html.lm-novo .pagina-login .cadastro-logar fieldset > div:not([class]) .botao { margin: 0 !important; flex: none; height: 48px !important; min-height: 48px !important; }
+html.lm-novo .pagina-login .cadastro-logar fieldset > div:not([class]) .botao { margin: 0 !important; flex: none; height: var(--lm-campo-altura) !important; min-height: var(--lm-campo-altura) !important; }
 html.lm-novo .pagina-login .recuperar-senha { display: inline-flex; align-items: center; gap: 6px; margin: 4px 0 0 !important; padding: 0 !important; font: 400 14px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-azul-hover) !important; text-decoration: underline; text-underline-offset: 3px; }
 html.lm-novo .pagina-login .social-login-google { margin: 24px 0 0 !important; }
 html.lm-novo .pagina-login .social-login-google .controls { margin: 0 !important; }

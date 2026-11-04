@@ -47,7 +47,7 @@ html.lm-novo body.lm-cat .lm-preco-livre .atributo-lista { display: none !import
 html.lm-novo body.lm-cat .lm-preco { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 0; }
 html.lm-novo body.lm-cat .coluna .lm-preco label { display: block; padding: 0; font: 600 13px/1.3 var(--lm-fonte-texto); color: var(--lm-texto-secundario); }
 html.lm-novo body.lm-cat .coluna .lm-preco label::before { display: none; }
-html.lm-novo body.lm-cat .lm-preco input { display: block; width: 100% !important; height: 44px !important; box-sizing: border-box; margin: 4px 0 0 !important; padding: 0 10px !important; border: var(--lm-borda-padrao) !important; border-radius: 0 !important; box-shadow: none !important; font: 400 15px/1 var(--lm-fonte-texto) !important; color: var(--lm-grafite); background: #fff !important; }
+html.lm-novo body.lm-cat .lm-preco input { display: block; width: 100% !important; height: var(--lm-campo-altura) !important; box-sizing: border-box; margin: 4px 0 0 !important; padding: 0 16px !important; border: var(--lm-campo-borda) !important; border-radius: 999px !important; box-shadow: none !important; font: 400 15px/1 var(--lm-fonte-texto) !important; color: var(--lm-grafite); background: var(--lm-campo-fundo) !important; }  /* campo padrão do site (pill 48) */
 html.lm-novo body.lm-cat .lm-preco .botao { grid-column: 1 / -1; width: 100%; margin: 8px 0 0 !important; }
 html.lm-novo body.lm-cat .lm-preco-limpa { grid-column: 1 / -1; justify-self: start; font-size: 14px; color: var(--lm-azul-hover) !important; text-decoration: underline; text-underline-offset: 3px; }
 html.lm-novo body.lm-cat .lm-cat-fechar, html.lm-novo body.lm-cat .lm-cat-filtrar { display: none; }
