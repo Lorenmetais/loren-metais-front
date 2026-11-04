@@ -3,8 +3,8 @@
    nome, código, preço, parcelas, variações, quantidade + Adicionar, orçamento como secundário e selos. Mesmos textos. */
 
 /* trilha acima de tudo, com o respiro de título para conteúdo */
-html.lm-novo .pagina-produto #corpo .produto { padding-top: var(--lm-esp-4) !important; }  /* respiro do menu até o produto, com ou sem trilha (32/16) */
-html.lm-novo .pagina-produto #corpo .produto > .breadcrumbs { background: none !important; border: 0 !important; box-shadow: none !important; margin: 0 0 var(--lm-esp-2) !important; padding: 0 !important; font-size: .8125rem; }  /* 16 até a galeria */
+html.lm-novo .pagina-produto #corpo .produto { padding-top: var(--lm-esp-3) !important; }  /* respiro do menu até a trilha (ou o produto, sem trilha): 24/16, igual ao de baixo */
+html.lm-novo .pagina-produto #corpo .produto > .breadcrumbs { background: none !important; border: 0 !important; box-shadow: none !important; margin: 0 0 var(--lm-esp-3) !important; padding: 0 !important; font-size: .8125rem; }  /* 24 até a galeria (16 no celular), igual ao de cima */
 html.lm-novo .pagina-produto #corpo .produto > .breadcrumbs :is(ul, li) { margin: 0 !important; padding: 0 !important; }
 
 /* topo em 2 colunas: galeria 7/12, compra 5/12 */
@@ -20,7 +20,9 @@ html.lm-novo .pagina-produto .lm-prod-gal .conteiner-imagem img { width: 100% !i
 html.lm-novo .pagina-produto .lm-prod-gal .produto-thumbs { grid-column: 1; grid-row: 1; margin: 0 !important; height: 0; min-height: 100%; overflow-y: auto; scrollbar-width: none; }  /* altura da foto: com muitas fotos, rola */
 /* coluna de miniaturas com as setas nas pontas (produto.js): seta, miniaturas que rolam, seta; na altura da foto */
 html.lm-novo .pagina-produto .lm-prod-gal .lm-miniaturas { grid-column: 1; grid-row: 1; align-self: stretch; contain: size; display: flex; flex-direction: column; align-items: center; gap: var(--lm-esp-1); }  /* contain: não conta para a altura da linha, só estica até a foto */
-html.lm-novo .pagina-produto .lm-prod-gal .lm-miniaturas .produto-thumbs { flex: 1; height: auto; min-height: 0; width: 100%; }
+html.lm-novo .pagina-produto .lm-prod-gal .lm-miniaturas { justify-content: space-between; }
+html.lm-novo .pagina-produto .lm-prod-gal .lm-miniaturas .produto-thumbs { flex: none; min-height: 0; width: 100%; scroll-snap-type: y mandatory; scroll-behavior: auto; }  /* altura em múltiplos de 96 (produto.js) */
+html.lm-novo .pagina-produto .lm-prod-gal .lm-miniaturas .slides a { scroll-snap-align: start; }
 html.lm-novo .pagina-produto .lm-miniaturas .lm-seta { position: static !important; transform: none !important; flex: none; width: 44px !important; height: 44px !important; }
 html.lm-novo .pagina-produto .lm-prod-gal .produto-thumbs::-webkit-scrollbar { display: none; }
 html.lm-novo .pagina-produto .lm-prod-gal > :not(.conteiner-imagem, .produto-thumbs, .lm-miniaturas, .bandeiras-produto, .lm-galeria) { grid-column: 1 / -1; }  /* vídeo e outros blocos da galeria na largura toda */
@@ -30,7 +32,7 @@ html.lm-novo .pagina-produto .lm-prod-gal .produto-thumbs .slides > li { width: 
 html.lm-novo .pagina-produto .lm-prod-gal .produto-thumbs .slides a { display: block; width: 88px; height: 88px; box-sizing: border-box; margin: 0 !important; padding: 4px; border: var(--lm-borda-padrao) !important; background: #fff; }
 html.lm-novo .pagina-produto .lm-prod-gal .produto-thumbs .slides a > span { display: block; width: 100% !important; height: 100% !important; margin: 0 !important; padding: 0 !important; }
 html.lm-novo .pagina-produto .lm-prod-gal .produto-thumbs .slides a img { width: 100% !important; height: 100% !important; object-fit: contain; border: 0 !important; }
-html.lm-novo .pagina-produto .lm-prod-gal .produto-thumbs .slides li.active > a:first-child, html.lm-novo .pagina-produto .lm-prod-gal .produto-thumbs .slides a.active { box-shadow: inset 0 0 0 2px var(--lm-onda-escura) !important; }  /* mesma cor da bolinha ativa */
+html.lm-novo .pagina-produto .lm-prod-gal .produto-thumbs .slides a.lm-ativa { box-shadow: inset 0 0 0 2px var(--lm-onda-escura) !important; }  /* mesma cor da bolinha ativa (produto.js marca a ativa) */
 html.lm-novo .pagina-produto .lm-prod-gal .produto-thumbs .flex-direction-nav { display: none !important; }
 html.lm-novo .pagina-produto .lm-prod-gal .bandeiras-produto { position: absolute; top: 16px; left: 120px; z-index: 2; margin: 0 !important; }
 html.lm-novo .pagina-produto .lm-prod-gal .bandeiras-produto span { display: inline-block; padding: 4px 12px; border-radius: 999px !important; background: var(--lm-onda-escura) !important; color: #fff !important; font: 700 13px/1.4 var(--lm-fonte-texto) !important; }
@@ -120,6 +122,13 @@ html.lm-novo .pagina-produto .lm-prod-compra > .principal > .cep { order: 2; }  
 html.lm-novo .pagina-produto .lm-prod-compra > .principal > .grandes_qtd { order: 3; }
 html.lm-novo .pagina-produto .lm-prod-compra > .principal > .lm-selos { order: 4; }
 html.lm-novo .pagina-produto .lm-prod-compra > .principal > .parcelas-produto > .accordion { order: 5; border: var(--lm-borda-padrao) !important; background: #fff; }
+/* compartilhar (produto.js): por último na caixa, no mesmo ritmo; caixas de 40 com borda fina */
+html.lm-novo .pagina-produto .lm-compartilhe__tit { margin: 0 0 var(--lm-esp-1) !important; font: 700 1rem/1.2 var(--lm-fonte-titulo); color: var(--lm-grafite); text-transform: none; }
+html.lm-novo .pagina-produto .lm-compartilhe__lista { display: flex; flex-wrap: wrap; align-items: center; gap: var(--lm-esp-1); }
+html.lm-novo .pagina-produto .lm-compartilhe__lista :is(a, button) { display: grid; place-items: center; width: 40px; height: 40px; box-sizing: border-box; padding: 0; border: var(--lm-borda-padrao); background: #fff; color: var(--lm-grafite); cursor: pointer; transition: none; }
+html.lm-novo .pagina-produto .lm-compartilhe__lista :is(a, button):hover, html.lm-novo .pagina-produto .lm-compartilhe__lista :is(a, button):focus-visible { border-color: var(--lm-onda-escura); color: var(--lm-onda-escura); }
+html.lm-novo .pagina-produto .lm-compartilhe__lista svg { width: 20px; height: 20px; }
+html.lm-novo .pagina-produto .lm-compartilhe__aviso { font: 600 13px/1.4 var(--lm-fonte-texto); color: var(--lm-sucesso); }
 /* formas de pagamento: lista compacta */
 
 html.lm-novo .pagina-produto .parcelas-produto * { font-family: var(--lm-fonte-texto) !important; }
@@ -212,6 +221,7 @@ html.lm-novo .pagina-produto .lm-prod-rel .aproveite-tambem { margin: 0 !importa
   html.lm-novo .pagina-produto .lm-selos { padding-top: var(--lm-esp-2) !important; }
   html.lm-novo .pagina-produto .codigo-produto { padding-bottom: var(--lm-esp-2); }
   html.lm-novo .pagina-produto #corpo .produto { padding-top: var(--lm-esp-2) !important; }
+  html.lm-novo .pagina-produto #corpo .produto > .breadcrumbs { margin-bottom: var(--lm-esp-2) !important; }
   html.lm-novo .pagina-produto :is(.acoes-produto .preco-promocional, .lm-prod-sob) { font-size: 32px !important; }
   html.lm-novo .pagina-produto .lm-desc-grade { grid-template-columns: minmax(0, 1fr); gap: var(--lm-sec); }
   html.lm-novo .pagina-produto .lm-ficha { position: static; padding: var(--lm-esp-2); }

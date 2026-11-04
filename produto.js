@@ -54,11 +54,24 @@
         const vseta = (lado, rot, d) => `<button type="button" class="lm-seta lm-seta--${lado}" aria-label="${rot}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d}"/></svg></button>`;
         thumbs.before(col); col.insertAdjacentHTML('beforeend', vseta('ant', 'Foto anterior', 'm18 15-6-6-6 6')); col.append(thumbs); col.insertAdjacentHTML('beforeend', vseta('prox', 'Próxima foto', 'm6 9 6 6 6-6'));
       }
-      fotos.forEach((a, i) => a.addEventListener('click', () => { atual = i; }));
-      const vai = (i) => { atual = (i + n) % n; fotos[atual].click(); };
-      const rola = () => { const a = fotos[atual], c = thumbs; if (!a || !c) return; const top = a.offsetTop - c.offsetTop; if (top < c.scrollTop) c.scrollTop = top; else if (top + a.offsetHeight > c.scrollTop + c.clientHeight) c.scrollTop = top + a.offsetHeight - c.clientHeight; };  // a miniatura ativa sempre à vista
-      gal.querySelector('.lm-miniaturas .lm-seta--ant')?.addEventListener('click', () => { vai(atual - 1); rola(); });
-      gal.querySelector('.lm-miniaturas .lm-seta--prox')?.addEventListener('click', () => { vai(atual + 1); rola(); });
+      // troca na hora: a foto muda no clique da miniatura ou da seta (o tema esperava a animação dele, que fica de fora)
+      const pre = new Set(); const carrega = (k) => { const u = lista[(k + n) % n]?.m; if (u && !pre.has(u)) { pre.add(u); new Image().src = u; } };
+      const vai = (i) => {
+        atual = (i + n) % n; const f = lista[atual]; if (!principal) return;
+        principal.removeAttribute('srcset'); principal.src = f.m; principal.dataset.largeimg = f.g; principal.alt = f.alt;
+        fotos.forEach((a, k) => a.classList.toggle('lm-ativa', k === atual));
+        carrega(atual - 1); carrega(atual + 1); rola();
+      };
+      fotos.forEach((a, i) => a.addEventListener('click', (e) => { e.preventDefault(); e.stopImmediatePropagation(); vai(i); }, true));
+      fotos[0]?.classList.add('lm-ativa'); carrega(1);
+      // a coluna mostra só miniaturas inteiras: altura em múltiplos de 96 (88 + 8) e, ao trocar, rola até a ativa ficar inteira
+      const PASSO = 96;
+      const rola = () => { const a = fotos[atual], c = thumbs; if (!a || !c) return; const top = a.getBoundingClientRect().top - c.getBoundingClientRect().top + c.scrollTop; if (top < c.scrollTop) c.scrollTop = top; else if (top + 88 > c.scrollTop + c.clientHeight) c.scrollTop = top + 88 - c.clientHeight; };
+      const col = gal.querySelector('.lm-miniaturas');
+      const ajusta = () => { if (!col || !thumbs || !col.clientHeight) return; const livre = col.clientHeight - 2 * (44 + 8); thumbs.style.height = Math.max(88, Math.floor((livre + 8) / PASSO) * PASSO - 8) + 'px'; rola(); };
+      if (col) { ajusta(); new ResizeObserver(ajusta).observe(col); }
+      gal.querySelector('.lm-miniaturas .lm-seta--ant')?.addEventListener('click', () => vai(atual - 1));
+      gal.querySelector('.lm-miniaturas .lm-seta--prox')?.addEventListener('click', () => vai(atual + 1));
       palco.addEventListener('click', (e) => { e.preventDefault(); abre(atual); });
       // lupa redonda ao passar o mouse (a da Conceito): lente de 180 px a 2,5x, foto grande baixada só no 1º hover; só com
       // mouse. O botão do canto passa a ligar/desligar a lupa (ponteiro = ligada, lupinha = desligada); o clique na foto
@@ -137,6 +150,29 @@
     if (consulta) {
       compra.classList.add('lm-prod-consulta');
       consulta.insertAdjacentHTML('beforebegin', '<p class="lm-prod-sob">Preço sob consulta</p>');
+      // o botão abre o formulário de cotação (#modal_qtds, o do "Para grandes quantidades"), não o popup do tema
+      const qtds = compra.querySelector('.grandes_qtd[data-target="#modal_qtds"]');
+      if (qtds) consulta.addEventListener('click', (e) => { e.preventDefault(); e.stopImmediatePropagation(); qtds.click(); }, true);
+    }
+
+    // compartilhar (como na Conceito): links padrão, sem SDK; o da LI (addthis) segue escondido
+    const caixa = compra?.querySelector(':scope > .principal');
+    if (caixa) {
+      const url = document.querySelector('link[rel=canonical]')?.href || location.origin + location.pathname, nome = document.querySelector('h1.nome-produto')?.textContent.trim() || document.title;
+      const foto = lista?.[0]?.g || principal?.src || '', u = encodeURIComponent(url), t = encodeURIComponent(nome);
+      const ic = (d) => `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">${d}</svg>`;
+      const redes = [
+        ['WhatsApp', `https://api.whatsapp.com/send?text=${t}%20${u}`, ic('<path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a.9.9 0 0 0-.7.3 2.8 2.8 0 0 0-.9 2.1 4.9 4.9 0 0 0 1 2.6 11.1 11.1 0 0 0 4.3 3.8c1.6.7 2.2.7 3 .6a2.6 2.6 0 0 0 1.7-1.2 2.1 2.1 0 0 0 .1-1.2c0-.1-.2-.2-.4-.3Z"/>')],
+        ['Facebook', `https://www.facebook.com/sharer/sharer.php?u=${u}`, ic('<path d="M13.5 22v-8.2h2.8l.4-3.2h-3.2V8.6c0-.9.3-1.6 1.6-1.6h1.7V4.1c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2.3H7.3v3.2h2.8V22h3.4Z"/>')],
+        ['X', `https://twitter.com/intent/tweet?url=${u}&text=${t}`, ic('<path d="M17.8 3h3.1l-6.8 7.8L22 21h-6.2l-4.9-6.4L5.3 21H2.2l7.3-8.3L2 3h6.4l4.4 5.8L17.8 3Zm-1.1 16.2h1.7L7.4 4.7H5.6l11.1 14.5Z"/>')],
+        ['Pinterest', `https://pinterest.com/pin/create/button/?url=${u}&media=${encodeURIComponent(foto)}&description=${t}`, ic('<path d="M12 2a10 10 0 0 0-3.6 19.3c-.1-.8-.2-2 0-2.9l1.2-5s-.3-.6-.3-1.5c0-1.4.8-2.4 1.8-2.4.8 0 1.2.6 1.2 1.4 0 .8-.5 2.1-.8 3.2-.2 1 .5 1.8 1.5 1.8 1.8 0 3.2-1.9 3.2-4.6 0-2.4-1.7-4.1-4.2-4.1-2.9 0-4.6 2.2-4.6 4.4 0 .9.3 1.8.8 2.3l.1.4-.3 1.2c0 .2-.2.3-.4.2-1.3-.6-2.1-2.5-2.1-4 0-3.3 2.4-6.3 6.9-6.3 3.6 0 6.4 2.6 6.4 6 0 3.6-2.3 6.5-5.4 6.5-1.1 0-2.1-.6-2.4-1.2l-.7 2.5c-.2.9-.9 2.1-1.3 2.8A10 10 0 1 0 12 2Z"/>')],
+      ];
+      caixa.insertAdjacentHTML('beforeend', `<div class="lm-compartilhe"><p class="lm-compartilhe__tit">Compartilhe</p><div class="lm-compartilhe__lista">${redes.map(([r, h, s]) => `<a href="${h}" target="_blank" rel="noopener" aria-label="Compartilhar no ${r}" title="${r}">${s}</a>`).join('')}<button type="button" aria-label="Copiar link" title="Copiar link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg></button><span class="lm-compartilhe__aviso" role="status" aria-live="polite"></span></div></div>`);
+      const copia = caixa.querySelector('.lm-compartilhe button'), aviso = caixa.querySelector('.lm-compartilhe__aviso');
+      copia.addEventListener('click', async () => {
+        try { await navigator.clipboard.writeText(url); } catch { const tx = document.createElement('textarea'); tx.value = url; document.body.append(tx); tx.select(); document.execCommand('copy'); tx.remove(); }
+        aviso.textContent = 'Link copiado'; clearTimeout(copia._t); copia._t = setTimeout(() => { aviso.textContent = ''; }, 2500);
+      });
     }
 
     // (o frete fica onde a LI o põe, dentro do bloco de pagamento; a ordem na caixa é do CSS)
