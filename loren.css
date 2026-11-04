@@ -373,7 +373,11 @@ html.lm-novo .listagem :is(.botao-comprar, .tag-comprar):hover { background: var
 /* newsletter: a faixa já é azul, então o Assinar é branco com texto azul (azul sobre azul sumia); chamada sem caixa alta */
 html.lm-novo #barraNewsletter .botao, html.lm-novo #barraNewsletter .botao::before, html.lm-novo #barraNewsletter .botao * { background: #fff !important; color: var(--lm-onda-escura) !important; }
 html.lm-novo #barraNewsletter .botao:hover, html.lm-novo #barraNewsletter .botao:hover::before, html.lm-novo #barraNewsletter .botao:hover * { background: var(--lm-grafite) !important; color: #fff !important; }
-html.lm-novo #barraNewsletter .texto-newsletter { text-transform: none !important; }
+html.lm-novo #barraNewsletter .texto-newsletter { text-transform: none !important; font: 700 var(--lm-h3)/1.1 var(--lm-fonte-titulo) !important; }
+/* o texto ASSINAR vem de pseudo-elemento do tema, com a fonte dele: mesma fonte dos outros botões */
+html.lm-novo #barraNewsletter .botao, html.lm-novo #barraNewsletter .botao::before, html.lm-novo #barraNewsletter .botao::after { font: 700 15px/1.2 var(--lm-fonte-texto) !important; letter-spacing: .04em !important; text-transform: uppercase !important; }
+/* voltar ao topo removido (Eduardo 04/11) */
+html.lm-novo .scrollToTop { display: none !important; }
 /* secundário: contorno, no hover vira o gradiente */
 html.lm-novo :is(.lm-btn2, .lm-mais) { background: #fff !important; color: var(--lm-onda-escura) !important; box-shadow: inset 0 0 0 1.5px var(--lm-onda-escura) !important; border: 0 !important; border-radius: 999px !important; font: 700 15px/1.2 var(--lm-fonte-texto) !important; letter-spacing: .04em !important; text-transform: uppercase !important; }
 html.lm-novo :is(.lm-btn2, .lm-mais):hover { background: var(--lm-btn-gradiente) !important; color: #fff !important; box-shadow: none !important; }
