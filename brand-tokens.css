@@ -49,8 +49,9 @@
   --lm-btn-peso: 700;          /* Eduardo 04/11: pill com gradiente, negrito, caixa alta (opção C2) */
   --lm-btn-letras: 0.04em;
   --lm-btn-raio: 999px;
-  --lm-btn-gradiente: linear-gradient(110deg, #016A6F, #018086 55%, #009EA4);
-  --lm-btn-gradiente-hover: linear-gradient(110deg, #015F63, #016A6F 55%, #018086);
+  --lm-btn-gradiente: #018086;        /* botões em cor fixa (Eduardo 04/11): onda escura, texto branco 4,7:1 */
+  --lm-btn-gradiente-hover: #016A6F;  /* hover: azul mais escuro, sólido. Gradiente só em faixas e outros elementos */
+  --lm-gradiente: linear-gradient(110deg, #015F63 0%, #016A6F 40%, #018086 100%);  /* faixas com texto branco (>= 4,7:1 em toda a faixa) */
   --lm-btn-sombra: 0 6px 16px -8px rgba(1, 106, 111, .7);
   --lm-btn-transicao: color .125s ease-in-out, box-shadow .125s ease-in-out, background-color .125s ease-in-out;
   --lm-foco: 1px solid #018086;

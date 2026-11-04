@@ -361,3 +361,34 @@ html.lm-novo #formCalcularCep button.btn::before, html.lm-novo #formCalcularCep 
 html.lm-novo .pagina-produto .cep :is(span, label, a)[class*="calcul"], html.lm-novo .pagina-produto #formCalcularCep + span { display: none !important; }
 /* botão de compra desabilitado (falta escolher a variação): mais claro e com aviso de cursor */
 html.lm-novo .pagina-produto .botao-comprar.desativo, html.lm-novo .pagina-produto .botao-comprar[disabled], html.lm-novo .pagina-produto .botao-comprar.disabled { opacity: .55 !important; cursor: not-allowed; box-shadow: none !important; }
+
+/* busca: campo e botão com a MESMA altura e o mesmo topo (o campo era content-box e ficava 2 px mais alto) */
+html.lm-novo .lm-topo .lm-topo__busca form { height: 48px; align-items: stretch !important; }
+html.lm-novo .lm-topo .lm-topo__busca input, html.lm-novo .lm-topo .lm-topo__busca form button { box-sizing: border-box !important; height: 100% !important; min-height: 0 !important; margin: 0 !important; }
+html.lm-novo .lm-topo .lm-topo__busca form button { border: 1px solid transparent !important; }
+@media (max-width: 767px) { html.lm-novo .lm-topo .lm-topo__busca form { height: 44px; } html.lm-novo .lm-topo .lm-topo__busca form button { width: 48px !important; } }
+
+/* busca no celular: o tema fixa a altura do botão pelo id; mesma altura do campo */
+html.lm-novo #form-buscar #auto-complete, html.lm-novo #form-buscar .botao-busca { height: 100% !important; min-height: 0 !important; box-sizing: border-box !important; }
+/* ritmo: 48 px (32 no celular) entre seções, sem somar o respiro da faixa de vantagens nem a margem do fim das vitrines */
+html.lm-novo .lm-vant .lm-wrap { padding-bottom: 0 !important; }
+html.lm-novo .lm-vant + * , html.lm-novo .secao-banners + .lm-vant + #corpo { margin-top: 0 !important; }
+html.lm-novo #corpo .listagem.com-caixa > .lm-mais:last-child, html.lm-novo #corpo .listagem.com-caixa > ul:last-child { margin-bottom: 0 !important; }
+html.lm-novo #corpo, html.lm-novo #corpo > .conteiner, html.lm-novo #corpo .secao-principal, html.lm-novo #corpo .conteudo, html.lm-novo #corpo .conteudo > .row-fluid { padding-bottom: 0 !important; margin-bottom: 0 !important; }
+/* faixa para empresas: 3 tons da marca, com o texto sobre a parte escura */
+html.lm-novo .lm-b2b { background: linear-gradient(110deg, var(--lm-azul-hover) 0%, var(--lm-onda-escura) 55%, var(--lm-onda-media) 100%) !important; }
+
+html.lm-novo #corpo > .conteiner, html.lm-novo #corpo .secao-principal { padding-top: 0 !important; margin-top: 0 !important; }
+html.lm-novo .lm-pq { margin-top: var(--lm-sec) !important; }
+html.lm-novo .lm-pq + #barraNewsletter, html.lm-novo .lm-pq ~ #barraNewsletter { margin-top: 0 !important; }
+html.lm-novo #barraNewsletter { margin-top: var(--lm-sec) !important; }
+html.lm-novo .listagem > ul:last-child, html.lm-novo .aproveite-tambem > ul { margin-bottom: 0 !important; }
+
+/* sem animação de entrada do tema nos títulos e nas vitrines (ela mexia no espaçamento enquanto a página carregava) */
+html.lm-novo :is(.titulo-categoria, .titulo-categoria *, #corpo .listagem, #corpo .listagem > ul, .listagem-item) { transition: none !important; animation: none !important; }
+html.lm-novo #corpo .titulo-categoria { padding: 0 !important; margin: 0 0 var(--lm-sec-titulo) !important; }
+
+/* faixa para empresas: gradiente da marca só com os tons que seguram texto branco */
+html.lm-novo .lm-b2b { background: var(--lm-gradiente) !important; }
+/* relacionados até a newsletter: só o espaço do padrão */
+html.lm-novo .aproveite-tambem, html.lm-novo .pagina-produto .produto > .row-fluid:last-child, html.lm-novo .pagina-produto .produto > .row-fluid:last-child > .span12 { padding-bottom: 0 !important; margin-bottom: 0 !important; }

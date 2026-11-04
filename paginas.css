@@ -1,1 +1,48 @@
 /* Loren Metais, páginas institucionais, carrinho e conta (carregado pelo loren.js nas páginas que não são início, categoria, busca nem produto). */
+html.lm-novo #corpo .breadcrumbs { background: none !important; border: 0 !important; box-shadow: none !important; padding: 16px 0 0 !important; margin: 0 !important; font-size: .8125rem; color: var(--lm-texto-secundario); }
+html.lm-novo #corpo .breadcrumbs ul { margin: 0; }
+
+/* ===== institucionais: coluna de leitura de 760 px, Inter 16/1.7, títulos Barlow sem caixa alta ===== */
+html.lm-novo #corpo .lm-inst { max-width: 760px; margin: 0 auto !important; padding: 24px 0 48px !important; border: 0 !important; background: none !important; box-shadow: none !important; }
+html.lm-novo #corpo .lm-inst > h1 { font: 700 var(--lm-h1)/1 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; text-transform: none !important; border: 0 !important; margin: 0 0 24px !important; padding: 0 !important; }
+html.lm-novo #corpo .lm-inst > div { font: 400 16px/1.7 var(--lm-fonte-texto); color: var(--lm-grafite); }
+/* o Word deixou fonte, tamanho, cor e entrelinha em cada trecho: tudo herda do bloco (o texto fica igual) */
+html.lm-novo #corpo .lm-inst > div * { font-family: inherit !important; font-size: inherit !important; line-height: inherit !important; color: inherit !important; white-space: normal !important; font-variant: normal !important; background-color: transparent !important; }
+html.lm-novo #corpo .lm-inst > div :is(h2, h3, h4) { font-family: var(--lm-fonte-titulo) !important; font-weight: 700; color: var(--lm-grafite) !important; text-transform: none !important; line-height: 1.15 !important; margin: 32px 0 12px !important; }
+html.lm-novo #corpo .lm-inst > div h2 { font-size: var(--lm-h3) !important; }
+html.lm-novo #corpo .lm-inst > div :is(h3, h4) { font-size: 1.25rem !important; }
+html.lm-novo #corpo .lm-inst > div :is(h2, h3, h4) * { font-family: inherit !important; font-weight: inherit !important; }
+html.lm-novo #corpo .lm-inst > div p { margin: 0 0 16px !important; text-align: left !important; }
+html.lm-novo #corpo .lm-inst > div :is(strong, b) { font-weight: 700; }
+/* o CSS do painel pinta todo link de parágrafo como faixa azul (.caixa-sombreada p a): volta a ser link comum */
+html.lm-novo #corpo .lm-inst > div a:not(.lm-btn2) { color: var(--lm-onda-escura) !important; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; display: inline !important; padding: 0 !important; margin: 0 !important; text-align: inherit !important; transition: none !important; }
+html.lm-novo #corpo .lm-inst > div a.lm-btn2 { display: inline-flex !important; transition: box-shadow .125s !important; background: #fff !important; color: var(--lm-onda-escura) !important; margin: 4px 0 8px; }
+html.lm-novo #corpo .lm-inst > div a.lm-btn2:hover { background: var(--lm-btn-gradiente) !important; color: #fff !important; }
+html.lm-novo #corpo .lm-inst > div :is(ul, ol) { margin: 0 0 16px !important; padding-left: 22px !important; }
+html.lm-novo #corpo .lm-inst > div li { margin: 0 0 6px; }
+html.lm-novo #corpo .lm-inst > div img { max-width: 100% !important; height: auto !important; display: block; margin: 24px auto !important; }
+html.lm-novo #corpo .lm-inst > div .lm-vazio { display: none !important; }
+html.lm-novo #corpo .lm-inst .lm-tab { overflow-x: auto; margin: 0 0 16px; }
+html.lm-novo #corpo .lm-inst table { border-collapse: collapse; width: 100% !important; }
+html.lm-novo #corpo .lm-inst :is(td, th) { border: var(--lm-borda-padrao) !important; padding: 10px 12px !important; text-align: left; vertical-align: top; }
+html.lm-novo #corpo .lm-inst th { background: var(--lm-fundo) !important; font-weight: 700; }
+
+/* ===== Obras finalizadas: grade de cards (fotos + nome + itens) ===== */
+html.lm-novo #corpo .lm-inst.lm-obras-pag { max-width: none; }
+html.lm-novo .lm-obras { columns: 2; column-gap: 24px; }  /* alturas diferentes: colunas, sem buraco entre os cards */
+html.lm-novo .lm-obra { border: var(--lm-cartao-borda); background: #fff; break-inside: avoid; margin: 0 0 24px; }
+html.lm-novo .lm-obra-fotos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; }
+html.lm-novo #corpo .lm-inst > div .lm-obra-fotos img { width: 100% !important; aspect-ratio: 4 / 3; object-fit: cover; margin: 0 !important; }
+html.lm-novo #corpo .lm-inst > div .lm-obra-fotos img:first-child { grid-column: 1 / -1; aspect-ratio: auto; }  /* a 1ª foto inteira, sem cortar a marca */
+html.lm-novo .lm-obra-txt { padding: 20px 24px 12px; }
+html.lm-novo #corpo .lm-inst > div .lm-obra-nome { font: 700 1.375rem/1.15 var(--lm-fonte-titulo) !important; margin: 0 0 12px !important; }
+html.lm-novo #corpo .lm-inst > div .lm-obra-txt p:not(.lm-obra-nome) { margin: 0 !important; padding: 6px 0; border-top: var(--lm-borda-padrao); font-size: .9375rem !important; }
+
+@media (max-width: 767px) {
+  html.lm-novo #corpo .lm-inst { padding: 8px 0 32px !important; }
+  html.lm-novo #corpo .lm-inst > h1 { margin-bottom: 16px !important; font-size: 1.875rem !important; line-height: 1.05 !important; }
+  html.lm-novo #corpo .lm-inst > div { font-size: 15px; }
+  html.lm-novo .lm-obras { columns: 1; }
+  html.lm-novo .lm-obra { margin-bottom: 16px; }
+  html.lm-novo .lm-obra-txt { padding: 16px 16px 8px; }
+}
