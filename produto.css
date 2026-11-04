@@ -12,7 +12,7 @@ html.lm-novo .pagina-produto .produto-thumbs li a, html.lm-novo .pagina-produto 
 html.lm-novo .pagina-produto .produto-thumbs li.flex-active-slide a, html.lm-novo .pagina-produto .produto-thumbs li .active { box-shadow: inset 0 0 0 2px var(--lm-azul) !important; }
 html.lm-novo .pagina-produto .produto-compartilhar, html.lm-novo .pagina-produto .sharethis-inline-share-buttons { display: none !important; }
 /* nome, código e marca */
-html.lm-novo .pagina-produto .info-principal-produto .breadcrumbs { margin-bottom: 12px !important; font-size: 13px !important; background: none !important; border: 0 !important; padding: 0 !important; }
+html.lm-novo .pagina-produto .info-principal-produto .breadcrumbs { margin-bottom: 16px !important; font-size: 13px !important; background: none !important; border: 0 !important; padding: 0 !important; }
 html.lm-novo .pagina-produto h1.nome-produto { font: 700 clamp(1.75rem, 2.6vw, 2.125rem)/1.1 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; text-transform: none !important; margin: 0 0 12px !important; }
 html.lm-novo .pagina-produto .codigo-produto, html.lm-novo .pagina-produto .codigo-produto * { font: 400 13px/1.5 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; text-transform: none !important; }
 html.lm-novo .pagina-produto .codigo-produto b, html.lm-novo .pagina-produto .codigo-produto strong, html.lm-novo .pagina-produto .codigo-produto a { color: var(--lm-grafite) !important; font-weight: 600 !important; }
@@ -43,7 +43,7 @@ html.lm-novo .pagina-produto .cep, html.lm-novo .pagina-produto .cep * { font-fa
 html.lm-novo .pagina-produto .cep input { height: 48px !important; background: var(--lm-campo-fundo) !important; border: var(--lm-campo-borda) !important; box-shadow: none !important; }
 html.lm-novo .pagina-produto .cep button, html.lm-novo .pagina-produto .cep .botao { height: 48px !important; background: var(--lm-grafite) !important; color: #fff !important; border: 0 !important; text-transform: uppercase; letter-spacing: .06em; font-weight: 600 !important; }
 /* faixa fabricação própria (produto.js) */
-html.lm-novo .lm-fab { background: var(--lm-onda-escura); color: #fff; margin: 40px calc(50% - 50vw) 0; }
+html.lm-novo .lm-fab { background: var(--lm-onda-escura); color: #fff; margin: var(--lm-sec) calc(50% - 50vw) 0; }
 html.lm-novo .lm-fab .lm-wrap { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; padding-block: 24px; }
 html.lm-novo .lm-fab b { display: block; font: 700 19px/1.1 var(--lm-fonte-titulo); color: #fff; } html.lm-novo .lm-fab span { font-size: 14px; color: #fff; }
 /* descrição larga e legível */
@@ -67,3 +67,5 @@ html.lm-novo .pagina-produto .abas-custom .nav-tabs { text-align: left !importan
 html.lm-novo .pagina-produto .abas-custom .nav-tabs::after, html.lm-novo .pagina-produto .abas-custom .nav-tabs::before { display: none !important; }
 /* setas das miniaturas discretas */
 html.lm-novo .pagina-produto .produto-thumbs .flex-direction-nav a { background: rgba(255, 255, 255, .9) !important; color: var(--lm-grafite) !important; }
+/* trilha do computador colada na galeria: o mesmo respiro de título para conteúdo */
+html.lm-novo .pagina-produto .breadcrumbs { padding-bottom: var(--lm-sec-titulo) !important; }

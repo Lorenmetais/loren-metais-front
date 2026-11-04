@@ -97,7 +97,8 @@
     const celular = matchMedia('(max-width: 767px)').matches;
     document.querySelectorAll('.secao-banners .banner.cheio img').forEach((img) => {
       const n = BANNERS[(img.alt || '').trim().toLowerCase()]; if (!n || !BASE) return;
-      img.src = BASE + 'banners/' + n + (celular ? '-celular.jpg' : '-1920.jpg'); img.removeAttribute('srcset');
+      const arq = BASE + 'banners/' + n + (celular ? '-celular' : '-1920');  // AVIF bem comprimido; JPG só se o navegador não abrir AVIF
+      img.onerror = () => { img.onerror = null; img.src = arq + '.jpg'; }; img.src = arq + '.avif'; img.removeAttribute('srcset');
     });
     // vitrines: mostra 8 (4 no celular) e um botão para ver o resto
     document.querySelectorAll('#corpo .listagem.com-caixa > ul').forEach((ul) => {

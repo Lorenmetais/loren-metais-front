@@ -76,9 +76,33 @@
     bt.addEventListener('click', () => { const on = p.classList.toggle('lm-aberto'); bt.textContent = on ? 'Ler menos' : 'Ler mais'; bt.setAttribute('aria-expanded', on); });
   });
 
+  // preço: a LI aceita qualquer faixa em fq=price_range:min-max (testado 04/11), então as faixas fixas viram mínimo/máximo
+  const preco = coluna?.querySelector('.faceta-preco .filtro');
+  if (preco) {
+    const fq = new URL(location.href).searchParams.getAll('fq').find((v) => v.startsWith('price_range:'));
+    const [mi, ma] = fq ? fq.slice(12).split('-').map(Number) : [];
+    const campo = (n, rot, v) => `<label>${rot}<input type="number" name="${n}" min="0" step="1" inputmode="numeric" placeholder="R$" value="${v > 0 && v < 999999 ? Math.round(v) : ''}"></label>`;
+    preco.querySelector('.atributo-lista').insertAdjacentHTML('beforebegin', `<form class="lm-preco">${campo('min', 'Mínimo', mi)}${campo('max', 'Máximo', ma)}<button type="submit" class="botao principal">Filtrar</button>${fq ? '<a class="lm-preco-limpa" href="#">Limpar preço</a>' : ''}</form>`);
+    preco.classList.add('lm-preco-livre');
+    const vai = (faixa) => {
+      const u = new URL(location.href); const resto = u.searchParams.getAll('fq').filter((v) => !v.startsWith('price_range:'));
+      u.searchParams.delete('fq'); u.searchParams.delete('pagina'); resto.forEach((v) => u.searchParams.append('fq', v));
+      if (faixa) u.searchParams.append('fq', 'price_range:' + faixa);
+      location.href = u.href;
+    };
+    const f = preco.querySelector('.lm-preco');
+    f.addEventListener('submit', (e) => { e.preventDefault(); const a = +f.min.value || 0, z = +f.max.value || 999999; vai(Math.min(a, z) + '-' + Math.max(a, z)); });
+    f.querySelector('.lm-preco-limpa')?.addEventListener('click', (e) => { e.preventDefault(); vai(''); });
+  }
+
   // newsletter no fim da coluna (na busca ela vem antes dos filtros)
   const news = coluna?.querySelector('.newsletter')?.closest('.row-fluid');
-  if (news && news.parentElement === coluna) coluna.append(news);
+  if (news && news.parentElement === coluna) { news.classList.add('lm-cat-news'); coluna.append(news); }
+
+  // paginação de baixo vira a última linha da grade: o espaço até a newsletter conta do fim da lista (48/32, --lm-sec)
+  const rodape = conteudo.querySelector('.ordenar-listagem.rodape'), ul = lista.querySelector(':scope > ul');
+  if (rodape && ul && rodape.querySelector('.pagination a:not([href="#"])')) { const li = document.createElement('li'); li.className = 'lm-cat-pag'; li.append(rodape); ul.append(li); }
+  else rodape?.classList.add('lm-cat-sem-pag');  // uma página só: nada a paginar
 
   // barra Filtrar/Ordenar: o Ordenar é o da loja; o Filtrar abre a coluna (filtros + categorias) no celular
   const barra = conteudo.querySelector('.ordenar-listagem.topo');

@@ -1,6 +1,6 @@
 /* Loren Metais, página de categoria e de busca (carregado pelo loren.js; a classe body.lm-cat vem do categoria.js). */
 html.lm-novo body.lm-cat #corpo .breadcrumbs { background: none !important; border: 0 !important; box-shadow: none !important; padding: 16px 0 0 !important; margin: 0 !important; font-size: .8125rem; color: var(--lm-texto-secundario); }
-html.lm-novo body.lm-cat #corpo .breadcrumbs ul { margin: 0; }
+html.lm-novo body.lm-cat #corpo .breadcrumbs :is(ul, li) { margin: 0 !important; padding: 0 !important; }
 
 /* topo: título, 1º parágrafo e chips */
 html.lm-novo body.lm-cat .lm-cat-topo { padding: 16px 0 24px; }
@@ -18,7 +18,7 @@ html.lm-novo body.lm-cat #corpo .secao-principal::before, html.lm-novo body.lm-c
 html.lm-novo body.lm-cat #corpo .secao-principal > .coluna, html.lm-novo body.lm-cat #corpo .secao-principal > .conteudo { display: block !important; width: auto !important; margin: 0 !important; float: none !important; min-width: 0; }
 
 /* coluna */
-html.lm-novo body.lm-cat .coluna .menu.lateral, html.lm-novo body.lm-cat .coluna .lateral, html.lm-novo body.lm-cat .coluna .filtro, html.lm-novo body.lm-cat .coluna .componente { border: 0 !important; background: none !important; box-shadow: none !important; padding: 0 !important; margin: 0 !important; }
+html.lm-novo body.lm-cat .coluna .menu.lateral, html.lm-novo body.lm-cat .coluna .lateral, html.lm-novo body.lm-cat .coluna .filtro, html.lm-novo body.lm-cat .coluna .componente:not(.newsletter) { border: 0 !important; background: none !important; box-shadow: none !important; padding: 0 !important; margin: 0 !important; }
 html.lm-novo body.lm-cat .coluna .menu.lateral:not(.outras)::before { content: 'Categorias'; display: block; font: 700 1.125rem/1 var(--lm-fonte-titulo); color: var(--lm-grafite); margin: 0 0 8px; }
 html.lm-novo body.lm-cat .coluna .menu.lateral ul { margin: 0 !important; padding: 0 !important; border: 0 !important; }
 html.lm-novo body.lm-cat .coluna .menu.lateral li { list-style: none; border: 0 !important; border-bottom: var(--lm-borda-padrao) !important; margin: 0 !important; padding: 0 !important; background: none !important; }
@@ -40,8 +40,16 @@ html.lm-novo body.lm-cat .coluna .filtro label { display: flex; gap: 8px; align-
 html.lm-novo body.lm-cat .coluna .filtro label::before { content: ''; flex: 0 0 18px; height: 18px; border: 1px solid #b9bcc2; background: #fff; }
 html.lm-novo body.lm-cat .coluna .filtro li.active label::before, html.lm-novo body.lm-cat .coluna .filtro li.ativo label::before { background: var(--lm-onda-escura); border-color: var(--lm-onda-escura); box-shadow: inset 0 0 0 3px #fff; }
 html.lm-novo body.lm-cat .coluna .filtro label small { color: var(--lm-texto-secundario); font-size: .8125rem; }
-html.lm-novo body.lm-cat .coluna .lm-cat-vazio { display: none !important; }  /* só sobrou o título, que repete o h1 */
-html.lm-novo body.lm-cat .coluna .newsletter { margin-top: 32px !important; }
+html.lm-novo body.lm-cat .coluna .lm-cat-vazio { display: none !important; }
+html.lm-novo body.lm-cat .coluna > .lm-cat-news { margin: 32px 0 0 !important; }  /* só o espaço na coluna; o visual da newsletter é do loren.css */  /* só sobrou o título, que repete o h1 */
+/* preço com mínimo e máximo (categoria.js); as faixas fixas da loja ficam no HTML */
+html.lm-novo body.lm-cat .lm-preco-livre .atributo-lista { display: none !important; }
+html.lm-novo body.lm-cat .lm-preco { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 0; }
+html.lm-novo body.lm-cat .coluna .lm-preco label { display: block; padding: 0; font: 600 13px/1.3 var(--lm-fonte-texto); color: var(--lm-texto-secundario); }
+html.lm-novo body.lm-cat .coluna .lm-preco label::before { display: none; }
+html.lm-novo body.lm-cat .lm-preco input { display: block; width: 100% !important; height: 44px !important; box-sizing: border-box; margin: 4px 0 0 !important; padding: 0 10px !important; border: var(--lm-borda-padrao) !important; border-radius: 0 !important; box-shadow: none !important; font: 400 15px/1 var(--lm-fonte-texto) !important; color: var(--lm-grafite); background: #fff !important; }
+html.lm-novo body.lm-cat .lm-preco .botao { grid-column: 1 / -1; width: 100%; margin: 8px 0 0 !important; }
+html.lm-novo body.lm-cat .lm-preco-limpa { grid-column: 1 / -1; justify-self: start; font-size: 14px; color: var(--lm-azul-hover) !important; text-decoration: underline; text-underline-offset: 3px; }
 html.lm-novo body.lm-cat .lm-cat-fechar, html.lm-novo body.lm-cat .lm-cat-filtrar { display: none; }
 html.lm-novo body.lm-cat .filtro-mobile, html.lm-novo body.lm-cat .filtro-mobile-itens { display: none !important; }  /* cópia dos filtros que o tema cria no celular: os mesmos filtros abrem pelo Filtrar */
 
@@ -61,10 +69,12 @@ html.lm-novo body.lm-cat .lm-cat-filtrar { height: 44px; border: var(--lm-borda-
 /* lista: 3 por linha no computador (os cards são da base) */
 html.lm-novo body.lm-cat #corpo .conteudo > .listagem:not(#listagemProdutos) { border: 0 !important; background: none !important; box-shadow: none !important; padding: 0 !important; margin: 0 !important; }
 html.lm-novo body.lm-cat #corpo .conteudo #listagemProdutos { margin: 0 !important; }
-html.lm-novo body.lm-cat #corpo .conteudo #listagemProdutos > ul { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
 
 /* paginação */
 html.lm-novo body.lm-cat .ordenar-listagem.rodape { border: 0 !important; background: none !important; box-shadow: none !important; padding: 16px 0 0 !important; margin: 0 !important; }
+html.lm-novo body.lm-cat #listagemProdutos > ul > li.lm-cat-pag { grid-column: 1 / -1; list-style: none; }
+html.lm-novo body.lm-cat .lm-cat-pag .ordenar-listagem.rodape { padding: 0 !important; }
+html.lm-novo body.lm-cat .ordenar-listagem.rodape.lm-cat-sem-pag { display: none !important; }
 html.lm-novo body.lm-cat .ordenar-listagem.rodape .pagination { margin: 0 !important; text-align: center; }
 html.lm-novo body.lm-cat .ordenar-listagem.rodape .pagination ul { display: flex !important; justify-content: center; flex-wrap: wrap; gap: 8px; box-shadow: none !important; margin: 0 !important; }
 html.lm-novo body.lm-cat .ordenar-listagem.rodape .pagination li > a, html.lm-novo body.lm-cat .ordenar-listagem.rodape .pagination li > span { float: none !important; min-width: 40px; height: 40px; box-sizing: border-box; display: grid !important; place-content: center; padding: 0 8px !important; border: var(--lm-borda-padrao) !important; border-radius: 0 !important; background: #fff !important; color: var(--lm-grafite) !important; font: 600 .9375rem/1 var(--lm-fonte-texto) !important; }
@@ -102,7 +112,6 @@ html.lm-novo body.lm-cat .lm-cat-faq details p { margin: 8px 0 0; color: var(--l
   html.lm-novo body.lm-cat .ordenar-listagem.topo > .row-fluid, html.lm-novo body.lm-cat .ordenar-listagem.topo .span6, html.lm-novo body.lm-cat .ordenar-listagem.topo .input-append { flex: 1; width: auto !important; }
   html.lm-novo body.lm-cat .ordenar-listagem.topo .span6 > div, html.lm-novo body.lm-cat .ordenar-listagem.topo .span6:first-child { flex: 1; }
   html.lm-novo body.lm-cat .ordenar-listagem .input-append { justify-content: center; }
-  html.lm-novo body.lm-cat #corpo .conteudo #listagemProdutos > ul { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
   html.lm-novo body.lm-cat .lm-cat-saiba { margin-top: 32px; padding-block: 32px; }
   html.lm-novo body.lm-cat .lm-cat-cols { grid-template-columns: minmax(0, 1fr); gap: 24px; }
   html.lm-novo body.lm-cat .lm-cat-faq { padding: 16px; }

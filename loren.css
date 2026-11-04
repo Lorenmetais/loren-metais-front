@@ -58,11 +58,6 @@ html.lm-novo .listagem .botao-comprar:hover { background: var(--lm-azul-hover) !
 html.lm-novo .listagem .botao-comprar i { display: none !important; }
 html.lm-novo .bandeiras-produto .bandeira-promocao { background: var(--lm-onda-escura) !important; font: 700 12px/1 var(--lm-fonte-texto) !important; }
 
-/* newsletter e rodapé escuro */
-html.lm-novo #barraNewsletter { background: var(--lm-onda-escura) !important; border: 0 !important; }
-html.lm-novo #barraNewsletter, html.lm-novo #barraNewsletter * { color: #fff; }
-html.lm-novo #barraNewsletter input { color: var(--lm-grafite) !important; background: #fff !important; border: 0 !important; height: 48px !important; }
-html.lm-novo #barraNewsletter .botao { background: var(--lm-grafite) !important; height: 48px !important; }
 html.lm-novo #rodape .institucional { background: var(--lm-grafite) !important; }
 html.lm-novo #rodape .institucional, html.lm-novo #rodape .institucional a, html.lm-novo #rodape .institucional p { color: #c9cace !important; font-size: 14px !important; }
 html.lm-novo #rodape .institucional .titulo, html.lm-novo #rodape .institucional h4 { color: #fff !important; font: 700 16px/1 var(--lm-fonte-titulo) !important; text-transform: none !important; }
@@ -154,7 +149,7 @@ html.lm-novo .listagem .produto-sobrepor { z-index: 1; }
 /* faixa para empresas */
 html.lm-novo .lm-b2b { background: var(--lm-azul); color: #fff; margin-top: 48px; }
 html.lm-novo .lm-b2b .lm-wrap { display: flex; justify-content: space-between; align-items: center; gap: 24px; padding-block: 40px; flex-wrap: wrap; }
-html.lm-novo .lm-b2b h2 { color: #fff; margin: 0 0 8px; font: 700 var(--lm-h2)/1 var(--lm-fonte-titulo); }
+html.lm-novo .lm-b2b h2 { color: #fff; margin: 0 0 16px; font: 700 var(--lm-h2)/1 var(--lm-fonte-titulo); }
 html.lm-novo .lm-b2b p { margin: 0; opacity: .92; color: #fff; }
 html.lm-novo .lm-btn, html.lm-novo .lm-btn2 { display: inline-grid; place-content: center; text-align: center; padding: 16px 24px; font: 600 15px/1.2 var(--lm-fonte-texto) !important; letter-spacing: .06em; text-transform: uppercase; text-decoration: none !important; cursor: pointer; }
 html.lm-novo .lm-b2b .lm-btn { background: #fff; color: var(--lm-onda-escura) !important; }
@@ -294,11 +289,6 @@ html.lm-novo .lm-b2b p { font-size: 16px !important; line-height: 1.5; opacity: 
 html.lm-novo .lm-tag { color: var(--lm-azul-hover) !important; }
 html.lm-novo #corpo { padding-bottom: 0 !important; margin-bottom: 0 !important; }
 html.lm-novo .lm-pq { margin-top: 48px; }
-/* newsletter: tudo branco sobre o azul (o tema deixava o título preto) */
-html.lm-novo #barraNewsletter, html.lm-novo #barraNewsletter .componente { background: var(--lm-onda-escura) !important; border: 0 !important; }
-html.lm-novo #barraNewsletter :is(.titulo, span, p, i, strong, label, h4) { color: #fff !important; }
-html.lm-novo #barraNewsletter .titulo { font: 700 var(--lm-h3)/1.1 var(--lm-fonte-titulo) !important; text-transform: none !important; }
-html.lm-novo #barraNewsletter input { color: var(--lm-grafite) !important; }
 /* rodapé: ícones e redes sociais claros sobre o grafite */
 html.lm-novo #rodape a[class*="icon-"], html.lm-novo #rodape [class*="icon-"], html.lm-novo #rodape .redes-sociais a, html.lm-novo #rodape .lista-redes a { color: #fff !important; border-color: #5a5b62 !important; background: transparent !important; }
 html.lm-novo #rodape svg, html.lm-novo #rodape svg path { fill: #c9cace !important; }
@@ -366,16 +356,10 @@ html.lm-novo .lm-topo .lm-topo__busca form button { background: var(--lm-onda-es
 /* ===== botões: pill com gradiente, negrito em caixa alta (Eduardo 04/11, opção C2) ===== */
 html.lm-novo { --lm-btn-raio: 999px; }
 /* principal: comprar, pedir orçamento, assinar, calcular, ver obras */
-html.lm-novo :is(.botao-comprar, .tag-comprar, .botao.principal, .lm-btn), html.lm-novo #barraNewsletter .botao { background: var(--lm-btn-gradiente) !important; color: #fff !important; font: 700 15px/1.2 var(--lm-fonte-texto) !important; letter-spacing: .04em !important; text-transform: uppercase !important; border: 0 !important; border-radius: 999px !important; box-shadow: var(--lm-btn-sombra) !important; text-shadow: none !important; }
+html.lm-novo :is(.botao-comprar, .tag-comprar, .botao.principal, .lm-btn) { background: var(--lm-btn-gradiente) !important; color: #fff !important; font: 700 15px/1.2 var(--lm-fonte-texto) !important; letter-spacing: .04em !important; text-transform: uppercase !important; border: 0 !important; border-radius: 999px !important; box-shadow: var(--lm-btn-sombra) !important; text-shadow: none !important; }
 html.lm-novo :is(.botao-comprar, .tag-comprar, .botao.principal, .lm-btn):hover { background: var(--lm-btn-gradiente-hover) !important; }
 html.lm-novo .listagem :is(.botao-comprar, .tag-comprar) { font-size: 13px !important; background: var(--lm-btn-gradiente) !important; }
 html.lm-novo .listagem :is(.botao-comprar, .tag-comprar):hover { background: var(--lm-btn-gradiente-hover) !important; }
-/* newsletter: a faixa já é azul, então o Assinar é branco com texto azul (azul sobre azul sumia); chamada sem caixa alta */
-html.lm-novo #barraNewsletter .botao, html.lm-novo #barraNewsletter .botao::before, html.lm-novo #barraNewsletter .botao * { background: #fff !important; color: var(--lm-onda-escura) !important; }
-html.lm-novo #barraNewsletter .botao:hover, html.lm-novo #barraNewsletter .botao:hover::before, html.lm-novo #barraNewsletter .botao:hover * { background: var(--lm-grafite) !important; color: #fff !important; }
-html.lm-novo #barraNewsletter .texto-newsletter { text-transform: none !important; font: 700 var(--lm-h3)/1.1 var(--lm-fonte-titulo) !important; }
-/* o texto ASSINAR vem de pseudo-elemento do tema, com a fonte dele: mesma fonte dos outros botões */
-html.lm-novo #barraNewsletter .botao, html.lm-novo #barraNewsletter .botao::before, html.lm-novo #barraNewsletter .botao::after { font: 700 15px/1.2 var(--lm-fonte-texto) !important; letter-spacing: .04em !important; text-transform: uppercase !important; }
 /* voltar ao topo removido (Eduardo 04/11) */
 html.lm-novo .scrollToTop { display: none !important; }
 /* secundário: contorno, no hover vira o gradiente */
@@ -389,13 +373,38 @@ html.lm-novo .lm-b2b .lm-btn2:hover { background: rgba(255, 255, 255, .15) !impo
 html.lm-novo .lm-topo .lm-topo__busca input { border-radius: 999px 0 0 999px !important; padding-left: 20px !important; }
 html.lm-novo .lm-topo .lm-topo__busca form button { border-radius: 0 999px 999px 0 !important; background: var(--lm-btn-gradiente) !important; width: 56px !important; }
 html.lm-novo .lm-topo .lm-topo__busca form button:hover { background: var(--lm-btn-gradiente-hover) !important; }
-/* newsletter: campo pill */
-html.lm-novo #barraNewsletter input { border-radius: 999px !important; padding-left: 20px !important; }
 /* selos de desconto acompanham o pill */
 html.lm-novo .listagem .bandeiras-produto > * { border-radius: 999px !important; background: var(--lm-btn-gradiente) !important; }
 /* ===== títulos sem caixa alta (como na Conceito) ===== */
 html.lm-novo :is(h1, h2, h3, h4, h5, .titulo, .titulo-categoria, .nome-produto) { text-transform: none !important; }
-html.lm-novo #rodape :is(.titulo, h4, strong, span.titulo), html.lm-novo #barraNewsletter .titulo { text-transform: none !important; letter-spacing: 0 !important; }
+html.lm-novo #rodape :is(.titulo, h4, strong, span.titulo) { text-transform: none !important; letter-spacing: 0 !important; }
+/* newsletter: um componente só para a faixa do rodapé, a coluna dos filtros e a janela do celular (mesma .componente.newsletter do tema) */
+html.lm-novo .componente.newsletter { border: 0 !important; box-shadow: none !important; }
+html.lm-novo .componente.newsletter :is(.titulo, .texto-newsletter) { font: 700 var(--lm-h3)/1.15 var(--lm-fonte-titulo) !important; text-transform: none !important; letter-spacing: 0 !important; }
+html.lm-novo .componente.newsletter input { box-sizing: border-box !important; height: 48px !important; margin: 0 !important; padding: 0 20px !important; border: var(--lm-campo-borda) !important; border-radius: 999px !important; background: #fff !important; color: var(--lm-grafite) !important; font: 400 15px/1 var(--lm-fonte-texto) !important; box-shadow: none !important; }
+html.lm-novo .componente.newsletter .botao { box-sizing: border-box !important; height: 48px !important; border: 0 !important; border-radius: 999px !important; background: var(--lm-btn-gradiente) !important; color: #fff !important; box-shadow: none !important; text-shadow: none !important; }
+html.lm-novo .componente.newsletter .botao:hover { background: var(--lm-btn-gradiente-hover) !important; }
+/* o texto ASSINAR vem de pseudo-elemento do tema: mesma fonte dos outros botões, sem fundo próprio */
+html.lm-novo .componente.newsletter .botao, html.lm-novo .componente.newsletter .botao::before, html.lm-novo .componente.newsletter .botao::after { font: 700 15px/1.2 var(--lm-fonte-texto) !important; letter-spacing: .04em !important; text-transform: uppercase !important; }
+html.lm-novo .componente.newsletter .botao::before, html.lm-novo .componente.newsletter .botao::after { background: none !important; color: inherit !important; }
+/* a setinha do tema (ícone no ::after) ocupava espaço invisível ao lado do texto e tirava o ASSINAR do centro */
+html.lm-novo .componente.newsletter .botao::after { content: none !important; display: none !important; }
+/* na faixa azul do rodapé: tudo branco e o Assinar branco com texto azul (azul sobre azul sumia) */
+html.lm-novo #barraNewsletter, html.lm-novo #barraNewsletter .componente { background: var(--lm-onda-escura) !important; }
+html.lm-novo #barraNewsletter :is(.titulo, span, p, i, strong, label, h4) { color: #fff !important; }
+html.lm-novo #barraNewsletter .botao { background: #fff !important; color: var(--lm-onda-escura) !important; }
+html.lm-novo #barraNewsletter .botao:hover { background: var(--lm-grafite) !important; color: #fff !important; }
+/* na coluna dos filtros: mesmo desenho dos outros blocos da coluna (título como "Filtrar por Preço", texto comum, alinhado à esquerda) */
+html.lm-novo .coluna .componente.newsletter, html.lm-novo .coluna .componente.newsletter * { text-align: left !important; }
+html.lm-novo .coluna .componente.newsletter .titulo { display: block !important; margin: 0 0 8px !important; padding: 0 !important; font: 700 18px/1.2 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; }
+html.lm-novo .coluna .componente.newsletter .titulo i { display: none !important; }
+html.lm-novo .coluna .componente.newsletter .texto-newsletter { margin: 0 0 16px !important; font: 400 15px/1.5 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; }
+html.lm-novo .coluna .componente.newsletter :is(input, .botao) { display: block !important; width: 100% !important; margin: 0 0 8px !important; }
+/* faixa: o mesmo respiro em cima e embaixo (o tema somava paddings e margens diferentes nas caixas internas) */
+html.lm-novo #barraNewsletter { padding: 32px 0 !important; }
+html.lm-novo #barraNewsletter :is(.conteiner, .row-fluid, .span, .componente, .interno, .interno-conteudo, .input-conteiner, .newsletter-cadastro) { margin-top: 0 !important; margin-bottom: 0 !important; padding-top: 0 !important; padding-bottom: 0 !important; min-height: 0 !important; }
+html.lm-novo #barraNewsletter .texto-newsletter { margin: 0 0 16px !important; }
+@media (max-width: 767px) { html.lm-novo #barraNewsletter { padding: 24px 0 !important; } }
 
 /* busca: o tema pinta o botão por #form-buscar (id), por isso o seletor com id */
 html.lm-novo #form-buscar .botao-busca { background: var(--lm-btn-gradiente) !important; color: #fff !important; }
@@ -441,4 +450,26 @@ html.lm-novo #corpo .titulo-categoria { padding: 0 !important; margin: 0 0 var(-
 /* faixa para empresas: gradiente da marca só com os tons que seguram texto branco */
 html.lm-novo .lm-b2b { background: var(--lm-gradiente) !important; }
 /* relacionados até a newsletter: só o espaço do padrão */
-html.lm-novo .aproveite-tambem, html.lm-novo .pagina-produto .produto > .row-fluid:last-child, html.lm-novo .pagina-produto .produto > .row-fluid:last-child > .span12 { padding-bottom: 0 !important; margin-bottom: 0 !important; }
+/* produto: os blocos do tema traziam 20 px de sobra embaixo (somava 60/68 px); o ritmo entre blocos fica só no --lm-sec */
+html.lm-novo .aproveite-tambem, html.lm-novo .pagina-produto .produto > .row-fluid, html.lm-novo .pagina-produto .produto > .row-fluid > .span12 { padding-bottom: 0 !important; margin-bottom: 0 !important; }
+
+/* estoque: o verde do tema (#00AE7C) dava 2,9:1 no branco */
+html.lm-novo .disponibilidade-produto, html.lm-novo .disponibilidade-produto * { color: var(--lm-sucesso) !important; }
+
+/* cartão de produto mais compacto (Eduardo 04/11): foto sempre 1:1 e só valores da grade de 8 (o tema somava 15/10/3/10 px soltos
+   entre o preço e o botão); serve início, categoria, busca e relacionados */
+html.lm-novo .listagem > ul:not(.produtos-carrossel), html.lm-novo .listagem .listagem-linha > ul { gap: 16px !important; }
+html.lm-novo .listagem .listagem-item { padding: 0 16px 16px !important; }
+html.lm-novo .listagem .imagem-produto { aspect-ratio: 1 / 1; height: auto !important; margin: 0 -16px 16px !important; display: flex !important; align-items: center; justify-content: center; overflow: hidden; }
+html.lm-novo .listagem .imagem-produto img { width: 100% !important; height: 100% !important; max-height: none !important; object-fit: contain; }
+html.lm-novo .listagem .listagem-item .info-produto { gap: 8px; padding: 0 !important; }
+html.lm-novo .listagem .preco-produto > div { margin: 0 !important; }
+/* preço sempre colado ao botão (16 px); a sobra das alturas diferentes de nome fica entre o nome e o preço */
+html.lm-novo .listagem .info-produto > div:has(.preco-produto) { margin-top: auto; }
+html.lm-novo .listagem .acoes-produto { margin-top: 16px !important; padding: 0 !important; }
+@media (max-width: 767px) {
+  html.lm-novo .listagem > ul:not(.produtos-carrossel), html.lm-novo .listagem .listagem-linha > ul { gap: 8px !important; }
+  html.lm-novo .listagem .listagem-item { padding: 0 8px 8px !important; }
+  html.lm-novo .listagem .imagem-produto { margin: 0 -8px 8px !important; }
+  html.lm-novo .listagem .acoes-produto { margin-top: 8px !important; }
+}

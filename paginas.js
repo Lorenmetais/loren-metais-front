@@ -12,9 +12,10 @@
   if (txt) {
     caixa.classList.add('lm-inst');
     // parágrafo vazio (só espaço) do Word: some, o espaçamento fica por conta do CSS
-    txt.querySelectorAll('p, div').forEach((p) => { if (!temTexto(p) && !p.querySelector('img, iframe, video, table')) p.classList.add('lm-vazio'); });
-    // link sozinho no parágrafo ("Veja esse item") vira botão secundário da base
-    txt.querySelectorAll('p > a:only-child').forEach((a) => { if (a.parentElement.textContent.trim() === a.textContent.trim()) a.classList.add('lm-btn2'); });
+    txt.querySelectorAll('p, div, h2, h3, h4').forEach((p) => { if (!temTexto(p) && !p.querySelector('img, iframe, video, table')) p.classList.add('lm-vazio'); });
+    // link sozinho no parágrafo ou título ("Veja esse item", "Voltar para a loja") vira botão secundário da base
+    // (nas obras os itens com link continuam link)
+    if (!/obras-finalizadas/.test(location.pathname)) txt.querySelectorAll('a').forEach((a) => { const bl = a.closest('p, h2, h3, h4'); if (bl && temTexto(a) && bl.textContent.trim() === a.textContent.trim()) a.classList.add('lm-btn2'); });
     txt.querySelectorAll('table').forEach((t) => { const w = document.createElement('div'); w.className = 'lm-tab'; t.before(w); w.append(t); });
 
     // Obras: cada obra começa num parágrafo com texto em 20 px (o nome); depois vêm os itens e as fotos

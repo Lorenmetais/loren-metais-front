@@ -1,6 +1,7 @@
 /* Loren Metais, páginas institucionais, carrinho e conta (carregado pelo loren.js nas páginas que não são início, categoria, busca nem produto). */
 html.lm-novo #corpo .breadcrumbs { background: none !important; border: 0 !important; box-shadow: none !important; padding: 16px 0 0 !important; margin: 0 !important; font-size: .8125rem; color: var(--lm-texto-secundario); }
-html.lm-novo #corpo .breadcrumbs ul { margin: 0; }
+html.lm-novo #corpo .breadcrumbs :is(ul, li) { margin: 0 !important; padding: 0 !important; }
+html.lm-novo #corpo:has(.lm-inst:not(.lm-obras-pag)) .breadcrumbs { max-width: 760px; margin: 0 auto !important; }  /* trilha na coluna de leitura */
 
 /* ===== institucionais: coluna de leitura de 760 px, Inter 16/1.7, títulos Barlow sem caixa alta ===== */
 html.lm-novo #corpo .lm-inst { max-width: 760px; margin: 0 auto !important; padding: 24px 0 48px !important; border: 0 !important; background: none !important; box-shadow: none !important; }
@@ -17,7 +18,7 @@ html.lm-novo #corpo .lm-inst > div :is(strong, b) { font-weight: 700; }
 /* o CSS do painel pinta todo link de parágrafo como faixa azul (.caixa-sombreada p a): volta a ser link comum */
 html.lm-novo #corpo .lm-inst > div a:not(.lm-btn2) { color: var(--lm-onda-escura) !important; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; display: inline !important; padding: 0 !important; margin: 0 !important; text-align: inherit !important; transition: none !important; }
 html.lm-novo #corpo .lm-inst > div a.lm-btn2 { display: inline-flex !important; transition: box-shadow .125s !important; background: #fff !important; color: var(--lm-onda-escura) !important; margin: 4px 0 8px; }
-html.lm-novo #corpo .lm-inst > div a.lm-btn2:hover { background: var(--lm-btn-gradiente) !important; color: #fff !important; }
+html.lm-novo #corpo .lm-inst > div a.lm-btn2:hover { background: var(--lm-onda-escura) !important; color: #fff !important; }
 html.lm-novo #corpo .lm-inst > div :is(ul, ol) { margin: 0 0 16px !important; padding-left: 22px !important; }
 html.lm-novo #corpo .lm-inst > div li { margin: 0 0 6px; }
 html.lm-novo #corpo .lm-inst > div img { max-width: 100% !important; height: auto !important; display: block; margin: 24px auto !important; }
@@ -45,4 +46,89 @@ html.lm-novo #corpo .lm-inst > div .lm-obra-txt p:not(.lm-obra-nome) { margin: 0
   html.lm-novo .lm-obras { columns: 1; }
   html.lm-novo .lm-obra { margin-bottom: 16px; }
   html.lm-novo .lm-obra-txt { padding: 16px 16px 8px; }
+}
+
+/* ===== carrinho (/carrinho/index) ===== */
+html.lm-novo .pagina-carrinho #corpo .secao-principal { padding: 24px 0 0 !important; }
+html.lm-novo #corpo .cabecalho-interno h1 { font: 700 var(--lm-h1)/1 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; text-transform: none !important; border: 0 !important; margin: 0 0 24px !important; padding: 0 !important; }
+html.lm-novo #corpo .cabecalho-interno h1 small { display: block; margin-top: 8px; font: 400 15px/1.5 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; }
+html.lm-novo .pagina-carrinho .caixa-sombreada { border: 0 !important; box-shadow: none !important; background: none !important; padding: 0 !important; }
+html.lm-novo .pagina-carrinho .tabela-carrinho { border: var(--lm-borda-padrao) !important; border-collapse: collapse; background: #fff; margin: 0 !important; }
+html.lm-novo .pagina-carrinho .tabela-carrinho thead th { background: none !important; border: 0 !important; border-bottom: var(--lm-borda-padrao) !important; padding: 12px 16px !important; }
+html.lm-novo .pagina-carrinho .tabela-carrinho thead h6 { margin: 0 !important; font: 600 13px/1 var(--lm-fonte-texto) !important; letter-spacing: .04em; text-transform: uppercase; color: var(--lm-texto-secundario) !important; }
+html.lm-novo .pagina-carrinho .tabela-carrinho td { padding: 16px !important; vertical-align: middle !important; border-top: var(--lm-borda-padrao) !important; }
+html.lm-novo .pagina-carrinho .tabela-carrinho .conteiner-imagem img { width: 96px !important; height: 96px !important; object-fit: contain; border: var(--lm-borda-padrao); background: #fff; max-width: none; }
+html.lm-novo .pagina-carrinho .produto-info > a { font: 600 15px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
+html.lm-novo .pagina-carrinho .produto-info ul { list-style: none; margin: 6px 0 0 !important; padding: 0 !important; font-size: 13px; color: var(--lm-texto-secundario); }
+html.lm-novo .pagina-carrinho .quantidade { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; }
+html.lm-novo .pagina-carrinho .quantidade > a { width: 40px; height: 40px; box-sizing: border-box; display: grid !important; place-content: center; border: var(--lm-borda-padrao); color: var(--lm-grafite) !important; text-decoration: none; margin: 0 !important; }
+html.lm-novo .pagina-carrinho .quantidade input[name=quantidade] { width: 56px !important; height: 40px !important; box-sizing: border-box; margin: 0 !important; text-align: center; border: var(--lm-borda-padrao) !important; border-radius: 0 !important; box-shadow: none !important; font: 600 15px/1 var(--lm-fonte-texto) !important; }
+html.lm-novo .pagina-carrinho .quantidade .atualizar-quantidade { flex-basis: 100%; min-height: 40px !important; font-size: 12px !important; }
+html.lm-novo .pagina-carrinho .preco-produto strong { font: 700 18px/1.2 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
+html.lm-novo .pagina-carrinho .excluir a { width: 40px; height: 40px; display: inline-grid; place-content: center; color: var(--lm-texto-secundario) !important; text-decoration: none; }
+html.lm-novo .pagina-carrinho .excluir a:hover { color: var(--lm-onda-escura) !important; }
+html.lm-novo .pagina-carrinho .tabela-carrinho tr.bg-dark td { background: var(--lm-fundo) !important; }
+html.lm-novo .pagina-carrinho .subtotal { font-size: 15px; text-align: right; }
+html.lm-novo .pagina-carrinho .tabela-carrinho .control-group { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; margin: 0 !important; }
+html.lm-novo .pagina-carrinho .tabela-carrinho .control-label { float: none !important; width: auto !important; min-width: 150px; padding: 0 !important; text-align: left !important; font: 600 14px/1.3 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
+html.lm-novo .pagina-carrinho .tabela-carrinho .controls { margin: 0 !important; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
+/* campo + botão encaixados: mesma altura e mesmo topo */
+html.lm-novo .pagina-carrinho .tabela-carrinho .input-append { display: flex !important; align-items: stretch; gap: 8px; margin: 0 !important; font-size: 0; }
+html.lm-novo .pagina-carrinho .tabela-carrinho .input-append input { width: 160px !important; height: 44px !important; box-sizing: border-box; margin: 0 !important; padding: 0 14px !important; border: var(--lm-borda-padrao) !important; border-radius: 0 !important; box-shadow: none !important; background: #fff !important; font: 400 15px/1 var(--lm-fonte-texto) !important; }
+html.lm-novo .pagina-carrinho .tabela-carrinho .input-append .btn { height: 44px !important; box-sizing: border-box; margin: 0 !important; padding: 0 20px !important; border: 0 !important; border-radius: 999px !important; background: #fff !important; box-shadow: inset 0 0 0 1.5px var(--lm-onda-escura) !important; color: var(--lm-onda-escura) !important; text-shadow: none !important; font: 700 13px/1 var(--lm-fonte-texto) !important; letter-spacing: .04em; text-transform: uppercase; display: inline-flex; align-items: center; gap: 6px; }
+html.lm-novo .pagina-carrinho .tabela-carrinho .input-append .btn:hover { background: var(--lm-onda-escura) !important; color: #fff !important; }
+html.lm-novo .pagina-carrinho .help-inline { padding: 0 !important; font-size: 13px; }
+html.lm-novo .pagina-carrinho .help-inline a { color: var(--lm-azul-hover) !important; text-decoration: underline; text-underline-offset: 3px; }
+html.lm-novo .pagina-carrinho .total { text-align: right; font-size: 15px; }
+html.lm-novo .pagina-carrinho .total strong { font: 700 28px/1.2 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; margin-left: 8px; }
+html.lm-novo .pagina-carrinho .valores-descontos { text-align: right; font-size: 14px; color: var(--lm-texto-secundario); }
+html.lm-novo .pagina-carrinho .acao-editar { margin-top: 24px !important; }
+html.lm-novo .pagina-carrinho .acao-editar .span12 { display: flex; justify-content: flex-end; align-items: center; gap: 12px; flex-wrap: wrap; float: none !important; width: auto !important; }
+html.lm-novo .pagina-carrinho .acao-editar .botao { margin: 0 !important; float: none !important; }
+html.lm-novo .pagina-carrinho .acao-editar .botao > i, html.lm-novo .pagina-carrinho .acao-editar .botao::before { display: none !important; }  /* ícone tirava o texto do centro do botão */
+/* carrinho vazio */
+html.lm-novo .pagina-carrinho .caixa-destaque { border: 0 !important; box-shadow: none !important; background: none !important; text-align: center; padding: 48px 0 !important; margin: 0 !important; }
+html.lm-novo .pagina-carrinho .caixa-destaque h1 { font: 700 var(--lm-h2)/1.1 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; text-transform: none !important; margin: 0 0 24px !important; }
+@media (max-width: 767px) {
+  html.lm-novo #corpo .cabecalho-interno h1 { font-size: 1.875rem !important; margin-bottom: 16px !important; }
+  html.lm-novo .pagina-carrinho .tabela-carrinho td { padding: 12px 16px !important; }
+  html.lm-novo .pagina-carrinho .tabela-carrinho .control-group, html.lm-novo .pagina-carrinho .tabela-carrinho .controls { justify-content: center; }
+  html.lm-novo .pagina-carrinho .tabela-carrinho .control-label { min-width: 0; width: 100% !important; text-align: center !important; }
+  html.lm-novo .pagina-carrinho .tabela-carrinho .input-append input { width: 150px !important; }
+  html.lm-novo .pagina-carrinho .acao-editar .span12 { flex-direction: column-reverse; align-items: stretch; }
+  html.lm-novo .pagina-carrinho .acao-editar .botao { width: 100% !important; }
+  html.lm-novo .pagina-carrinho .caixa-destaque { padding: 32px 0 !important; }
+  html.lm-novo .pagina-carrinho .caixa-destaque h1 { font-size: var(--lm-h3) !important; }
+}
+
+/* avisos do sistema (ex.: "Você deve estar autenticado"): cantos retos e texto com contraste */
+html.lm-novo .alert { border-radius: 0 !important; text-shadow: none !important; }
+html.lm-novo .alert-danger { color: #8A2826 !important; }
+
+/* ===== conta / login (/conta/login; /conta/index sem login cai aqui) ===== */
+html.lm-novo .pagina-login .cadastro { padding: 24px 0 0; }
+html.lm-novo .pagina-login .cadastro-logar { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin: 0 !important; }
+html.lm-novo .pagina-login .cadastro-logar::before, html.lm-novo .pagina-login .cadastro-logar::after { display: none !important; }
+html.lm-novo .pagina-login .cadastro-logar > .span6 { width: auto !important; margin: 0 !important; float: none !important; }
+html.lm-novo .pagina-login .cadastro-logar .caixa-sombreada { height: 100%; box-sizing: border-box; border: var(--lm-borda-padrao) !important; box-shadow: none !important; background: #fff !important; border-radius: 0 !important; padding: 32px !important; margin: 0 !important; }
+html.lm-novo .pagina-login .cadastro-logar legend { width: 100%; font: 700 var(--lm-h3)/1.1 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; text-transform: none !important; border: 0 !important; border-bottom: var(--lm-borda-padrao) !important; padding: 0 0 16px !important; margin: 0 0 24px !important; }
+html.lm-novo .pagina-login .cadastro-logar legend i { color: var(--lm-onda-escura); margin-right: 8px; font-size: .8em; }
+html.lm-novo .pagina-login .cadastro-logar .control-group { margin: 0 0 16px !important; }
+html.lm-novo .pagina-login .cadastro-logar label { float: none !important; width: auto !important; display: block; text-align: left !important; padding: 0 !important; margin: 0 0 8px !important; font: 600 14px/1.3 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
+html.lm-novo .pagina-login .cadastro-logar .controls { margin: 0 !important; }
+html.lm-novo .pagina-login .cadastro-logar input:is([type=text], [type=password], [type=email]) { width: 100% !important; height: 48px !important; box-sizing: border-box; margin: 0 !important; padding: 0 14px !important; border: var(--lm-borda-padrao) !important; border-radius: 0 !important; box-shadow: none !important; background: #fff !important; font: 400 15px/1 var(--lm-fonte-texto) !important; }
+html.lm-novo .pagina-login .cadastro-logar input:focus { outline: var(--lm-foco); outline-offset: 0; border-color: var(--lm-onda-escura) !important; }
+/* login: Prosseguir embaixo da senha, na largura do campo */
+html.lm-novo .pagina-login .cadastro-logar .form-horizontal .controls .botao { width: 100%; margin: 16px 0 0 !important; }
+/* cadastro: campo + Cadastrar lado a lado, encaixados (mesma altura e mesmo topo) */
+html.lm-novo .pagina-login .cadastro-logar fieldset > div:not([class]) { display: flex; gap: 8px; align-items: stretch; }
+html.lm-novo .pagina-login .cadastro-logar fieldset > div:not([class]) input { flex: 1; min-width: 0; }
+html.lm-novo .pagina-login .cadastro-logar fieldset > div:not([class]) .botao { margin: 0 !important; flex: none; height: 48px !important; min-height: 48px !important; }
+html.lm-novo .pagina-login .recuperar-senha { display: inline-flex; align-items: center; gap: 6px; margin: 4px 0 0 !important; padding: 0 !important; font: 400 14px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-azul-hover) !important; text-decoration: underline; text-underline-offset: 3px; }
+html.lm-novo .pagina-login .social-login-google { margin: 24px 0 0 !important; }
+html.lm-novo .pagina-login .social-login-google .controls { margin: 0 !important; }
+@media (max-width: 767px) {
+  html.lm-novo .pagina-login .cadastro { padding-top: 8px; }
+  html.lm-novo .pagina-login .cadastro-logar { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  html.lm-novo .pagina-login .cadastro-logar .caixa-sombreada { padding: 24px 16px !important; }
 }
