@@ -1,1 +1,109 @@
-/* Loren Metais, página de categoria (carregado pelo loren.js). */
+/* Loren Metais, página de categoria e de busca (carregado pelo loren.js; a classe body.lm-cat vem do categoria.js). */
+html.lm-novo body.lm-cat #corpo .breadcrumbs { background: none !important; border: 0 !important; box-shadow: none !important; padding: 16px 0 0 !important; margin: 0 !important; font-size: .8125rem; color: var(--lm-texto-secundario); }
+html.lm-novo body.lm-cat #corpo .breadcrumbs ul { margin: 0; }
+
+/* topo: título, 1º parágrafo e chips */
+html.lm-novo body.lm-cat .lm-cat-topo { padding: 16px 0 24px; }
+html.lm-novo body.lm-cat .lm-cat-topo h1 { font: 700 var(--lm-h1)/1 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; text-transform: none !important; border: 0 !important; margin: 0 !important; padding: 0 !important; }
+html.lm-novo body.lm-cat .lm-cat-intro { color: var(--lm-texto-secundario); font-size: 1rem; line-height: 1.6; max-width: 46em; margin: 12px 0 0; padding: 0; }
+html.lm-novo body.lm-cat .lm-cat-corta:not(.lm-aberto) { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 5; line-clamp: 5; overflow: hidden; }
+html.lm-novo body.lm-cat .lm-cat-mais { border: 0; background: none; padding: 0; margin: 8px 0 0; font: 600 .9375rem/1.4 var(--lm-fonte-texto); color: var(--lm-onda-escura); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+html.lm-novo body.lm-cat .lm-cat-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+html.lm-novo body.lm-cat .lm-cat-chips a { border: var(--lm-borda-padrao); background: #fff; padding: 8px 14px; font: 600 .875rem/1.2 var(--lm-fonte-texto); color: var(--lm-grafite); text-decoration: none; white-space: nowrap; }
+html.lm-novo body.lm-cat .lm-cat-chips a:hover { border-color: var(--lm-onda-escura); color: var(--lm-onda-escura); }
+
+/* duas colunas: 240 px (menu + filtros) e a lista */
+html.lm-novo body.lm-cat #corpo .secao-principal { display: grid !important; grid-template-columns: 240px minmax(0, 1fr); gap: 32px; margin: 0 !important; }
+html.lm-novo body.lm-cat #corpo .secao-principal::before, html.lm-novo body.lm-cat #corpo .secao-principal::after { display: none !important; }
+html.lm-novo body.lm-cat #corpo .secao-principal > .coluna, html.lm-novo body.lm-cat #corpo .secao-principal > .conteudo { display: block !important; width: auto !important; margin: 0 !important; float: none !important; min-width: 0; }
+
+/* coluna */
+html.lm-novo body.lm-cat .coluna .menu.lateral, html.lm-novo body.lm-cat .coluna .lateral, html.lm-novo body.lm-cat .coluna .filtro, html.lm-novo body.lm-cat .coluna .componente { border: 0 !important; background: none !important; box-shadow: none !important; padding: 0 !important; margin: 0 !important; }
+html.lm-novo body.lm-cat .coluna .menu.lateral:not(.outras)::before { content: 'Categorias'; display: block; font: 700 1.125rem/1 var(--lm-fonte-titulo); color: var(--lm-grafite); margin: 0 0 8px; }
+html.lm-novo body.lm-cat .coluna .menu.lateral ul { margin: 0 !important; padding: 0 !important; border: 0 !important; }
+html.lm-novo body.lm-cat .coluna .menu.lateral li { list-style: none; border: 0 !important; border-bottom: var(--lm-borda-padrao) !important; margin: 0 !important; padding: 0 !important; background: none !important; }
+html.lm-novo body.lm-cat .coluna .menu.lateral li a { display: block; padding: 9px 0 !important; background: none !important; }
+html.lm-novo body.lm-cat .coluna .menu.lateral li a, html.lm-novo body.lm-cat .coluna .menu.lateral li a .titulo { font: 400 .9375rem/1.3 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; text-transform: none !important; }
+html.lm-novo body.lm-cat .coluna .menu.lateral li a .titulo { display: inline !important; padding: 0 !important; margin: 0 !important; border: 0 !important; background: none !important; }
+html.lm-novo body.lm-cat .coluna .menu.lateral .nivel-dois { padding: 0 0 8px 12px !important; background: none !important; }
+html.lm-novo body.lm-cat .coluna .menu.lateral .nivel-dois li { border: 0 !important; }
+html.lm-novo body.lm-cat .coluna .menu.lateral .nivel-dois li a { padding: 5px 0 !important; font-size: .875rem !important; color: var(--lm-texto-secundario) !important; }
+html.lm-novo body.lm-cat .coluna .menu.lateral .nivel-dois li a:hover, html.lm-novo body.lm-cat .coluna .menu.lateral li a:hover .titulo { color: var(--lm-onda-escura) !important; }
+html.lm-novo body.lm-cat .coluna .menu.lateral li.ativo > a .titulo { font-weight: 700 !important; color: var(--lm-onda-escura) !important; }
+html.lm-novo body.lm-cat .coluna .menu.lateral.outras { margin-bottom: 32px !important; }
+html.lm-novo body.lm-cat .coluna .filtro .titulo { font: 700 1.125rem/1 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; text-transform: none !important; border: 0 !important; background: none !important; padding: 0 !important; margin: 24px 0 8px !important; }
+html.lm-novo body.lm-cat .coluna .filtro .atributo-lista { border: 0 !important; background: none !important; padding: 0 !important; max-height: none; }
+html.lm-novo body.lm-cat .coluna .filtro ul { margin: 0 !important; padding: 0 !important; border: 0 !important; background: none !important; }
+html.lm-novo body.lm-cat .coluna .filtro li { list-style: none; border: 0 !important; margin: 0 !important; }
+html.lm-novo body.lm-cat .coluna .filtro li a { display: block; text-decoration: none; padding: 0 !important; background: none !important; }
+html.lm-novo body.lm-cat .coluna .filtro label { display: flex; gap: 8px; align-items: center; padding: 6px 0; margin: 0; font: 400 .9375rem/1.3 var(--lm-fonte-texto); color: var(--lm-grafite); cursor: pointer; }
+html.lm-novo body.lm-cat .coluna .filtro label::before { content: ''; flex: 0 0 18px; height: 18px; border: 1px solid #b9bcc2; background: #fff; }
+html.lm-novo body.lm-cat .coluna .filtro li.active label::before, html.lm-novo body.lm-cat .coluna .filtro li.ativo label::before { background: var(--lm-onda-escura); border-color: var(--lm-onda-escura); box-shadow: inset 0 0 0 3px #fff; }
+html.lm-novo body.lm-cat .coluna .filtro label small { color: var(--lm-texto-secundario); font-size: .8125rem; }
+html.lm-novo body.lm-cat .coluna .lm-cat-vazio { display: none !important; }  /* só sobrou o título, que repete o h1 */
+html.lm-novo body.lm-cat .coluna .newsletter { margin-top: 32px !important; }
+html.lm-novo body.lm-cat .lm-cat-fechar, html.lm-novo body.lm-cat .lm-cat-filtrar { display: none; }
+html.lm-novo body.lm-cat .filtro-mobile, html.lm-novo body.lm-cat .filtro-mobile-itens { display: none !important; }  /* cópia dos filtros que o tema cria no celular: os mesmos filtros abrem pelo Filtrar */
+
+/* barra Ordenar (a paginação de cima repete a de baixo) */
+html.lm-novo body.lm-cat .ordenar-listagem.topo { display: flex; gap: 8px; align-items: center; justify-content: flex-end; border: 0 !important; background: #fff !important; box-shadow: none !important; padding: 0 0 16px !important; margin: 0 !important; }
+html.lm-novo body.lm-cat .ordenar-listagem.topo > .row-fluid { display: flex; justify-content: flex-end; width: auto; }
+html.lm-novo body.lm-cat .ordenar-listagem.topo > .row-fluid::before, html.lm-novo body.lm-cat .ordenar-listagem.topo > .row-fluid::after { display: none; }
+html.lm-novo body.lm-cat .ordenar-listagem.topo .span6 { width: auto !important; margin: 0 !important; float: none !important; }
+html.lm-novo body.lm-cat .ordenar-listagem.topo .pagination { display: none !important; }
+html.lm-novo body.lm-cat .ordenar-listagem .input-append { display: flex !important; align-items: center; height: 44px; border: var(--lm-borda-padrao); background: #fff; margin: 0 !important; padding: 0 0 0 14px; box-sizing: border-box; font: 600 .875rem/1 var(--lm-fonte-texto); color: var(--lm-grafite); }
+html.lm-novo body.lm-cat .ordenar-listagem .input-append::before { content: 'Ordenar:'; margin-right: 6px; font-weight: 400; color: var(--lm-texto-secundario); }
+html.lm-novo body.lm-cat .ordenar-listagem .input-append label { margin: 0 !important; padding: 0 !important; border: 0 !important; background: none !important; font: inherit !important; height: auto !important; line-height: 1 !important; box-shadow: none !important; }
+html.lm-novo body.lm-cat .ordenar-listagem .input-append .btn { height: 42px; border: 0 !important; background: none !important; box-shadow: none !important; border-radius: 0 !important; padding: 0 12px !important; }
+html.lm-novo body.lm-cat .ordenar-listagem .dropdown-menu { border-radius: 0 !important; border: var(--lm-borda-padrao) !important; box-shadow: var(--lm-cartao-sombra-hover) !important; }
+html.lm-novo body.lm-cat .lm-cat-filtrar { height: 44px; border: var(--lm-borda-padrao); background: #fff; padding: 0 14px; font: 600 .875rem/1 var(--lm-fonte-texto); color: var(--lm-grafite); border-radius: 0; cursor: pointer; }
+
+/* lista: 3 por linha no computador (os cards são da base) */
+html.lm-novo body.lm-cat #corpo .conteudo > .listagem:not(#listagemProdutos) { border: 0 !important; background: none !important; box-shadow: none !important; padding: 0 !important; margin: 0 !important; }
+html.lm-novo body.lm-cat #corpo .conteudo #listagemProdutos { margin: 0 !important; }
+html.lm-novo body.lm-cat #corpo .conteudo #listagemProdutos > ul { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+
+/* paginação */
+html.lm-novo body.lm-cat .ordenar-listagem.rodape { border: 0 !important; background: none !important; box-shadow: none !important; padding: 16px 0 0 !important; margin: 0 !important; }
+html.lm-novo body.lm-cat .ordenar-listagem.rodape .pagination { margin: 0 !important; text-align: center; }
+html.lm-novo body.lm-cat .ordenar-listagem.rodape .pagination ul { display: flex !important; justify-content: center; flex-wrap: wrap; gap: 8px; box-shadow: none !important; margin: 0 !important; }
+html.lm-novo body.lm-cat .ordenar-listagem.rodape .pagination li > a, html.lm-novo body.lm-cat .ordenar-listagem.rodape .pagination li > span { float: none !important; min-width: 40px; height: 40px; box-sizing: border-box; display: grid !important; place-content: center; padding: 0 8px !important; border: var(--lm-borda-padrao) !important; border-radius: 0 !important; background: #fff !important; color: var(--lm-grafite) !important; font: 600 .9375rem/1 var(--lm-fonte-texto) !important; }
+html.lm-novo body.lm-cat .ordenar-listagem.rodape .pagination li.active > a { background: var(--lm-grafite) !important; border-color: var(--lm-grafite) !important; color: #fff !important; }
+html.lm-novo body.lm-cat .ordenar-listagem.rodape .pagination li.disabled > a { opacity: .4; }
+
+/* Saiba mais: resto da descrição e perguntas frequentes */
+html.lm-novo body.lm-cat .lm-cat-saiba { border-top: var(--lm-borda-padrao); margin-top: 48px; padding-block: 48px; }
+html.lm-novo body.lm-cat .lm-cat-saiba h2 { font: 700 var(--lm-h2)/1 var(--lm-fonte-titulo); color: var(--lm-grafite); margin: 0 0 16px; text-transform: none; }
+html.lm-novo body.lm-cat .lm-cat-cols { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 48px; align-items: start; }
+html.lm-novo body.lm-cat .lm-cat-guia h3 { font: 700 1.125rem/1.2 var(--lm-fonte-titulo); margin: 24px 0 8px; }
+html.lm-novo body.lm-cat .lm-cat-guia > :first-child { margin-top: 0; }
+html.lm-novo body.lm-cat .lm-cat-guia ul { margin: 0 0 12px; padding-left: 18px; } html.lm-novo body.lm-cat .lm-cat-guia li { margin-bottom: 6px; } html.lm-novo body.lm-cat .lm-cat-guia p { margin: 0 0 12px; }
+html.lm-novo body.lm-cat .lm-cat-guia a { color: var(--lm-onda-escura); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+html.lm-novo body.lm-cat .lm-cat-faq { border: var(--lm-borda-padrao); padding: 24px; }
+html.lm-novo body.lm-cat .lm-cat-faq-tit { font: 700 var(--lm-h3)/1.1 var(--lm-fonte-titulo); margin: 0 0 8px; }
+html.lm-novo body.lm-cat .lm-cat-faq details { border-top: var(--lm-borda-padrao); padding: 14px 0; }
+html.lm-novo body.lm-cat .lm-cat-faq summary { font-weight: 600; cursor: pointer; }
+html.lm-novo body.lm-cat .lm-cat-faq details p { margin: 8px 0 0; color: var(--lm-texto-secundario); }
+
+@media (min-width: 768px) { html.lm-novo body.lm-cat .lm-so-cel { display: none !important; } }
+@media (max-width: 767px) {
+  html.lm-novo body.lm-cat #corpo .secao-principal { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  html.lm-novo body.lm-cat:not(.lm-filtros) #corpo .secao-principal > .coluna { display: none !important; }
+  html.lm-novo body.lm-filtros #corpo .secao-principal > .coluna { position: fixed !important; inset: 0; z-index: 1000; background: #fff; overflow-y: auto; padding: 0 16px 32px !important; }
+  html.lm-novo body.lm-filtros .lm-cat-fechar { display: block; position: sticky; top: 0; z-index: 1; width: calc(100% + 32px); margin: 0 -16px 16px; height: 52px; border: 0; border-bottom: var(--lm-borda-padrao); background: #fff; text-align: right; padding: 0 16px; font: 600 .9375rem/1 var(--lm-fonte-texto); color: var(--lm-onda-escura); }
+  html.lm-novo body.lm-cat .lm-cat-topo { padding: 8px 0 16px; }
+  html.lm-novo body.lm-cat .lm-cat-intro { font-size: var(--lm-corpo-celular); }
+  html.lm-novo body.lm-cat .lm-cat-corta:not(.lm-aberto) { -webkit-line-clamp: 4; line-clamp: 4; }
+  html.lm-novo body.lm-filtros { overflow: hidden; }
+  html.lm-novo body.lm-filtros .coluna .menu.lateral, html.lm-novo body.lm-filtros .coluna .menu.lateral ul { display: block !important; }  /* o tema esconde o menu lateral no celular */
+  html.lm-novo body.lm-cat .lm-cat-chips { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-top: 16px; padding-bottom: 2px; }
+  html.lm-novo body.lm-cat .ordenar-listagem.topo { position: sticky; top: 0; z-index: 20; padding: 8px 0 !important; margin-bottom: 12px !important; border-bottom: var(--lm-borda-padrao) !important; }
+  html.lm-novo body.lm-cat .lm-cat-filtrar { display: block; flex: 1; }
+  html.lm-novo body.lm-cat .ordenar-listagem.topo > .row-fluid, html.lm-novo body.lm-cat .ordenar-listagem.topo .span6, html.lm-novo body.lm-cat .ordenar-listagem.topo .input-append { flex: 1; width: auto !important; }
+  html.lm-novo body.lm-cat .ordenar-listagem.topo .span6 > div, html.lm-novo body.lm-cat .ordenar-listagem.topo .span6:first-child { flex: 1; }
+  html.lm-novo body.lm-cat .ordenar-listagem .input-append { justify-content: center; }
+  html.lm-novo body.lm-cat #corpo .conteudo #listagemProdutos > ul { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  html.lm-novo body.lm-cat .lm-cat-saiba { margin-top: 32px; padding-block: 32px; }
+  html.lm-novo body.lm-cat .lm-cat-cols { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  html.lm-novo body.lm-cat .lm-cat-faq { padding: 16px; }
+}
