@@ -354,8 +354,8 @@ html.lm-novo :is(#corpo, #cabecalho) .cor-secundaria:not(.botao):not([class*="fu
 html.lm-novo .breadcrumbs, html.lm-novo .breadcrumbs a, html.lm-novo .breadcrumbs span, html.lm-novo .breadcrumbs strong { color: var(--lm-texto-secundario) !important; }
 html.lm-novo .breadcrumbs a:hover { color: var(--lm-onda-escura) !important; }
 /* trilha: mesmo respiro e sem caixa do tema em categoria, busca, institucionais, carrinho e conta (o produto tem a dele, no produto.css) */
-html.lm-novo body:not(.pagina-produto) #corpo .breadcrumbs { margin: 0 !important; padding: 16px 0 0 !important; border: 0 !important; background: none !important; box-shadow: none !important; font-size: .8125rem; }
-html.lm-novo body:not(.pagina-produto) #corpo .breadcrumbs :is(ul, li) { margin: 0 !important; padding: 0 !important; }
+html.lm-novo body:not(.pagina-produto) #corpo :not(.lm-pagcab__in) > .breadcrumbs { margin: 0 !important; padding: 16px 0 0 !important; border: 0 !important; background: none !important; box-shadow: none !important; font-size: .8125rem; }
+html.lm-novo body:not(.pagina-produto) #corpo .breadcrumbs :is(ul, li) { margin: 0 !important; padding: 0 !important; }  /* solta no corpo; dentro da faixa .lm-pagcab a trilha segue a regra dela, mais abaixo */
 @media (max-width: 767px) {
   html.lm-novo body.mostrarAvisoCookie .lm-chat { bottom: 176px; }
 }
@@ -397,7 +397,7 @@ html.lm-novo .scrollToTop { display: none !important; }
 /* secundário: contorno, no hover vira o gradiente */
 html.lm-novo :is(.lm-btn2, .lm-mais) { background: var(--lm-branco) !important; color: var(--lm-onda-escura) !important; box-shadow: inset 0 0 0 2px var(--lm-onda-escura) !important; border: 0 !important; border-radius: var(--lm-btn-raio) !important; font: 700 15px/1.2 var(--lm-fonte-texto) !important; letter-spacing: .04em !important; text-transform: uppercase !important; }
 html.lm-novo :is(.lm-btn2, .lm-mais):hover { background: var(--lm-btn-gradiente) !important; color: var(--lm-branco) !important; box-shadow: none !important; }
-/* botão sobre faixa colorida (B2B, newsletter, .lm-fab): UMA regra. Principal: branco com texto azul, hover grafite com texto branco.
+/* botão sobre faixa colorida (B2B, newsletter, .lm-fab): UMA regra. Principal: branco com texto azul, hover azul clarinho (o grafite ficava pesado, Eduardo 04/11).
    Secundário: contorno branco, hover fundo branco com texto azul. O ID no :is() dá peso para vencer a regra geral de hover dos botões (que deixava azul sobre azul) */
 html.lm-novo :is(.lm-b2b, #barraNewsletter, .lm-fab) :is(.lm-btn, .botao):not(.lm-btn2) { background: var(--lm-branco) !important; color: var(--lm-btn-gradiente) !important; box-shadow: none !important; }
 html.lm-novo :is(.lm-b2b, #barraNewsletter, .lm-fab) :is(.lm-btn, .botao):not(.lm-btn2):hover { background: #E6F3F7 !important; color: var(--lm-btn-gradiente-hover) !important; }
@@ -516,4 +516,22 @@ html.lm-novo:not(.lm-pronto) :is(.secao-banners, #corpo, #barraNewsletter, #roda
 @media (max-width: 767px) {
   html.lm-novo :is(#corpo, #rodape, #barraNewsletter) .conteiner { box-sizing: border-box !important; padding-left: var(--lm-margem) !important; padding-right: var(--lm-margem) !important; }
   html.lm-novo :is(#corpo, #rodape, #barraNewsletter) .conteiner .conteiner { padding-left: 0 !important; padding-right: 0 !important; }
+}
+
+/* ===== cabeçalho de página padrão (Ellie 04/11; componente do loren.css, montado por window.lmPagcab do loren.js): trilha + h1 + linha de apoio que a página já tem, numa faixa de
+   ponta a ponta com o fundo claro; o texto alinha com a borda do conteúdo de cada página (coluna de 760 nas
+   institucionais, contêiner nas outras). Mesmo respiro em todas: 48 px (32 no celular) dentro e depois da faixa ===== */
+html.lm-novo .lm-pagcab { position: relative; margin: 0 0 48px !important; padding: 48px 0 !important; background: var(--lm-fundo); box-shadow: 0 0 0 100vmax var(--lm-fundo); clip-path: inset(0 -100vmax); }
+html.lm-novo .lm-pagcab--leitura .lm-pagcab__in { max-width: 760px; margin: 0 auto; }
+html.lm-novo #corpo .lm-pagcab .breadcrumbs { max-width: none !important; margin: 0 0 16px !important; padding: 0 !important; }
+html.lm-novo #corpo .lm-pagcab h1 { margin: 0 !important; padding: 0 !important; border: 0 !important; font: 700 var(--lm-h1)/1.05 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; text-transform: none !important; text-align: left !important; }
+html.lm-novo #corpo .lm-pagcab .lm-pagcab__apoio { max-width: 640px; margin: 16px 0 0 !important; padding: 0 !important; font: 400 18px/1.5 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; text-transform: none !important; text-align: left !important; }
+html.lm-novo #corpo .lm-pagcab .lm-pagcab__apoio * { font: inherit !important; color: inherit !important; }
+/* o conteúdo começa logo depois da faixa (o respiro é a margem dela) */
+html.lm-novo body.lm-com-cab #corpo :is(.lm-inst, .secao-principal) { padding-top: 0 !important; }
+html.lm-novo #corpo .lm-vazio-cab { display: none !important; }
+@media (max-width: 767px) {
+  html.lm-novo .lm-pagcab { margin-bottom: 32px !important; padding: 32px 0 !important; }
+  html.lm-novo #corpo .lm-pagcab h1 { font-size: 1.875rem !important; }
+  html.lm-novo #corpo .lm-pagcab .lm-pagcab__apoio { font-size: 16px !important; }
 }

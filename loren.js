@@ -9,6 +9,22 @@
   const ORC = 'data-toggle="modal" data-target="#modal_consulte"';  // o mesmo formulário de orçamento que o site já tem
   const ico = (d) => `<span class="lm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${d}</svg></span>`;
   document.documentElement.classList.add('lm-novo');
+  // Cabeçalho de página (Ellie 04/11): trilha + h1 + linha de apoio numa faixa só (.lm-pagcab, estilo no loren.css). Quem chama escolhe o h1 e o apoio
+  // (paginas.js: institucionais, conta, carrinho, 404; categoria.js: categoria e busca). Só MOVE elementos, não cria texto; o <small> do título vira <p>.
+  // lmPagcab(h1, { apoio: elemento da linha de apoio (ou o <small> do h1), leitura: true na coluna de leitura de 760 }) devolve o <header> ou null
+  window.lmPagcab = (h1, { apoio = null, leitura = false } = {}) => {
+    const corpo = document.querySelector('#corpo'); if (!corpo || !h1 || corpo.querySelector('.lm-pagcab')) return null;
+    const base = corpo.querySelector(':scope > .conteiner') || h1.closest('.conteiner') || corpo;
+    const cab = document.createElement('header'); cab.className = 'lm-pagcab' + (leitura ? ' lm-pagcab--leitura' : ''); cab.innerHTML = '<div class="lm-pagcab__in"></div>';
+    const dentro = cab.firstChild, trilha = corpo.querySelector('.breadcrumbs'); apoio = apoio || h1.querySelector('small');
+    if (trilha) dentro.append(trilha);
+    dentro.append(h1);
+    if (apoio) { if (apoio.tagName === 'SMALL') { const p = document.createElement('p'); p.textContent = apoio.textContent.trim(); apoio.remove(); apoio = p; } apoio.classList.add('lm-pagcab__apoio'); dentro.append(apoio); }
+    base.prepend(cab); document.body.classList.add('lm-com-cab');
+    const temTexto = (e) => !!e.textContent.trim() || !!e.querySelector('img, input, select, textarea, table, form, iframe, svg');
+    corpo.querySelectorAll('.cabecalho-interno, .box-destaque').forEach((e) => { if (!temTexto(e)) e.classList.add('lm-vazio-cab'); });  // caixas do tema que ficaram vazias
+    return cab;
+  };
   // um par de arquivos por tipo de página (cada agente mexe no seu): categoria.* (categoria e busca), produto.*
   const pagina = () => { const c = document.body.className; return /pagina-categoria|pagina-busca/.test(c) ? 'categoria' : /pagina-produto/.test(c) ? 'produto' : /pagina-inicial/.test(c) ? '' : 'paginas'; };  // paginas.*: institucionais, carrinho, conta (Marty)
   // modais.* (formulários em janela, como o Pedir orçamento) vale em toda página
@@ -129,7 +145,7 @@
       <ul><li><b>Fabricação própria</b><span>Produtos com peças de reposição e pós-venda.</span></li><li><b>Linha de acessibilidade</b><span>Barras de apoio, assentos e torneiras para banheiros PNE.</span></li><li><b>Retirada agendada</b><span>Centro de distribuição em Indaiatuba, a 500 m da rodovia.</span></li></ul></div></section>`);
   };
   // html.lm-pronto: o loren.css reserva o espaço do que o JS monta e esconde o que ele troca até esta classe; o snippet do cabeçalho a liga sozinho em 3 s se o JS falhar
-  const tudo = () => { const carga = extra(); monta(); Promise.race([carga, new Promise((ok) => setTimeout(ok, 2500))]).then(() => document.documentElement.classList.add('lm-pronto')); };
+  const tudo = () => { const carga = extra(); monta(); Promise.race([Promise.all([carga, document.fonts ? document.fonts.ready : 0]), new Promise((ok) => setTimeout(ok, 2500))]).then(() => document.documentElement.classList.add('lm-pronto')); };
   // o tema monta o menu e a gaveta no ready do jQuery (LI.methods.otherCategories joga para "Outros" tudo que passa de 6 itens, inclusive o nosso Obras finalizadas): entramos depois dele
   const arranca = () => (window.jQuery ? window.jQuery(() => setTimeout(tudo, 0)) : tudo());
   document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', arranca) : arranca();
