@@ -1,6 +1,6 @@
 // Loren Metais, página de produto (carregado pelo loren.js em body.pagina-produto). Só reorganiza o que a página tem:
 // trilha acima de tudo, galeria com setas, zoom e carrossel no celular, um só chamado de cotação no sob consulta, frete
-// abaixo do Adicionar, selos curtos (as frases da barra do topo) e a faixa "fabricação própria". Nada de texto da página é mudado.
+// abaixo do Adicionar, selos curtos (as frases da barra do topo). Nada de texto da página é mudado.
 (() => {
   if (!document.body.classList.contains('pagina-produto')) return;
   const ico = (d) => `<span class="lm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg></span>`;
@@ -94,11 +94,6 @@
       <li>${ico('<path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/>')}Envio em 24h para todo o Brasil</li>
       <li>${ico('<path d="M19 5 5 19"/><circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="17" r="2.5"/>')}10% de desconto no Pix ou boleto</li></ul>`);
 
-    // faixa "fabricação própria" entre a compra e a descrição
-    if (!document.querySelector('.lm-fab')) topo.insertAdjacentHTML('afterend', `<section class="lm-fab"><div class="lm-wrap">
-      <div><b>Fabricação própria</b><span>Indaiatuba/SP, com peças de reposição e pós-venda</span></div>
-      <div><b>Envio em 24h</b><span>para todo o Brasil</span></div>
-      <div><b>10% no Pix ou boleto</b><span>e até 4x no cartão</span></div></div></section>`);
   };
   document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', go) : go();
 })();
