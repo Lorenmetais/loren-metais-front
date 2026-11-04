@@ -32,6 +32,15 @@
       if (c.placeholder && !/@|\d/.test(c.placeholder)) c.placeholder = '';
     });
     raiz.querySelectorAll('.consulta button[type=submit], .avise-btn input[type=submit]').forEach((b) => b.classList.add('botao', 'principal'));
+    // janelas com dois botões (fale conosco, favorito): enviar/confirmar no botão principal, o "Fechar" no secundário
+    // de contorno (.lm-btn2 do loren.css); as duas classes já têm a altura do padrão (48)
+    const acoes = [...raiz.querySelectorAll('[type=submit], [data-dismiss="modal"]:not(.close), .modal-footer :is(.botao, .btn)')].filter((b) => !b.classList.contains('close'));
+    // produto adicionado ao carrinho: "Continuar comprando" no mesmo secundário do "Fechar" das outras janelas
+    raiz.querySelectorAll('.continuar-comprando').forEach((b) => b.classList.add('lm-btn2'));
+    if (acoes.length > 1) acoes.forEach((b) => {
+      const fecha = b.matches('[data-dismiss="modal"]');
+      b.classList.add('botao', fecha ? 'lm-btn2' : 'principal'); b.classList.remove(fecha ? 'principal' : 'lm-btn2', 'btn-primary');
+    });
   };
 
   // orçamento B2B: tipo de compra, quantidade e prazo. Os campos novos não têm name (não vão sozinhos para o envio do
@@ -74,7 +83,7 @@
   const pares = (form) => form.querySelectorAll('[name=email], [name=tel], [name=cep], [name=estado], [name=cnpj], [name=empresa]').forEach((c) => c.closest('.lm-grupo')?.classList.add('lm-par'));
 
   const prepara = () => {
-    ['#modal_consulte', '#modal_qtds', '#avise-me-cadastro', '#login-content'].forEach((s) => rotula(document.querySelector(s)));
+    ['#modal_consulte', '#modal_qtds', '#avise-me-cadastro', '#login-content', '#comprar-ajax-status'].forEach((s) => rotula(document.querySelector(s)));
     document.querySelectorAll('.modal form.consulta').forEach((f) => { novos(f); pares(f); });
     // fale conosco: o formulário chega por ajax de /contato/popup/
     const contato = document.querySelector('#modalContato');

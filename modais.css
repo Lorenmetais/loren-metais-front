@@ -60,7 +60,7 @@ html.lm-novo :is(.modal, .fancybox-wrap) :is(.lm-rotulo, .control-label) {
   color: var(--lm-grafite) !important; font: 600 14px/1.2 var(--lm-fonte-texto) !important;
 }
 html.lm-novo :is(.modal, .fancybox-wrap) .lm-campo { width: 100% !important; max-width: none !important; float: none !important; }
-html.lm-novo :is(.modal, .fancybox-wrap) textarea.lm-campo { height: 120px !important; padding: 12px 24px !important; border-radius: 24px !important; resize: vertical; line-height: 1.5 !important; }
+html.lm-novo :is(.modal, .fancybox-wrap) textarea.lm-campo { height: 120px !important; padding: 12px 24px !important; border-radius: 16px !important; resize: vertical; line-height: 1.5 !important; }
 html.lm-novo :is(.modal, .fancybox-wrap) .lm-campo::placeholder { color: var(--lm-texto-secundario) !important; opacity: 1; }
 /* grade de campos do tema (span5/span7, form-horizontal) empilhada */
 html.lm-novo :is(.modal, .fancybox-wrap) :is(.controls-row, .control-group, .controls, .avise-input, .email-box, .senha-box, .form-horizontal, [class*="span"]) { float: none !important; width: auto !important; margin-left: 0 !important; margin-right: 0 !important; padding: 0 !important; min-height: 0 !important; }
