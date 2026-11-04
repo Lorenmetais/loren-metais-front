@@ -65,7 +65,7 @@
   --lm-btn-gradiente: var(--lm-botao);        /* fundo do botão: cor fixa (Eduardo 04/11), texto branco 4,7:1; o nome ficou por compatibilidade */
   --lm-btn-gradiente-hover: var(--lm-botao-hover);  /* hover: azul mais escuro, sólido. Gradiente só em faixas (--lm-gradiente) */
   --lm-gradiente: linear-gradient(110deg, #018086 0%, #018086 56%, #009EA4 72%, #1394B1 88%, #81BBD3 100%);       /* tarja B2B: texto e botões à esquerda (até 56%) */
-  --lm-gradiente-news: linear-gradient(110deg, #018086 0%, #018086 78%, #009EA4 87%, #1394B1 94%, #81BBD3 100%);  /* newsletter: conteúdo centralizado, escuro até 78% */
+  --lm-gradiente-news: linear-gradient(110deg, #018086 0%, #018086 50%, #009EA4 74%, #1394B1 90%, #81BBD3 100%);  /* newsletter: começa em 50% e abre devagar (Eduardo 04/11); o título branco é grande, 3:1 basta */
   --lm-gradiente-fab: linear-gradient(110deg, #018086 0%, #018086 86%, #009EA4 92%, #1394B1 97%, #81BBD3 100%);   /* faixa de 3 colunas: escuro até 86% */
   --lm-btn-sombra: none;  /* sem sombra azul (Eduardo 04/11: parecia que o botão brilhava) */
   --lm-btn-transicao: color .125s ease-in-out, box-shadow .125s ease-in-out, background-color .125s ease-in-out;
