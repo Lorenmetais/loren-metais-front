@@ -37,5 +37,65 @@
       grade.querySelectorAll('.lm-obra-fotos:empty').forEach((f) => f.remove());
       txt.append(grade);
     }
+
+    // Quem somos: o 1º parágrafo vira lead (maior), o resto segue na coluna de leitura (Ellie 04/11)
+    const primeiro = () => [...txt.children].find((e) => !e.classList.contains('lm-vazio'));
+    if (/quem-somos/.test(location.pathname) && primeiro()?.tagName === 'P') primeiro().classList.add('lm-lead');
+
+    // Formas de pagamento: a arte da página (Slide1) é uma imagem só, com os selos dentro. Os selos separados que o site
+    // já tem ficam no rodapé ("Pague com" e "Selos"): uma cópia deles entra numa grade antes da arte, que continua igual
+    if (/formas-de-pagamento/.test(location.pathname) && !txt.querySelector('.lm-selos-pag')) {
+      const sec = document.createElement('section'); sec.className = 'lm-selos-pag';
+      for (const bloco of document.querySelectorAll('.pagamento-selos :is(.pagamento, .selos)')) {
+        const tit = bloco.querySelector('.titulo'); const vistos = new Set(); const ul = document.createElement('ul'); ul.className = 'lm-selos';
+        bloco.querySelectorAll('i.icone-pagamento, img').forEach((x) => {
+          const chave = x.tagName === 'IMG' ? x.src : x.className; if (vistos.has(chave)) return; vistos.add(chave);
+          const li = document.createElement('li'); const c = x.cloneNode(true); c.removeAttribute('class');
+          if (x.tagName === 'I') {
+            // bandeira do rodapé é sprite com CSS só do rodapé: a cópia leva o fundo calculado do original
+            c.className = x.className; const cs = getComputedStyle(x);
+            Object.assign(c.style, { display: 'inline-block', width: cs.width, height: cs.height, backgroundImage: cs.backgroundImage, backgroundPosition: cs.backgroundPosition, backgroundSize: cs.backgroundSize, backgroundRepeat: cs.backgroundRepeat });
+          }
+          li.append(c); ul.append(li);
+        });
+        if (!ul.children.length) continue;
+        if (tit) { const h = document.createElement('h2'); h.textContent = tit.textContent.trim(); sec.append(h); }
+        sec.append(ul);
+      }
+      const arte = txt.querySelector('img'); const antes = arte ? arte.closest('#corpo .lm-inst > div > *') : null;
+      if (sec.children.length) antes ? antes.before(sec) : txt.append(sec);
+      if (arte) arte.closest('p, div')?.classList.add('lm-arte');
+    }
+  }
+
+  // frete/cupom do carrinho e campos do login: classe .lm-campo (o campo padrão do loren.css); aqui só as larguras no CSS
+  document.querySelectorAll('body.pagina-carrinho .tabela-carrinho .input-append input, body.pagina-login .cadastro-logar input:is([type=text], [type=password], [type=email])').forEach((i) => i.classList.add('lm-campo'));
+
+  // cabeçalho de página padrão (Ellie 04/11): trilha + título + a linha de apoio que a página já tem (subtítulo do Word,
+  // o <small> do título da conta/carrinho, o texto da 404), numa faixa só, com o mesmo respiro em todas. Só move elementos.
+  const corpo = document.querySelector('#corpo');
+  const h1 = corpo && corpo.querySelector('.lm-inst > h1, .cabecalho-interno h1, .box-destaque > h1');
+  if (h1 && !corpo.querySelector('.lm-pagcab')) {
+    const base = corpo.querySelector(':scope > .conteiner') || h1.closest('.conteiner') || corpo;
+    let apoio = h1.querySelector('small') || (h1.closest('.box-destaque') && h1.parentElement.querySelector(':scope > p'));
+    if (!apoio && txt) {
+      const p1 = [...txt.children].find((e) => !e.classList.contains('lm-vazio'));
+      const negrito = p1 && p1.tagName === 'P' && p1.querySelector('strong, b') && p1.textContent.trim() === p1.querySelector('strong, b').textContent.trim();
+      const t = p1 ? p1.textContent.trim() : '';
+      if (p1 && (/^H[2-4]$/.test(p1.tagName) || negrito) && t && t.length <= 140 && t.toLowerCase() !== h1.textContent.trim().toLowerCase() && !p1.querySelector('a, img')) apoio = p1;
+    }
+    const cab = document.createElement('header'); cab.className = 'lm-pagcab' + (h1.closest('.lm-inst:not(.lm-obras-pag)') ? ' lm-pagcab--leitura' : '');
+    cab.innerHTML = '<div class="lm-pagcab__in"></div>';
+    const dentro = cab.firstChild; const trilha = corpo.querySelector('.breadcrumbs');
+    if (trilha) dentro.append(trilha);
+    dentro.append(h1);
+    if (apoio) {
+      // o <small> sai de dentro do h1 (vira linha própria); h2/p do Word mantêm a tag
+      if (apoio.tagName === 'SMALL') { const p = document.createElement('p'); p.textContent = apoio.textContent.trim(); apoio.remove(); apoio = p; }
+      apoio.classList.add('lm-pagcab__apoio'); dentro.append(apoio);
+    }
+    base.prepend(cab);
+    b.classList.add('lm-com-cab');
+    corpo.querySelectorAll('.cabecalho-interno, .box-destaque').forEach((e) => { if (!temTexto(e)) e.classList.add('lm-vazio-cab'); });
   }
 })();

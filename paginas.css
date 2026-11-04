@@ -1,7 +1,6 @@
 /* Loren Metais, páginas institucionais, carrinho e conta (carregado pelo loren.js nas páginas que não são início, categoria, busca nem produto). */
 html.lm-novo #corpo .breadcrumbs { background: none !important; border: 0 !important; box-shadow: none !important; padding: 16px 0 0 !important; margin: 0 !important; font-size: .8125rem; color: var(--lm-texto-secundario); }
 html.lm-novo #corpo .breadcrumbs :is(ul, li) { margin: 0 !important; padding: 0 !important; }
-html.lm-novo #corpo:has(.lm-inst:not(.lm-obras-pag)) .breadcrumbs { max-width: 760px; margin: 0 auto !important; }  /* trilha na coluna de leitura */
 
 /* ===== institucionais: coluna de leitura de 760 px, Inter 16/1.7, títulos Barlow sem caixa alta ===== */
 /* a mesma coluna em todas: na Acessibilidade a seção da página vinha com 650 px (regra do tema/painel só nela) (Ellie 04/11) */
@@ -18,11 +17,14 @@ html.lm-novo #corpo .lm-inst > div :is(h2, h3, h4) * { font-family: inherit !imp
 html.lm-novo #corpo .lm-inst > div p { margin: 0 0 16px !important; text-align: left !important; }
 html.lm-novo #corpo .lm-inst > div :is(strong, b) { font-weight: 700; }
 /* o CSS do painel pinta todo link de parágrafo como faixa azul (.caixa-sombreada p a): volta a ser link comum */
-html.lm-novo #corpo .lm-inst > div a:not(.lm-btn2) { color: var(--lm-onda-escura) !important; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; display: inline !important; padding: 0 !important; margin: 0 !important; text-align: inherit !important; transition: none !important; }
+html.lm-novo #corpo .lm-inst > div a:not(.lm-btn2) { color: var(--lm-onda-escura) !important; font-weight: 600; text-decoration: none !important; text-underline-offset: 3px; display: inline !important; padding: 0 !important; margin: 0 !important; text-align: inherit !important; transition: none !important; }
 html.lm-novo #corpo .lm-inst > div a.lm-btn2 { display: inline-flex !important; transition: box-shadow .125s !important; background: #fff !important; color: var(--lm-onda-escura) !important; margin: 4px 0 8px; }
 html.lm-novo #corpo .lm-inst > div a.lm-btn2:hover { background: var(--lm-onda-escura) !important; color: #fff !important; }
 html.lm-novo #corpo .lm-inst > div :is(ul, ol) { margin: 0 0 16px !important; padding-left: 24px !important; }
-html.lm-novo #corpo .lm-inst > div li { margin: 0 0 8px; }
+html.lm-novo #corpo .lm-inst > div li { margin: 0 0 8px; padding-left: 4px; }
+html.lm-novo #corpo .lm-inst > div li::marker { color: var(--lm-onda-escura); font-weight: 700; }
+/* link do texto: cor da marca e negrito (distinto do texto sem depender só da cor); sublinhado no hover e no foco */
+html.lm-novo #corpo .lm-inst > div a:not(.lm-btn2):is(:hover, :focus-visible) { color: var(--lm-azul-hover) !important; text-decoration: underline !important; }
 html.lm-novo #corpo .lm-inst > div img { max-width: 100% !important; height: auto !important; display: block; margin: 24px auto !important; }
 html.lm-novo #corpo .lm-inst > div .lm-vazio { display: none !important; }
 html.lm-novo #corpo .lm-inst .lm-tab { overflow-x: auto; margin: 0 0 16px; }
@@ -59,9 +61,6 @@ html.lm-novo #corpo .lm-inst > div .lm-obra-txt p:not(.lm-obra-nome) { margin: 0
 /* ===== carrinho (/carrinho/index) ===== */
 html.lm-novo .pagina-carrinho #corpo .secao-principal { padding: 24px 0 0 !important; }
 html.lm-novo #corpo .cabecalho-interno h1 { font: 700 var(--lm-h1)/1 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; text-transform: none !important; border: 0 !important; margin: 0 0 24px !important; padding: 0 !important; }
-/* conta e carrinho não têm trilha: o título fica a 48 px do menu (16 + trilha + 24 nas institucionais, ~60) (Ellie 04/11) */
-html.lm-novo #corpo .cabecalho-interno { margin-top: 24px !important; }
-@media (max-width: 767px) { html.lm-novo #corpo .cabecalho-interno { margin-top: 16px !important; } }
 html.lm-novo #corpo .cabecalho-interno h1 small { display: block; margin-top: 8px; font: 400 15px/1.5 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; }
 html.lm-novo .pagina-carrinho .caixa-sombreada { border: 0 !important; box-shadow: none !important; background: none !important; padding: 0 !important; }
 html.lm-novo .pagina-carrinho .tabela-carrinho { border: var(--lm-borda-padrao) !important; border-collapse: collapse; background: #fff; margin: 0 !important; }
@@ -85,8 +84,7 @@ html.lm-novo .pagina-carrinho .tabela-carrinho .control-label { float: none !imp
 html.lm-novo .pagina-carrinho .tabela-carrinho .controls { margin: 0 !important; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
 /* campo + botão encaixados: mesma altura e mesmo topo */
 html.lm-novo .pagina-carrinho .tabela-carrinho .input-append { display: flex !important; align-items: stretch; gap: 8px; margin: 0 !important; font-size: 0; }
-/* campo padrão do site (pill 48, como busca, CEP e newsletter): um só para carrinho e conta */
-html.lm-novo :is(.pagina-carrinho .tabela-carrinho .input-append input, .pagina-login .cadastro-logar input:is([type=text], [type=password], [type=email])) { height: var(--lm-campo-altura) !important; box-sizing: border-box; margin: 0 !important; padding: 0 16px !important; border: var(--lm-campo-borda) !important; border-radius: 999px !important; box-shadow: none !important; background: var(--lm-campo-fundo) !important; font: 400 15px/1 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
+/* frete/cupom e campos do login: classe .lm-campo do loren.css (posta pelo paginas.js); aqui só as larguras */
 html.lm-novo .pagina-carrinho .tabela-carrinho .input-append input { width: 160px !important; }
 html.lm-novo .pagina-carrinho .tabela-carrinho .input-append .btn { height: var(--lm-campo-altura) !important; box-sizing: border-box; margin: 0 !important; padding: 0 20px !important; border: 0 !important; border-radius: 999px !important; background: #fff !important; box-shadow: inset 0 0 0 1.5px var(--lm-onda-escura) !important; color: var(--lm-onda-escura) !important; text-shadow: none !important; font: 700 13px/1 var(--lm-fonte-texto) !important; letter-spacing: .04em; text-transform: uppercase; display: inline-flex; align-items: center; gap: 6px; }
 html.lm-novo .pagina-carrinho .tabela-carrinho .input-append .btn:hover { background: var(--lm-onda-escura) !important; color: #fff !important; }
@@ -113,6 +111,41 @@ html.lm-novo .pagina-carrinho .caixa-destaque h1 { font: 700 var(--lm-h2)/1.1 va
   html.lm-novo .pagina-carrinho .caixa-destaque { padding: 32px 0 !important; }
   html.lm-novo .pagina-carrinho .caixa-destaque h1 { font-size: var(--lm-h3) !important; }
 }
+
+
+/* ===== cabeçalho de página padrão (Ellie 04/11): trilha + h1 + linha de apoio que a página já tem, numa faixa de
+   ponta a ponta com o fundo claro; o texto alinha com a borda do conteúdo de cada página (coluna de 760 nas
+   institucionais, contêiner nas outras). Mesmo respiro em todas: 48 px (32 no celular) dentro e depois da faixa ===== */
+html.lm-novo .lm-pagcab { position: relative; margin: 0 0 48px !important; padding: 48px 0 !important; background: var(--lm-fundo); box-shadow: 0 0 0 100vmax var(--lm-fundo); clip-path: inset(0 -100vmax); }
+html.lm-novo .lm-pagcab--leitura .lm-pagcab__in { max-width: 760px; margin: 0 auto; }
+html.lm-novo #corpo .lm-pagcab .breadcrumbs { max-width: none !important; margin: 0 0 16px !important; padding: 0 !important; }
+html.lm-novo #corpo .lm-pagcab h1 { margin: 0 !important; padding: 0 !important; border: 0 !important; font: 700 var(--lm-h1)/1.05 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; text-transform: none !important; text-align: left !important; }
+html.lm-novo #corpo .lm-pagcab .lm-pagcab__apoio { max-width: 640px; margin: 16px 0 0 !important; padding: 0 !important; font: 400 18px/1.5 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; text-transform: none !important; text-align: left !important; }
+html.lm-novo #corpo .lm-pagcab .lm-pagcab__apoio * { font: inherit !important; color: inherit !important; }
+/* o conteúdo começa logo depois da faixa (o respiro é a margem dela) */
+html.lm-novo body.lm-com-cab #corpo :is(.lm-inst, .secao-principal) { padding-top: 0 !important; }
+html.lm-novo body.lm-com-cab.pagina-login .cadastro { padding-top: 0 !important; }
+html.lm-novo #corpo .lm-vazio-cab { display: none !important; }
+@media (max-width: 767px) {
+  html.lm-novo .lm-pagcab { margin-bottom: 32px !important; padding: 32px 0 !important; }
+  html.lm-novo #corpo .lm-pagcab h1 { font-size: 1.875rem !important; }
+  html.lm-novo #corpo .lm-pagcab .lm-pagcab__apoio { font-size: 16px !important; }
+}
+
+/* Quem somos: 1º parágrafo como lead (Ellie 04/11) */
+html.lm-novo #corpo .lm-inst > div > p.lm-lead { margin: 0 0 24px !important; font-size: 20px !important; line-height: 1.6 !important; color: var(--lm-grafite) !important; }
+@media (max-width: 767px) { html.lm-novo #corpo .lm-inst > div > p.lm-lead { font-size: 18px !important; } }
+
+/* Formas de pagamento: os selos do site (cópia do "Pague com" e "Selos" do rodapé) numa grade de caixas iguais;
+   a arte da página (uma imagem só, com os selos dentro) continua abaixo, num quadro (Ellie 04/11) */
+html.lm-novo #corpo .lm-inst .lm-selos-pag { margin: 32px 0 !important; padding: 24px; border: var(--lm-cartao-borda); background: #fff; }
+html.lm-novo #corpo .lm-inst > div .lm-selos-pag h2 { margin: 0 0 16px !important; font-size: 1.25rem !important; }
+html.lm-novo #corpo .lm-inst > div .lm-selos-pag ul + h2 { margin-top: 24px !important; }
+html.lm-novo #corpo .lm-inst > div .lm-selos { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 8px; margin: 0 !important; padding: 0 !important; list-style: none; }
+html.lm-novo #corpo .lm-inst > div .lm-selos li { display: grid; place-items: center; height: 64px; margin: 0 !important; padding: 0 !important; border: var(--lm-borda-padrao); background: #fff; }
+html.lm-novo #corpo .lm-inst > div .lm-selos li::marker { content: none; }
+html.lm-novo #corpo .lm-inst > div .lm-selos img { width: auto !important; max-width: 80% !important; max-height: 36px !important; margin: 0 !important; }
+html.lm-novo #corpo .lm-inst > div .lm-arte img { border: var(--lm-cartao-borda); }
 
 /* ===== página não encontrada (404): título no padrão das páginas (Barlow h1, grafite) e o texto de apoio (Ellie 04/11) ===== */
 html.lm-novo #corpo .box-destaque { margin: 0 !important; padding: 24px 0 48px !important; border: 0 !important; background: none !important; box-shadow: none !important; text-align: left !important; }
@@ -144,7 +177,6 @@ html.lm-novo .pagina-login .cadastro-logar .control-group { margin: 0 0 16px !im
 html.lm-novo .pagina-login .cadastro-logar label { float: none !important; width: auto !important; display: block; text-align: left !important; padding: 0 !important; margin: 0 0 8px !important; font: 600 14px/1.3 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
 html.lm-novo .pagina-login .cadastro-logar .controls { margin: 0 !important; }
 html.lm-novo .pagina-login .cadastro-logar input:is([type=text], [type=password], [type=email]) { width: 100% !important; }
-html.lm-novo .pagina-login .cadastro-logar input:focus { outline: var(--lm-foco); outline-offset: 0; border-color: var(--lm-onda-escura) !important; }
 /* login: Prosseguir embaixo da senha, na largura do campo */
 html.lm-novo .pagina-login .cadastro-logar .form-horizontal .controls .botao { width: 100%; margin: 16px 0 0 !important; }
 /* cadastro: campo + Cadastrar lado a lado, encaixados (mesma altura e mesmo topo) */
