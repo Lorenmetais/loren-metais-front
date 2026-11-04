@@ -1,1 +1,69 @@
-/* Loren Metais, página de produto (carregado pelo loren.js). */
+/* Loren Metais, página de produto (carregado pelo loren.js em body.pagina-produto). Estrutura da Loja Integrada,
+   visual da versão B do wireframe: galeria em cartão, coluna de compra em caixa com faixa azul, bloco para empresas,
+   faixa "fabricação própria" e descrição larga e legível. Mesmos textos. */
+html.lm-novo .pagina-produto .produto > .row-fluid:first-child { display: grid !important; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 40px; align-items: start; margin-bottom: 0; }
+html.lm-novo .pagina-produto .produto > .row-fluid:first-child > .span6 { width: auto !important; margin: 0 !important; float: none !important; }
+html.lm-novo .pagina-produto .produto > .row-fluid:first-child::before, html.lm-novo .pagina-produto .produto > .row-fluid:first-child::after { display: none !important; }
+/* galeria */
+html.lm-novo .pagina-produto .conteiner-imagem { border: var(--lm-borda-padrao); background: #fff; padding: 16px; }
+html.lm-novo .pagina-produto .conteiner-imagem img { max-height: 520px; object-fit: contain; }
+html.lm-novo .pagina-produto .produto-thumbs { margin-top: 12px !important; }
+html.lm-novo .pagina-produto .produto-thumbs li a, html.lm-novo .pagina-produto .produto-thumbs li img { border: var(--lm-borda-padrao) !important; background: #fff; }
+html.lm-novo .pagina-produto .produto-thumbs li.flex-active-slide a, html.lm-novo .pagina-produto .produto-thumbs li .active { box-shadow: inset 0 0 0 2px var(--lm-azul) !important; }
+html.lm-novo .pagina-produto .produto-compartilhar, html.lm-novo .pagina-produto .sharethis-inline-share-buttons { display: none !important; }
+/* nome, código e marca */
+html.lm-novo .pagina-produto .info-principal-produto .breadcrumbs { margin-bottom: 12px !important; font-size: 13px !important; background: none !important; border: 0 !important; padding: 0 !important; }
+html.lm-novo .pagina-produto h1.nome-produto { font: 700 clamp(1.75rem, 2.6vw, 2.125rem)/1.1 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; text-transform: none !important; margin: 0 0 12px !important; }
+html.lm-novo .pagina-produto .codigo-produto, html.lm-novo .pagina-produto .codigo-produto * { font: 400 13px/1.5 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; text-transform: none !important; }
+html.lm-novo .pagina-produto .codigo-produto b, html.lm-novo .pagina-produto .codigo-produto strong, html.lm-novo .pagina-produto .codigo-produto a { color: var(--lm-grafite) !important; font-weight: 600 !important; }
+/* caixa de compra */
+html.lm-novo .pagina-produto .principal { border: var(--lm-borda-padrao); border-top: 4px solid var(--lm-azul); background: #fff; padding: 24px; }
+html.lm-novo .pagina-produto .atributos { margin: 20px 0 8px !important; }
+html.lm-novo .pagina-produto .atributos, html.lm-novo .pagina-produto .atributos * { font-family: var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
+html.lm-novo .pagina-produto .atributos .atributo-item, html.lm-novo .pagina-produto .atributos a[data-variacao-id], html.lm-novo .pagina-produto .atributos li a { border: var(--lm-borda-padrao) !important; background: #fff !important; padding: 10px 18px !important; font-weight: 600 !important; box-shadow: none !important; }
+html.lm-novo .pagina-produto .atributos .active a, html.lm-novo .pagina-produto .atributos a.active, html.lm-novo .pagina-produto .atributos li.active a { box-shadow: inset 0 0 0 2px var(--lm-onda-escura) !important; border-color: transparent !important; }
+html.lm-novo .pagina-produto .acoes-produto .preco-produto { display: flex !important; flex-direction: column-reverse; gap: 4px; margin: 8px 0 16px; text-align: left !important; }
+html.lm-novo .pagina-produto .acoes-produto .preco-promocional, html.lm-novo .pagina-produto .acoes-produto .preco-produto > div > strong { font: 700 2.25rem/1 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; }
+html.lm-novo .pagina-produto .acoes-produto .preco-parcela, html.lm-novo .pagina-produto .acoes-produto .preco-parcela * { font: 400 15px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; }
+html.lm-novo .pagina-produto .acoes-produto .preco-parcela strong { color: var(--lm-onda-escura) !important; font-weight: 700 !important; }
+html.lm-novo .pagina-produto .acoes-produto .preco-venda { font-size: 14px !important; color: var(--lm-texto-secundario) !important; }
+html.lm-novo .pagina-produto .comprar .botao-comprar, html.lm-novo .pagina-produto .acoes-produto .botao.principal { width: 100% !important; height: 52px !important; display: grid !important; place-content: center; background: var(--lm-onda-escura) !important; color: #fff !important; font: 600 15px/1 var(--lm-fonte-texto) !important; letter-spacing: .06em; text-transform: uppercase; border: 0 !important; box-shadow: none !important; text-shadow: none !important; }
+html.lm-novo .pagina-produto .comprar .botao-comprar:hover { background: var(--lm-azul-hover) !important; }
+html.lm-novo .pagina-produto .comprar .botao-comprar i, html.lm-novo .pagina-produto .comprar .botao-comprar svg { display: none !important; }
+html.lm-novo .pagina-produto .comprar input, html.lm-novo .pagina-produto .comprar .qtde-adicionar-carrinho { height: 52px !important; border: var(--lm-borda-padrao) !important; }
+/* para empresas (o "Para grandes quantidades" do painel): bloco escuro */
+html.lm-novo .pagina-produto .grandes_qtd { margin: 16px 0 !important; padding: 16px !important; background: var(--lm-grafite) !important; border: 0 !important; text-align: left !important; }
+html.lm-novo .pagina-produto .grandes_qtd, html.lm-novo .pagina-produto .grandes_qtd * { color: #fff !important; font: 400 15px/1.4 var(--lm-fonte-texto) !important; }
+html.lm-novo .pagina-produto .grandes_qtd b, html.lm-novo .pagina-produto .grandes_qtd strong, html.lm-novo .pagina-produto .grandes_qtd a { font-weight: 700 !important; text-decoration: underline; text-underline-offset: 3px; }
+/* parcelas e frete */
+html.lm-novo .pagina-produto .parcelas-produto { border: var(--lm-borda-padrao) !important; margin: 0 0 16px !important; }
+html.lm-novo .pagina-produto .parcelas-produto * { font-family: var(--lm-fonte-texto) !important; }
+html.lm-novo .pagina-produto .parcelas-produto .cor-secundaria, html.lm-novo .pagina-produto .parcelas-produto span, html.lm-novo .pagina-produto .parcelas-produto a { color: var(--lm-grafite) !important; }
+html.lm-novo .pagina-produto .cep, html.lm-novo .pagina-produto .cep * { font-family: var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
+html.lm-novo .pagina-produto .cep input { height: 48px !important; background: var(--lm-campo-fundo) !important; border: var(--lm-campo-borda) !important; box-shadow: none !important; }
+html.lm-novo .pagina-produto .cep button, html.lm-novo .pagina-produto .cep .botao { height: 48px !important; background: var(--lm-grafite) !important; color: #fff !important; border: 0 !important; text-transform: uppercase; letter-spacing: .06em; font-weight: 600 !important; }
+/* faixa fabricação própria (produto.js) */
+html.lm-novo .lm-fab { background: var(--lm-onda-escura); color: #fff; margin: 40px calc(50% - 50vw) 0; }
+html.lm-novo .lm-fab .lm-wrap { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; padding-block: 24px; }
+html.lm-novo .lm-fab b { display: block; font: 700 19px/1.1 var(--lm-fonte-titulo); color: #fff; } html.lm-novo .lm-fab span { font-size: 14px; color: #fff; }
+/* descrição larga e legível */
+html.lm-novo .pagina-produto .abas-custom { margin-top: 48px; }
+html.lm-novo .pagina-produto .abas-custom .nav-tabs { border: 0 !important; }
+html.lm-novo .pagina-produto #descricao { max-width: 860px; font: 400 16px/1.7 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
+html.lm-novo .pagina-produto #descricao * { font-family: var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; font-size: 16px !important; }
+html.lm-novo .pagina-produto #descricao :is(h2, h3, h4) { font: 700 22px/1.2 var(--lm-fonte-titulo) !important; margin: 24px 0 8px !important; }
+html.lm-novo .pagina-produto .abas-custom .titulo, html.lm-novo .pagina-produto .aproveite-tambem > .titulo, html.lm-novo .pagina-produto .aproveite-tambem > h4 { font: 700 var(--lm-h2)/1 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; text-transform: none !important; text-align: left !important; border: 0 !important; padding: 0 0 8px !important; }
+@media (max-width: 767px) {
+  html.lm-novo .pagina-produto .produto > .row-fluid:first-child { grid-template-columns: 1fr; gap: 20px; }
+  html.lm-novo .pagina-produto .principal { padding: 16px; }
+  html.lm-novo .pagina-produto .conteiner-imagem { padding: 8px; }
+  html.lm-novo .lm-fab .lm-wrap { grid-template-columns: 1fr; gap: 12px; }
+}
+
+/* botão Calcular: texto branco (o filho herdava o grafite) e título da aba à esquerda, no padrão */
+html.lm-novo .pagina-produto .cep :is(button, .botao), html.lm-novo .pagina-produto .cep :is(button, .botao) * { color: #fff !important; }
+html.lm-novo .pagina-produto .abas-custom :is(h2, h3, h4, .titulo, .nav-tabs a, .nav-tabs li) { font: 700 var(--lm-h2)/1 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; text-transform: none !important; text-align: left !important; border: 0 !important; background: none !important; padding-left: 0 !important; }
+html.lm-novo .pagina-produto .abas-custom .nav-tabs { text-align: left !important; margin-bottom: 16px !important; }
+html.lm-novo .pagina-produto .abas-custom .nav-tabs::after, html.lm-novo .pagina-produto .abas-custom .nav-tabs::before { display: none !important; }
+/* setas das miniaturas discretas */
+html.lm-novo .pagina-produto .produto-thumbs .flex-direction-nav a { background: rgba(255, 255, 255, .9) !important; color: var(--lm-grafite) !important; }

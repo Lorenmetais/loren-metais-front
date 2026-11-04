@@ -206,3 +206,75 @@ html.lm-novo .lm-wa svg { width: 30px; height: 30px; fill: #fff; }
 /* setas do carrossel: discretas no computador, fora no celular (lá o cliente arrasta) */
 html.lm-novo .secao-banners .flex-direction-nav a { background: rgba(48, 49, 54, .55) !important; color: #fff !important; border-radius: 0 !important; }
 @media (max-width: 767px) { html.lm-novo .secao-banners .flex-direction-nav { display: none !important; } }
+
+/* ===== cabeçalho nosso (04/11) ===== o original do tema fica no HTML, escondido; a busca e o menu do celular foram movidos */
+html.lm-novo #cabecalho { padding: 0 !important; border-bottom: 0 !important; }
+html.lm-novo #cabecalho > :not(.lm-topo):not(.full.menu) { display: none !important; }
+html.lm-novo .lm-topo { background: #fff; border-bottom: var(--lm-borda-padrao); }
+html.lm-novo .lm-topo__linha { display: flex; align-items: center; gap: 32px; height: 80px; }
+html.lm-novo .lm-topo__logo { flex: none; line-height: 0; }
+html.lm-novo .lm-topo__logo img { width: 203px; height: 46px; display: block; }
+html.lm-novo .lm-topo__busca { flex: 1; max-width: 560px; }
+html.lm-novo .lm-topo__busca form { position: relative; margin: 0 !important; display: flex; }
+html.lm-novo .lm-topo__busca input { flex: 1; width: auto !important; height: 48px !important; margin: 0 !important; padding: 0 16px !important; font: 400 15px/1 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; background: var(--lm-campo-fundo) !important; border: var(--lm-campo-borda) !important; border-right: 0 !important; box-shadow: none !important; }
+html.lm-novo .lm-topo__busca input:focus { outline: 0; border-color: var(--lm-onda-escura) !important; background: #fff !important; }
+html.lm-novo .lm-topo__busca button { position: static !important; flex: none; width: 48px !important; height: 48px !important; margin: 0 !important; padding: 0 !important; border: 0 !important; background: var(--lm-grafite) !important; color: #fff !important; box-shadow: none !important; font-size: 16px !important; }
+html.lm-novo .lm-topo__acoes { margin-left: auto; display: flex; align-items: center; gap: 28px; }
+html.lm-novo .lm-topo__acoes a { display: inline-flex; align-items: center; gap: 8px; color: var(--lm-grafite) !important; font: 600 14px/1 var(--lm-fonte-texto) !important; text-decoration: none !important; white-space: nowrap; position: relative; }
+html.lm-novo .lm-topo__acoes a:hover { color: var(--lm-onda-escura) !important; }
+html.lm-novo .lm-topo__acoes svg { width: 22px; height: 22px; flex: none; }
+html.lm-novo .lm-topo__orc { color: var(--lm-onda-escura) !important; }
+html.lm-novo .lm-qtd { min-width: 18px; height: 18px; padding: 0 5px; display: inline-grid; place-items: center; background: var(--lm-onda-escura); color: #fff; font: 700 11px/1 var(--lm-fonte-texto); }
+html.lm-novo .lm-qtd[hidden] { display: none; }
+html.lm-novo .lm-topo__menu { display: none; }
+/* menu de categorias na mesma largura e alinhado à logo */
+html.lm-novo .full.menu { border-bottom: var(--lm-borda-padrao) !important; }
+html.lm-novo .full.menu > .conteiner { max-width: var(--lm-largura) !important; padding-inline: var(--lm-margem) !important; box-sizing: content-box !important; margin: 0 auto !important; }
+html.lm-novo .full.menu .nivel-um { height: 48px !important; }
+html.lm-novo .full.menu .nivel-um > li > a { padding: 14px 0 !important; }
+@media (max-width: 767px) {
+  html.lm-novo .lm-topo__linha { height: auto; flex-wrap: wrap; gap: 12px 16px; padding-block: 12px; }
+  html.lm-novo .lm-topo__menu { display: grid; place-items: center; width: 40px; height: 40px; padding: 0; border: 0; background: none; color: var(--lm-grafite); order: 0; }
+  html.lm-novo .lm-topo__menu svg { width: 26px; height: 26px; }
+  html.lm-novo .lm-topo__logo { order: 1; margin-right: auto; }
+  html.lm-novo .lm-topo__logo img { width: 150px; height: 34px; }
+  html.lm-novo .lm-topo__acoes { order: 2; margin: 0; gap: 16px; }
+  html.lm-novo .lm-topo__acoes span, html.lm-novo .lm-topo__orc { display: none !important; }
+  html.lm-novo .lm-topo__busca { order: 3; flex: 0 0 100%; max-width: none; }
+  html.lm-novo .lm-topo__busca input { height: 44px !important; font-size: 16px !important; }
+  html.lm-novo .lm-topo__busca button { width: 44px !important; height: 44px !important; }
+  html.lm-novo .lm-topo .menu.superior { order: 4; width: 100%; }
+}
+
+/* ===== correções da varredura (04/11) ===== */
+/* faixa para empresas: fundo onda escura (texto branco 4,7:1), texto maior */
+html.lm-novo .lm-b2b { background: var(--lm-onda-escura) !important; margin-block: 32px 48px !important; }
+html.lm-novo .lm-b2b p { font-size: 16px !important; line-height: 1.5; opacity: 1 !important; }
+html.lm-novo .lm-tag { color: var(--lm-azul-hover) !important; }
+html.lm-novo #corpo { padding-bottom: 0 !important; margin-bottom: 0 !important; }
+html.lm-novo .lm-pq { margin-top: 48px; }
+/* newsletter: tudo branco sobre o azul (o tema deixava o título preto) */
+html.lm-novo #barraNewsletter, html.lm-novo #barraNewsletter .componente { background: var(--lm-onda-escura) !important; border: 0 !important; }
+html.lm-novo #barraNewsletter :is(.titulo, span, p, i, strong, label, h4) { color: #fff !important; }
+html.lm-novo #barraNewsletter .titulo { font: 700 var(--lm-h3)/1.1 var(--lm-fonte-titulo) !important; text-transform: none !important; }
+html.lm-novo #barraNewsletter input { color: var(--lm-grafite) !important; }
+/* rodapé: ícones e redes sociais claros sobre o grafite */
+html.lm-novo #rodape a[class*="icon-"], html.lm-novo #rodape [class*="icon-"], html.lm-novo #rodape .redes-sociais a, html.lm-novo #rodape .lista-redes a { color: #fff !important; border-color: #5a5b62 !important; background: transparent !important; }
+html.lm-novo #rodape svg, html.lm-novo #rodape svg path { fill: #c9cace !important; }
+html.lm-novo #rodape .titulo, html.lm-novo #rodape h4, html.lm-novo #rodape strong { color: #fff !important; }
+/* trilha e textos "cor secundária" do tema (azul claro e cinza claro, sem contraste) */
+html.lm-novo :is(#corpo, #cabecalho) .cor-secundaria:not(.botao):not([class*="fundo-"]) { color: var(--lm-grafite) !important; }
+html.lm-novo .breadcrumbs, html.lm-novo .breadcrumbs a, html.lm-novo .breadcrumbs span, html.lm-novo .breadcrumbs strong { color: var(--lm-texto-secundario) !important; }
+html.lm-novo .breadcrumbs a:hover { color: var(--lm-onda-escura) !important; }
+/* flutuantes sem se cobrir: voltar ao topo acima do WhatsApp; no celular, WhatsApp acima do aviso de cookies */
+html.lm-novo .scrollToTop { right: 28px !important; bottom: 96px !important; left: auto !important; width: 44px !important; height: 44px !important; background: var(--lm-grafite) !important; color: #fff !important; border-radius: 0 !important; z-index: 54 !important; }
+@media (max-width: 767px) {
+  html.lm-novo .scrollToTop { right: 19px !important; bottom: 80px !important; }
+  html.lm-novo body.mostrarAvisoCookie .lm-wa { bottom: 176px; }
+  html.lm-novo body.mostrarAvisoCookie .scrollToTop { bottom: 240px !important; }
+}
+
+/* menu: o 1º e o último item vinham cinza-claro por regra do tema; e sem transição de cor dos botões do tema */
+html.lm-novo #cabecalho .full.menu .nivel-um > li > a > strong.titulo, html.lm-novo #cabecalho .full.menu .nivel-um > li > a { color: var(--lm-grafite) !important; opacity: 1 !important; }
+html.lm-novo #cabecalho .full.menu .nivel-um > li.lm-obras > a { color: var(--lm-onda-escura) !important; }
+html.lm-novo .botao, html.lm-novo .botao-comprar, html.lm-novo .tag-comprar { transition: none !important; }

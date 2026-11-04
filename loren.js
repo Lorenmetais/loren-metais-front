@@ -4,6 +4,7 @@
 (() => {
   if (/\/checkout|\/pagamento/i.test(location.pathname)) return;
   const BASE = document.currentScript?.src.replace(/[^/]*$/, '') || '';
+  const LOGO = BASE + 'logo.svg';  // no teste inline, previa_real troca esta linha pelo SVG embutido
   const WA = 'https://api.whatsapp.com/send/?phone=5519992306593&text=' + encodeURIComponent('Olá! Vim pelo site da Loren Metais e gostaria de atendimento.');
   const ORC = 'data-toggle="modal" data-target="#modal_consulte"';  // o mesmo formulário de orçamento que o site já tem
   const ico = (d) => `<span class="lm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${d}</svg></span>`;
@@ -14,7 +15,32 @@
 
   const monta = () => {
     if (document.body.dataset.lm) return; document.body.dataset.lm = '1';
-    document.querySelectorAll('#cabecalho .logo img').forEach((img) => { img.src = BASE + 'logo.svg'; img.removeAttribute('srcset'); });
+    document.querySelectorAll('#cabecalho .logo img').forEach((img) => { img.src = LOGO; img.removeAttribute('srcset'); });
+    // cabeçalho nosso (Eduardo 04/11: o do tema "doido e horrível"): logo | busca da loja | conta, orçamento, carrinho.
+    // A busca (#form-buscar, com o autocompletar) e o menu do celular do tema são MOVIDOS para cá, não copiados.
+    const cab = document.querySelector('#cabecalho');
+    if (cab && !cab.querySelector('.lm-topo')) {
+      const i = (d) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+      cab.insertAdjacentHTML('afterbegin', `<div class="lm-topo"><div class="lm-wrap lm-topo__linha">
+        <button type="button" class="lm-topo__menu" aria-label="Abrir o menu">${i('<path d="M3 6h18M3 12h18M3 18h18"/>')}</button>
+        <a class="lm-topo__logo" href="/" aria-label="Loren Metais, página inicial"><img src="${LOGO}" alt="Loren Metais" width="203" height="46"></a>
+        <div class="lm-topo__busca"></div>
+        <nav class="lm-topo__acoes" aria-label="Conta e carrinho">
+          <a href="/conta/index" class="lm-topo__conta">${i('<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>')}<span>Minha conta</span></a>
+          <a href="#" class="lm-topo__orc" ${ORC}>${i('<path d="M6 3h9l3 3v15H6z"/><path d="M9 10h6M9 14h6M9 18h4"/>')}<span>Pedir orçamento</span></a>
+          <a href="/carrinho/index" class="lm-topo__carrinho">${i('<path d="M3 4h2l2.4 11h10.2L20 7H6.2"/><circle cx="9" cy="20" r="1.4"/><circle cx="17" cy="20" r="1.4"/>')}<span>Carrinho</span><b class="lm-qtd">0</b></a>
+        </nav></div></div>`);
+      const topo = cab.querySelector('.lm-topo');
+      const form = document.querySelector('#form-buscar');
+      if (form) { topo.querySelector('.lm-topo__busca').append(form); const q = form.querySelector('input'); if (q) q.placeholder = q.placeholder || 'Buscar'; }
+      const menuCel = document.querySelector('#cabecalho .menu.superior.visible-phone'); if (menuCel) topo.append(menuCel);
+      const atalho = document.querySelector('.atalho-menu');
+      topo.querySelector('.lm-topo__menu').addEventListener('click', () => atalho ? atalho.click() : menuCel && menuCel.classList.toggle('lm-aberto'));
+      // quantidade do carrinho: espelha o contador do tema (ele continua atualizando escondido)
+      const qtd = document.querySelector('#cabecalho .qtd-carrinho'); const alvo = topo.querySelector('.lm-qtd');
+      const copia = () => { const n = parseInt((qtd?.textContent || '0').replace(/\D/g, '')) || 0; alvo.textContent = n; alvo.hidden = !n; };
+      copia(); if (qtd) new MutationObserver(copia).observe(qtd, { childList: true, characterData: true, subtree: true });
+    }
     // barra do topo: troca os contatos repetidos por uma frase
     const tb = document.querySelector('#topbar .container');
     document.querySelector('#topbar') && document.body.prepend(document.querySelector('#topbar'));  // no HTML a barra vem no fim da página
@@ -55,8 +81,9 @@
     const cats = [...document.querySelectorAll('.full.menu .nivel-um > li:not(.categoria-paginas):not(.other-categories):not(.lm-obras) > a')].slice(0, 6);
     if (cats.length) document.querySelector('.lm-vant')?.insertAdjacentHTML('afterend', `<section class="lm-sec"><div class="lm-wrap"><h2>Compre por categoria</h2><div class="lm-cats">${cats.map((a) => `<a href="${a.href}"><b>${a.textContent.trim()}</b><span>Ver produtos →</span></a>`).join('')}</div></div></section>`);
     // faixa para empresas depois da 1ª vitrine
-    const vitrines = document.querySelectorAll('#corpo .listagem.com-caixa');
-    vitrines[0]?.insertAdjacentHTML('afterend', `<section class="lm-b2b" style="margin-inline:calc(50% - 50vw)"><div class="lm-wrap"><div><h2>Compra para obra, empresa ou licitação?</h2><p>Mande a lista de itens e receba preço especial de fábrica, com nota fiscal e prazo de entrega.</p></div>
+    // as 3 vitrines estão numa caixa só: a faixa entra depois da 1ª lista (e do seu Ver mais), não depois da caixa
+    const v1 = document.querySelector('#corpo .listagem.com-caixa > ul'); const depois = v1?.nextElementSibling?.classList.contains('lm-mais') ? v1.nextElementSibling : v1;
+    depois?.insertAdjacentHTML('afterend', `<section class="lm-b2b" style="margin-inline:calc(50% - 50vw)"><div class="lm-wrap"><div><h2>Compra para obra, empresa ou licitação?</h2><p>Mande a lista de itens e receba preço especial de fábrica, com nota fiscal e prazo de entrega.</p></div>
       <div class="lm-acs"><a class="lm-btn" href="#" ${ORC}>Pedir orçamento</a><a class="lm-btn2" href="${WA}" target="_blank" rel="noopener">Falar no WhatsApp</a></div></div></section>`);
     // quem somos antes da newsletter
     document.querySelector('#barraNewsletter')?.insertAdjacentHTML('beforebegin', `<section class="lm-sec lm-cinza lm-pq"><div class="lm-wrap"><div><span class="lm-tag">Quem somos</span><h2>Fabricante em Indaiatuba, perto de Viracopos</h2><p>Torneiras clínicas, linha hospitalar e acessibilidade para banheiros, clínicas, hospitais, escolas e cozinhas.</p><a class="lm-btn" style="background:var(--lm-onda-escura);color:#fff" href="/pagina/obras-finalizadas.html">Ver obras finalizadas</a></div>
