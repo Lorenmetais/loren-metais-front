@@ -342,7 +342,7 @@ html.lm-novo .busca-mobile.fixed { position: static !important; box-shadow: none
   html.lm-novo .lm-topo .menu.superior.visible-phone ul.nivel-dois li > a { font-weight: 400 !important; }
   html.lm-novo .lm-topo .menu.superior.visible-phone ul.action-links { border-top: var(--lm-borda-padrao); }
   html.lm-novo .lm-topo .menu.superior.visible-phone .menu-close { position: absolute; top: 0; right: 0; width: 20%; height: 100%; padding: 0; border: 0; background: none; cursor: pointer; }
-  html.lm-novo .lm-topo .menu.superior.visible-phone .menu-close::after { content: ' d7'; position: absolute; top: var(--lm-esp-1); right: var(--lm-esp-1); display: grid; place-items: center; width: var(--lm-campo-altura); height: var(--lm-campo-altura); border-radius: 50% !important; background: var(--lm-branco); color: var(--lm-grafite); font: 400 32px/1 var(--lm-fonte-texto); }
+  html.lm-novo .lm-topo .menu.superior.visible-phone .menu-close::after { content: '\00d7'; position: absolute; top: var(--lm-esp-1); right: var(--lm-esp-1); display: grid; place-items: center; width: var(--lm-campo-altura); height: var(--lm-campo-altura); border-radius: 50% !important; background: var(--lm-branco); color: var(--lm-grafite); font: 400 32px/1 var(--lm-fonte-texto); }
 }
 
 /* ===== correções da varredura (04/11) ===== */
@@ -400,7 +400,7 @@ html.lm-novo :is(.lm-btn2, .lm-mais):hover { background: var(--lm-btn-gradiente)
 /* botão sobre faixa colorida (B2B, newsletter, .lm-fab): UMA regra. Principal: branco com texto azul, hover grafite com texto branco.
    Secundário: contorno branco, hover fundo branco com texto azul. O ID no :is() dá peso para vencer a regra geral de hover dos botões (que deixava azul sobre azul) */
 html.lm-novo :is(.lm-b2b, #barraNewsletter, .lm-fab) :is(.lm-btn, .botao):not(.lm-btn2) { background: var(--lm-branco) !important; color: var(--lm-btn-gradiente) !important; box-shadow: none !important; }
-html.lm-novo :is(.lm-b2b, #barraNewsletter, .lm-fab) :is(.lm-btn, .botao):not(.lm-btn2):hover { background: var(--lm-grafite) !important; color: var(--lm-branco) !important; }
+html.lm-novo :is(.lm-b2b, #barraNewsletter, .lm-fab) :is(.lm-btn, .botao):not(.lm-btn2):hover { background: #E6F3F7 !important; color: var(--lm-btn-gradiente-hover) !important; }
 html.lm-novo :is(.lm-b2b, #barraNewsletter, .lm-fab) .lm-btn2 { background: transparent !important; color: var(--lm-branco) !important; box-shadow: inset 0 0 0 2px var(--lm-branco) !important; }
 html.lm-novo :is(.lm-b2b, #barraNewsletter, .lm-fab) .lm-btn2:hover { background: var(--lm-branco) !important; color: var(--lm-btn-gradiente) !important; }
 /* selos de desconto acompanham o pill */
@@ -414,7 +414,7 @@ html.lm-novo .componente.newsletter .botao { box-sizing: border-box !important; 
 html.lm-novo .componente.newsletter .botao:hover { background: var(--lm-btn-gradiente-hover) !important; }
 /* o texto ASSINAR vem de pseudo-elemento do tema: mesma fonte dos outros botões, sem fundo próprio */
 html.lm-novo .componente.newsletter .botao, html.lm-novo .componente.newsletter .botao::before, html.lm-novo .componente.newsletter .botao::after { font: 700 15px/1.2 var(--lm-fonte-texto) !important; letter-spacing: .04em !important; text-transform: uppercase !important; }
-html.lm-novo .componente.newsletter .botao::before, html.lm-novo .componente.newsletter .botao::after { background: none !important; color: inherit !important; }
+html.lm-novo .componente.newsletter .botao::before, html.lm-novo .componente.newsletter .botao::after { background: none !important; color: inherit !important; margin: 0 !important; }
 /* a setinha do tema (ícone no ::after) ocupava espaço invisível ao lado do texto e tirava o ASSINAR do centro */
 html.lm-novo .componente.newsletter .botao::after { content: none !important; display: none !important; }
 /* na faixa azul do rodapé: tudo branco e o Assinar branco com texto azul (azul sobre azul sumia) */
