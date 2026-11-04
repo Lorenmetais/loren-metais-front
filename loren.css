@@ -309,7 +309,7 @@ html.lm-novo .lm-topo__menu { display: none; }
 /* o tema põe #cabecalho.fixed ao passar de 20 px de rolagem (LI.methods.fixedHeader): o cabeçalho sai do fluxo, a página encolhe e volta, e o menu some.
    Aqui ele nunca sai do fluxo e o menu fica sempre visível, então a rolagem não muda o layout */
 html.lm-novo #cabecalho.fixed { position: static !important; box-shadow: none !important; }
-html.lm-novo #cabecalho.fixed .full.menu { max-height: none; opacity: 1; z-index: auto; overflow: visible; transition: none; }
+html.lm-novo #cabecalho.fixed .full.menu { max-height: none; opacity: 1; z-index: 1000; overflow: visible; transition: none; }  /* 1000: o menu sticky fica acima do conteudo (o auto deixava os titulos por cima do submenu) */
 html.lm-novo .busca-mobile.fixed { position: static !important; box-shadow: none !important; }
 @media (max-width: 767px) {
   html.lm-novo .lm-topo__linha { height: auto; flex-wrap: wrap; gap: 8px 16px; padding-block: 16px; }
@@ -540,7 +540,8 @@ html.lm-novo #corpo .lm-vazio-cab { display: none !important; }
    #cabecalho vira display:contents para o sticky valer na página inteira (dentro dele só colaria pela altura do próprio cabeçalho).
    Computador: linha do topo + menu de categorias; celular: a linha do topo (logo, ícones e busca). */
 html.lm-novo #cabecalho { display: contents; }
-html.lm-novo .lm-topo { position: sticky; top: 0; z-index: 50; background: var(--lm-branco); }
+/* camada acima de todo o conteudo (galeria, lupa e caixa do produto passavam por cima, Eduardo 04/11) e abaixo das janelas (modal 1050) */
+html.lm-novo .lm-topo { position: sticky; top: 0; z-index: 1001; background: var(--lm-branco); }
 @media (min-width: 768px) {
-  html.lm-novo #cabecalho .full.menu { position: sticky; top: var(--lm-topo-h, 81px); z-index: 49; background: var(--lm-branco); }
+  html.lm-novo #cabecalho .full.menu { position: sticky; top: var(--lm-topo-h, 81px); z-index: 1000; background: var(--lm-branco); }
 }
