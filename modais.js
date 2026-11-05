@@ -82,6 +82,44 @@
   }, true);
   const pares = (form) => form.querySelectorAll('[name=email], [name=tel], [name=cep], [name=estado], [name=cnpj], [name=empresa]').forEach((c) => c.closest('.lm-grupo')?.classList.add('lm-par'));
 
+  // produto adicionado ao carrinho: o tema recarrega /carrinho/mini na janela a cada mudança, então tudo aqui roda de novo
+  // a cada carga. Só marca as células (a grade é do modais.css), acrescenta o subtotal da linha e recolhe o cupom; os links
+  // e formulários continuam os do tema, que escuta os cliques em #carrinho-mini .table-body
+  const brl = (v) => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  const valor = (el) => parseFloat((el?.textContent || '').replace(/[^\d,]/g, '').replace(',', '.'));
+  const miniCarrinho = (mini) => {
+    mini.querySelectorAll('.table-body tr').forEach((tr) => {
+      if (tr.querySelector('.lm-mini-sub') || tr.cells.length < 5) return;
+      const [foto, nome, preco, qtd, exc] = tr.cells;
+      foto.classList.add('lm-mini-foto'); nome.classList.add('lm-mini-nome'); preco.classList.add('lm-mini-preco'); qtd.classList.add('lm-mini-qtd'); exc.classList.add('lm-mini-exc');
+      const img = foto.querySelector('img'); if (img) img.src = img.src.replace('/64x64/', '/300x300/');  // o tema pede 64 px; a foto aqui tem 80
+      exc.querySelector('a')?.setAttribute('aria-label', 'Remover do carrinho');
+      nome.querySelectorAll('li').forEach((li) => { if (/^estoque:\s*disponível$/i.test(li.textContent.trim().replace(/\s+/g, ' '))) li.remove(); });  // prazo ou aviso de estoque continuam
+      const campo = qtd.querySelector('input[name=quantidade]'); window.lmQtd?.(campo);
+      const unit = valor(preco.querySelector('.preco-promocional, strong'));
+      const caixaPreco = preco.querySelector('.preco-produto'); if (caixaPreco) nome.append(caixaPreco);  // preço embaixo do nome, na mesma célula
+      const sub = document.createElement('td'); sub.className = 'lm-mini-sub'; sub.textContent = unit && campo ? brl(unit * (parseInt(campo.value, 10) || 1)) : '';
+      exc.before(sub);
+    });
+    const form = mini.querySelector('.table-footer form'), linha = form?.closest('tr');
+    if (linha && !linha.querySelector('.lm-mini-cupom-abre')) {
+      linha.classList.add('lm-mini-cupom');
+      form.querySelector('input[name=cupom]')?.classList.add('lm-campo');
+      form.querySelector('button')?.classList.add('botao', 'principal');
+      form.insertAdjacentHTML('beforebegin', '<button type="button" class="lm-mini-cupom-abre" aria-expanded="false">Tem cupom de desconto?</button>');
+      const abre = linha.querySelector('.lm-mini-cupom-abre');
+      abre.addEventListener('click', () => { const on = linha.classList.toggle('lm-aberto'); abre.setAttribute('aria-expanded', on); if (on) form.querySelector('input[name=cupom]')?.focus(); });
+    }
+  };
+  // quantidade: atualiza sozinha ao mudar, pelo mesmo submit que o botão "Atualizar quantidade" do tema dispara (ajax dele).
+  // Espera meio segundo para vários cliques no + virarem um envio só
+  let esperaQtd;
+  const mudaQtd = (e) => {
+    const c = e.target; if (!c.matches?.('#carrinho-mini input[name=quantidade], .pagina-carrinho .quantidade input[name=quantidade]')) return;  // a página do carrinho usa o mesmo (paginas.js, Wednesday)
+    clearTimeout(esperaQtd);
+    esperaQtd = setTimeout(() => { const f = c.form, atual = f?.querySelector('[name=quantidade_atual]')?.value; if (f && c.value !== atual && window.jQuery) jQuery(f).trigger('submit'); }, 500);
+  };
+
   const prepara = () => {
     ['#modal_consulte', '#modal_qtds', '#avise-me-cadastro', '#login-content', '#comprar-ajax-status'].forEach((s) => rotula(document.querySelector(s)));
     // as outras janelas do tema que já estão na página (ex.: recuperar senha do login, que abre sozinha pelo #recuperar_senha)
@@ -91,6 +129,9 @@
     const contato = document.querySelector('#modalContato');
     if (contato) new MutationObserver(() => rotula(contato)).observe(contato, { childList: true, subtree: true });
     if (window.jQuery) jQuery(document).on('shown shown.bs.modal', '.modal', function () { rotula(this); });
+    const mini = document.querySelector('#carrinho-mini');
+    if (mini) new MutationObserver(() => miniCarrinho(mini)).observe(mini, { childList: true });
+    document.addEventListener('change', mudaQtd);
   };
   document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', prepara) : prepara();
 })();
