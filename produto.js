@@ -66,9 +66,12 @@
         principal.removeAttribute('srcset'); principal.src = f.m; principal.dataset.largeimg = f.g; principal.alt = f.alt;
         fotos.forEach((a, k) => a.classList.toggle('lm-ativa', k === atual));
         carrega(atual - 1); carrega(atual + 1); rola();
+        const car = gal.querySelector('.lm-galeria__fotos'); if (car?.clientWidth) car.scrollTo({ left: atual * car.clientWidth, behavior: 'smooth' });  // celular
       };
       fotos.forEach((a, i) => a.addEventListener('click', (e) => { e.preventDefault(); e.stopImmediatePropagation(); vai(i); }, true));
       fotos[0]?.classList.add('lm-ativa'); carrega(1);
+      // a variação com foto própria troca a miniatura com $(a).click() do jQuery, que não dispara o clique nativo: acompanha aqui
+      if (window.jQuery && thumbs) window.jQuery(thumbs).on('click', '.miniaturas li a', function () { const i = fotos.indexOf(this); if (i >= 0 && i !== atual) vai(i); });
       // a coluna mostra só miniaturas inteiras: altura em múltiplos de 96 (88 + 8) e, ao trocar, rola até a ativa ficar inteira
       const PASSO = 96;
       const rola = () => { const a = fotos[atual], c = thumbs; if (!a || !c) return; const top = a.getBoundingClientRect().top - c.getBoundingClientRect().top + c.scrollTop; if (top < c.scrollTop) c.scrollTop = top; else if (top + 88 > c.scrollTop + c.clientHeight) c.scrollTop = top + 88 - c.clientHeight; };
@@ -152,6 +155,14 @@
       });
     }
     document.querySelector('.pagina-produto .aproveite-tambem')?.closest('.row-fluid')?.classList.add('lm-prod-rel');
+    // Next Reviews (script do painel): monta tudo logo depois da descrição. Fica fora da grade descrição + ficha, e os botões
+    // dele usam o secundário da base. O script não é alterado.
+    const acomoda = () => {
+      const grade = document.querySelector('.lm-desc-grade');
+      if (grade) [...grade.children].filter((c) => !c.matches('.abas-custom, .lm-ficha')).reverse().forEach((c) => grade.after(c));
+      document.querySelectorAll('#btn-review-modal, #loadMore').forEach((b) => b.classList.add('lm-btn2'));
+    };
+    if (desc) new MutationObserver(acomoda).observe(desc.closest('.row-fluid') || document.body, { childList: true, subtree: true });
     if (desc) fichaTecnica(desc);
 
     // sob consulta: um só chamado (o botão "Consulte o preço"), com "Preço sob consulta" pequeno no lugar do preço
@@ -163,6 +174,12 @@
       const qtds = compra.querySelector('.grandes_qtd[data-target="#modal_qtds"]');
       if (qtds) consulta.addEventListener('click', (e) => { e.preventDefault(); e.stopImmediatePropagation(); qtds.click(); }, true);
     }
+
+    // esgotado (produto ou variação): selo no lugar do preço e o Avise-me da LI (janela da Ellie) como botão principal
+    compra?.querySelectorAll('.acoes-produto.indisponivel').forEach((bloco) => {
+      bloco.insertAdjacentHTML('afterbegin', '<p class="lm-prod-esgotado">Esgotado</p>');
+      bloco.querySelectorAll('.avise-me-pop-cadastro').forEach((a) => a.classList.add('botao', 'principal'));
+    });
 
     // compartilhar (como na Conceito): links padrão, sem SDK; o da LI (addthis) segue escondido
     const caixa = compra?.querySelector(':scope > .principal');
