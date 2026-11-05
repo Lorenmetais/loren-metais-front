@@ -9,6 +9,10 @@
   const ORC = 'data-toggle="modal" data-target="#modal_consulte"';  // o mesmo formulário de orçamento que o site já tem
   const ico = (d) => `<span class="lm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${d}</svg></span>`;
   document.documentElement.classList.add('lm-novo');
+  // entrada pelo favorito "Prévia Loren" (só loren.css e loren.js, sem o código do cabeçalho): o loren.css não tem @import, então traz aqui os tokens e as fontes que faltarem
+  const poeLink = (parte, href) => { if (!BASE || document.querySelector(`link[href*="${parte}"]`)) return; const l = document.createElement('link'); l.rel = 'stylesheet'; l.href = href; document.head.append(l); };
+  poeLink('brand-tokens.css', BASE + 'brand-tokens.css');
+  poeLink('fonts.googleapis.com/css2', 'https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@700&family=Inter:wght@400;600;700&display=swap');
   // O tema (LI.methods.menuWithOffers) faz, para CADA item do menu, $(...).load(urlDaCategoria + ' seletor'): baixa a página inteira da categoria por AJAX e a transforma em DOM
   // só para aproveitar 1 cartão do "produto em destaque" do submenu, que o visual novo esconde. Era a causa de ~14 downloads de HTML e ~110 miniaturas (~0,9 MB) em TODA página.
   // Roda antes do ready do tema (loren.js é defer): este .load específico (dentro de .mega-recebe) vira nada; qualquer outro .load do site segue igual.
