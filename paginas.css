@@ -69,9 +69,9 @@ html.lm-novo .pagina-carrinho .tabela-carrinho .conteiner-imagem img { width: 96
 html.lm-novo .pagina-carrinho .produto-info > a { font: 600 15px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
 html.lm-novo .pagina-carrinho .produto-info ul { list-style: none; margin: 6px 0 0 !important; padding: 0 !important; font-size: 13px; color: var(--lm-texto-secundario); }
 html.lm-novo .pagina-carrinho .quantidade { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; }
-html.lm-novo .pagina-carrinho .quantidade > a { width: 40px; height: 40px; box-sizing: border-box; display: grid !important; place-content: center; border: var(--lm-borda-padrao); color: var(--lm-grafite) !important; text-decoration: none; margin: 0 !important; }
-html.lm-novo .pagina-carrinho .quantidade input[name=quantidade] { width: 56px !important; height: 40px !important; box-sizing: border-box; margin: 0 !important; text-align: center; border: var(--lm-borda-padrao) !important; border-radius: 0 !important; box-shadow: none !important; font: 600 15px/1 var(--lm-fonte-texto) !important; }
-html.lm-novo .pagina-carrinho .quantidade .atualizar-quantidade { flex-basis: 100%; min-height: 40px !important; font-size: 12px !important; }
+/* quantidade: seletor padrão .lm-qtd (loren.js; o paginas.js chama window.lmQtd). O − e o + do tema o loren.css já esconde; o "Atualizar quantidade" sai aqui:
+   a linha atualiza sozinha ao mudar (modais.js, mudaQtd, 500 ms) */
+html.lm-novo .pagina-carrinho .quantidade:has(.lm-qtd) .atualizar-quantidade { display: none !important; }
 html.lm-novo .pagina-carrinho .preco-produto strong { font: 700 18px/1.2 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
 html.lm-novo .pagina-carrinho .excluir a { width: 40px; height: 40px; display: inline-grid; place-content: center; color: var(--lm-texto-secundario) !important; text-decoration: none; }
 html.lm-novo .pagina-carrinho .excluir a:hover { color: var(--lm-onda-escura) !important; }
@@ -206,3 +206,20 @@ html.lm-novo .pagina-login .social-login-google .controls { margin: 0 !important
   html.lm-novo .pagina-login .cadastro-logar { grid-template-columns: minmax(0, 1fr); gap: 16px; }
   html.lm-novo .pagina-login .cadastro-logar .caixa-sombreada { padding: 24px 16px !important; }
 }
+
+/* ===== marca (/marca/<nome>): o nome vira o título da faixa .lm-pagcab (paginas.js); a lista é a mesma da categoria ===== */
+/* a paginação do alto repete a de baixo: só a de baixo fica; o espaço da caixa do nome some quando o título sai dela */
+html.lm-novo body.pagina-marca #corpo .ordenar-listagem.topo, html.lm-novo body.pagina-marca #corpo .marca-info:not(:has(*)) { display: none !important; }
+html.lm-novo body.pagina-marca #corpo .ordenar-listagem.rodape { border: 0 !important; background: none !important; box-shadow: none !important; margin: 0 !important; padding: 24px 0 0 !important; }
+html.lm-novo body.pagina-marca #corpo .pagination { margin: 0 !important; }
+html.lm-novo body.pagina-marca #corpo .pagination ul { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 !important; box-shadow: none !important; }
+html.lm-novo body.pagina-marca #corpo .pagination ul > li > :is(a, span) { box-sizing: border-box; display: grid; place-content: center; min-width: 44px; height: 44px; margin: 0 !important; padding: 0 12px !important; border: var(--lm-borda-padrao) !important; border-radius: 0 !important; background: #fff !important; color: var(--lm-grafite) !important; font: 600 14px/1 var(--lm-fonte-texto) !important; text-decoration: none !important; }
+html.lm-novo body.pagina-marca #corpo .pagination ul > li > a:hover { border-color: var(--lm-botao) !important; color: var(--lm-botao) !important; }
+html.lm-novo body.pagina-marca #corpo .pagination ul > li.active:not(.lm-pag-reticencias) > :is(a, span) { border-color: var(--lm-botao) !important; background: var(--lm-botao) !important; color: #fff !important; }
+html.lm-novo body.pagina-marca #corpo .pagination ul > li:is(.disabled, .lm-pag-reticencias) > :is(a, span) { color: var(--lm-texto-secundario) !important; }
+html.lm-novo body.pagina-marca #corpo .pagination ul > li.lm-pag-reticencias > a { border-color: transparent !important; background: none !important; pointer-events: none; }
+/* a faixa .lm-pagcab já traz 48 (32 no celular) de margem: a lista não soma outro tanto */
+html.lm-novo body.pagina-marca #corpo #listagemProdutos { margin-top: 0 !important; }
+
+/* ===== 404: a faixa .lm-pagcab já traz o título e o texto; a seção do tema que sobra vazia deixava 30 px soltos ===== */
+html.lm-novo #corpo .secao-principal:has(> .conteudo > .lm-vazio-cab:only-child) { display: none !important; }

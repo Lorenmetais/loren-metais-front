@@ -71,6 +71,10 @@
   // frete/cupom do carrinho e campos do login: classe .lm-campo (o campo padrão do loren.css); aqui só as larguras no CSS
   document.querySelectorAll('body.pagina-carrinho .tabela-carrinho .input-append input, body.pagina-login .cadastro-logar input:is([type=text], [type=password], [type=email])').forEach((i) => i.classList.add('lm-campo'));
 
+  // quantidade do carrinho: seletor padrão (.lm-qtd, window.lmQtd do loren.js); o CSS tira o − e o + do tema e o "Atualizar quantidade",
+  // e a linha atualiza sozinha ao mudar (modais.js, mudaQtd)
+  document.querySelectorAll('body.pagina-carrinho .tabela-carrinho .quantidade input[name=quantidade]').forEach((i) => window.lmQtd?.(i));
+
   // cadastro (/conta/criar): campos com .lm-campo; Cancelar e Criar conta numa linha de ações (Ellie 04/11)
   const criar = b.classList.contains('pagina-cadastro') && document.querySelector('#corpo form[action*="criar"]');
   if (criar) {
@@ -82,11 +86,14 @@
     }
   }
 
+  // marca: o tema marca as reticências da paginação ("...") como página ativa; ganham classe própria para não pintar de azul
+  document.querySelectorAll('body.pagina-marca .pagination li.active > a').forEach((a) => { if (/^(\.\.\.|…)$/.test(a.textContent.trim())) a.parentElement.classList.add('lm-pag-reticencias'); });
+
   // cabeçalho de página: componente do loren.js (window.lmPagcab, Rocky). Aqui só a escolha do título e da linha de
   // apoio de cada página: institucionais = o subtítulo do Word (h2-h4 ou parágrafo todo em negrito, curto, diferente do
-  // título); 404 = o texto da .box-destaque; conta/carrinho = o <small> do título (padrão da função).
+  // título); 404 = o texto da .box-destaque; marca = o nome da marca; conta/carrinho = o <small> do título (padrão da função).
   const corpo = document.querySelector('#corpo');
-  const h1 = corpo && corpo.querySelector('.lm-inst > h1, .cabecalho-interno h1, .box-destaque > h1');
+  const h1 = corpo && corpo.querySelector('.lm-inst > h1, .cabecalho-interno h1, .box-destaque > h1, .marca-info > h1');  // marca: o nome da marca vira o título da faixa
   if (h1 && window.lmPagcab) {
     let apoio = h1.closest('.box-destaque') ? h1.parentElement.querySelector(':scope > p') : null;
     if (!apoio && txt) {
