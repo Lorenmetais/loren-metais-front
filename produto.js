@@ -44,7 +44,12 @@
       dlg.querySelector('.lm-seta--ant')?.addEventListener('click', () => passa(-1));
       dlg.querySelector('.lm-seta--prox')?.addEventListener('click', () => passa(1));
       dlg.addEventListener('keydown', (e) => { if (e.key === 'ArrowLeft') passa(-1); if (e.key === 'ArrowRight') passa(1); });
-      tz.addEventListener('click', (e) => { if (e.target.tagName !== 'IMG') dlg.close(); });  // clique fora da foto fecha
+      // clique fora da foto fecha (a <img> ocupa o quadro todo com contain: a margem branca em volta da foto também é "fora")
+      tz.addEventListener('click', (e) => {
+        const im = e.target; if (im.tagName !== 'IMG' || !im.naturalWidth) { dlg.close(); return; }
+        const r = im.getBoundingClientRect(), k = Math.min(r.width / im.naturalWidth, r.height / im.naturalHeight), mx = (r.width - im.naturalWidth * k) / 2, my = (r.height - im.naturalHeight * k) / 2;
+        if (e.clientX < r.left + mx || e.clientX > r.right - mx || e.clientY < r.top + my || e.clientY > r.bottom - my) dlg.close();
+      });
 
       // computador: na foto só o botão da lupa; as setas ficam nas pontas da coluna de miniaturas (como na Conceito)
       palco.insertAdjacentHTML('beforeend', '<button type="button" class="lm-lupa" aria-label="Ampliar foto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4M11 8v6M8 11h6"/></svg></button>');
@@ -72,7 +77,11 @@
       if (col) { ajusta(); new ResizeObserver(ajusta).observe(col); }
       gal.querySelector('.lm-miniaturas .lm-seta--ant')?.addEventListener('click', () => vai(atual - 1));
       gal.querySelector('.lm-miniaturas .lm-seta--prox')?.addEventListener('click', () => vai(atual + 1));
-      palco.addEventListener('click', (e) => { e.preventDefault(); abre(atual); });
+      // o clique na foto (ou na lupa, no toque) abre só o nosso zoom: captura antes do lightbox do tema (fancybox no link da foto)
+      palco.addEventListener('click', (e) => {
+        const b = e.target.closest('button'); if (b?.hasAttribute('aria-pressed')) return;  // liga/desliga da lupa
+        e.preventDefault(); e.stopImmediatePropagation(); abre(atual);
+      }, true);
       // lupa redonda ao passar o mouse (a da Conceito): lente de 180 px a 2,5x, foto grande baixada só no 1º hover; só com
       // mouse. O botão do canto passa a ligar/desligar a lupa (ponteiro = ligada, lupinha = desligada); o clique na foto
       // continua abrindo o zoom em tela cheia.
