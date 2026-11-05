@@ -9,7 +9,7 @@
   // menu: marca a página atual (o tema não marca; pedido e endereço contam como a seção deles)
   const caminho = location.pathname;
   const atual = /\/conta\/pedido/.test(caminho) ? '/conta/pedido/listar' : /\/conta\/(endereco|editar)/.test(caminho) ? '/conta/index' : caminho;
-  document.querySelectorAll('.conta-menu .menu-simples a').forEach((a) => { if (a.pathname === atual) { a.classList.add('lm-ativo'); a.setAttribute('aria-current', 'page'); a.closest('ul').scrollLeft = a.offsetLeft - 16; } });  // no celular, o chip da página à vista
+  document.querySelectorAll('.conta-menu .menu-simples a').forEach((a) => { if (a.pathname === atual) { a.classList.add('lm-ativo'); a.setAttribute('aria-current', 'page'); const ul = a.closest('ul'); ul.scrollLeft = a.getBoundingClientRect().left - ul.getBoundingClientRect().left - 16; } });  // no celular, o chip da página à vista
 
   // campos e botões nos componentes padrão da base
   document.querySelectorAll('#corpo .secao-principal form :is(input:not([type=hidden], [type=checkbox], [type=radio], [type=submit], [type=button]), select, textarea)').forEach((c) => c.classList.add('lm-campo'));
