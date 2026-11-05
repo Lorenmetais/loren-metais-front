@@ -3,7 +3,7 @@
 // e as abas, que repetem parte dele, saem. Login e cadastro são do paginas.*.
 (() => {
   const b = document.body;
-  if (!/pagina-conta|pagina-pedido|pagina-favorito/.test(b.className) || b.classList.contains('lm-conta')) return;
+  if (!/pagina-conta|pagina-pedido|pagina-favorito/.test(b.className) || b.classList.contains('lm-conta') || document.querySelector('.pedido-finalizado')) return;  // a confirmação de compra (Pix, boleto) fica como o tema entrega
   b.classList.add('lm-conta');
 
   // menu: marca a página atual (o tema não marca; pedido e endereço contam como a seção deles)
