@@ -12,7 +12,7 @@
   if (txt) {
     caixa.classList.add('lm-inst');
     // parágrafo vazio (só espaço) do Word: some, o espaçamento fica por conta do CSS
-    txt.querySelectorAll('p, div, h2, h3, h4').forEach((p) => { if (!temTexto(p) && !p.querySelector('img, iframe, video, table')) p.classList.add('lm-vazio'); });
+    txt.querySelectorAll('p, div, h2, h3, h4, font').forEach((p) => { if (!temTexto(p) && !p.querySelector('img, iframe, video, table')) p.classList.add('lm-vazio'); });
     // link sozinho no parágrafo ou título ("Veja esse item", "Voltar para a loja") vira botão secundário da base
     // (nas obras os itens com link continuam link)
     if (!/obras-finalizadas/.test(location.pathname)) txt.querySelectorAll('a').forEach((a) => { const bl = a.closest('p, h2, h3, h4'); if (bl && temTexto(a) && bl.textContent.trim() === a.textContent.trim()) a.classList.add('lm-btn2'); });
