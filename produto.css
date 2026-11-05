@@ -192,7 +192,8 @@ html.lm-novo .pagina-produto .lm-ficha { position: sticky; top: var(--lm-esp-3);
 html.lm-novo .pagina-produto .lm-ficha h2 { font: 700 var(--lm-h3)/1.1 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; text-transform: none !important; margin: 0 0 var(--lm-esp-2) !important; }
 html.lm-novo .pagina-produto .lm-ficha h3 { font: 700 1.125rem/1.2 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; margin: var(--lm-esp-3) 0 var(--lm-esp-1) !important; }
 html.lm-novo .pagina-produto .lm-ficha .lm-specs { margin: 0; }
-html.lm-novo .pagina-produto .lm-ficha .lm-specs th { width: 40%; white-space: nowrap; }  /* rótulo numa linha; a coluna cresce só se o rótulo for longo */
+html.lm-novo .pagina-produto .lm-ficha .lm-specs th { width: 40%; white-space: nowrap; }  /* rótulo numa linha; a coluna cresce até caber */
+html.lm-novo .pagina-produto .lm-ficha .lm-specs th.lm-longo { white-space: normal; }  /* rótulo muito longo quebra, para não esmagar o valor */
 html.lm-novo .pagina-produto .lm-ficha .lm-specs :is(th, td) { padding: 10px 12px !important; }
 @media (max-width: 399px) {  /* tela estreita: rótulo em cima do valor */
   html.lm-novo .pagina-produto .lm-ficha .lm-specs, html.lm-novo .pagina-produto .lm-ficha .lm-specs :is(tbody, tr, th, td) { display: block; width: auto; }
@@ -206,6 +207,11 @@ html.lm-novo .pagina-produto .lm-ficha__baixar { width: 100%; margin-top: var(--
 html.lm-novo .pagina-produto .lm-prod-rel { margin: var(--lm-sec) 0 0 !important; }
 html.lm-novo .pagina-produto .lm-prod-rel .aproveite-tambem { margin: 0 !important; padding: 0 !important; border: 0 !important; background: none !important; box-shadow: none !important; }
 
+/* sem espaço para 760 + 48 + um cartão de 392 (abaixo de 1280): o cartão desce para baixo da descrição, na mesma coluna de leitura */
+@media (max-width: 1279px) {
+  html.lm-novo .pagina-produto .lm-desc-grade { grid-template-columns: minmax(0, 1fr); gap: var(--lm-sec); }
+  html.lm-novo .pagina-produto .lm-ficha { position: static; max-width: 760px; box-sizing: border-box; }
+}
 @media (max-width: 767px) {
   html.lm-novo .pagina-produto .lm-prod-topo { grid-template-columns: minmax(0, 1fr); gap: var(--lm-esp-2); }
   html.lm-novo .pagina-produto .lm-prod-gal { display: block; }
@@ -223,8 +229,7 @@ html.lm-novo .pagina-produto .lm-prod-rel .aproveite-tambem { margin: 0 !importa
   html.lm-novo .pagina-produto #corpo .produto { padding-top: var(--lm-esp-2) !important; }
   html.lm-novo .pagina-produto #corpo .produto > .breadcrumbs { margin-bottom: var(--lm-esp-2) !important; }
   html.lm-novo .pagina-produto :is(.acoes-produto .preco-promocional, .lm-prod-sob) { font-size: 32px !important; }
-  html.lm-novo .pagina-produto .lm-desc-grade { grid-template-columns: minmax(0, 1fr); gap: var(--lm-sec); }
-  html.lm-novo .pagina-produto .lm-ficha { position: static; padding: var(--lm-esp-2); }
+  html.lm-novo .pagina-produto .lm-ficha { padding: var(--lm-esp-2); }
   html.lm-novo .pagina-produto #corpo .produto > .breadcrumbs li { display: inline-block !important; }  /* o tema escondia a categoria no celular */
   html.lm-novo .lm-zoom figure { padding: 64px 16px 96px; }
   html.lm-novo .lm-zoom figure img { height: calc(100vh - 160px); }
