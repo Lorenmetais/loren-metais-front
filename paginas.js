@@ -86,14 +86,11 @@
     }
   }
 
-  // marca: o tema marca as reticências da paginação ("...") como página ativa; ganham classe própria para não pintar de azul
-  document.querySelectorAll('body.pagina-marca .pagination li.active > a').forEach((a) => { if (/^(\.\.\.|…)$/.test(a.textContent.trim())) a.parentElement.classList.add('lm-pag-reticencias'); });
-
   // cabeçalho de página: componente do loren.js (window.lmPagcab, Rocky). Aqui só a escolha do título e da linha de
   // apoio de cada página: institucionais = o subtítulo do Word (h2-h4 ou parágrafo todo em negrito, curto, diferente do
-  // título); 404 = o texto da .box-destaque; marca = o nome da marca; conta/carrinho = o <small> do título (padrão da função).
+  // título); 404 = o texto da .box-destaque; conta/carrinho = o <small> do título (padrão da função).
   const corpo = document.querySelector('#corpo');
-  const h1 = corpo && corpo.querySelector('.lm-inst > h1, .cabecalho-interno h1, .box-destaque > h1, .marca-info > h1');  // marca: o nome da marca vira o título da faixa
+  const h1 = corpo && corpo.querySelector('.lm-inst > h1, .cabecalho-interno h1, .box-destaque > h1');
   if (h1 && window.lmPagcab) {
     let apoio = h1.closest('.box-destaque') ? h1.parentElement.querySelector(':scope > p') : null;
     if (!apoio && txt) {

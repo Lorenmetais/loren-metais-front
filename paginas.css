@@ -207,19 +207,5 @@ html.lm-novo .pagina-login .social-login-google .controls { margin: 0 !important
   html.lm-novo .pagina-login .cadastro-logar .caixa-sombreada { padding: 24px 16px !important; }
 }
 
-/* ===== marca (/marca/<nome>): o nome vira o título da faixa .lm-pagcab (paginas.js); a lista é a mesma da categoria ===== */
-/* a paginação do alto repete a de baixo: só a de baixo fica; o espaço da caixa do nome some quando o título sai dela */
-html.lm-novo body.pagina-marca #corpo .ordenar-listagem.topo, html.lm-novo body.pagina-marca #corpo .marca-info:not(:has(*)) { display: none !important; }
-html.lm-novo body.pagina-marca #corpo .ordenar-listagem.rodape { border: 0 !important; background: none !important; box-shadow: none !important; margin: 0 !important; padding: 24px 0 0 !important; }
-html.lm-novo body.pagina-marca #corpo .pagination { margin: 0 !important; }
-html.lm-novo body.pagina-marca #corpo .pagination ul { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 !important; box-shadow: none !important; }
-html.lm-novo body.pagina-marca #corpo .pagination ul > li > :is(a, span) { box-sizing: border-box; display: grid; place-content: center; min-width: 44px; height: 44px; margin: 0 !important; padding: 0 12px !important; border: var(--lm-borda-padrao) !important; border-radius: 0 !important; background: #fff !important; color: var(--lm-grafite) !important; font: 600 14px/1 var(--lm-fonte-texto) !important; text-decoration: none !important; }
-html.lm-novo body.pagina-marca #corpo .pagination ul > li > a:hover { border-color: var(--lm-botao) !important; color: var(--lm-botao) !important; }
-html.lm-novo body.pagina-marca #corpo .pagination ul > li.active:not(.lm-pag-reticencias) > :is(a, span) { border-color: var(--lm-botao) !important; background: var(--lm-botao) !important; color: #fff !important; }
-html.lm-novo body.pagina-marca #corpo .pagination ul > li:is(.disabled, .lm-pag-reticencias) > :is(a, span) { color: var(--lm-texto-secundario) !important; }
-html.lm-novo body.pagina-marca #corpo .pagination ul > li.lm-pag-reticencias > a { border-color: transparent !important; background: none !important; pointer-events: none; }
-/* a faixa .lm-pagcab já traz 48 (32 no celular) de margem: a lista não soma outro tanto */
-html.lm-novo body.pagina-marca #corpo #listagemProdutos { margin-top: 0 !important; }
-
 /* ===== 404: a faixa .lm-pagcab já traz o título e o texto; a seção do tema que sobra vazia deixava 30 px soltos ===== */
 html.lm-novo #corpo .secao-principal:has(> .conteudo > .lm-vazio-cab:only-child) { display: none !important; }
