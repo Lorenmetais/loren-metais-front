@@ -1,0 +1,68 @@
+<!-- Loren Metais: visual novo. Código do cabeçalho (head) do painel, em "todas as páginas exceto checkout". Troque COMMIT pelo hash COMPLETO do commit (40 letras e números). Detalhes em INSTALAR.md -->
+<script>
+(function () {
+  if (/\/(checkout|pagamento)/i.test(location.pathname)) return;   // checkout: este código não faz nada e não pede nenhum arquivo
+  var BASE = 'https://cdn.jsdelivr.net/gh/eduserpa/loren-metais-front@COMMIT/';
+  var PERCENTUAL = 100;   // % das visitas que veem o visual novo; a escolha fica guardada no visitante (?lm=novo ou ?lm=antigo força, para teste)
+  var CSS_MS = 5000;      // o CSS tem este tempo para chegar; senão a loja abre inteira no visual antigo
+  var JS_MS = 4000;       // depois do CSS, o loren.js tem este tempo para chegar; senão também volta ao visual antigo
+  var MONTA_MS = 8000;    // e, depois do fim do HTML, este tempo para montar o cabeçalho (monta no ready do tema; devagar é aceito, parado não)
+  var t0 = Date.now(), h = document.documentElement, head = document.head || h;
+  var grupo; try {
+    var f = (location.search.match(/[?&]lm=(novo|antigo)/) || [])[1]; if (f) localStorage.setItem('lm_forca', f);
+    f = localStorage.getItem('lm_forca'); grupo = parseInt(localStorage.getItem('lm_grupo'), 10);
+    if (isNaN(grupo)) { grupo = Math.floor(Math.random() * 100); localStorage.setItem('lm_grupo', grupo); }
+    if (f) grupo = f === 'novo' ? 0 : 100;
+  } catch (e) { grupo = 100; }
+  if (PERCENTUAL < 100 && grupo >= PERCENTUAL) return;   // fora da amostra: visual antigo, nada é pedido
+  var aviso = function (nome, motivo) {   // evento no dataLayer (o GTM/GA4 conta quantas visitas caíram no visual antigo); repete no load porque o tema recria o dataLayer mais abaixo
+    var ev = { event: nome, lm_motivo: motivo, lm_ms: Date.now() - t0 }, envia = function () { try { var d = window.dataLayer = window.dataLayer || []; if (d.indexOf(ev) < 0) d.push(ev); } catch (e) {} };
+    envia(); addEventListener('load', envia);
+  };
+  // cortes de downloads inúteis do tema, antes de o ready dele rodar (jQuery já existe aqui): o .load de cada item do menu e da página /ofertas-especiais (404),
+  // e o $.ajax('../') que baixa a home inteira só para preencher o contato do cabeçalho do carrinho (só a página do carrinho usa)
+  var $ = window.jQuery;
+  if ($ && $.fn.load && !$.fn.load.__lm) {
+    var carrega = $.fn.load, ajax = $.ajax;
+    $.fn.load = function (url) { return typeof url === 'string' && (/^\/ofertas-especiais/.test(url) || this.closest('.mega-recebe').length) ? this : carrega.apply(this, arguments); };
+    $.fn.load.__lm = true;
+    $.ajax = function (o) { return o && o.url === '../' && !/\/carrinho/.test(location.pathname) ? $.Deferred().promise() : ajax.apply(this, arguments); };
+  }
+  // enquanto decide, a página fica escondida (no máximo CSS_MS)
+  var esconde = document.createElement('style'); esconde.textContent = 'html.lm-carregando body,html.lm-carregando body *{visibility:hidden!important}';
+  head.appendChild(esconde); h.classList.add('lm-carregando');
+  var meus = [esconde], feito = false;
+  var poe = function (tag, atributos) { var e = document.createElement(tag); for (var k in atributos) e.setAttribute(k, atributos[k]); head.appendChild(e); meus.push(e); return e; };
+  var desliga = function (motivo) {   // visual antigo inteiro nesta visita: tira a classe, o CSS e o JS, e o loren.js, se chegar, não faz nada
+    if (feito) return; feito = true; window.__lmDesliga = true;
+    h.classList.remove('lm-novo', 'lm-pronto', 'lm-carregando');
+    meus.forEach(function (e) { if (e.parentNode) e.parentNode.removeChild(e); });
+    aviso('lm_falha', motivo);
+  };
+  var mostra = function () { if (!feito) h.classList.add('lm-pronto'); };   // rede de segurança: a página aparece no máximo 6 s depois de abrir
+  setTimeout(mostra, 6000);
+  document.addEventListener('DOMContentLoaded', function () { setTimeout(mostra, 3000); });
+  poe('link', { rel: 'preconnect', href: 'https://cdn.jsdelivr.net', crossorigin: '' });
+  poe('link', { rel: 'preload', as: 'script', crossorigin: 'anonymous', fetchpriority: 'high', href: BASE + 'loren.js' });   // o JS baixa junto com o CSS (sem isto o navegador o segura até o fim do HTML)
+  var faltam = 0, pronto = function () {
+    if (feito) return; clearTimeout(limite);
+    h.classList.add('lm-novo'); h.classList.remove('lm-carregando'); esconde.parentNode.removeChild(esconde);
+    var chegou = false, js = poe('script', { src: BASE + 'loren.js', crossorigin: 'anonymous', fetchpriority: 'high' });
+    js.onload = function () { chegou = true; }; js.onerror = function () { desliga('js_erro'); };
+    setTimeout(function () { if (!chegou) desliga('js_lento'); }, JS_MS);
+    window.addEventListener('error', function (e) { if (!window.__lmMontou && /loren-metais-front/.test(e.filename || '')) desliga('js_excecao'); });   // o loren.js quebrou antes de montar
+    var confere = function () { setTimeout(function () { if (!window.__lmMontou) desliga('js_nao_montou'); }, MONTA_MS); };
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', confere); else confere();
+  };
+  var limite = setTimeout(function () { desliga('css_lento'); }, CSS_MS);
+  ['brand-tokens.css', 'loren.css', 'produto.css', 'categoria.css', 'paginas.css', 'modais.css'].forEach(function (a) {
+    faltam++; var l = poe('link', { rel: 'stylesheet', href: BASE + a });
+    l.onload = function () { if (!--faltam) pronto(); }; l.onerror = function () { desliga('css_erro'); };
+  });
+  // fontes e banner da home (a 1ª arte do carrossel é a LCP): não bloqueiam nada
+  poe('link', { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@700&family=Inter:wght@400;600;700&display=swap' });
+  poe('link', { rel: 'preload', as: 'font', type: 'font/woff2', crossorigin: '', href: 'https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2' });
+  poe('link', { rel: 'preload', as: 'font', type: 'font/woff2', crossorigin: '', href: 'https://fonts.gstatic.com/s/barlowsemicondensed/v16/wlpigxjLBV1hqnzfr-F8sEYMB0Yybp0mudRfw6-_B2sl.woff2' });
+  if (/^\/(home)?$/.test(location.pathname)) poe('link', { rel: 'preload', as: 'image', fetchpriority: 'high', href: BASE + 'banners/fabrica-' + (matchMedia('(max-width: 767px)').matches ? 'celular' : '1920') + '.avif' });
+})();
+</script>

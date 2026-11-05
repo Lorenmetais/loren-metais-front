@@ -2,7 +2,7 @@
 // barra curta, link de orçamento no topo, Obras no menu, vantagens, categorias, faixa para empresas, quem somos e um
 // único botão de WhatsApp. Fora do checkout e do pagamento: lá o site segue exatamente como hoje.
 (() => {
-  if (/\/checkout|\/pagamento/i.test(location.pathname)) return;
+  if (/\/checkout|\/pagamento/i.test(location.pathname) || window.__lmDesliga) return;  // __lmDesliga: o código do cabeçalho já voltou esta visita ao visual antigo (CSS ou JS demorou demais)
   const BASE = document.currentScript?.src.replace(/[^/]*$/, '') || '';
   const LOGO = BASE + 'logo.svg';  // no teste inline, previa_real troca esta linha pelo SVG embutido
   const WA = 'https://api.whatsapp.com/send/?phone=5519992306593&text=' + encodeURIComponent('Olá! Vim pelo site da Loren Metais e gostaria de atendimento.');
@@ -53,7 +53,7 @@
     return cab;
   };
   // um par de arquivos por tipo de página (cada agente mexe no seu): categoria.* (categoria e busca), produto.*
-  const pagina = () => { const c = document.body.className; return /pagina-categoria|pagina-busca/.test(c) ? 'categoria' : /pagina-produto/.test(c) ? 'produto' : /pagina-inicial/.test(c) ? '' : 'paginas'; };  // paginas.*: institucionais, carrinho, conta (Marty)
+  const pagina = () => { const c = document.body.className; return /pagina-categoria|pagina-busca|pagina-marca/.test(c) ? 'categoria' : /pagina-produto/.test(c) ? 'produto' : /pagina-inicial/.test(c) ? '' : /pagina-conta|pagina-pedido|pagina-favorito/.test(c) ? 'conta' : 'paginas'; };  // paginas.*: institucionais, carrinho, conta (Marty)
   // modais.* (formulários em janela, como o Pedir orçamento) vale em toda página
   // no live o código do cabeçalho já traz o CSS (head); aqui entram o que faltar e o JS da página. Devolve uma promessa para o html.lm-pronto esperar
   const extra = () => { if (!BASE) return Promise.resolve(); const espera = []; const nova = (el) => { espera.push(new Promise((ok) => { el.onload = el.onerror = ok; })); document.head.append(el); };
@@ -178,7 +178,7 @@
   // Espera as 3 faces do site de verdade (document.fonts.ready resolve na hora, antes de a fonte começar a baixar, e a troca de fonte depois de revelar a página dá salto de texto)
   const fontesProntas = () => { try { return Promise.all(['400 1em Inter', '600 1em Inter', '700 1em "Barlow Semi Condensed"'].map((f) => document.fonts.load(f))); } catch (e) { return 0; } };
   // html.lm-pronto: o loren.css reserva o espaço do que o JS monta e esconde o que ele troca até esta classe; o snippet do cabeçalho a liga sozinho em 3 s se o JS falhar
-  const tudo = () => { const carga = extra(); monta(); qtdAuto(); Promise.race([Promise.all([carga, fontesProntas()]), new Promise((ok) => setTimeout(ok, 2500))]).then(() => document.documentElement.classList.add('lm-pronto')); };
+  const tudo = () => { if (window.__lmDesliga) return; const carga = extra(); monta(); window.__lmMontou = true; qtdAuto(); Promise.race([Promise.all([carga, fontesProntas()]), new Promise((ok) => setTimeout(ok, 2500))]).then(() => document.documentElement.classList.add('lm-pronto')); };
   // o tema monta o menu e a gaveta no ready do jQuery (LI.methods.otherCategories joga para "Outros" tudo que passa de 6 itens, inclusive o nosso Obras finalizadas): entramos depois dele
   const arranca = () => (window.jQuery ? window.jQuery(() => setTimeout(tudo, 0)) : tudo());
   document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', arranca) : arranca();
