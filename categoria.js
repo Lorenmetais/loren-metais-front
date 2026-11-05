@@ -1,10 +1,10 @@
-// Loren Metais, página de categoria e de busca (carregado pelo loren.js). Só reorganiza o que a loja já mostra:
+// Loren Metais, página de categoria, de busca e de marca (carregado pelo loren.js). Só reorganiza o que a loja já mostra:
 // nenhum texto é apagado, escondido ou reescrito. Título + 1º parágrafo no topo, subcategorias em chips, barra
 // Filtrar/Ordenar, coluna de 240 px no computador e o resto da descrição + perguntas num bloco "Saiba mais" depois da lista.
 // Substitui o script antigo do painel que copiava um parágrafo da descrição para cima da lista (.texto-descricao).
 (() => {
   const b = document.body;
-  if (!/pagina-categoria|pagina-busca/.test(b.className) || b.dataset.lmCat) return;
+  if (!/pagina-categoria|pagina-busca|pagina-marca/.test(b.className) || b.dataset.lmCat) return;
   const sec = document.querySelector('#corpo .secao-principal');
   const conteudo = sec?.querySelector(':scope > .conteudo');
   const lista = conteudo?.querySelector('#listagemProdutos');  // a página tem outros #listagemProdutos (vitrines do menu)
@@ -16,6 +16,7 @@
       const h1 = document.querySelector('#corpo h1');
       if (h1 && window.lmPagcab) window.lmPagcab(h1);
       document.querySelectorAll('#corpo li').forEach((li) => { if (/^tente\s/i.test(li.textContent.trim())) li.closest('ul, ol')?.classList.add('lm-busca-dicas'); });
+      document.querySelector('#corpo .conteudo a.botao.secundario')?.classList.add('lm-btn2');  // Voltar a home: o secundário da base
       b.classList.add('lm-busca-vazia');
     }
     return;
@@ -26,7 +27,7 @@
 
   // topo: título, 1º parágrafo da descrição e chips, na largura toda (antes das colunas)
   const topo = document.createElement('div'); topo.className = 'lm-cat-topo';
-  const h1 = conteudo.querySelector('h1'); if (h1) topo.append(h1);
+  const h1 = conteudo.querySelector('h1') || document.querySelector('.marca-info > h1'); if (h1) topo.append(h1);  // marca: o nome é o h1 da .marca-info
   sec.before(topo);
 
   // descrição: componente do menu lateral com título + parágrafos (não o da newsletter)
@@ -123,6 +124,8 @@
   const rodape = conteudo.querySelector('.ordenar-listagem.rodape'), ul = lista.querySelector(':scope > ul');
   if (rodape && ul && rodape.querySelector('.pagination a:not([href="#"])')) { const li = document.createElement('li'); li.className = 'lm-cat-pag'; li.append(rodape); ul.append(li); }
   else rodape?.classList.add('lm-cat-sem-pag');  // uma página só: nada a paginar
+  // reticências da paginação: o tema as marca como página atual (li.active)
+  conteudo.querySelectorAll('.pagination li').forEach((li) => { if (li.textContent.trim() === '...') li.classList.add('lm-cat-reticencias'); });
 
   // barra Filtrar/Ordenar: o Ordenar é o da loja; o Filtrar abre a coluna (filtros + categorias) no celular
   const barra = conteudo.querySelector('.ordenar-listagem.topo');
@@ -134,5 +137,6 @@
     bt.addEventListener('click', () => abre(true));
     coluna.querySelector('.lm-cat-fechar').addEventListener('click', () => abre(false));
   }
+  if (barra && !barra.querySelector('.input-append, .lm-cat-filtrar')) barra.classList.add('lm-cat-barra-vazia');  // marca: só a paginação repetida, e a de baixo basta
   b.classList.add('lm-cat');
 })();

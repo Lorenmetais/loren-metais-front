@@ -122,7 +122,16 @@
     esperaQtd = setTimeout(() => { const f = c.form, atual = f?.querySelector('[name=quantidade_atual]')?.value; if (f && c.value !== atual && window.jQuery) jQuery(f).trigger('submit'); }, 500);
   };
 
+  // palavra com hífen não parte em duas linhas nos títulos ("por e-/mail"): o navegador quebra depois do hífen. O texto não
+  // muda, só ganha um <nobr> em volta (span pegaria a fonte de texto da regra geral do loren.css; nobr herda a do título)
+  const semQuebra = () => document.querySelectorAll('h1, h2, h3, h4, h5, h6, .titulo, .nome-produto, .avise-tit, .avise-suc-tit, .modal-header > span').forEach((el) => {
+    const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT), nos = [];
+    for (let n; (n = w.nextNode());) if (/\p{L}-\p{L}/u.test(n.textContent) && !n.parentElement.closest('nobr')) nos.push(n);
+    nos.forEach((n) => { const frag = document.createDocumentFragment(); n.textContent.split(/([\p{L}\d]+(?:-[\p{L}\d]+)+)/u).forEach((p, i) => { if (i % 2) { const b = document.createElement('nobr'); b.textContent = p; frag.append(b); } else if (p) frag.append(p); }); n.replaceWith(frag); });
+  });
+
   const prepara = () => {
+    semQuebra();
     ['#modal_consulte', '#modal_qtds', '#avise-me-cadastro', '#login-content', '#comprar-ajax-status'].forEach((s) => rotula(document.querySelector(s)));
     // as outras janelas do tema que já estão na página (ex.: recuperar senha do login, que abre sozinha pelo #recuperar_senha)
     document.querySelectorAll('.modal').forEach(rotula);

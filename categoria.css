@@ -13,6 +13,22 @@ html.lm-novo body.lm-cat .lm-pagcab + .lm-cat-topo { padding-top: 0; margin-top:
 }
 /* busca sem resultado: dicas no texto secundário (estavam #B5B5B5, 2,1:1) */
 html.lm-novo body.pagina-busca #corpo .lm-busca-dicas, html.lm-novo body.pagina-busca #corpo .lm-busca-dicas li { color: var(--lm-texto-secundario) !important; }
+/* busca sem resultado: "Dicas" vira um bloco na largura de leitura, alinhado com o título da faixa, com título Barlow, lista em
+   16 px com marcador na cor da marca e o Voltar a home no secundário da base (Ellie 05/11) */
+html.lm-novo body.lm-busca-vazia #corpo .secao-principal { margin: 0 !important; padding: 48px 0 !important; }
+html.lm-novo body.lm-busca-vazia #corpo .secao-principal > .conteudo, html.lm-novo body.lm-busca-vazia #corpo .conteudo > .row-fluid { float: none !important; width: auto !important; margin: 0 !important; padding: 0 !important; }
+html.lm-novo body.lm-busca-vazia #corpo .conteudo .span6 { float: none !important; box-sizing: border-box; width: min(560px, 100%) !important; margin: 0 !important; padding: 32px !important; border: var(--lm-borda-padrao); background: #fff; }
+html.lm-novo body.lm-busca-vazia #corpo .conteudo .span6 > p { margin: 0 0 16px !important; }
+html.lm-novo body.lm-busca-vazia #corpo .conteudo .span6 > p > b { color: var(--lm-grafite) !important; font: 700 24px/1.15 var(--lm-fonte-titulo) !important; }
+html.lm-novo body.pagina-busca #corpo ol.lm-busca-dicas { margin: 0 0 24px !important; padding: 0 0 0 24px !important; list-style: disc !important; }
+html.lm-novo body.pagina-busca #corpo ol.lm-busca-dicas li { display: list-item !important; list-style: disc !important; margin: 0 0 8px !important; font: 400 16px/1.6 var(--lm-fonte-texto) !important; }
+html.lm-novo body.pagina-busca #corpo ol.lm-busca-dicas li::marker { color: var(--lm-onda-escura); }
+@media (max-width: 767px) {
+  html.lm-novo body.lm-busca-vazia #corpo .secao-principal { padding: 32px 0 !important; }
+  html.lm-novo body.lm-busca-vazia #corpo .conteudo .span6 { padding: 24px 16px !important; }
+  html.lm-novo body.lm-busca-vazia #corpo .conteudo .span6 > p > b { font-size: 22px !important; }
+  html.lm-novo body.lm-busca-vazia #corpo .conteudo .span6 > .botao { display: flex !important; width: 100% !important; }
+}
 
 /* topo: título, 1º parágrafo e chips */
 html.lm-novo body.lm-cat .lm-cat-topo { padding: 16px 0 24px; }
@@ -26,6 +42,9 @@ html.lm-novo body.lm-cat .lm-cat-chips a:hover { border-color: var(--lm-onda-esc
 
 /* duas colunas: 240 px (menu + filtros) e a lista */
 html.lm-novo body.lm-cat #corpo .secao-principal { display: grid !important; grid-template-columns: 240px minmax(0, 1fr); gap: 32px; margin: 0 !important; }
+html.lm-novo body.lm-cat #corpo .secao-principal:is(.sem-coluna, :not(:has(> .coluna))) { grid-template-columns: minmax(0, 1fr); }  /* marca: sem filtros, a lista usa a largura toda */
+html.lm-novo body.lm-cat #corpo .secao-principal.sem-coluna > .coluna { display: none !important; }
+html.lm-novo body.lm-cat .marca-info:not(:has(*)) { display: none !important; }  /* o nome da marca foi para a faixa */
 html.lm-novo body.lm-cat #corpo .secao-principal::before, html.lm-novo body.lm-cat #corpo .secao-principal::after { display: none !important; }
 html.lm-novo body.lm-cat #corpo .secao-principal > .coluna, html.lm-novo body.lm-cat #corpo .secao-principal > .conteudo { display: block !important; width: auto !important; margin: 0 !important; float: none !important; min-width: 0; }
 
@@ -86,7 +105,7 @@ html.lm-novo body.lm-cat #corpo .conteudo #listagemProdutos { margin: 0 !importa
 html.lm-novo body.lm-cat .ordenar-listagem.rodape { border: 0 !important; background: none !important; box-shadow: none !important; padding: 16px 0 0 !important; margin: 0 !important; }
 html.lm-novo body.lm-cat #listagemProdutos > ul > li.lm-cat-pag { grid-column: 1 / -1; list-style: none; }
 html.lm-novo body.lm-cat .lm-cat-pag .ordenar-listagem.rodape { padding: 0 !important; }
-html.lm-novo body.lm-cat .ordenar-listagem.rodape.lm-cat-sem-pag { display: none !important; }
+html.lm-novo body.lm-cat .ordenar-listagem.rodape.lm-cat-sem-pag, html.lm-novo body.lm-cat .ordenar-listagem.topo.lm-cat-barra-vazia { display: none !important; }
 
 /* Saiba mais: resto da descrição e perguntas frequentes */
 html.lm-novo body.lm-cat .lm-cat-saiba { border-top: var(--lm-borda-padrao); margin-top: 48px; padding-block: 48px; }
@@ -146,6 +165,7 @@ html.lm-novo body.lm-cat .lm-cat-pag .pagination li > :is(a, span) { box-sizing:
 html.lm-novo body.lm-cat .lm-cat-pag .pagination li:not(.active, .disabled) > a:hover { border-color: var(--lm-onda-escura) !important; color: var(--lm-onda-escura) !important; }
 html.lm-novo body.lm-cat .lm-cat-pag .pagination li.active > :is(a, span) { background: var(--lm-onda-escura) !important; border-color: var(--lm-onda-escura) !important; color: #fff !important; }
 html.lm-novo body.lm-cat .lm-cat-pag .pagination li.disabled > :is(a, span) { opacity: .4; pointer-events: none; }
+html.lm-novo body.lm-cat .lm-cat-pag .pagination li.lm-cat-reticencias > :is(a, span) { min-width: 24px; padding: 0 !important; border-color: transparent !important; background: none !important; color: var(--lm-texto-secundario) !important; pointer-events: none; }
 @media (max-width: 767px) { html.lm-novo body.lm-cat .lm-cat-pag .pagination ul { gap: 4px; } }  /* 8 botões de 40 cabem nos 358 px */
 
 /* Ordenar: campo pill de 48 (como os outros campos do site); Filtrar (celular): botão secundário pill de 48, contorno na
