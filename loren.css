@@ -2,7 +2,7 @@
    rodapé e contato; 2ª camada: estrutura do wireframe (cabeçalho em linha, vantagens, categorias, empresas). Tudo dentro de html.lm-novo (o loren.js liga a classe), então sem a classe o
    site fica exatamente como hoje. Nunca carregado no checkout (o loren.js não roda lá). */
 @import url('brand-tokens.css');
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700&family=Inter:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@700&family=Inter:wght@400;600;700&display=swap');
 
 /* base */
 html.lm-novo body { font-family: var(--lm-fonte-texto) !important; color: var(--lm-grafite); background: var(--lm-branco) !important; -webkit-font-smoothing: antialiased; }
@@ -77,10 +77,14 @@ html.lm-novo #rodape .institucional svg { fill: var(--lm-sobre-escuro-2) !import
 html.lm-novo #rodape .redes-sociais { position: static; width: auto; margin: 0; padding: 0; border: 0; background: none; box-shadow: none; }
 html.lm-novo #rodape .lista-redes ul { display: flex; gap: var(--lm-esp-1); }
 html.lm-novo #rodape .lista-redes ul li { float: none; margin: 0; border: 0; }
-html.lm-novo #rodape .lista-redes ul li a { display: grid; place-items: center; width: var(--lm-campo-altura); height: var(--lm-campo-altura); padding: 0; border: 1px solid var(--lm-linha-escuro-2); color: var(--lm-branco) !important; line-height: 1; }
-html.lm-novo #rodape .lista-redes ul li a i { width: auto; height: auto; margin: 0; background: none !important; color: var(--lm-branco) !important; font-size: 16px; line-height: 1; }
-html.lm-novo #rodape .lista-redes ul li a:hover { background: var(--lm-branco); border-color: var(--lm-branco); }
-html.lm-novo #rodape .lista-redes ul li a:hover i { color: var(--lm-grafite) !important; }
+html.lm-novo #rodape .lista-redes ul li a { display: grid; place-items: center; width: var(--lm-campo-altura); height: var(--lm-campo-altura); padding: 0; border: 1px solid var(--lm-linha-escuro-2); color: var(--lm-sobre-escuro-2) !important; line-height: 1; }
+html.lm-novo #rodape .lista-redes ul li a i { width: auto; height: auto; margin: 0; background: none !important; color: inherit !important; font-size: 20px; line-height: 1; }  /* o ícone é um SVG em máscara (icones, no fim deste arquivo): herda a cor do link */
+/* hover: o ícone e o contorno ficam na cor da marca */
+html.lm-novo #rodape .lista-redes ul li a:hover { border-color: currentColor; color: var(--lm-branco) !important; }
+html.lm-novo #rodape .lista-redes ul li a:has(.icon-facebook):hover { color: var(--lm-marca-facebook) !important; }
+html.lm-novo #rodape .lista-redes ul li a:has(.icon-youtube):hover { color: var(--lm-marca-youtube) !important; }
+html.lm-novo #rodape .lista-redes ul li a:has(.icon-instagram):hover { color: var(--lm-marca-instagram) !important; }
+html.lm-novo #rodape .lista-redes ul li a:has(.icon-bold):hover { color: var(--lm-azul) !important; }
 /* pagamento e selos */
 html.lm-novo #rodape .pagamento-selos ul { margin: 0; padding: 0; list-style: none; }
 html.lm-novo #rodape .bandeiras-pagamento, html.lm-novo #rodape .selos > ul { display: flex; flex-wrap: wrap; align-items: center; gap: var(--lm-esp-1); }
@@ -131,6 +135,10 @@ html.lm-novo #cabecalho .full.menu .nivel-um > li > a, html.lm-novo #cabecalho .
 html.lm-novo #cabecalho .full.menu .nivel-um > li:hover > a { box-shadow: inset 0 -4px 0 var(--lm-azul); }
 html.lm-novo .full.menu .nivel-um > li > a > :is(i, img, svg) { display: none !important; }
 html.lm-novo .full.menu .nivel-um > li.categoria-paginas { display: none !important; }
+html.lm-novo .full.menu .nivel-um > li:not(:has(a[href]:not([href=""]):not([href="#"]))) { display: none !important; }  /* item sem link nenhum (Ofertas: href vazio, /ofertas dá 404) */
+/* tablet: com vão de 32 as entradas só cabem a partir de ~860 px; abaixo disso o vão encolhe (24 e 16) em vez de quebrar em 2 linhas */
+@media (max-width: 899px) { html.lm-novo .full.menu .nivel-um { gap: 24px; } }
+@media (max-width: 799px) { html.lm-novo .full.menu .nivel-um { gap: 16px; } }
 html.lm-novo #cabecalho .full.menu .nivel-um > li.lm-menu-obras > a, html.lm-novo #cabecalho .full.menu .nivel-um > li.lm-menu-obras > a > strong.titulo { color: var(--lm-onda-escura) !important; font: 600 15px/1 var(--lm-fonte-texto) !important; }
 /* submenus (nível 2 e 3): lista em coluna única, fundo branco, borda fina, itens com 8 / 24 de respiro. O produto em destaque do tema
    (.mega-recebe) sai: a grade .listagem daqui o espremia numa coluna de 20 px e o submenu abria com 1.600 px de altura */
@@ -241,7 +249,7 @@ html.lm-novo .lm-chat__fechar { display: flex; align-items: center; justify-cont
 html.lm-novo .lm-chat__fechar svg { width: 18px; height: 18px; pointer-events: none; }
 html.lm-novo .lm-chat__fechar:hover { border-color: var(--lm-btn-gradiente); color: var(--lm-btn-gradiente); }
 html.lm-novo .lm-chat__assuntos { display: flex; flex-direction: column; gap: 8px; margin: 0 !important; padding: 16px 24px 24px !important; list-style: none; }
-html.lm-novo .lm-chat__assuntos a { box-sizing: border-box; display: flex; align-items: center; gap: 8px; width: 100%; min-height: var(--lm-campo-altura); padding: 0 16px; border: var(--lm-borda-padrao); border-radius: 999px !important; background: var(--lm-branco); color: var(--lm-grafite) !important; font: 600 12px/1.3 var(--lm-fonte-titulo); letter-spacing: .08em; text-transform: uppercase; text-decoration: none !important; }
+html.lm-novo .lm-chat__assuntos a { box-sizing: border-box; display: flex; align-items: center; gap: 8px; width: 100%; min-height: var(--lm-campo-altura); padding: 0 16px; border: var(--lm-borda-padrao); border-radius: 999px !important; background: var(--lm-branco); color: var(--lm-grafite) !important; font: 700 12px/1.3 var(--lm-fonte-titulo); letter-spacing: .08em; text-transform: uppercase; text-decoration: none !important; }
 html.lm-novo .lm-chat__assuntos a:hover { border-color: var(--lm-grafite); }
 html.lm-novo .lm-chat__assuntos svg { flex-shrink: 0; width: 20px; height: 20px; color: var(--lm-whatsapp-escuro); }
 
@@ -303,14 +311,22 @@ html.lm-novo .lm-topo__acoes a { display: inline-flex; align-items: center; gap:
 html.lm-novo .lm-topo__acoes a:hover { color: var(--lm-onda-escura) !important; }
 html.lm-novo .lm-topo__acoes svg { width: 22px; height: 22px; flex: none; }
 html.lm-novo .lm-topo__orc { color: var(--lm-onda-escura) !important; }
-html.lm-novo .lm-qtd { min-width: 16px; height: 16px; padding: 0 4px; display: inline-grid; place-items: center; background: var(--lm-onda-escura); color: var(--lm-branco); font: 700 12px/1 var(--lm-fonte-texto); }
-html.lm-novo .lm-qtd[hidden] { display: none; }
+html.lm-novo .lm-topo__qtd { position: absolute; top: -8px; left: 12px; width: 20px; height: 20px; min-width: 0; padding: 0; display: grid; place-items: center; border-radius: 50% !important; background: var(--lm-botao); color: var(--lm-branco); font: 700 12px/1 var(--lm-fonte-texto); }  /* círculo de 20 sobre o canto de cima do ícone do carrinho; o link .lm-topo__acoes a já é position: relative */
+html.lm-novo .lm-topo__qtd[hidden] { display: none; }
 html.lm-novo .lm-topo__menu { display: none; }
 /* o tema põe #cabecalho.fixed ao passar de 20 px de rolagem (LI.methods.fixedHeader): o cabeçalho sai do fluxo, a página encolhe e volta, e o menu some.
    Aqui ele nunca sai do fluxo e o menu fica sempre visível, então a rolagem não muda o layout */
 html.lm-novo #cabecalho.fixed { position: static !important; box-shadow: none !important; }
-html.lm-novo #cabecalho.fixed .full.menu { max-height: none; opacity: 1; z-index: 1000; overflow: visible; transition: none; }  /* 1000: o menu sticky fica acima do conteudo (o auto deixava os titulos por cima do submenu) */
+html.lm-novo #cabecalho.fixed .full.menu { max-height: none; opacity: 1; z-index: 1000; overflow: visible; transition: none; }  /* 1000: o menu sticky fica acima do conteúdo (o auto deixava os títulos por cima do submenu) */
 html.lm-novo .busca-mobile.fixed { position: static !important; box-shadow: none !important; }
+/* tablet (768 a 1023): logo e ações numa linha, a busca inteira na de baixo; os textos das ações ficam */
+@media (min-width: 768px) and (max-width: 1023px) {
+  html.lm-novo .lm-topo__linha { height: auto; flex-wrap: wrap; gap: 16px 24px; padding-block: 16px; }
+  html.lm-novo .lm-topo__logo { margin-right: auto; }
+  html.lm-novo .lm-topo__acoes { order: 2; margin: 0; gap: 24px; }
+  html.lm-novo .lm-topo__busca { order: 3; flex: 0 0 100%; max-width: none; }
+  html.lm-novo .secao-banners .flex-direction-nav a { background: var(--lm-grafite) !important; }  /* sólido: sobre o banner claro o 55% some */
+}
 @media (max-width: 767px) {
   html.lm-novo .lm-topo__linha { height: auto; flex-wrap: wrap; gap: 8px 16px; padding-block: 16px; }
   html.lm-novo .lm-topo__menu { display: grid; place-items: center; width: 40px; height: 40px; padding: 0; border: 0; background: none; color: var(--lm-grafite); order: 0; }
@@ -490,7 +506,7 @@ html.lm-novo .listagem .info-produto > div:has(.preco-produto) { margin-top: aut
 @media (max-width: 767px) {
   html.lm-novo .listagem .listagem-item { padding: 0 8px 8px !important; }
   html.lm-novo .listagem .imagem-produto { margin: 0 -8px 8px !important; }
-  html.lm-novo .listagem .acoes-produto { margin-top: 8px !important; }
+  html.lm-novo .listagem .acoes-produto { margin-top: 11px !important; }  /* 11 + 5 px que o bloco do preço já deixa no celular = 16 entre preço e botão */
 }
 
 /* ===== carregamento sem quebra no live (04/11) =====
@@ -513,7 +529,7 @@ html.lm-novo:not(.lm-pronto) :is(.secao-banners, #corpo, #barraNewsletter, #roda
 }
 
 /* margem lateral do celular: 16 em tudo (o .conteiner do tema usa 10); o banner continua de ponta a ponta */
-@media (max-width: 767px) {
+@media (max-width: 1279px) {
   html.lm-novo :is(#corpo, #rodape, #barraNewsletter) .conteiner { box-sizing: border-box !important; padding-left: var(--lm-margem) !important; padding-right: var(--lm-margem) !important; }
   html.lm-novo :is(#corpo, #rodape, #barraNewsletter) .conteiner .conteiner { padding-left: 0 !important; padding-right: 0 !important; }
 }
@@ -521,17 +537,23 @@ html.lm-novo:not(.lm-pronto) :is(.secao-banners, #corpo, #barraNewsletter, #roda
 /* ===== cabeçalho de página padrão (Ellie 04/11; componente do loren.css, montado por window.lmPagcab do loren.js): trilha + h1 + linha de apoio que a página já tem, numa faixa de
    ponta a ponta com o fundo claro; o texto alinha com a borda do conteúdo de cada página (coluna de 760 nas
    institucionais, contêiner nas outras). Mesmo respiro em todas: 48 px (32 no celular) dentro e depois da faixa ===== */
-html.lm-novo .lm-pagcab { position: relative; margin: 0 0 48px !important; padding: 48px 0 !important; background: var(--lm-fundo); box-shadow: 0 0 0 100vmax var(--lm-fundo); clip-path: inset(0 -100vmax); }
+html.lm-novo .lm-pagcab { position: relative; margin: 0 0 48px !important; padding: var(--lm-esp-3) 0 48px !important; background: var(--lm-fundo); box-shadow: 0 0 0 100vmax var(--lm-fundo); clip-path: inset(0 -100vmax); }
 html.lm-novo .lm-pagcab--leitura .lm-pagcab__in { max-width: 760px; margin: 0 auto; }
-html.lm-novo #corpo .lm-pagcab .breadcrumbs { max-width: none !important; margin: 0 0 16px !important; padding: 0 !important; }
-html.lm-novo #corpo .lm-pagcab h1 { margin: 0 !important; padding: 0 !important; border: 0 !important; font: 700 var(--lm-h1)/1.05 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; text-transform: none !important; text-align: left !important; }
+/* trilha com o mesmo respiro em cima (menu até a trilha) e embaixo (trilha até o título): 24 no computador e 16 no celular, como no produto */
+html.lm-novo #corpo .lm-pagcab .lm-pagcab__in > .breadcrumbs { max-width: none !important; margin: 0 0 var(--lm-esp-3) !important; padding: 0 !important; line-height: 1.2; }
+/* a trilha do tema tem fundo próprio e recuo no ul/li (no celular o texto começava 10 px mais para dentro que o título): dentro da faixa, nada disso */
+html.lm-novo #corpo .lm-pagcab .breadcrumbs, html.lm-novo #corpo .lm-pagcab .breadcrumbs * { background: none !important; }
+html.lm-novo #corpo .lm-pagcab .breadcrumbs :is(ul, li) { margin: 0 !important; padding: 0 !important; }
+html.lm-novo #corpo .lm-pagcab .breadcrumbs li:first-child > a { padding-left: 0 !important; }  /* o link do tema tem 10 px de cada lado; o primeiro começa na borda do título */
+html.lm-novo #corpo .lm-pagcab h1 { margin: 0 !important; padding: 0 !important; border: 0 !important; font: 700 var(--lm-h1)/1.25 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; text-transform: none !important; text-align: left !important; }
 html.lm-novo #corpo .lm-pagcab .lm-pagcab__apoio { max-width: 640px; margin: 16px 0 0 !important; padding: 0 !important; font: 400 18px/1.5 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; text-transform: none !important; text-align: left !important; }
 html.lm-novo #corpo .lm-pagcab .lm-pagcab__apoio * { font: inherit !important; color: inherit !important; }
 /* o conteúdo começa logo depois da faixa (o respiro é a margem dela) */
 html.lm-novo body.lm-com-cab #corpo :is(.lm-inst, .secao-principal) { padding-top: 0 !important; }
 html.lm-novo #corpo .lm-vazio-cab { display: none !important; }
 @media (max-width: 767px) {
-  html.lm-novo .lm-pagcab { margin-bottom: 32px !important; padding: 32px 0 !important; }
+  html.lm-novo .lm-pagcab { margin-bottom: 32px !important; padding: var(--lm-esp-2) 0 32px !important; }
+  html.lm-novo #corpo .lm-pagcab .lm-pagcab__in > .breadcrumbs { margin-bottom: var(--lm-esp-2) !important; }
   html.lm-novo #corpo .lm-pagcab h1 { font-size: 1.875rem !important; }
   html.lm-novo #corpo .lm-pagcab .lm-pagcab__apoio { font-size: 16px !important; }
 }
@@ -540,8 +562,181 @@ html.lm-novo #corpo .lm-vazio-cab { display: none !important; }
    #cabecalho vira display:contents para o sticky valer na página inteira (dentro dele só colaria pela altura do próprio cabeçalho).
    Computador: linha do topo + menu de categorias; celular: a linha do topo (logo, ícones e busca). */
 html.lm-novo #cabecalho { display: contents; }
-/* camada acima de todo o conteudo (galeria, lupa e caixa do produto passavam por cima, Eduardo 04/11) e abaixo das janelas (modal 1050) */
+/* camada acima de todo o conteúdo (galeria, lupa e caixa do produto passavam por cima, Eduardo 04/11) e abaixo das janelas (modal 1050) */
 html.lm-novo .lm-topo { position: sticky; top: 0; z-index: 1001; background: var(--lm-branco); }
 @media (min-width: 768px) {
   html.lm-novo #cabecalho .full.menu { position: sticky; top: var(--lm-topo-h, 81px); z-index: 1000; background: var(--lm-branco); }
 }
+
+
+/* seletor de quantidade padrão (.lm-qtd, montado por window.lmQtd no loren.js): pill de 48, − e + sempre visíveis (toque de 44), sem as setinhas nativas.
+   :is(#corpo, body) dá peso de ID para valer sobre as regras de input das páginas, em qualquer lugar (página, carrinho, janela) */
+html.lm-novo :is(#corpo, body) :is(label, div, span):has(> .lm-qtd) { width: auto !important; min-width: 0 !important; flex: none !important; }
+html.lm-novo :is(#corpo, body) :has(> .lm-qtd) > :is(a, button):is([class*="icon-minus"], [class*="icon-plus"]) { display: none !important; }  /* o − e o + do tema (carrinho) saem: o .lm-qtd já tem os dele */
+html.lm-novo :is(#corpo, body) .lm-qtd { box-sizing: border-box; flex: none; display: inline-flex !important; align-items: center; vertical-align: middle; width: auto !important; height: var(--lm-campo-altura) !important; margin: 0; padding: 0 !important; border: var(--lm-campo-borda); border-radius: var(--lm-btn-raio) !important; background: var(--lm-campo-fundo); overflow: hidden; }  /* !important: o html.lm-novo * do topo zera todo raio */
+html.lm-novo :is(#corpo, body) .lm-qtd .lm-qtd__btn { flex: none; display: grid; place-items: center; width: 44px; height: 100%; min-height: 0; margin: 0; padding: 0; border: 0; border-radius: 0 !important; background: none; color: var(--lm-grafite); cursor: pointer; }
+html.lm-novo .lm-qtd .lm-qtd__btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+html.lm-novo .lm-qtd .lm-qtd__btn:hover:not(:disabled) { color: var(--lm-botao); }
+html.lm-novo .lm-qtd .lm-qtd__btn:focus-visible { outline: 2px solid var(--lm-azul); outline-offset: -4px; }
+html.lm-novo .lm-qtd .lm-qtd__btn:disabled { opacity: .4; cursor: not-allowed; }
+html.lm-novo :is(#corpo, body) .lm-qtd input { flex: none; width: 48px !important; height: 100% !important; min-height: 0 !important; margin: 0 !important; padding: 0 !important; border: 0 !important; border-radius: 0 !important; background: none !important; box-shadow: none !important; color: var(--lm-grafite) !important; font: 600 15px/1 var(--lm-fonte-texto) !important; text-align: center; -moz-appearance: textfield; appearance: textfield; }
+html.lm-novo .lm-qtd input::-webkit-outer-spin-button, html.lm-novo .lm-qtd input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+/* cartão com o produto já no carrinho: o tema (produtosCarrinho) põe .produto-adicionado e um <span class="adicionado-carrinho">, esconde nome e preço (.info-produto a 0),
+   esconde o botão e desenha um ✓ grande e "Adicionado ao Carrinho" em a.produto-sobrepor. Aqui o cartão fica igual (foto, nome, preço) e o estado é só o botão: ✓ Adicionado */
+html.lm-novo :is(#listagemProdutos, .aproveite-tambem).listagem .listagem-item.produto-adicionado .info-produto { opacity: 1 !important; }
+html.lm-novo :is(#listagemProdutos, .aproveite-tambem).listagem .listagem-item.produto-adicionado a.produto-sobrepor::before, html.lm-novo :is(#listagemProdutos, .aproveite-tambem).listagem .listagem-item.produto-adicionado a.produto-sobrepor::after { content: none !important; display: none !important; }
+html.lm-novo .listagem .listagem-item .bandeiras-produto .adicionado-carrinho { display: none !important; }  /* o selo "produto adicionado" junto do de desconto */
+html.lm-novo :is(#listagemProdutos, .aproveite-tambem).listagem .listagem-item.produto-adicionado .acoes-produto { display: block !important; }
+html.lm-novo :is(#listagemProdutos, .aproveite-tambem).listagem .listagem-item.produto-adicionado .acoes-produto .botao-comprar { font-size: 0 !important; background: var(--lm-sucesso) !important; }
+html.lm-novo .listagem .listagem-item.produto-adicionado .acoes-produto .botao-comprar::before { content: ''; width: 16px; height: 16px; flex: none; background: currentColor; -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center/contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center/contain no-repeat; }
+html.lm-novo .listagem .listagem-item.produto-adicionado .acoes-produto .botao-comprar::after { content: 'Adicionado'; font: 700 13px/1.2 var(--lm-fonte-texto); letter-spacing: .04em; text-transform: uppercase; }
+/* celular: o tema esconde o botão do cartão (.hidden-phone); aqui ele aparece, na altura do botão do cartão (40), menos nos "Preço sob consulta" (sem preço, sem comprar) */
+@media (max-width: 767px) {
+  html.lm-novo { --lm-btn-altura-card: 40px; }
+  html.lm-novo :is(#listagemProdutos, .aproveite-tambem).listagem .listagem-item .acoes-produto.hidden-phone { display: block !important; }
+  html.lm-novo :is(#listagemProdutos, .aproveite-tambem).listagem .listagem-item:has(.preco-produto > .titulo) .acoes-produto.hidden-phone { display: none !important; }
+}
+
+/* ===== ícones (Wednesday 04/11, dev/icones/MAPA.md): troca as fontes FontAwesome do tema (icon-* e fa-*, ~99 KB em 2 arquivos) por SVG em máscara; sem JS e sem biblioteca ===== */
+/* Ícones: troca as fontes FontAwesome do tema (v3 icon-* e v4 fa-*, ~99 KB) por SVG em máscara.
+   Lucide (ISC) e Simple Icons (CC0). A cor vem do currentColor do tema. Gerado por Wednesday em 04/11/2026. */
+/* f004 heart (lucide) */
+.adic-favo:before,
+.fa-heart:before,
+.icon-heart:before,
+.pagina-conta .cadastro .abas-conta li a i.icon-star:before,
+.pagina-conta .conta-menu .menu-simples li a i.icon-star:before,
+.pagina-conta .conteudo .abas-conta li a i.icon-star:before,
+.pagina-favorito-listar .conta-menu .menu-simples li a i.icon-star:before,
+.produto-compartilhar .lista-favoritos i:before{--lm-i:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z%22 /%3E%3C/svg%3E");content:"";display:inline-block;width:1em;height:1em;vertical-align:-.125em;background-color:currentColor;-webkit-mask:var(--lm-i) center/contain no-repeat;mask:var(--lm-i) center/contain no-repeat;font-family:inherit;font-style:normal;}
+/* f0de chevron-up (lucide) */
+.fa-sort-asc:before,
+.fa-sort-up:before,
+.icon-sort-up:before{--lm-i:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22m18 15-6-6-6 6%22 /%3E%3C/svg%3E");content:"";display:inline-block;width:1em;height:1em;vertical-align:-.125em;background-color:currentColor;-webkit-mask:var(--lm-i) center/contain no-repeat;mask:var(--lm-i) center/contain no-repeat;font-family:inherit;font-style:normal;}
+/* f0dd chevron-down (lucide) */
+.fa-sort-desc:before,
+.fa-sort-down:before,
+.icon-sort-down:before{--lm-i:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22m6 9 6 6 6-6%22 /%3E%3C/svg%3E");content:"";display:inline-block;width:1em;height:1em;vertical-align:-.125em;background-color:currentColor;-webkit-mask:var(--lm-i) center/contain no-repeat;mask:var(--lm-i) center/contain no-repeat;font-family:inherit;font-style:normal;}
+/* f107 chevron-down (lucide) */
+.fa-angle-down:before,
+.icon-angle-down:before{--lm-i:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22m6 9 6 6 6-6%22 /%3E%3C/svg%3E");content:"";display:inline-block;width:1em;height:1em;vertical-align:-.125em;background-color:currentColor;-webkit-mask:var(--lm-i) center/contain no-repeat;mask:var(--lm-i) center/contain no-repeat;font-family:inherit;font-style:normal;}
+/* f09a facebook (simple) */
+.fa-facebook-f:before,
+.fa-facebook:before,
+.icon-facebook:before{--lm-i:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22%23000%22%3E%3Cpath d=%22M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z%22/%3E%3C/svg%3E");content:"";display:inline-block;width:1em;height:1em;vertical-align:-.125em;background-color:currentColor;-webkit-mask:var(--lm-i) center/contain no-repeat;mask:var(--lm-i) center/contain no-repeat;font-family:inherit;font-style:normal;}
+/* f167 youtube (simple) */
+.fa-youtube:before,
+.icon-youtube:before{--lm-i:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22%23000%22%3E%3Cpath d=%22M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z%22/%3E%3C/svg%3E");content:"";display:inline-block;width:1em;height:1em;vertical-align:-.125em;background-color:currentColor;-webkit-mask:var(--lm-i) center/contain no-repeat;mask:var(--lm-i) center/contain no-repeat;font-family:inherit;font-style:normal;}
+/* f16d instagram (simple) */
+.fa-instagram:before,
+.icon-instagram:before{--lm-i:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22%23000%22%3E%3Cpath d=%22M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077%22/%3E%3C/svg%3E");content:"";display:inline-block;width:1em;height:1em;vertical-align:-.125em;background-color:currentColor;-webkit-mask:var(--lm-i) center/contain no-repeat;mask:var(--lm-i) center/contain no-repeat;font-family:inherit;font-style:normal;}
+/* f032 bold (lucide) */
+.fa-bold:before,
+.icon-bold:before{--lm-i:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M6 12h9a4 4 0 0 1 0 8H7a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h7a4 4 0 0 1 0 8%22 /%3E%3C/svg%3E");content:"";display:inline-block;width:1em;height:1em;vertical-align:-.125em;background-color:currentColor;-webkit-mask:var(--lm-i) center/contain no-repeat;mask:var(--lm-i) center/contain no-repeat;font-family:inherit;font-style:normal;}
+/* f002 search (lucide) */
+.fa-search:before,
+.icon-search:before{--lm-i:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Ccircle cx=%2211%22 cy=%2211%22 r=%228%22 /%3E %3Cpath d=%22m21 21-4.3-4.3%22 /%3E%3C/svg%3E");content:"";display:inline-block;width:1em;height:1em;vertical-align:-.125em;background-color:currentColor;-webkit-mask:var(--lm-i) center/contain no-repeat;mask:var(--lm-i) center/contain no-repeat;font-family:inherit;font-style:normal;}
+/* f003 mail (lucide) */
+.fa-envelope-o:before,
+.icon-envelope-alt:before{--lm-i:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Crect width=%2220%22 height=%2216%22 x=%222%22 y=%224%22 rx=%222%22 /%3E %3Cpath d=%22m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7%22 /%3E%3C/svg%3E");content:"";display:inline-block;width:1em;height:1em;vertical-align:-.125em;background-color:currentColor;-webkit-mask:var(--lm-i) center/contain no-repeat;mask:var(--lm-i) center/contain no-repeat;font-family:inherit;font-style:normal;}
+/* f105 chevron-right (lucide) */
+.fa-angle-right:before,
+.icon-angle-right:before{--lm-i:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22m9 18 6-6-6-6%22 /%3E%3C/svg%3E");content:"";display:inline-block;width:1em;height:1em;vertical-align:-.125em;background-color:currentColor;-webkit-mask:var(--lm-i) center/contain no-repeat;mask:var(--lm-i) center/contain no-repeat;font-family:inherit;font-style:normal;}
+/* f100 chevrons-left (lucide) */
+.fa-angle-double-left:before,
+.icon-double-angle-left:before{--lm-i:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22m11 17-5-5 5-5%22 /%3E %3Cpath d=%22m18 17-5-5 5-5%22 /%3E%3C/svg%3E");content:"";display:inline-block;width:1em;height:1em;vertical-align:-.125em;background-color:currentColor;-webkit-mask:var(--lm-i) center/contain no-repeat;mask:var(--lm-i) center/contain no-repeat;font-family:inherit;font-style:normal;}
+/* f101 chevrons-right (lucide) */
+.fa-angle-double-right:before,
+.icon-double-angle-right:before{--lm-i:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22m6 17 5-5-5-5%22 /%3E %3Cpath d=%22m13 17 5-5-5-5%22 /%3E%3C/svg%3E");content:"";display:inline-block;width:1em;height:1em;vertical-align:-.125em;background-color:currentColor;-webkit-mask:var(--lm-i) center/contain no-repeat;mask:var(--lm-i) center/contain no-repeat;font-family:inherit;font-style:normal;}
+/* f0d7 chevron-down (lucide) */
+.fa-caret-down:before,
+.icon-caret-down:before{--lm-i:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22m6 9 6 6 6-6%22 /%3E%3C/svg%3E");content:"";display:inline-block;width:1em;height:1em;vertical-align:-.125em;background-color:currentColor;-webkit-mask:var(--lm-i) center/contain no-repeat;mask:var(--lm-i) center/contain no-repeat;font-family:inherit;font-style:normal;}
+/* f078 chevron-down (lucide) */
+.fa-chevron-down:before,
+.icon-chevron-down:before{--lm-i:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22m6 9 6 6 6-6%22 /%3E%3C/svg%3E");content:"";display:inline-block;width:1em;height:1em;vertical-align:-.125em;background-color:currentColor;-webkit-mask:var(--lm-i) center/contain no-repeat;mask:var(--lm-i) center/contain no-repeat;font-family:inherit;font-style:normal;}
+/* f0c9 menu (lucide) */
+.conteudo-topo .busca-mobile .atalho-menu.icon-th::before,
+.fa-bars:before,
+.fa-navicon:before,
+.fa-reorder:before,
+.icon-reorder:before{--lm-i:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cline x1=%224%22 x2=%2220%22 y1=%2212%22 y2=%2212%22 /%3E %3Cline x1=%224%22 x2=%2220%22 y1=%226%22 y2=%226%22 /%3E %3Cline x1=%224%22 x2=%2220%22 y1=%2218%22 y2=%2218%22 /%3E%3C/svg%3E");content:"";display:inline-block;width:1em;height:1em;vertical-align:-.125em;background-color:currentColor;-webkit-mask:var(--lm-i) center/contain no-repeat;mask:var(--lm-i) center/contain no-repeat;font-family:inherit;font-style:normal;}
+/* f111 circle (lucide) */
+.fa-circle:before,
+.icon-circle:before{--lm-i:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Ccircle cx=%2212%22 cy=%2212%22 r=%2210%22 /%3E%3C/svg%3E");content:"";display:inline-block;width:1em;height:1em;vertical-align:-.125em;background-color:currentColor;-webkit-mask:var(--lm-i) center/contain no-repeat;mask:var(--lm-i) center/contain no-repeat;font-family:inherit;font-style:normal;}
+/* f075 message-square (lucide) */
+.fa-comment:before,
+.icon-comment:before{--lm-i:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z%22 /%3E%3C/svg%3E");content:"";display:inline-block;width:1em;height:1em;vertical-align:-.125em;background-color:currentColor;-webkit-mask:var(--lm-i) center/contain no-repeat;mask:var(--lm-i) center/contain no-repeat;font-family:inherit;font-style:normal;}
+/* f095 phone (lucide) */
+.fa-phone:before,
+.icon-phone:before{--lm-i:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z%22 /%3E%3C/svg%3E");content:"";display:inline-block;width:1em;height:1em;vertical-align:-.125em;background-color:currentColor;-webkit-mask:var(--lm-i) center/contain no-repeat;mask:var(--lm-i) center/contain no-repeat;font-family:inherit;font-style:normal;}
+/* f015 house (lucide) */
+.fa-home:before,
+.icon-home:before{--lm-i:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8%22 /%3E %3Cpath d=%22M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z%22 /%3E%3C/svg%3E");content:"";display:inline-block;width:1em;height:1em;vertical-align:-.125em;background-color:currentColor;-webkit-mask:var(--lm-i) center/contain no-repeat;mask:var(--lm-i) center/contain no-repeat;font-family:inherit;font-style:normal;}
+/* f07a shopping-cart (lucide) */
+.fa-shopping-cart:before,
+.icon-shopping-cart:before{--lm-i:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Ccircle cx=%228%22 cy=%2221%22 r=%221%22 /%3E %3Ccircle cx=%2219%22 cy=%2221%22 r=%221%22 /%3E %3Cpath d=%22M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12%22 /%3E%3C/svg%3E");content:"";display:inline-block;width:1em;height:1em;vertical-align:-.125em;background-color:currentColor;-webkit-mask:var(--lm-i) center/contain no-repeat;mask:var(--lm-i) center/contain no-repeat;font-family:inherit;font-style:normal;}
+/* f08b log-out (lucide) */
+.fa-sign-out:before,
+.icon-signout:before{--lm-i:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4%22 /%3E %3Cpolyline points=%2216 17 21 12 16 7%22 /%3E %3Cline x1=%2221%22 x2=%229%22 y1=%2212%22 y2=%2212%22 /%3E%3C/svg%3E");content:"";display:inline-block;width:1em;height:1em;vertical-align:-.125em;background-color:currentColor;-webkit-mask:var(--lm-i) center/contain no-repeat;mask:var(--lm-i) center/contain no-repeat;font-family:inherit;font-style:normal;}
+/* f007 user (lucide) */
+.fa-user:before,
+.icon-user:before{--lm-i:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2%22 /%3E %3Ccircle cx=%2212%22 cy=%227%22 r=%224%22 /%3E%3C/svg%3E");content:"";display:inline-block;width:1em;height:1em;vertical-align:-.125em;background-color:currentColor;-webkit-mask:var(--lm-i) center/contain no-repeat;mask:var(--lm-i) center/contain no-repeat;font-family:inherit;font-style:normal;}
+/* f03a list (lucide) */
+.fa-list:before,
+.icon-list:before{--lm-i:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M3 12h.01%22 /%3E %3Cpath d=%22M3 18h.01%22 /%3E %3Cpath d=%22M3 6h.01%22 /%3E %3Cpath d=%22M8 12h13%22 /%3E %3Cpath d=%22M8 18h13%22 /%3E %3Cpath d=%22M8 6h13%22 /%3E%3C/svg%3E");content:"";display:inline-block;width:1em;height:1em;vertical-align:-.125em;background-color:currentColor;-webkit-mask:var(--lm-i) center/contain no-repeat;mask:var(--lm-i) center/contain no-repeat;font-family:inherit;font-style:normal;}
+/* f00c check (lucide) */
+#listagemProdutos.listagem .listagem-item.produto-adicionado a.produto-sobrepor::before,
+.fa-check:before,
+.icon-ok:before{--lm-i:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M20 6 9 17l-5-5%22 /%3E%3C/svg%3E");content:"";display:inline-block;width:1em;height:1em;vertical-align:-.125em;background-color:currentColor;-webkit-mask:var(--lm-i) center/contain no-repeat;mask:var(--lm-i) center/contain no-repeat;font-family:inherit;font-style:normal;}
+/* f161 arrow-down-wide-narrow (lucide) */
+.fa-sort-amount-desc:before,
+.icon-sort-by-attributes-alt:before{--lm-i:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22m3 16 4 4 4-4%22 /%3E %3Cpath d=%22M7 20V4%22 /%3E %3Cpath d=%22M11 4h10%22 /%3E %3Cpath d=%22M11 8h7%22 /%3E %3Cpath d=%22M11 12h4%22 /%3E%3C/svg%3E");content:"";display:inline-block;width:1em;height:1em;vertical-align:-.125em;background-color:currentColor;-webkit-mask:var(--lm-i) center/contain no-repeat;mask:var(--lm-i) center/contain no-repeat;font-family:inherit;font-style:normal;}
+/* f031 type (lucide) */
+.fa-font:before,
+.icon-font:before{--lm-i:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpolyline points=%224 7 4 4 20 4 20 7%22 /%3E %3Cline x1=%229%22 x2=%2215%22 y1=%2220%22 y2=%2220%22 /%3E %3Cline x1=%2212%22 x2=%2212%22 y1=%224%22 y2=%2220%22 /%3E%3C/svg%3E");content:"";display:inline-block;width:1em;height:1em;vertical-align:-.125em;background-color:currentColor;-webkit-mask:var(--lm-i) center/contain no-repeat;mask:var(--lm-i) center/contain no-repeat;font-family:inherit;font-style:normal;}
+/* f155 dollar-sign (lucide) */
+.fa-dollar:before,
+.fa-usd:before,
+.icon-dollar:before,
+.icon-usd:before{--lm-i:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cline x1=%2212%22 x2=%2212%22 y1=%222%22 y2=%2222%22 /%3E %3Cpath d=%22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6%22 /%3E%3C/svg%3E");content:"";display:inline-block;width:1em;height:1em;vertical-align:-.125em;background-color:currentColor;-webkit-mask:var(--lm-i) center/contain no-repeat;mask:var(--lm-i) center/contain no-repeat;font-family:inherit;font-style:normal;}
+/* f023 lock (lucide) */
+.fa-lock:before,
+.icon-lock:before{--lm-i:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Crect width=%2218%22 height=%2211%22 x=%223%22 y=%2211%22 rx=%222%22 ry=%222%22 /%3E %3Cpath d=%22M7 11V7a5 5 0 0 1 10 0v4%22 /%3E%3C/svg%3E");content:"";display:inline-block;width:1em;height:1em;vertical-align:-.125em;background-color:currentColor;-webkit-mask:var(--lm-i) center/contain no-repeat;mask:var(--lm-i) center/contain no-repeat;font-family:inherit;font-style:normal;}
+/* f00d x (lucide) */
+.fa-close:before,
+.fa-remove:before,
+.fa-times:before,
+.icon-remove:before{--lm-i:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M18 6 6 18%22 /%3E %3Cpath d=%22m6 6 12 12%22 /%3E%3C/svg%3E");content:"";display:inline-block;width:1em;height:1em;vertical-align:-.125em;background-color:currentColor;-webkit-mask:var(--lm-i) center/contain no-repeat;mask:var(--lm-i) center/contain no-repeat;font-family:inherit;font-style:normal;}
+/* f021 refresh-cw (lucide) */
+.fa-refresh:before,
+.icon-refresh:before{--lm-i:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8%22 /%3E %3Cpath d=%22M21 3v5h-5%22 /%3E %3Cpath d=%22M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16%22 /%3E %3Cpath d=%22M8 16H3v5%22 /%3E%3C/svg%3E");content:"";display:inline-block;width:1em;height:1em;vertical-align:-.125em;background-color:currentColor;-webkit-mask:var(--lm-i) center/contain no-repeat;mask:var(--lm-i) center/contain no-repeat;font-family:inherit;font-style:normal;}
+/* f054 chevron-right (lucide) */
+.fa-chevron-right:before,
+.icon-chevron-right:before{--lm-i:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22m9 18 6-6-6-6%22 /%3E%3C/svg%3E");content:"";display:inline-block;width:1em;height:1em;vertical-align:-.125em;background-color:currentColor;-webkit-mask:var(--lm-i) center/contain no-repeat;mask:var(--lm-i) center/contain no-repeat;font-family:inherit;font-style:normal;}
+/* f0e0 mail (lucide) */
+.fa-envelope:before,
+.icon-envelope:before{--lm-i:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Crect width=%2220%22 height=%2216%22 x=%222%22 y=%224%22 rx=%222%22 /%3E %3Cpath d=%22m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7%22 /%3E%3C/svg%3E");content:"";display:inline-block;width:1em;height:1em;vertical-align:-.125em;background-color:currentColor;-webkit-mask:var(--lm-i) center/contain no-repeat;mask:var(--lm-i) center/contain no-repeat;font-family:inherit;font-style:normal;}
+/* f00a layout-grid (lucide) */
+.fa-th:before,
+.icon-th:before{--lm-i:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Crect width=%227%22 height=%227%22 x=%223%22 y=%223%22 rx=%221%22 /%3E %3Crect width=%227%22 height=%227%22 x=%2214%22 y=%223%22 rx=%221%22 /%3E %3Crect width=%227%22 height=%227%22 x=%2214%22 y=%2214%22 rx=%221%22 /%3E %3Crect width=%227%22 height=%227%22 x=%223%22 y=%2214%22 rx=%221%22 /%3E%3C/svg%3E");content:"";display:inline-block;width:1em;height:1em;vertical-align:-.125em;background-color:currentColor;-webkit-mask:var(--lm-i) center/contain no-repeat;mask:var(--lm-i) center/contain no-repeat;font-family:inherit;font-style:normal;}
+/* f15c file-text (lucide) */
+.fa-file-text:before,
+.icon-file-text:before{--lm-i:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z%22 /%3E %3Cpath d=%22M14 2v4a2 2 0 0 0 2 2h4%22 /%3E %3Cpath d=%22M10 9H8%22 /%3E %3Cpath d=%22M16 13H8%22 /%3E %3Cpath d=%22M16 17H8%22 /%3E%3C/svg%3E");content:"";display:inline-block;width:1em;height:1em;vertical-align:-.125em;background-color:currentColor;-webkit-mask:var(--lm-i) center/contain no-repeat;mask:var(--lm-i) center/contain no-repeat;font-family:inherit;font-style:normal;}
+/* f00e zoom-in (lucide) */
+.fa-search-plus:before,
+.icon-zoom-in:before{--lm-i:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Ccircle cx=%2211%22 cy=%2211%22 r=%228%22 /%3E %3Cline x1=%2221%22 x2=%2216.65%22 y1=%2221%22 y2=%2216.65%22 /%3E %3Cline x1=%2211%22 x2=%2211%22 y1=%228%22 y2=%2214%22 /%3E %3Cline x1=%228%22 x2=%2214%22 y1=%2211%22 y2=%2211%22 /%3E%3C/svg%3E");content:"";display:inline-block;width:1em;height:1em;vertical-align:-.125em;background-color:currentColor;-webkit-mask:var(--lm-i) center/contain no-repeat;mask:var(--lm-i) center/contain no-repeat;font-family:inherit;font-style:normal;}
+/* f232 whatsapp (simple) */
+.fa-whatsapp:before{--lm-i:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22%23000%22%3E%3Cpath d=%22M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z%22/%3E%3C/svg%3E");content:"";display:inline-block;width:1em;height:1em;vertical-align:-.125em;background-color:currentColor;-webkit-mask:var(--lm-i) center/contain no-repeat;mask:var(--lm-i) center/contain no-repeat;font-family:inherit;font-style:normal;}
+/* f106 chevron-up (lucide) */
+.fa-angle-up:before,
+.icon-angle-up:before{--lm-i:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22m18 15-6-6-6 6%22 /%3E%3C/svg%3E");content:"";display:inline-block;width:1em;height:1em;vertical-align:-.125em;background-color:currentColor;-webkit-mask:var(--lm-i) center/contain no-repeat;mask:var(--lm-i) center/contain no-repeat;font-family:inherit;font-style:normal;}
+/* f07b folder (lucide) */
+.fa-folder:before,
+.icon-folder-close:before{--lm-i:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z%22 /%3E%3C/svg%3E");content:"";display:inline-block;width:1em;height:1em;vertical-align:-.125em;background-color:currentColor;-webkit-mask:var(--lm-i) center/contain no-repeat;mask:var(--lm-i) center/contain no-repeat;font-family:inherit;font-style:normal;}
+
+/* ícones que o mapa não tinha (Rocky 05/11): o envelope da faixa da newsletter (regra do tema em ::before do parágrafo, era o último glifo visível que ainda baixava a fonte) e plus, minus, ajuda (ocultos hoje, aparecem em estados do site) */
+html.lm-novo #barraNewsletter.posicao-rodape .componente .texto-newsletter::before, html.lm-novo .modal-modalNewsletter #modalNewsletter .componente .interno .interno-conteudo .texto-newsletter::before{--lm-i:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Crect width=%2220%22 height=%2216%22 x=%222%22 y=%224%22 rx=%222%22 /%3E %3Cpath d=%22m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7%22 /%3E%3C/svg%3E");content:"" !important;font-family:inherit !important;background-color:currentColor;-webkit-mask:var(--lm-i) center/24px no-repeat;mask:var(--lm-i) center/24px no-repeat;}
+.icon-plus-sign:before,.icon-plus:before,.fa-plus:before,.fa-plus-circle:before{--lm-i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M12 5v14'/%3E%3C/svg%3E");content:"" !important;display:inline-block;width:1em;height:1em;vertical-align:-.125em;background-color:currentColor;-webkit-mask:var(--lm-i) center/contain no-repeat;mask:var(--lm-i) center/contain no-repeat;font-family:inherit !important;font-style:normal;}
+.icon-minus-sign:before,.icon-minus:before,.fa-minus:before,.fa-minus-circle:before{--lm-i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14'/%3E%3C/svg%3E");content:"" !important;display:inline-block;width:1em;height:1em;vertical-align:-.125em;background-color:currentColor;-webkit-mask:var(--lm-i) center/contain no-repeat;mask:var(--lm-i) center/contain no-repeat;font-family:inherit !important;font-style:normal;}
+.icon-question-sign:before,.icon-question:before,.fa-question-circle:before,.fa-question:before{--lm-i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01'/%3E%3C/svg%3E");content:"" !important;display:inline-block;width:1em;height:1em;vertical-align:-.125em;background-color:currentColor;-webkit-mask:var(--lm-i) center/contain no-repeat;mask:var(--lm-i) center/contain no-repeat;font-family:inherit !important;font-style:normal;}

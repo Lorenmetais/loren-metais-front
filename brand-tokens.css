@@ -6,7 +6,7 @@
    #1394B1 (3,6:1), #009EA4 (3,3:1) e #81BBD3 (2,1:1) NÃO levam texto pequeno: só superfícies, ícones e texto grande (24 px+).
    Tarjas (B2B, newsletter, .lm-fab): gradiente das penas da logo, #018086 > #009EA4 > #1394B1 > #81BBD3 a 110 graus; o texto e os botões ficam na parte
    escura (esquerda, #018086 = 4,7:1) e o claro só onde não há texto; no celular (até 1023 px) a tarja é #018086 lisa. O validador mede o gradiente na posição do texto.
-   Fontes do site (Eduardo 03/11): Google Fonts, Barlow Semi Condensed (títulos, 600/700) e Inter (texto, 400/600/700),
+   Fontes do site (Eduardo 03/11): Google Fonts, Barlow Semi Condensed (títulos, só 700) e Inter (texto, 400/600/700, um arquivo variável),
    licença SIL OFL 1.1. A logo usa Impact convertida em curvas; a Impact não é fonte do site. Celular: até 749 px. */
 :root {
   /* azuis da logo */
@@ -31,6 +31,9 @@
   --lm-linha-escuro-2: #5A5B62;  /* borda das redes sociais do rodapé */
   --lm-ponto-online: #2EA043;    /* bolinha do online do chat */
   --lm-erro: #8A2826;            /* aviso de erro do sistema (contraste 7:1 no branco) */
+  --lm-marca-facebook: #1877F2;  /* hover dos ícones das redes no rodapé (cor da marca) */
+  --lm-marca-youtube: #FF0000;
+  --lm-marca-instagram: #E4405F;
   --lm-whatsapp: #25D366;
   --lm-whatsapp-escuro: #075E54;
   --lm-sucesso: #1D7A35;
@@ -65,7 +68,7 @@
   --lm-btn-gradiente: var(--lm-botao);        /* fundo do botão: cor fixa (Eduardo 04/11), texto branco 4,7:1; o nome ficou por compatibilidade */
   --lm-btn-gradiente-hover: var(--lm-botao-hover);  /* hover: azul mais escuro, sólido. Gradiente só em faixas (--lm-gradiente) */
   --lm-gradiente: linear-gradient(110deg, #018086 0%, #018086 56%, #009EA4 72%, #1394B1 88%, #81BBD3 100%);       /* tarja B2B: texto e botões à esquerda (até 56%) */
-  --lm-gradiente-news: linear-gradient(110deg, #018086 0%, #018086 50%, #009EA4 74%, #1394B1 90%, #81BBD3 100%);  /* newsletter: começa em 50% e abre devagar (Eduardo 04/11); o título branco é grande, 3:1 basta */
+  --lm-gradiente-news: linear-gradient(110deg, #018086 0%, #018086 50%, #009EA4 74%, #1394B1 90%, #81BBD3 100%);  /* newsletter: começa em 50% e abre devagar (Eduardo 04/11: estava adensado na direita); o título branco é grande (24 px), 3:1 basta */
   --lm-gradiente-fab: linear-gradient(110deg, #018086 0%, #018086 86%, #009EA4 92%, #1394B1 97%, #81BBD3 100%);   /* faixa de 3 colunas: escuro até 86% */
   --lm-btn-sombra: none;  /* sem sombra azul (Eduardo 04/11: parecia que o botão brilhava) */
   --lm-btn-transicao: color .125s ease-in-out, box-shadow .125s ease-in-out, background-color .125s ease-in-out;

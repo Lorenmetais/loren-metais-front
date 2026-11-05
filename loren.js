@@ -9,6 +9,33 @@
   const ORC = 'data-toggle="modal" data-target="#modal_consulte"';  // o mesmo formulário de orçamento que o site já tem
   const ico = (d) => `<span class="lm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${d}</svg></span>`;
   document.documentElement.classList.add('lm-novo');
+  // O tema (LI.methods.menuWithOffers) faz, para CADA item do menu, $(...).load(urlDaCategoria + ' seletor'): baixa a página inteira da categoria por AJAX e a transforma em DOM
+  // só para aproveitar 1 cartão do "produto em destaque" do submenu, que o visual novo esconde. Era a causa de ~14 downloads de HTML e ~110 miniaturas (~0,9 MB) em TODA página.
+  // Roda antes do ready do tema (loren.js é defer): este .load específico (dentro de .mega-recebe) vira nada; qualquer outro .load do site segue igual.
+  if (window.jQuery && !window.jQuery.fn.load.__lm) {
+    const loadOriginal = window.jQuery.fn.load;
+    window.jQuery.fn.load = function (url, ...resto) { return typeof url === 'string' && this.closest('.mega-recebe').length ? this : loadOriginal.call(this, url, ...resto); };
+    window.jQuery.fn.load.__lm = true;
+  }
+  // Seletor de quantidade padrão (.lm-qtd, estilo no loren.css): pill de 48 com − à esquerda e + à direita, sempre visíveis (toque de 44), o número no meio, mínimo 1.
+  // lmQtd(input) ENVOLVE o input que o tema já tem (não recria, então os eventos do tema continuam valendo) e, ao clicar, dispara input e change para o tema recalcular.
+  // Devolve o <span class="lm-qtd"> (ou null se o input já foi tratado). Vale para qualquer input de quantidade: produto, carrinho, janela de produto adicionado.
+  window.lmQtd = (input) => {
+    if (!input || input.closest('.lm-qtd')) return null;
+    const min = Math.max(1, parseInt(input.getAttribute('min'), 10) || 1), max = parseInt(input.getAttribute('max'), 10) || Infinity;
+    const caixa = document.createElement('span'); caixa.className = 'lm-qtd';
+    const botao = (cls, rotulo, d) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'lm-qtd__btn ' + cls; b.setAttribute('aria-label', rotulo); b.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="' + d + '"/></svg>'; return b; };
+    const menos = botao('lm-qtd__menos', 'Diminuir a quantidade', 'M5 12h14'), mais = botao('lm-qtd__mais', 'Aumentar a quantidade', 'M12 5v14M5 12h14');
+    input.before(caixa); caixa.append(menos, input, mais); input.setAttribute('min', String(min)); input.setAttribute('inputmode', 'numeric');
+    const valor = () => Math.max(min, Math.min(max, parseInt(input.value, 10) || min));
+    const atualiza = () => { menos.disabled = valor() <= min; mais.disabled = valor() >= max; };
+    const muda = (n) => { input.value = n; ['input', 'change'].forEach((t) => input.dispatchEvent(new Event(t, { bubbles: true }))); atualiza(); };
+    menos.addEventListener('click', () => muda(valor() - 1)); mais.addEventListener('click', () => muda(valor() + 1));
+    input.addEventListener('change', () => { if (String(valor()) !== input.value) input.value = valor(); atualiza(); }); input.addEventListener('input', atualiza);
+    atualiza(); return caixa;
+  };
+  // onde o loren.js reconhece sozinho: a quantidade da página de produto (o carrinho e a janela de produto adicionado chamam lmQtd(input))
+  const qtdAuto = () => document.querySelectorAll('.pagina-produto input.qtde-carrinho, .pagina-produto .qtde-adicionar-carrinho input').forEach(window.lmQtd);
   // Cabeçalho de página (Ellie 04/11): trilha + h1 + linha de apoio numa faixa só (.lm-pagcab, estilo no loren.css). Quem chama escolhe o h1 e o apoio
   // (paginas.js: institucionais, conta, carrinho, 404; categoria.js: categoria e busca). Só MOVE elementos, não cria texto; o <small> do título vira <p>.
   // lmPagcab(h1, { apoio: elemento da linha de apoio (ou o <small> do h1), leitura: true na coluna de leitura de 760 }) devolve o <header> ou null
@@ -50,7 +77,7 @@
         <nav class="lm-topo__acoes" aria-label="Conta e carrinho">
           <a href="/conta/index" class="lm-topo__conta">${i('<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>')}<span>Minha conta</span></a>
           <a href="#" class="lm-topo__orc" ${ORC}>${i('<path d="M6 3h9l3 3v15H6z"/><path d="M9 10h6M9 14h6M9 18h4"/>')}<span>Pedir orçamento</span></a>
-          <a href="/carrinho/index" class="lm-topo__carrinho">${i('<path d="M3 4h2l2.4 11h10.2L20 7H6.2"/><circle cx="9" cy="20" r="1.4"/><circle cx="17" cy="20" r="1.4"/>')}<span>Carrinho</span><b class="lm-qtd">0</b></a>
+          <a href="/carrinho/index" class="lm-topo__carrinho">${i('<path d="M3 4h2l2.4 11h10.2L20 7H6.2"/><circle cx="9" cy="20" r="1.4"/><circle cx="17" cy="20" r="1.4"/>')}<span>Carrinho</span><b class="lm-topo__qtd">0</b></a>
         </nav></div></div>`);
       const topo = cab.querySelector('.lm-topo');
       const form = document.querySelector('#form-buscar');
@@ -59,7 +86,7 @@
       const atalho = document.querySelector('.atalho-menu');
       topo.querySelector('.lm-topo__menu').addEventListener('click', () => atalho ? atalho.click() : menuCel && menuCel.classList.toggle('lm-aberto'));
       // quantidade do carrinho: espelha o contador do tema (ele continua atualizando escondido)
-      const qtd = document.querySelector('#cabecalho .qtd-carrinho'); const alvo = topo.querySelector('.lm-qtd');
+      const qtd = document.querySelector('#cabecalho .qtd-carrinho'); const alvo = topo.querySelector('.lm-topo__qtd');
       const copia = () => { const n = parseInt((qtd?.textContent || '0').replace(/\D/g, '')) || 0; alvo.textContent = n; alvo.hidden = !n; };
       copia(); if (qtd) new MutationObserver(copia).observe(qtd, { childList: true, characterData: true, subtree: true });
     }
@@ -69,6 +96,8 @@
     if (tb) tb.insertAdjacentHTML('afterbegin', '<div class="lm-barra">Direto da fábrica · Envio em 24h para todo o Brasil · 10% de desconto no Pix ou boleto</div>');
     // Obras finalizadas no fim do menu
     document.querySelector('.full.menu .nivel-um')?.insertAdjacentHTML('beforeend', '<li class="lm-menu-obras"><a href="/pagina/obras-finalizadas.html">Obras finalizadas</a></li>');
+    // O chat não é caminho crítico: monta quando o navegador estiver livre (depois do 1º pintar), no máximo 1,5 s depois
+    const montaChat = () => {
     // botão de chat igual ao da Conceito (floating-contact), em azul: abre WhatsApp e e-mail; o WhatsApp abre a janela
     // de assuntos com "Online agora" no horário comercial
     const svgWA = '<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16.004 2.667c-7.363 0-13.333 5.97-13.333 13.333 0 2.353.615 4.646 1.782 6.667L2.667 29.333l6.822-1.79a13.27 13.27 0 0 0 6.515 1.72h.006c7.363 0 13.333-5.97 13.333-13.333s-5.97-13.263-13.339-13.263Zm0 24.4h-.005a11.06 11.06 0 0 1-5.635-1.542l-.404-.24-4.05 1.062 1.082-3.95-.264-.406a11.04 11.04 0 0 1-1.694-5.87c0-6.11 4.973-11.084 11.09-11.084 2.964 0 5.75 1.156 7.844 3.253a11.02 11.02 0 0 1 3.245 7.84c-.002 6.112-4.976 11.087-11.11 11.087Zm6.083-8.302c-.334-.167-1.975-.975-2.28-1.086-.306-.111-.529-.167-.751.167-.223.334-.863 1.086-1.058 1.309-.195.223-.39.25-.723.083-.334-.167-1.409-.52-2.684-1.657-.992-.885-1.663-1.978-1.858-2.312-.195-.334-.02-.514.146-.68.15-.15.334-.39.5-.585.167-.195.223-.334.334-.556.111-.223.056-.417-.028-.584-.083-.167-.751-1.81-1.029-2.479-.271-.65-.546-.563-.751-.573-.195-.01-.417-.012-.64-.012-.223 0-.584.083-.89.417-.306.334-1.168 1.14-1.168 2.782 0 1.642 1.196 3.229 1.362 3.452.167.223 2.354 3.596 5.706 5.043.797.344 1.42.55 1.905.704.8.255 1.529.219 2.104.133.642-.096 1.975-.808 2.253-1.587.278-.78.278-1.448.195-1.587-.083-.14-.306-.223-.64-.39Z"/></svg>';
@@ -108,6 +137,8 @@
     document.addEventListener('click', (e) => { if (!chat.contains(e.target)) fechaDial(); });
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && chat.dataset.open === 'true') { fechaDial(); abre.focus(); } });
 
+    };
+    (window.requestIdleCallback || ((f) => setTimeout(f, 200)))(montaChat, { timeout: 1500 });
     const inicio = /^\/(home)?$/.test(location.pathname);
     if (!inicio) return;
     // banners novos (Ellie 04/11): no celular, a versão vertical; no computador, a versão nítida enquanto o painel não for
@@ -144,8 +175,10 @@
     document.querySelector('#barraNewsletter')?.insertAdjacentHTML('beforebegin', `<section class="lm-sec lm-cinza lm-pq"><div class="lm-wrap"><div><span class="lm-tag">Quem somos</span><h2>Fabricante em Indaiatuba, perto de Viracopos</h2><p>Torneiras clínicas, linha hospitalar e acessibilidade para banheiros, clínicas, hospitais, escolas e cozinhas.</p><a class="lm-btn" style="background:var(--lm-onda-escura);color:#fff" href="/pagina/obras-finalizadas.html">Ver obras finalizadas</a></div>
       <ul><li><b>Fabricação própria</b><span>Produtos com peças de reposição e pós-venda.</span></li><li><b>Linha de acessibilidade</b><span>Barras de apoio, assentos e torneiras para banheiros PNE.</span></li><li><b>Retirada agendada</b><span>Centro de distribuição em Indaiatuba, a 500 m da rodovia.</span></li></ul></div></section>`);
   };
+  // Espera as 3 faces do site de verdade (document.fonts.ready resolve na hora, antes de a fonte começar a baixar, e a troca de fonte depois de revelar a página dá salto de texto)
+  const fontesProntas = () => { try { return Promise.all(['400 1em Inter', '600 1em Inter', '700 1em "Barlow Semi Condensed"'].map((f) => document.fonts.load(f))); } catch (e) { return 0; } };
   // html.lm-pronto: o loren.css reserva o espaço do que o JS monta e esconde o que ele troca até esta classe; o snippet do cabeçalho a liga sozinho em 3 s se o JS falhar
-  const tudo = () => { const carga = extra(); monta(); Promise.race([Promise.all([carga, document.fonts ? document.fonts.ready : 0]), new Promise((ok) => setTimeout(ok, 2500))]).then(() => document.documentElement.classList.add('lm-pronto')); };
+  const tudo = () => { const carga = extra(); monta(); qtdAuto(); Promise.race([Promise.all([carga, fontesProntas()]), new Promise((ok) => setTimeout(ok, 2500))]).then(() => document.documentElement.classList.add('lm-pronto')); };
   // o tema monta o menu e a gaveta no ready do jQuery (LI.methods.otherCategories joga para "Outros" tudo que passa de 6 itens, inclusive o nosso Obras finalizadas): entramos depois dele
   const arranca = () => (window.jQuery ? window.jQuery(() => setTimeout(tudo, 0)) : tudo());
   document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', arranca) : arranca();
