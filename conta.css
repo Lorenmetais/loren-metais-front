@@ -1,0 +1,133 @@
+/* Loren Metais, área logada (carregado pelo loren.js; a classe body.lm-conta vem do conta.js). */
+
+/* duas colunas: menu da conta (240) e conteúdo */
+html.lm-novo .lm-conta #corpo .secao-principal { margin: var(--lm-esp-3) 0 var(--lm-sec) !important; }
+html.lm-novo .lm-conta #corpo .secao-principal:has(> .coluna) { display: grid !important; grid-template-columns: 240px minmax(0, 1fr); gap: var(--lm-esp-4); align-items: start; }
+html.lm-novo .lm-conta #corpo .secao-principal::before, html.lm-novo .lm-conta #corpo .secao-principal::after { display: none !important; }
+html.lm-novo .lm-conta #corpo .secao-principal > * { width: auto !important; margin: 0 !important; float: none !important; min-width: 0; }
+html.lm-novo .lm-conta #corpo .secao-principal > .coluna { display: block !important; }
+html.lm-novo .lm-conta .abas-conta { display: none !important; }  /* o menu da conta já leva a estas telas */
+
+/* trilha alinhada com a coluna (o tema dá 10 px ao primeiro link) */
+html.lm-novo .lm-conta #corpo .breadcrumbs a { padding-left: 0 !important; }
+
+/* menu da conta */
+html.lm-novo .lm-conta .conta-menu { padding: var(--lm-esp-3) !important; margin: 0 !important; border: var(--lm-borda-padrao) !important; background: #fff !important; box-shadow: none !important; border-radius: 0 !important; }
+html.lm-novo .lm-conta .conta-menu .nome-usuario { display: block; margin: 0 0 var(--lm-esp-2) !important; padding: 0 !important; border: 0 !important; font: 700 1.125rem/1.2 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; text-transform: none !important; width: auto !important; white-space: normal !important; overflow: visible !important; overflow-wrap: anywhere; }
+html.lm-novo .lm-conta .conta-menu .nome-usuario i { display: none !important; }
+html.lm-novo .lm-conta .conta-menu ul { list-style: none; margin: 0 !important; padding: 0 !important; }
+html.lm-novo .lm-conta .conta-menu li { margin: 0 !important; padding: 0 !important; border: 0 !important; background: none !important; }
+html.lm-novo .lm-conta .conta-menu li.divisor { height: 1px; margin: var(--lm-esp-1) 0 !important; background: var(--lm-borda) !important; }
+html.lm-novo .lm-conta #corpo .conta-menu .menu-simples li a { display: flex; align-items: center; gap: var(--lm-esp-1); min-height: 48px; transition: none !important; padding: 0 !important; border: 0 !important; border-radius: 0 !important; box-shadow: none !important; background: none !important; font: 400 .9375rem/1.3 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; text-decoration: none; }
+html.lm-novo .lm-conta #corpo .conta-menu .menu-simples li a i { display: none !important; }
+html.lm-novo .lm-conta #corpo .conta-menu .menu-simples li a:hover { color: var(--lm-botao) !important; }
+html.lm-novo .lm-conta #corpo .conta-menu .menu-simples li a:focus-visible { outline: var(--lm-foco); outline-offset: calc(-1 * var(--lm-foco-afastamento)); }
+html.lm-novo .lm-conta #corpo .conta-menu .menu-simples li a.lm-ativo { font-weight: 700 !important; color: var(--lm-botao) !important; }
+
+/* conteúdo em cartões, no ritmo de 24 */
+html.lm-novo .lm-conta :is(.minha-conta, .meus-pedidos, .meus-favoritos, .abas-conteudo) { margin: 0 !important; padding: 0 !important; border: 0 !important; background: none !important; box-shadow: none !important; }
+html.lm-novo .lm-conta .caixa-dados, html.lm-novo .lm-conta .cadastro > form:not(:has(.caixa-sombreada, .caixa-dados)), html.lm-novo .lm-conta .cadastro .caixa-sombreada { margin: 0 0 var(--lm-esp-3) !important; padding: var(--lm-esp-4) !important; border: var(--lm-cartao-borda) !important; background: #fff !important; box-shadow: none !important; border-radius: 0 !important; }
+html.lm-novo .lm-conta .caixa-dados:last-child { margin-bottom: 0 !important; }
+html.lm-novo .lm-conta :is(.caixa-dados, .cadastro) :is(h2, h3).titulo { margin: 0 0 var(--lm-esp-3) !important; padding: 0 !important; border: 0 !important; font: 700 var(--lm-h3)/1.1 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; text-transform: none !important; }
+html.lm-novo .lm-conta :is(.caixa-dados, .cadastro) :is(h2, h3).titulo small { display: block; margin-top: var(--lm-esp-1); font: 400 14px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; }
+html.lm-novo .lm-conta .caixa-dados h4.titulo { margin: var(--lm-esp-3) 0 var(--lm-esp-2) !important; font: 700 1.25rem/1.2 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; text-transform: none !important; }
+html.lm-novo .lm-conta .caixa-dados > h4.titulo:first-child { margin-top: 0 !important; }
+html.lm-novo .lm-conta .caixa-dados h5.titulo { margin: var(--lm-esp-3) 0 0 !important; }
+html.lm-novo .lm-conta .caixa-dados hr { display: none; }
+html.lm-novo .lm-conta .caixa-dados .row-fluid:not(.hide) { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--lm-esp-3); }
+html.lm-novo .lm-conta .caixa-dados .row-fluid::before, html.lm-novo .lm-conta .caixa-dados .row-fluid::after { display: none !important; }
+html.lm-novo .lm-conta .caixa-dados .row-fluid > [class*="span"] { width: auto !important; margin: 0 !important; float: none !important; min-width: 0; line-height: normal !important; }
+html.lm-novo .lm-conta .caixa-dados > .row-fluid:has(> h2.titulo) { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--lm-esp-2); margin-bottom: var(--lm-esp-3); }
+html.lm-novo .lm-conta .caixa-dados > .row-fluid:has(> h2.titulo) > * { flex: 0 1 auto; margin: 0 !important; }
+
+/* blocos de dados: rótulo em cinza e valor na mesma linha, sem caixa cinza (no pedido o valor é texto solto depois do b) */
+html.lm-novo .lm-conta :is(.caixa-dados, .cadastro) fieldset { margin: 0 0 var(--lm-esp-3) !important; padding: 0 !important; border: 0 !important; }
+html.lm-novo .lm-conta :is(.caixa-dados, .cadastro) fieldset:last-child { margin-bottom: 0 !important; }
+html.lm-novo .lm-conta :is(.caixa-dados, .cadastro) legend { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--lm-esp-1); width: 100%; margin: 0 0 var(--lm-esp-1) !important; padding: 0 !important; border: 0 !important; font: 700 1rem/1.3 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; }
+html.lm-novo .lm-conta :is(.caixa-dados, .cadastro) legend i { display: none !important; }
+html.lm-novo .lm-conta :is(.caixa-dados, .cadastro) legend a { float: none !important; font: 600 14px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-botao) !important; text-decoration: underline; text-underline-offset: 3px; }
+html.lm-novo .lm-conta .caixa-info { margin: 0 !important; padding: 0 !important; border: 0 !important; background: none !important; box-shadow: none !important; list-style: none; font: 400 15px/1.5 var(--lm-fonte-texto); color: var(--lm-grafite); }
+html.lm-novo .lm-conta ul.caixa-info li { margin: 0 !important; padding: var(--lm-esp-1) 0 !important; border: 0 !important; border-bottom: var(--lm-borda-padrao) !important; background: none !important; overflow-wrap: anywhere; }
+html.lm-novo .lm-conta #corpo .caixa-dados .caixa-info b { font-weight: 400 !important; color: var(--lm-texto-secundario) !important; }
+html.lm-novo .lm-conta #corpo .caixa-dados .caixa-info :is(span, b + b) { color: var(--lm-grafite) !important; }
+html.lm-novo .lm-conta div.caixa-info { margin-top: var(--lm-esp-2) !important; padding: var(--lm-esp-2) !important; background: var(--lm-fundo) !important; }
+html.lm-novo .lm-conta .acao-editar { display: flex; flex-wrap: wrap; gap: var(--lm-esp-1); margin: var(--lm-esp-2) 0 0 !important; padding: 0 !important; }
+html.lm-novo .lm-conta .acao-editar .botao { float: none !important; margin: 0 !important; }
+html.lm-novo .lm-conta #corpo .botao > i { display: none !important; }
+
+/* consultar pedidos */
+html.lm-novo .lm-conta .buscar-pedidos { display: flex !important; flex-wrap: wrap; align-items: flex-end; gap: var(--lm-esp-2); margin: 0 0 var(--lm-esp-3) !important; padding: 0 !important; border: 0 !important; }
+html.lm-novo .lm-conta .buscar-pedidos > [class*="span"] { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--lm-esp-2); width: auto !important; margin: 0 !important; float: none !important; }
+html.lm-novo .lm-conta .buscar-pedidos label { margin: 0 !important; font: 600 14px/1.3 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
+html.lm-novo .lm-conta .buscar-pedidos label span { display: block; margin: 0 0 var(--lm-esp-1); }
+html.lm-novo .lm-conta .buscar-pedidos .lm-campo { width: 144px !important; float: none !important; }
+html.lm-novo .lm-conta .buscar-pedidos .botao { margin: 0 !important; }
+
+/* tabelas (pedidos e itens do pedido) */
+html.lm-novo .lm-conta .abas-conteudo .caixa-sombreada { margin: 0 !important; padding: 0 !important; border: 0 !important; background: none !important; box-shadow: none !important; }
+html.lm-novo .lm-conta .lm-conta-tab { overflow-x: auto; }
+html.lm-novo .lm-conta .lm-conta-tab table { width: 100%; margin: 0 !important; border: 0 !important; border-collapse: collapse; background: #fff; font: 400 15px/1.5 var(--lm-fonte-texto); color: var(--lm-grafite); }
+html.lm-novo .lm-conta .lm-conta-tab :is(th, td) { width: auto !important; padding: var(--lm-esp-1) var(--lm-esp-2) !important; border: 0 !important; border-bottom: var(--lm-borda-padrao) !important; background: none !important; text-align: left !important; vertical-align: middle !important; }
+html.lm-novo .lm-conta .lm-conta-tab :is(th, th *) { margin: 0 !important; font: 600 13px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; text-transform: none !important; }
+html.lm-novo .lm-conta .lm-conta-tab td a { color: var(--lm-botao) !important; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+html.lm-novo .lm-conta .lm-conta-tab td strong { color: var(--lm-grafite) !important; }
+html.lm-novo .lm-conta .lm-conta-tab .produto-info ul { list-style: none; margin: var(--lm-esp-1) 0 0 !important; padding: 0 !important; }
+/* itens do pedido: valores à direita e os totais sem linha entre si */
+html.lm-novo .lm-conta .lm-conta-tab .table-pedido-item :is(th, td):last-child { text-align: right !important; }
+html.lm-novo .lm-conta .lm-conta-tab .table-pedido-item tr:has(.subtotal, .total) td { padding-block: 4px !important; border-bottom: 0 !important; }
+html.lm-novo .lm-conta .lm-conta-tab .table-pedido-item .total strong { margin: 0 !important; padding: 0 !important; font: 700 var(--lm-h3)/1.1 var(--lm-fonte-titulo) !important; }
+html.lm-novo .lm-conta .lm-conta-tab .tabela-pedidos td:last-child { white-space: nowrap; }
+html.lm-novo .lm-conta .text-error { color: var(--lm-erro) !important; }
+
+/* formulários (dados, endereço, senha, filtros): rótulo em cima, campo padrão */
+html.lm-novo .lm-conta .cadastro legend { margin-bottom: var(--lm-esp-3) !important; font: 700 var(--lm-h3)/1.1 var(--lm-fonte-titulo) !important; }
+html.lm-novo .lm-conta .cadastro .row-fluid::before, html.lm-novo .lm-conta .cadastro .row-fluid::after { display: none !important; }
+html.lm-novo .lm-conta .cadastro .row-fluid > [class*="span"] { width: auto !important; margin: 0 !important; float: none !important; }
+html.lm-novo .lm-conta .cadastro .cabecalho-interno { margin: 0 !important; padding: 0 !important; border: 0 !important; background: none !important; }
+html.lm-novo .lm-conta form:not(.buscar-pedidos) .control-group { margin: 0 0 var(--lm-esp-2) !important; }
+html.lm-novo .lm-conta form:not(.buscar-pedidos) .control-label { float: none !important; display: block; width: auto !important; margin: 0 0 var(--lm-esp-1) !important; padding: 0 !important; text-align: left !important; font: 600 14px/1.3 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
+html.lm-novo .lm-conta form:not(.buscar-pedidos) .controls { margin: 0 !important; }
+html.lm-novo .lm-conta form:not(.buscar-pedidos) .lm-campo { display: block; width: 100% !important; max-width: 480px; float: none !important; }
+html.lm-novo .lm-conta form .lm-campo[disabled], html.lm-novo .lm-conta form .lm-campo[readonly] { color: var(--lm-texto-secundario) !important; cursor: not-allowed; }
+html.lm-novo .lm-conta form :is(.help-block, .help-inline) { display: block; padding: 0 !important; margin: var(--lm-esp-1) 0 0 !important; font: 400 13px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; }
+html.lm-novo .lm-conta form .form-actions, html.lm-novo .lm-conta .cadastro .acao-editar, html.lm-novo .lm-conta .cadastro .acao-editar > [class*="span"] { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: var(--lm-esp-1); margin: var(--lm-esp-3) 0 0 !important; padding: 0 !important; border: 0 !important; background: none !important; }
+html.lm-novo .lm-conta form .botao { float: none !important; margin: 0 !important; }
+
+/* lista de desejos vazia */
+html.lm-novo .lm-conta .caixa-destaque { margin: 0 !important; padding: var(--lm-esp-6) var(--lm-esp-3) !important; border: 0 !important; background: none !important; box-shadow: none !important; text-align: center; }
+html.lm-novo .lm-conta .caixa-destaque h4 { margin: 0 0 var(--lm-esp-1) !important; font: 700 var(--lm-h3)/1.1 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; text-transform: none !important; }
+html.lm-novo .lm-conta .caixa-destaque p { margin: 0 !important; color: var(--lm-texto-secundario) !important; }
+
+/* avisos do sistema: as mesmas regras globais do paginas.css, que não carrega aqui. ponytail: cópia; se elas subirem para o loren.css, apagar este bloco */
+html.lm-novo .lm-conta .alert { border-radius: 0 !important; text-shadow: none !important; }
+html.lm-novo .lm-conta #corpo .alert { position: relative; margin: 24px 0 0 !important; padding: 12px 56px 12px 16px !important; font: 400 14px/1.5 var(--lm-fonte-texto) !important; }
+html.lm-novo .lm-conta #corpo .alert .close { position: absolute !important; top: 0 !important; right: 0 !important; display: grid !important; place-content: center; width: 44px; height: 44px; margin: 0 !important; padding: 0 !important; opacity: .7; font-size: 22px; line-height: 1; }
+html.lm-novo .lm-conta #corpo .alert .close:hover { opacity: 1; }
+html.lm-novo .lm-conta .alert-danger { color: var(--lm-erro) !important; }
+
+@media (max-width: 1023px) {
+  /* menu em chips roláveis, em cima do conteúdo */
+  html.lm-novo .lm-conta #corpo .secao-principal:has(> .coluna) { grid-template-columns: minmax(0, 1fr); gap: var(--lm-esp-2); }
+  html.lm-novo .lm-conta .conta-menu { padding: 0 !important; border: 0 !important; }
+  html.lm-novo .lm-conta .conta-menu ul { display: flex; gap: var(--lm-esp-1); overflow-x: auto; scrollbar-width: none; padding-bottom: 2px !important; }
+  html.lm-novo .lm-conta .conta-menu ul::-webkit-scrollbar { display: none; }
+  html.lm-novo .lm-conta .conta-menu li { flex: none; }
+  html.lm-novo .lm-conta .conta-menu li.divisor { display: none; }
+  html.lm-novo .lm-conta #corpo .conta-menu .menu-simples li a { padding: 0 var(--lm-esp-2) !important; border: var(--lm-borda-padrao) !important; border-radius: 999px !important; white-space: nowrap; font-size: 14px !important; }
+  html.lm-novo .lm-conta #corpo .conta-menu .menu-simples li a.lm-ativo { box-shadow: inset 0 0 0 2px var(--lm-botao) !important; border-color: transparent !important; }
+}
+@media (max-width: 767px) {
+  html.lm-novo .lm-conta #corpo .secao-principal { margin: var(--lm-esp-2) 0 var(--lm-sec) !important; }
+  html.lm-novo .lm-conta .caixa-dados, html.lm-novo .lm-conta .cadastro > form:not(:has(.caixa-sombreada, .caixa-dados)), html.lm-novo .lm-conta .cadastro .caixa-sombreada { margin-bottom: var(--lm-esp-2) !important; padding: var(--lm-esp-2) !important; }
+  html.lm-novo .lm-conta .acao-editar .botao, html.lm-novo .lm-conta form .botao, html.lm-novo .lm-conta .cadastro .acao-editar > [class*="span"] { flex: 1 1 100%; width: 100% !important; }
+  html.lm-novo .lm-conta .buscar-pedidos .lm-campo { width: 100% !important; }
+  /* itens do pedido empilhados: cada valor com o título da coluna (conta.js) e os totais sem as células vazias */
+  html.lm-novo .lm-conta .lm-conta-tab .table-pedido-item thead { display: none; }
+  html.lm-novo .lm-conta .lm-conta-tab .table-pedido-item :is(tbody, tr, td) { display: block; width: auto !important; }
+  html.lm-novo .lm-conta .lm-conta-tab .table-pedido-item :is(th, td) { padding-inline: 0 !important; }
+  html.lm-novo .lm-conta .lm-conta-tab .table-pedido-item td[data-rotulo] { display: flex; justify-content: space-between; gap: var(--lm-esp-2); }
+  html.lm-novo .lm-conta .lm-conta-tab .table-pedido-item td[data-rotulo]::before { content: attr(data-rotulo); color: var(--lm-texto-secundario); }
+  html.lm-novo .lm-conta .lm-conta-tab .table-pedido-item tr:has(.subtotal, .total) td:not(.subtotal, .total) { display: none !important; }
+  html.lm-novo .lm-conta .lm-conta-tab .table-pedido-item tr:has(.subtotal, .total) { margin: 0 !important; padding: 0 !important; }
+  html.lm-novo .lm-conta .buscar-pedidos > [class*="span"], html.lm-novo .lm-conta .buscar-pedidos label { flex: 1 1 100%; width: 100% !important; }
+}
