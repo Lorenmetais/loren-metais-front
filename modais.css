@@ -1,8 +1,12 @@
-/* Loren Metais: formulários em janela (Pedir orçamento e outros modais do tema), dono: Ellie
-   Um desenho só para todas as janelas do tema (Bootstrap .modal e fancybox: orçamento, orçamento do produto, avise-me,
-   login, fale conosco, favorito, alertas): 480 px no computador, cheia com margem 16 no celular, centralizada, com rolagem
-   interna; título Barlow sem caixa alta, rótulo acima do campo, campo pill de 48, botão .botao.principal (cor fixa, do
-   loren.css), fechar de 44 px. Espaços da grade de 8. A newsletter não abre mais sozinha (modais.js). */
+/* Loren Metais: todas as janelas do site, dono: Ellie. Um componente só para o Bootstrap .modal e o fancybox do tema:
+   - largura: 720 as de formulário e o carrinho (#modal_consulte, #modal_qtds, #modalContato, produto adicionado), 480 as
+     pequenas (avise-me, login, favorito, alerta, carregando, newsletter, ficha técnica); no celular, cheia com margem 16;
+   - respiro 32 (16 no celular) nas laterais, em cima e embaixo; 32 px da tela em cima e embaixo (16 no celular);
+   - cabeçalho: título Barlow 24 (22 no celular) sem caixa alta, à esquerda, e fechar de 44 px sempre no mesmo lugar;
+   - rodapé: secundário à esquerda e principal à direita, dividindo a largura; no celular empilhados, principal em cima;
+   - nunca rola para o lado; para baixo só por dentro e só se não couber.
+   Campos: .lm-campo (pill de 48) com rótulo acima; botões: .botao.principal e .lm-btn2 do loren.css. A foto em tela cheia
+   do produto é o zoom do produto.js (dialog.lm-zoom), que não é uma destas janelas. A newsletter não abre mais sozinha. */
 
 /* fundo escurecido. No .modal-backdrop só a cor e a opacidade final: o Bootstrap 2 espera o transitionend do fundo
    para mostrar a janela, então a opacidade precisa continuar animando de 0 até a do .in */
@@ -15,7 +19,7 @@ html.lm-novo .modal, html.lm-novo .fancybox-wrap {
   position: fixed !important; top: 50% !important; left: 50% !important; right: auto !important; bottom: auto !important;
   transform: translate(-50%, -50%) !important; width: min(480px, calc(100vw - 32px)) !important;
   max-height: calc(100vh - 32px) !important; max-height: calc(100dvh - 32px) !important;
-  margin: 0 !important; padding: 0 !important; overflow: auto !important; overscroll-behavior: contain;
+  margin: 0 !important; padding: 0 !important; overflow: hidden auto !important; overscroll-behavior: contain;
   border: 0 !important; border-radius: 0 !important; background: #fff !important; box-shadow: 0 16px 48px rgba(48, 49, 54, .24) !important;
 }
 html.lm-novo .modal.fade { transition: opacity .15s linear !important; }
@@ -25,32 +29,50 @@ html.lm-novo .modal :is(.modal-dialog, .modal-content), html.lm-novo .fancybox-w
   margin: 0 !important; padding: 0 !important; overflow: visible !important; transform: none !important;
   border: 0 !important; border-radius: 0 !important; background: none !important; box-shadow: none !important;
 }
-html.lm-novo .fancybox-wrap .fancybox-inner { padding: 24px !important; }
+html.lm-novo .fancybox-wrap .fancybox-inner { padding: 32px !important; }
 
 /* cabeçalho, título e texto de apoio */
-html.lm-novo .modal .modal-header { position: static !important; margin: 0 !important; padding: 24px 64px 0 24px !important; border: 0 !important; background: none !important; color: var(--lm-texto-secundario) !important; font: 400 15px/1.5 var(--lm-fonte-texto) !important; text-align: left !important; }
-html.lm-novo :is(.modal .modal-header :is(h1, h2, h3, h4, h5, h6, .titulo), .modal .modal-header > span:first-of-type, .fancybox-wrap :is(.avise-tit, .identificacao-title, .titulo)) {
+html.lm-novo .modal .modal-header { position: static !important; margin: 0 !important; padding: 32px 72px 0 32px !important; border: 0 !important; background: none !important; color: var(--lm-texto-secundario) !important; font: 400 15px/1.5 var(--lm-fonte-texto) !important; text-align: left !important; }
+html.lm-novo :is(.modal .modal-header :is(h1, h2, h3, h4, h5, h6, .titulo), .modal .modal-header > span:first-of-type, .fancybox-wrap :is(.avise-tit, .avise-suc-tit, .identificacao-title, .titulo), #comprar-ajax-status .head) {
   display: block !important; margin: 0 0 8px !important; padding: 0 !important; color: var(--lm-grafite) !important;
   font: 700 24px/1.15 var(--lm-fonte-titulo) !important; letter-spacing: 0 !important; text-transform: none !important; text-align: left !important;
 }
-html.lm-novo .modal .modal-body { max-height: none !important; overflow: visible !important; margin: 0 !important; padding: 16px 24px 24px !important; border: 0 !important; }
-html.lm-novo .modal .modal-footer { display: flex !important; flex-wrap: wrap; gap: 8px; justify-content: flex-end; margin: 0 !important; padding: 0 24px 24px !important; border: 0 !important; background: none !important; box-shadow: none !important; }
-html.lm-novo :is(.modal .p_form, .fancybox-wrap .avise-descr) { display: block !important; margin: 0 0 24px !important; color: var(--lm-texto-secundario) !important; font: 400 15px/1.5 var(--lm-fonte-texto) !important; text-align: left !important; }
+html.lm-novo .modal .modal-body { max-height: none !important; overflow: visible !important; margin: 0 !important; padding: 16px 32px 32px !important; border: 0 !important; }
+html.lm-novo .modal .modal-body { color: var(--lm-texto-secundario); font: 400 15px/1.5 var(--lm-fonte-texto); }
+html.lm-novo .modal .modal-body > p:not(.p_form) { margin: 0 !important; color: inherit; font: inherit; }
+html.lm-novo .modal:not(:has(.modal-header)) > .modal-body { padding: 32px 72px 32px 32px !important; }  /* alerta e carregando: sem cabeçalho, o texto começa no alto e não passa sob o fechar */
+html.lm-novo .modal .modal-body .modal-body { padding: 0 !important; }  /* "carregando" do tema: uma .modal-body dentro da outra */
+/* rodapé de botões: secundário à esquerda, principal à direita, dividindo a largura (um botão só ocupa tudo) */
+html.lm-novo :is(.modal .modal-footer, #comprar-ajax-status .buttons, #modalContato .controls:has(> button.principal)) { display: flex !important; gap: 16px; margin: 0 !important; border: 0 !important; background: none !important; box-shadow: none !important; }
+html.lm-novo .modal .modal-footer::before, html.lm-novo .modal .modal-footer::after { display: none !important; }  /* clearfix do tema: dentro da flex somava gap */
+html.lm-novo .modal .modal-footer { padding: 0 32px 32px !important; }
+html.lm-novo #comprar-ajax-status .buttons { padding: 0 !important; }
+html.lm-novo :is(.modal .modal-footer, #comprar-ajax-status .buttons, #modalContato .controls:has(> button.principal)) > :is(.botao, .btn) { flex: 1 1 auto; display: flex !important; width: auto !important; min-width: 0; margin: 0 !important; float: none !important; }
+html.lm-novo #comprar-ajax-status .buttons > .botao { flex-basis: 0 !important; }  /* carrinho: dois botões iguais */
+html.lm-novo :is(.modal .modal-footer, #comprar-ajax-status .buttons, #modalContato .controls:has(> button.principal)) > .principal { order: 2; }
+html.lm-novo :is(#corpo, body) .modal .modal-footer > .botao[style*="none"] { display: none !important; }  /* "Logar" do favorito: o tema só mostra quando precisa (:is com peso de ID, para valer sobre o display do rodapé) */
+html.lm-novo :is(.modal .p_form, .fancybox-wrap .avise-descr, .fancybox-wrap .avise-suc-descr) { display: block !important; margin: 0 0 24px !important; color: var(--lm-texto-secundario) !important; font: 400 15px/1.5 var(--lm-fonte-texto) !important; text-align: left !important; }
 html.lm-novo .fancybox-wrap :is(.avise-me, .identificacao-inner), html.lm-novo .fancybox-wrap :is(.avise-me, .identificacao-inner) * { text-align: left !important; }
 html.lm-novo .fancybox-wrap .identificacao hr { display: none !important; }
+/* :is(#corpo, body): peso de ID, para valer sobre a regra do título (que tem o id do carrinho na lista) */
+html.lm-novo :is(#corpo, body) .fancybox-wrap :is(.avise-tit, .avise-suc-tit, .identificacao-title, .titulo) { padding-right: 48px !important; }
+html.lm-novo :is(#corpo, body) .fancybox-wrap .identificacao-title { margin-bottom: 16px !important; }
+html.lm-novo .fancybox-wrap :is(#avise-me-sucesso, #login-content, .identificacao, .identificacao-inner, .avise-me, .componente.newsletter, .componente.newsletter .interno) { margin: 0 !important; padding: 0 !important; border: 0 !important; background: none !important; box-shadow: none !important; }
+html.lm-novo .fancybox-wrap .titulo i { display: none !important; }  /* envelope da newsletter: caía em cima do fechar */
 /* login: o tema põe o "Continuar"/"OK" por cima do campo, à direita; aqui fica abaixo, na largura toda */
 html.lm-novo .fancybox-wrap .identificacao .control-group { display: block !important; }
-html.lm-novo .fancybox-wrap .identificacao :is(.submit-email, #id_botao_login) { position: static !important; display: flex !important; width: 100% !important; margin: 16px 0 0 !important; }
+html.lm-novo .fancybox-wrap .identificacao :is(.submit-email, #id_botao_login) { position: static !important; display: flex !important; width: 100% !important; max-width: none !important; margin: 16px 0 0 !important; }
 
 /* fechar: 44 px no canto */
 html.lm-novo :is(.modal .close, .fancybox-close) {
-  position: absolute !important; top: 8px !important; right: 8px !important; z-index: 2; display: grid !important; place-content: center;
+  position: absolute !important; top: 24px !important; right: 20px !important; z-index: 2; display: grid !important; place-content: center;
   width: 44px !important; height: 44px !important; margin: 0 !important; padding: 0 !important; border: 0 !important; border-radius: 999px !important;
   background: none !important; color: var(--lm-grafite) !important; opacity: 1 !important; font: 400 28px/1 var(--lm-fonte-texto) !important; text-shadow: none !important; cursor: pointer;
 }
 html.lm-novo :is(.modal .close, .fancybox-close):hover { background: var(--lm-fundo) !important; }
-html.lm-novo .modal .close :is(span, i) { font: inherit !important; line-height: 1 !important; }
-html.lm-novo .modal .close i::before, html.lm-novo .fancybox-close::before { content: '\00d7' !important; font: inherit !important; }
+html.lm-novo :is(.modal .close, .fancybox-close) > * { display: none !important; }
+html.lm-novo :is(.modal .close, .fancybox-close) { font-size: 0 !important; }
+html.lm-novo :is(.modal .close, .fancybox-close)::before { content: '\00d7' !important; font: 400 28px/1 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
 
 /* campos: modais.js põe a classe .lm-campo (o campo padrão do loren.css: pill de 48, fundo, borda, foco) e o rótulo
    .lm-rotulo acima, num .lm-grupo. Aqui só o que muda dentro da janela: largura toda e a mensagem mais alta */
@@ -63,7 +85,7 @@ html.lm-novo :is(.modal, .fancybox-wrap) .lm-campo { width: 100% !important; max
 html.lm-novo :is(.modal, .fancybox-wrap) textarea.lm-campo { height: 120px !important; padding: 12px 24px !important; border-radius: 16px !important; resize: vertical; line-height: 1.5 !important; }
 html.lm-novo :is(.modal, .fancybox-wrap) .lm-campo::placeholder { color: var(--lm-texto-secundario) !important; opacity: 1; }
 /* grade de campos do tema (span5/span7, form-horizontal) empilhada */
-html.lm-novo :is(.modal, .fancybox-wrap) :is(.controls-row, .control-group, .controls, .avise-input, .email-box, .senha-box, .form-horizontal, [class*="span"]) { float: none !important; width: auto !important; margin-left: 0 !important; margin-right: 0 !important; padding: 0 !important; min-height: 0 !important; }
+html.lm-novo :is(.modal, .fancybox-wrap) :is(.controls-row, .control-group, .controls, .avise-input, .email-box, .senha-box, .form-horizontal, [class*="span"]:not(.lm-campo)) { float: none !important; width: auto !important; margin-left: 0 !important; margin-right: 0 !important; padding: 0 !important; min-height: 0 !important; }
 html.lm-novo :is(.modal, .fancybox-wrap) .control-group { margin: 0 0 16px !important; }
 html.lm-novo .fancybox-wrap .avise-icon { display: none !important; }
 /* pessoa física / jurídica */
@@ -78,7 +100,6 @@ html.lm-novo .modal .prod_qtd input { width: 120px !important; padding: 0 12px !
 
 /* botões: o principal usa .botao.principal do loren.css (modais.js põe a classe); aqui só largura e espaço */
 html.lm-novo :is(.modal, .fancybox-wrap) :is(.consulta button[type=submit], .avise-btn input[type=submit]) { display: flex !important; width: 100% !important; margin: 8px 0 0 !important; }
-html.lm-novo .modal .modal-footer :is(.botao, .btn) { min-width: 120px; }
 
 /* produto adicionado ao carrinho (fancybox; o tema carrega /carrinho/mini dentro dele). Numa tela só, sem rolagem lateral:
    título do tema com o visto, uma linha por produto (foto 80, nome em 2 linhas, preço, quantidade, subtotal da linha,
@@ -86,16 +107,15 @@ html.lm-novo .modal .modal-footer :is(.botao, .btn) { min-width: 120px; }
    os cliques em #carrinho-mini .table-body) e viram grade aqui; modais.js marca as células com lm-mini-* */
 html.lm-novo .fancybox-wrap:has(#comprar-ajax-status > .sucesso:not([style*="none"])) { width: calc(100vw - 32px) !important; }
 @media (min-width: 750px) { html.lm-novo .fancybox-wrap:has(#comprar-ajax-status > .sucesso:not([style*="none"])) { width: min(720px, calc(100vw - 64px)) !important; } }
-html.lm-novo .fancybox-wrap:has(#comprar-ajax-status > .sucesso:not([style*="none"])) .fancybox-inner { padding: 32px !important; }
 html.lm-novo #comprar-ajax-status > .sucesso:not([style*="none"]) { display: flex !important; flex-direction: column; gap: 24px; }
-html.lm-novo #comprar-ajax-status .head { order: -1; display: block !important; margin: 0 !important; padding: 0 48px 0 0 !important; color: var(--lm-grafite) !important; font: 700 24px/1.15 var(--lm-fonte-titulo) !important; text-align: left !important; }
+html.lm-novo #comprar-ajax-status .head { order: -1; margin: 0 !important; padding: 0 48px 0 0 !important; }
 html.lm-novo #comprar-ajax-status .head::before { content: '\2713'; margin-right: 8px; color: var(--lm-onda-escura); }
 html.lm-novo #comprar-ajax-status .erro { padding-right: 48px; color: var(--lm-grafite); font: 400 15px/1.5 var(--lm-fonte-texto); }
 html.lm-novo .fancybox-wrap #carrinho-mini { display: block !important; }
 html.lm-novo #carrinho-mini .table-header { display: none !important; }
 html.lm-novo #carrinho-mini :is(table, tbody, tr, td) { display: block; width: auto !important; margin: 0 !important; padding: 0 !important; border: 0 !important; background: none !important; }
 /* linhas: a lista rola por dentro só com muitos produtos; título, subtotal e botões ficam sempre na tela */
-html.lm-novo #carrinho-mini .scroll { max-height: max(176px, calc(100vh - 376px)); max-height: max(176px, calc(100dvh - 376px)); overflow: hidden auto !important; margin: 0 !important; padding: 0 !important; border: 0 !important; box-shadow: none !important; }
+html.lm-novo #carrinho-mini .scroll { max-height: max(176px, calc(100vh - 376px)) !important; max-height: max(176px, calc(100dvh - 376px)) !important; overflow: hidden auto !important; margin: 0 !important; padding: 0 !important; border: 0 !important; box-shadow: none !important; }
 html.lm-novo #carrinho-mini .table-body tr { display: grid; grid-template-columns: 80px minmax(0, 1fr) 136px minmax(96px, auto) 44px; grid-template-areas: "foto nome qtd sub exc"; column-gap: 16px; padding: 16px 0 !important; border-top: var(--lm-borda-padrao) !important; }
 html.lm-novo #carrinho-mini .table-body td { display: flex; align-items: center; min-width: 0; }
 html.lm-novo #carrinho-mini .table-body td.lm-mini-preco { display: none; }  /* o preço mudou para a célula do nome */
@@ -126,7 +146,7 @@ html.lm-novo #carrinho-mini .lm-mini-cupom { order: 1; }
 html.lm-novo #carrinho-mini .lm-mini-cupom.lm-aberto { order: 3; flex-basis: 100%; }
 html.lm-novo #carrinho-mini .subtotal { display: flex; align-items: baseline; justify-content: flex-end; gap: 8px; text-align: right; color: var(--lm-texto-secundario); font: 400 15px/1.2 var(--lm-fonte-texto); }
 html.lm-novo #carrinho-mini .subtotal strong { color: var(--lm-grafite) !important; font: 700 24px/1.15 var(--lm-fonte-titulo) !important; }
-html.lm-novo #carrinho-mini .lm-mini-cupom-abre { min-height: 44px; margin: 0; padding: 0; border: 0; background: none; color: #0D6F88; font: 600 15px/1.3 var(--lm-fonte-texto); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+html.lm-novo #carrinho-mini .lm-mini-cupom-abre { min-height: 44px; margin: 0; padding: 0; border: 0; background: none; color: var(--lm-azul-hover); font: 600 15px/1.3 var(--lm-fonte-texto); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 html.lm-novo #carrinho-mini .lm-mini-cupom:not(.lm-aberto) form { display: none; }
 html.lm-novo #carrinho-mini .lm-mini-cupom .control-group { margin: 0 !important; }
 html.lm-novo #carrinho-mini .lm-mini-cupom .control-label { position: absolute !important; width: 1px !important; height: 1px !important; overflow: hidden; clip-path: inset(50%); }
@@ -136,21 +156,15 @@ html.lm-novo #carrinho-mini .lm-mini-cupom .input-append input { flex: 1; min-wi
 html.lm-novo #carrinho-mini .lm-mini-cupom .input-append button { flex: none; width: auto !important; height: var(--lm-campo-altura) !important; min-height: 0 !important; margin: 0 !important; padding: 0 24px !important; border-radius: 0 var(--lm-btn-raio) var(--lm-btn-raio) 0 !important; }
 /* botões: secundário à esquerda e principal à direita; empilhados no celular com o principal em cima. "Finalizar compra"
    nas duas larguras: com a lista na janela, o "Ir para o carrinho" do celular do tema não é mais preciso */
-html.lm-novo #comprar-ajax-status .buttons { display: flex !important; gap: 16px; margin: 0 !important; }
-html.lm-novo #comprar-ajax-status .buttons .botao { flex: 1; display: flex !important; width: auto !important; margin: 0 !important; }
-html.lm-novo #comprar-ajax-status .buttons .ir-carrinho.visible-phone { display: none !important; }
+html.lm-novo .fancybox-wrap #comprar-ajax-status .buttons .ir-carrinho.visible-phone { display: none !important; }
 html.lm-novo #comprar-ajax-status .botao i { display: none !important; }
 @media (max-width: 749px) {
-  html.lm-novo .fancybox-wrap:has(#comprar-ajax-status > .sucesso:not([style*="none"])) .fancybox-inner { padding: 16px !important; }
   html.lm-novo #comprar-ajax-status > .sucesso:not([style*="none"]) { gap: 16px; }
-  html.lm-novo #comprar-ajax-status .head { font-size: 22px !important; }
-  html.lm-novo #carrinho-mini .scroll { max-height: max(176px, calc(100vh - 416px)); max-height: max(176px, calc(100dvh - 416px)); }
+  html.lm-novo #carrinho-mini .scroll { max-height: max(176px, calc(100vh - 416px)) !important; max-height: max(176px, calc(100dvh - 416px)) !important; }
   html.lm-novo #carrinho-mini .table-body tr { grid-template-columns: 80px minmax(0, 1fr) auto 44px; grid-template-areas: "foto nome nome exc" "qtd qtd sub sub"; column-gap: 8px; row-gap: 8px; }
   html.lm-novo #carrinho-mini .table-footer tbody { flex-flow: column nowrap; align-items: stretch; }  /* com wrap, a coluna cresce até o conteúdo e estoura a janela */
   html.lm-novo #carrinho-mini .table-footer tr:first-child { order: 1; margin-left: 0 !important; }
   html.lm-novo #carrinho-mini .lm-mini-cupom, html.lm-novo #carrinho-mini .lm-mini-cupom.lm-aberto { order: 2; flex-basis: auto; }
-  html.lm-novo #comprar-ajax-status .buttons { flex-direction: column-reverse; gap: 8px; }
-  html.lm-novo #comprar-ajax-status .buttons .botao { flex: none; width: 100% !important; }
 }
 
 /* fale conosco: dados da empresa e reCAPTCHA abaixo do formulário, texto secundário legível */
@@ -167,9 +181,13 @@ html.lm-novo #modalContato .modal-body :is(b, strong, p, span, td, li, dt, dd) {
 @media (max-width: 749px) {
   html.lm-novo .modal .modal-header { padding: 16px 56px 0 16px !important; }
   html.lm-novo .modal .modal-body { padding: 16px !important; }
+  html.lm-novo .modal:not(:has(.modal-header)) > .modal-body { padding: 16px 56px 16px 16px !important; }
   html.lm-novo .modal .modal-footer { padding: 0 16px 16px !important; }
   html.lm-novo .fancybox-wrap .fancybox-inner { padding: 16px !important; }
-  html.lm-novo :is(.modal .modal-header :is(h1, h2, h3, h4, h5, h6, .titulo), .modal .modal-header > span:first-of-type, .fancybox-wrap :is(.avise-tit, .identificacao-title, .titulo)) { font-size: 22px !important; }
+  html.lm-novo :is(.modal .close, .fancybox-close) { top: 8px !important; right: 8px !important; }
+  html.lm-novo :is(.modal .modal-header :is(h1, h2, h3, h4, h5, h6, .titulo), .modal .modal-header > span:first-of-type, .fancybox-wrap :is(.avise-tit, .avise-suc-tit, .identificacao-title, .titulo), #comprar-ajax-status .head) { font-size: 22px !important; }
+  html.lm-novo :is(.modal .modal-footer, #comprar-ajax-status .buttons, #modalContato .controls:has(> button.principal)) { flex-direction: column-reverse; gap: 8px; }  /* o principal fica em cima */
+  html.lm-novo :is(.modal .modal-footer, #comprar-ajax-status .buttons, #modalContato .controls:has(> button.principal)) > :is(.botao, .btn) { flex: none; width: 100% !important; }
 }
 
 /* ===== janelas grandes de formulário (Eduardo 04/11: "mais encorpada"): orçamento geral, orçamento do produto e fale
@@ -179,9 +197,6 @@ html.lm-novo #modalContato .modal-body :is(b, strong, p, span, td, li, dt, dd) {
 @media (min-width: 750px) {
   html.lm-novo :is(.modal, .fancybox-wrap) { max-height: calc(100vh - 64px) !important; max-height: calc(100dvh - 64px) !important; }
   html.lm-novo :is(#modal_consulte, #modal_qtds, #modalContato) { width: min(720px, calc(100vw - 64px)) !important; }
-  html.lm-novo :is(#modal_consulte, #modal_qtds, #modalContato) .modal-header { padding: 32px 72px 0 32px !important; }
-  html.lm-novo :is(#modal_consulte, #modal_qtds, #modalContato) .modal-body { padding: 16px 32px 32px !important; }
-  html.lm-novo :is(#modal_consulte, #modal_qtds, #modalContato) .modal-footer { padding: 0 32px 32px !important; }
   /* orçamentos: grade de 2 colunas na ordem Nome | CPF/CNPJ, E-mail | Telefone, CEP | Estado, Cidade | Tipo de compra,
      Quantidade | Prazo, Mensagem inteira (modais.js marca cada grupo com data-campo; os grupos de pessoa física/jurídica
      viram parte da grade) */
@@ -215,3 +230,9 @@ html.lm-novo #modalContato .modal-body :is(b, strong, p, span, td, li, dt, dd) {
 /* com uma janela aberta (o fundo escurecido existe), o aviso de cookies sai da frente; volta quando ela fecha.
    O fundo é o sinal porque o #modal_consulte já vem com a classe .in na marcação mesmo fechado */
 html.lm-novo body:has(> .modal-backdrop, .fancybox-overlay) #avisoCookies { display: none !important; }
+
+/* foto no lightbox do tema (fancybox de imagem), se aparecer: maior que as janelas, sem respiro, inteira na tela */
+html.lm-novo .fancybox-wrap.fancybox-type-image { width: min(960px, calc(100vw - 32px)) !important; }
+html.lm-novo .fancybox-wrap.fancybox-type-image .fancybox-inner { padding: 0 !important; }
+html.lm-novo .fancybox-wrap.fancybox-type-image .fancybox-image { display: block; width: 100%; height: auto; max-height: calc(100vh - 64px); max-height: calc(100dvh - 64px); object-fit: contain; }
+html.lm-novo .fancybox-wrap.fancybox-type-image .fancybox-close { background: #fff !important; }

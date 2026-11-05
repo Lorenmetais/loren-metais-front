@@ -4,7 +4,7 @@
    tamanho do texto (16/1.6, 14 no celular); os chips do celular ficam logo abaixo da faixa (Ellie 04/11) */
 html.lm-novo #corpo .lm-pagcab .lm-cat-apoio { max-width: 46em; }
 html.lm-novo #corpo .lm-pagcab .lm-cat-apoio .lm-cat-intro { margin: 0 !important; font: 400 16px/1.6 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; }
-html.lm-novo #corpo .lm-pagcab .lm-cat-apoio .lm-cat-mais { margin: 8px 0 0 !important; font: 600 15px/1.4 var(--lm-fonte-texto) !important; color: #0D6F88 !important; }  /* 5,3:1 sobre o fundo da faixa (a cor da marca dava 4,4:1) */
+html.lm-novo #corpo .lm-pagcab .lm-cat-apoio .lm-cat-mais { margin: 8px 0 0 !important; font: 600 15px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-azul-hover) !important; }  /* sobre o fundo da faixa a cor da marca dava 4,4:1 */
 html.lm-novo body.lm-cat .lm-cat-topo.lm-cat-topo-vazio { display: none !important; }
 html.lm-novo body.lm-cat .lm-pagcab + .lm-cat-topo { padding-top: 0; margin-top: -24px; }  /* chips perto da faixa: 24 px dela */
 @media (max-width: 767px) {

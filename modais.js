@@ -14,6 +14,8 @@
 
   const rotula = (raiz) => {
     if (!raiz) return;
+    // alerta, favorito e carregando vêm sem o fechar: toda janela tem o X de 44 no mesmo lugar
+    if (raiz.matches('.modal') && !raiz.querySelector('.close')) raiz.insertAdjacentHTML('afterbegin', '<button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><i></i></button>');
     raiz.querySelectorAll('input:not([type=hidden]):not([type=radio]):not([type=checkbox]):not([type=submit]):not([type=button]), select, textarea:not(.g-recaptcha-response)').forEach((c) => {
       c.classList.add('lm-campo');   // campo padrão do loren.css (pill de 48)
       if (c.closest('.lm-grupo, .prod_qtd')) return;
