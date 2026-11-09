@@ -141,6 +141,19 @@
       }
     }
 
+    // vídeo (Eduardo 09/11): o bloco do tema ("Assistir Vídeo", ícone de fonte que não carrega) vira um cartão com a capa do
+    // YouTube e play em SVG; o player (youtube-nocookie) só entra no clique, no lugar da capa. A janela do tema sai, e com ela o
+    // iframe que baixava o player do YouTube em toda visita.
+    const blocoVideo = gal?.querySelector('.produto-video'), idVideo = document.getElementById('playerVideo')?.getAttribute('src')?.match(/embed\/([\w-]{11})/)?.[1];
+    if (blocoVideo && idVideo) {
+      document.getElementById('modalVideo')?.remove();
+      blocoVideo.innerHTML = `<button type="button" class="lm-video"><span class="lm-video__capa"><img src="https://i.ytimg.com/vi/${idVideo}/mqdefault.jpg" alt="" loading="lazy" width="320" height="180"><span class="lm-video__play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg></span></span><span class="lm-video__tit">Veja o produto em vídeo</span></button>`;
+      blocoVideo.querySelector('.lm-video').addEventListener('click', () => {
+        blocoVideo.innerHTML = `<span class="lm-video__player"><iframe src="https://www.youtube-nocookie.com/embed/${idVideo}?autoplay=1&rel=0" title="Vídeo do produto" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></span>`;  // span: o tema dá 300 px às div do .produto-video
+        blocoVideo.querySelector('iframe').focus({ preventScroll: true });
+      });
+    }
+
     // galeria fixa (Eduardo 09/11, como na Conceito): de 900 px para cima a coluna de compra é mais alta que a galeria; a galeria
     // acompanha a rolagem logo abaixo do cabeçalho fixo até o fim da caixa. Só quando cabe inteira na tela (senão o pé ficaria cortado)
     if (gal) {

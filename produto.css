@@ -41,6 +41,19 @@ html.lm-novo .pagina-produto .lm-prod-gal--uma { grid-template-columns: minmax(0
 html.lm-novo .pagina-produto .lm-prod-gal--uma .conteiner-imagem { grid-column: 1; }
 html.lm-novo .pagina-produto .lm-prod-gal--uma .bandeiras-produto { left: 16px; }
 html.lm-novo .pagina-produto .lm-galeria { display: none; }
+/* vídeo do produto (produto.js): cartão baixo com a capa do YouTube e play; no clique, o player 16:9 no lugar */
+html.lm-novo .pagina-produto .produto-video { display: block !important; margin: 0 !important; padding: 0 !important; border: 0 !important; background: none !important; }
+html.lm-novo .pagina-produto .lm-video { display: flex; align-items: center; gap: var(--lm-esp-2); width: 100%; margin: 0; padding: var(--lm-esp-1); border: var(--lm-borda-padrao); background: #fff; cursor: pointer; text-align: left; font: inherit; color: var(--lm-grafite); }
+html.lm-novo .pagina-produto .lm-video:hover { border-color: var(--lm-onda-escura); }
+html.lm-novo .pagina-produto .lm-video:focus-visible { outline: 2px solid var(--lm-azul); outline-offset: 2px; }
+html.lm-novo .pagina-produto .lm-video__capa { position: relative; flex: none; width: 160px; aspect-ratio: 16 / 9; background: var(--lm-grafite); }
+html.lm-novo .pagina-produto .lm-video__capa img { display: block; width: 100%; height: 100%; object-fit: cover; }
+html.lm-novo .pagina-produto .lm-video__play { position: absolute; inset: 0; margin: auto; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: rgba(0, 0, 0, .6); color: #fff; }
+html.lm-novo .pagina-produto .lm-video:hover .lm-video__play { background: var(--lm-botao); }
+html.lm-novo .pagina-produto .lm-video__play svg { width: 20px; height: 20px; margin-left: 2px; }
+html.lm-novo .pagina-produto .lm-video__tit { font: 700 1rem/1.3 var(--lm-fonte-titulo); }
+html.lm-novo .pagina-produto .produto-video .lm-video__player { display: block; float: none !important; width: 100% !important; max-width: none !important; height: auto !important; margin: 0 !important; padding: 0 !important; background: #000; }  /* o tema dá medida às div do .produto-video */
+html.lm-novo .pagina-produto .lm-video__player iframe { display: block; width: 100% !important; max-width: none !important; height: auto !important; aspect-ratio: 16 / 9; border: 0; }
 /* galeria fixa ao rolar (produto.js liga a classe de 900 px para cima, quando a galeria cabe na tela): logo abaixo do cabeçalho fixo */
 html.lm-novo .pagina-produto .lm-prod-gal--fixa { position: sticky; top: calc(var(--lm-cab-h, 130px) + var(--lm-esp-3)); }
 html.lm-novo :is(.zm-viewer, .zm-handler, .zoomContainer, .zoomWindowContainer, .zoomLens) { display: none !important; }  /* camadas do zoom de passar o mouse do tema */
