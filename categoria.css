@@ -15,7 +15,7 @@ html.lm-novo body.lm-cat .lm-pagcab + .lm-cat-topo { padding-top: 0; margin-top:
 html.lm-novo body.pagina-busca #corpo .lm-busca-dicas, html.lm-novo body.pagina-busca #corpo .lm-busca-dicas li { color: var(--lm-texto-secundario) !important; }
 /* busca sem resultado: "Dicas" vira um bloco na largura de leitura, alinhado com o título da faixa, com título Barlow, lista em
    16 px com marcador na cor da marca e o Voltar a home no secundário da base (Ellie 05/11) */
-html.lm-novo body.lm-busca-vazia #corpo .secao-principal { margin: 0 !important; padding: 48px 0 !important; }
+html.lm-novo body.lm-busca-vazia #corpo .secao-principal { margin: 0 !important; padding: 0 !important; }  /* os 48/32 de cima e de baixo já vêm da margem da .lm-pagcab e da #barraNewsletter (com padding dava 96/64, Ellie 09/11) */
 html.lm-novo body.lm-busca-vazia #corpo .secao-principal > .conteudo, html.lm-novo body.lm-busca-vazia #corpo .conteudo > .row-fluid { float: none !important; width: auto !important; margin: 0 !important; padding: 0 !important; }
 html.lm-novo body.lm-busca-vazia #corpo .conteudo .span6 { float: none !important; box-sizing: border-box; width: min(560px, 100%) !important; margin: 0 !important; padding: 32px !important; border: var(--lm-borda-padrao); background: #fff; }
 html.lm-novo body.lm-busca-vazia #corpo .conteudo .span6 > p { margin: 0 0 16px !important; }
@@ -24,7 +24,6 @@ html.lm-novo body.pagina-busca #corpo ol.lm-busca-dicas { margin: 0 0 24px !impo
 html.lm-novo body.pagina-busca #corpo ol.lm-busca-dicas li { display: list-item !important; list-style: disc !important; margin: 0 0 8px !important; font: 400 16px/1.6 var(--lm-fonte-texto) !important; }
 html.lm-novo body.pagina-busca #corpo ol.lm-busca-dicas li::marker { color: var(--lm-onda-escura); }
 @media (max-width: 767px) {
-  html.lm-novo body.lm-busca-vazia #corpo .secao-principal { padding: 32px 0 !important; }
   html.lm-novo body.lm-busca-vazia #corpo .conteudo .span6 { padding: 24px 16px !important; }
   html.lm-novo body.lm-busca-vazia #corpo .conteudo .span6 > p > b { font-size: 22px !important; }
   html.lm-novo body.lm-busca-vazia #corpo .conteudo .span6 > .botao { display: flex !important; width: 100% !important; }
