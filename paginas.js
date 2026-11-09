@@ -11,6 +11,7 @@
   const txt = caixa && caixa.querySelector(':scope > div');
   if (txt) {
     caixa.classList.add('lm-inst');
+    caixa.closest('.secao-principal')?.classList.add('lm-sec-inst');  // classe no lugar de :has() (Chrome < 105 e Safari < 15.4 descartam a regra)
     // parágrafo vazio (só espaço) do Word: some, o espaçamento fica por conta do CSS
     txt.querySelectorAll('p, div, h2, h3, h4, font').forEach((p) => { if (!temTexto(p) && !p.querySelector('img, iframe, video, table')) p.classList.add('lm-vazio'); });
     // link sozinho no parágrafo ou título ("Veja esse item", "Voltar para a loja") vira botão secundário da base
@@ -37,7 +38,7 @@
         p.querySelectorAll('img').forEach((img) => card.firstChild.append(img));
         if (temTexto(p)) card.lastChild.append(p); else p.remove();  // sem texto e já sem foto: era só espaço
       }
-      grade.querySelectorAll('.lm-obra-fotos:empty').forEach((f) => f.remove());
+      grade.querySelectorAll('.lm-obra-fotos:empty').forEach((f) => { f.parentElement.classList.add('lm-obra--sem-fotos'); f.remove(); });
       txt.append(grade);
     }
 
@@ -76,9 +77,10 @@
 
   // quantidade do carrinho: seletor padrão (.lm-qtd, window.lmQtd do loren.js); o CSS tira o − e o + do tema e o "Atualizar quantidade",
   // e a linha atualiza sozinha ao mudar (modais.js, mudaQtd)
-  document.querySelectorAll('body.pagina-carrinho .tabela-carrinho .quantidade input[name=quantidade]').forEach((i) => window.lmQtd?.(i));
+  document.querySelectorAll('body.pagina-carrinho .tabela-carrinho .quantidade input[name=quantidade]').forEach((i) => { window.lmQtd?.(i); const q = i.closest('.quantidade'); if (q?.querySelector('.lm-qtd')) q.classList.add('lm-com-qtd'); });
   // "Continuar comprando" vinha com o estilo do tema (texto fino, borda preta): vira o botão de contorno do site (Maestro 09/11)
   document.querySelectorAll('body.pagina-carrinho .acao-editar .botao:not(.principal)').forEach((a) => a.classList.add('lm-btn2'));
+  document.querySelectorAll('body.pagina-carrinho .acao-editar > .selo-ssl').forEach((s) => s.parentElement.classList.add('lm-com-selo'));
 
   // cadastro (/conta/criar): campos com .lm-campo; Cancelar e Criar conta numa linha de ações (Ellie 04/11)
   const criar = b.classList.contains('pagina-cadastro') && document.querySelector('#corpo form[action*="criar"]');
