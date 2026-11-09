@@ -16,6 +16,9 @@
     // link sozinho no parágrafo ou título ("Veja esse item", "Voltar para a loja") vira botão secundário da base
     // (nas obras os itens com link continuam link)
     if (!/obras-finalizadas/.test(location.pathname)) txt.querySelectorAll('a').forEach((a) => { const bl = a.closest('p, h2, h3, h4'); if (bl && temTexto(a) && bl.textContent.trim() === a.textContent.trim()) a.classList.add('lm-btn2'); });
+    // imagem quebrada do painel (Acessibilidade: "Bancos Articulados"): some com a moldura vazia, em vez do ícone quebrado (Wednesday 09/11)
+    const quebrada = (img) => { img.classList.add('lm-vazio'); for (let p = img.parentElement; p && p !== txt && !temTexto(p) && !p.querySelector('img:not(.lm-vazio), iframe, video, table'); p = p.parentElement) p.classList.add('lm-vazio'); };
+    txt.querySelectorAll('img').forEach((img) => { if (img.getAttribute('src') && img.complete && !img.naturalWidth) quebrada(img); else img.addEventListener('error', () => quebrada(img)); });
     txt.querySelectorAll('table').forEach((t) => { const w = document.createElement('div'); w.className = 'lm-tab'; t.before(w); w.append(t); });
 
     // Obras: cada obra começa num parágrafo com texto em 20 px (o nome); depois vêm os itens e as fotos
