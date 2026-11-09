@@ -103,7 +103,9 @@
     const direitos = [...document.querySelectorAll('p')].find((p) => /Todos os direitos reservados/.test(p.textContent));
     if (!window.__lucerpyEasterEggShown) {   // assinatura da Lucerpy no console, a mesma da Conceito e do lucerpy.com.br
       window.__lucerpyEasterEggShown = true;
-      console.log('%cGostou do que viu? Entre em contato: lucerpy@lucerpy.com.br\n\n"O desenvolvimento de uma inteligência artificial completa pode significar o fim da raça humana."\n— Stephen Hawking', 'color:#A1A1AA; font-size:12px;');
+      // depois do load e dos erros dos apps do painel, para ficar no fim do console
+      const assina = () => setTimeout(() => console.log('%cGostou do que viu? Entre em contato: lucerpy@lucerpy.com.br\n\n"O desenvolvimento de uma inteligência artificial completa pode significar o fim da raça humana."\n— Stephen Hawking', 'color:#A1A1AA; font-size:12px;'), 3000);
+      document.readyState === 'complete' ? assina() : addEventListener('load', assina);
     }
     if (direitos && !document.querySelector('.lm-credito')) direitos.closest('.conteiner')?.insertAdjacentHTML('beforeend', '<p class="lm-credito">Feito com <span class="lm-credito__cor" aria-hidden="true"></span><span class="lm-credito__sr">carinho</span> por <a href="https://lucerpy.com.br/" target="_blank" rel="noopener">Lucerpy</a></p>');
     // cartão "Preço sob consulta": o botão aparece como CONSULTAR (loren.css); o leitor de tela também ouve isso, e não o "Adicionar" do tema
