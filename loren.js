@@ -101,6 +101,10 @@
     const selos = document.querySelector('#rodape .selos > ul'); if (selos) selos.innerHTML = `<li>${window.lmSelo('ssl')}</li><li>${window.lmSelo('google')}</li>`;  // os PNGs da LI saem; o link do Google ia para uma URL antiga
     // crédito discreto da Lucerpy no fim do rodapé, igual ao da Conceito (Eduardo 09/11); o "<3" vem do CSS, o leitor de tela ouve "carinho"
     const direitos = [...document.querySelectorAll('p')].find((p) => /Todos os direitos reservados/.test(p.textContent));
+    if (!window.__lucerpyEasterEggShown) {   // assinatura da Lucerpy no console, a mesma da Conceito e do lucerpy.com.br
+      window.__lucerpyEasterEggShown = true;
+      console.log('%cGostou do que viu? Entre em contato: lucerpy@lucerpy.com.br\n\n"O desenvolvimento de uma inteligência artificial completa pode significar o fim da raça humana."\n— Stephen Hawking', 'color:#A1A1AA; font-size:12px;');
+    }
     if (direitos && !document.querySelector('.lm-credito')) direitos.closest('.conteiner')?.insertAdjacentHTML('beforeend', '<p class="lm-credito">Feito com <span class="lm-credito__cor" aria-hidden="true"></span><span class="lm-credito__sr">carinho</span> por <a href="https://lucerpy.com.br/" target="_blank" rel="noopener">Lucerpy</a></p>');
     // cartão "Preço sob consulta": o botão aparece como CONSULTAR (loren.css); o leitor de tela também ouve isso, e não o "Adicionar" do tema
     document.querySelectorAll('.listagem-item:has(.preco-produto > .titulo) .acoes-produto .botao-comprar').forEach((b) => b.setAttribute('aria-label', 'Consultar ' + (b.closest('.listagem-item').querySelector('.nome-produto')?.textContent.trim() || '')));
