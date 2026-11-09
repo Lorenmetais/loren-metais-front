@@ -67,6 +67,15 @@ O texto abaixo é uma cópia de `front/cabecalho-snippet.html`. Troque `COMMIT` 
     });
   };
   var tipo = ''; for (var s = document.scripts, i = s.length - 1; i >= 0 && !tipo; i--) { var m = /page: \{[^}]*type: '(\w+)'/.exec(s[i].text); if (m) tipo = m[1]; }   // o tipo da página vem do script de métricas do tema, no head
+  // Next Reviews (avaliações; script síncrono no fim do corpo, ~79 KB): só serve no produto. Fora dele, o observador troca o tipo do <script> antes de o parser o preparar
+  // (o download segue, mas a página não espera nem roda; técnica da biblioteca yett) e desliga o reviews.css. Estudo da Wednesday 09/11, celular lento: home, fim do HTML
+  // 10,3 > 3,7 s. Vale também no plano B (não esconde nada que se veja: o acesso ao Next Reviews está inativo). Para no fim do HTML.
+  if (tipo && tipo !== 'product') {
+    var corta = new MutationObserver(function (ms) { for (var a = 0; a < ms.length; a++) for (var b = 0, ns = ms[a].addedNodes; b < ns.length; b++) { var n = ns[b];
+      if (n.tagName === 'SCRIPT' && /reviews_cdn\/reviews\.js/.test(n.src)) { n.type = 'javascript/blocked'; if (n.parentNode) n.parentNode.removeChild(n); }
+      else if (n.tagName === 'LINK' && /reviews_cdn\/reviews\.css/.test(n.href)) n.media = 'not all'; } });
+    corta.observe(h, { childList: true, subtree: true }); document.addEventListener('DOMContentLoaded', function () { corta.disconnect(); });
+  }
   // produto: o script 'Orçamento produtos' do painel troca, no ready, o conteúdo do 2º .cep (a calculadora de frete) por uma frase (Eduardo quer a calculadora em todo produto com preço).
   // Este ready roda antes do dele (o código do cabeçalho registra primeiro) e guarda os nós; o ready de dentro entra no fim da fila, roda logo depois do do painel, na mesma tarefa
   // (antes de pintar), e devolve os MESMOS nós (o envio que o tema prendeu no form continua). Vale também no plano B. Sem observador: custo zero.

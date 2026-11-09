@@ -1,0 +1,1 @@
+Logos dos meios de pagamento do rodapé (Pague com). visa, mastercard, americanexpress, dinersclub, mercadopago e pix: Simple Icons 16.37.0 (CC0 1.0, https://simpleicons.org), sem o <title>. boleto: código de barras desenhado aqui. Usados como máscara no loren.css (cor do texto).

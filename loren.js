@@ -84,6 +84,19 @@
     document.addEventListener('keydown', (e) => { if (e.key === 'Enter' && e.target.matches?.('.newsletter-cadastro input[name="email"]')) barra(e, e.target); }, true);
     if (/pagina-conta|pagina-pedido|pagina-favorito/.test(document.body.className) && !document.querySelector('.pedido-finalizado')) document.body.classList.add('lm-conta');  // o layout da área logada depende desta classe: entra antes de a página aparecer (o conta.js aceita que ela já exista)
     document.querySelectorAll('#cabecalho .logo img').forEach((img) => { img.src = LOGO; img.removeAttribute('srcset'); });
+    // Pague com (Eduardo 09/11): os ícones do tema (sprites pequenos) e as caixas brancas do Pix e do Mercado Pago viram logos brancos da mesma altura (SVG em front/pagamento,
+    // máscara no loren.css); o boleto entra uma vez só. A lista sai do que o painel mostra hoje; meio sem SVG (Elo) vai pelo nome, em texto no mesmo estilo
+    const pag = document.querySelector('#rodape .pagamento'), ul = pag?.querySelector('.bandeiras-pagamento');
+    if (ul) {
+      const nomes = { visa: 'Visa', mastercard: 'Mastercard', amex: 'American Express', diners: 'Diners Club', elo: 'Elo', hipercard: 'Hipercard', boleto: 'Boleto', mercadopago: 'Mercado Pago', pix: 'Pix' };
+      const svg = { visa: 'visa', mastercard: 'mastercard', amex: 'americanexpress', diners: 'dinersclub', boleto: 'boleto', mercadopago: 'mercadopago', pix: 'pix' };
+      const tem = [...ul.querySelectorAll('.icone-pagamento')].map((i) => [...i.classList].find((c) => c !== 'icone-pagamento'));
+      pag.querySelectorAll('.gateways-rodape img').forEach((img) => tem.push(/boleto/.test(img.className) ? 'boleto' : /pix/.test(img.className) ? 'pix' : /mercadopago/.test(img.className) ? 'mercadopago' : ''));
+      const lista = [...new Set(tem.filter(Boolean))];
+      ul.classList.add('lm-pag');
+      ul.innerHTML = lista.map((n) => `<li>${svg[n] ? `<span class="lm-pag__logo" style="--lm-pag-svg: url(${BASE}pagamento/${svg[n]}.svg)" role="img" aria-label="${nomes[n] || n}"></span>` : `<span class="lm-pag__texto">${nomes[n] || n}</span>`}</li>`).join('');
+      pag.querySelector('.gateways-rodape')?.remove();
+    }
     const selos = document.querySelector('#rodape .selos > ul'); if (selos) selos.innerHTML = `<li>${window.lmSelo('ssl')}</li><li>${window.lmSelo('google')}</li>`;  // os PNGs da LI saem; o link do Google ia para uma URL antiga
     // cartão "Preço sob consulta": o botão aparece como CONSULTAR (loren.css); o leitor de tela também ouve isso, e não o "Adicionar" do tema
     document.querySelectorAll('.listagem-item:has(.preco-produto > .titulo) .acoes-produto .botao-comprar').forEach((b) => b.setAttribute('aria-label', 'Consultar ' + (b.closest('.listagem-item').querySelector('.nome-produto')?.textContent.trim() || '')));
@@ -206,8 +219,11 @@
   // Espera as 3 faces do site de verdade (document.fonts.ready resolve na hora, antes de a fonte começar a baixar, e a troca de fonte depois de revelar a página dá salto de texto)
   const fontesProntas = () => { try { return Promise.all(['400 1em Inter', '600 1em Inter', '700 1em "Barlow Semi Condensed"'].map((f) => document.fonts.load(f))); } catch (e) { return 0; } };
   // html.lm-pronto: o loren.css reserva o espaço do que o JS monta e esconde o que ele troca até esta classe (até lá fica a casca); o código do cabeçalho só desfaz tudo (visual antigo) se o JS falhar ou ficar parado
+  // Revela quando o CSS e o JS da página chegaram (lentidão não é falha: antes, um teto de 2,5 s revelava sem eles e, na rede ruim, o produto.css/js chegavam depois e
+  // mexiam o topo, CLS 0,25; Marty 09/11); 30 s só para arquivo travado. As fontes esperam no máximo 2,5 s.
+  const teto = (p, ms) => Promise.race([p, new Promise((ok) => setTimeout(ok, ms))]);
   let foi = false;
-  const tudo = () => { if (foi || window.__lmDesliga) return; foi = true; const carga = extra(); monta(); window.__lmMontou = true; qtdAuto(); Promise.race([Promise.all([carga, fontesProntas()]), new Promise((ok) => setTimeout(ok, 2500))]).then(() => document.documentElement.classList.add('lm-pronto')); };
+  const tudo = () => { if (foi || window.__lmDesliga) return; foi = true; const carga = extra(); monta(); window.__lmMontou = true; qtdAuto(); Promise.all([teto(carga, 30000), teto(fontesProntas(), 2500)]).then(() => document.documentElement.classList.add('lm-pronto')); };
   // o tema monta o menu e a gaveta no ready do jQuery (LI.methods.otherCategories joga para "Outros" tudo que passa de 6 itens, inclusive o nosso Obras finalizadas): entramos depois dele
   // Também sem o ready: no jQuery antigo do tema, uma exceção num ready anterior (EmailJS bloqueado: 'emailjs is not defined') para a fila e o nosso nunca rodaria (Ellie 09/11).
   // Então tudo() roda também depois de qualquer erro de script, no load e já, se o ready do jQuery já passou; a trava 'foi' faz rodar uma vez só.

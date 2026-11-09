@@ -94,6 +94,15 @@ html.lm-novo #rodape .pagamento-selos ul { margin: 0; padding: 0; list-style: no
 html.lm-novo #rodape .bandeiras-pagamento, html.lm-novo #rodape .selos > ul { display: flex; flex-wrap: wrap; align-items: center; gap: var(--lm-esp-1); }
 html.lm-novo #rodape .bandeiras-pagamento li, html.lm-novo #rodape .selos li { float: none; margin: 0; }
 html.lm-novo #rodape .bandeiras-pagamento i { display: block; }
+/* Pague com: logos brancos da mesma altura, sem caixas (o loren.js monta a lista .lm-pag; SVG em front/pagamento, Simple Icons CC0, como máscara na cor do texto) */
+html.lm-novo #rodape .bandeiras-pagamento.lm-pag { gap: var(--lm-esp-2); }
+html.lm-novo #rodape .lm-pag__logo { display: block; width: 36px; height: 36px; background: var(--lm-branco); -webkit-mask: var(--lm-pag-svg) center / contain no-repeat; mask: var(--lm-pag-svg) center / contain no-repeat; }
+html.lm-novo #rodape .lm-pag__texto { display: flex; align-items: center; height: 36px; color: var(--lm-branco); font: 700 18px/1 var(--lm-fonte-texto); letter-spacing: .02em; text-transform: lowercase; }
+@media (max-width: 767px) {   /* os 8 numa linha só no celular (8 x 32 + 7 x 8 = 312) */
+  html.lm-novo #rodape .bandeiras-pagamento.lm-pag { gap: var(--lm-esp-1); }
+  html.lm-novo #rodape .lm-pag__logo { width: 32px; height: 32px; }
+  html.lm-novo #rodape .lm-pag__texto { height: 32px; font-size: 16px; }
+}
 /* selo de segurança .lm-selo (window.lmSelo no loren.js; Eduardo 09/11): ícone SVG no azul da marca + 2 linhas, contorno discreto, mesma altura. Claro por padrão (carrinho); escuro no rodapé */
 html.lm-novo .lm-selo { box-sizing: border-box; display: inline-flex; align-items: center; gap: var(--lm-esp-1); min-height: var(--lm-campo-altura); padding: var(--lm-esp-1) var(--lm-esp-2) var(--lm-esp-1) 12px; border: var(--lm-borda-padrao); background: none; color: var(--lm-grafite) !important; text-decoration: none !important; text-align: left; line-height: 1.15; }
 html.lm-novo .lm-selo svg { flex: none; width: 24px; height: 24px; stroke: var(--lm-azul); }
