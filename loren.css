@@ -386,6 +386,11 @@ html.lm-novo body:not(.pagina-produto) #corpo .breadcrumbs :is(ul, li) { margin:
 @media (max-width: 767px) {
   html.lm-novo body.mostrarAvisoCookie .lm-chat { bottom: 176px; }
 }
+/* produto no celular e no tablet: o chat sai enquanto a caixa de compra está na tela (o loren.js põe .lm-chat--some), senão cobre o título, o preço e os botões dela */
+@media (max-width: 1023px) {
+  html.lm-novo .lm-chat { transition: opacity .2s ease, visibility .2s; }
+  html.lm-novo .lm-chat.lm-chat--some:not([data-open='true']) { opacity: 0; visibility: hidden; pointer-events: none; }
+}
 
 html.lm-novo .botao, html.lm-novo .botao-comprar, html.lm-novo .tag-comprar { transition: none !important; }
 
@@ -419,7 +424,10 @@ html.lm-novo .lm-mais { display: flex !important; width: max-content !important;
 /* principal: comprar, pedir orçamento, assinar, calcular, ver obras */
 html.lm-novo :is(.botao-comprar, .tag-comprar, .botao.principal, .lm-btn) { background: var(--lm-btn-gradiente) !important; color: var(--lm-branco) !important; font: 700 15px/1.2 var(--lm-fonte-texto) !important; letter-spacing: .04em !important; text-transform: uppercase !important; border: 0 !important; border-radius: var(--lm-btn-raio) !important; box-shadow: var(--lm-btn-sombra) !important; text-shadow: none !important; }
 html.lm-novo :is(.botao-comprar, .tag-comprar, .botao.principal, .lm-btn):hover { background: var(--lm-btn-gradiente-hover) !important; }
-html.lm-novo :is(.botao, .botao-comprar, .tag-comprar):hover { opacity: 1 !important; }  /* o tema apagava o botão a 70% no hover (texto branco sobre azul desbotado); o hover é só a troca de cor */
+html.lm-novo :is(.botao, .botao-comprar, .tag-comprar):hover { opacity: 1 !important; }
+/* foco: o .btn:focus do Bootstrap 2 do tema deixava um anel preto em todo toque e clique (CALCULAR do frete; Marty 09/11). Só o teclado ganha anel, azul e por fora (por dentro some no botão azul) */
+html.lm-novo .btn:focus:not(:focus-visible) { outline: 0 !important; }
+html.lm-novo .btn:focus-visible { outline: 2px solid var(--lm-azul) !important; outline-offset: 2px; }  /* o tema apagava o botão a 70% no hover (texto branco sobre azul desbotado); o hover é só a troca de cor */
 /* voltar ao topo removido (Eduardo 04/11) */
 html.lm-novo .scrollToTop { display: none !important; }
 /* secundário: contorno, no hover vira o gradiente */

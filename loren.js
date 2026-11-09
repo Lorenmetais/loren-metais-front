@@ -124,6 +124,9 @@
     </aside><dialog class="lm-chat__janela" aria-labelledby="lm-chat-titulo"><div class="lm-chat__topo">${svgWA}<div class="lm-chat__titulos"><h2 id="lm-chat-titulo">Fale conosco no WhatsApp</h2><span class="lm-chat__online" hidden><span class="lm-chat__ponto"></span>Online agora</span></div><button type="button" class="lm-chat__fechar" aria-label="Fechar"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M11.18 12.03a.6.6 0 0 0 .85-.85L8.85 8l3.18-3.18a.6.6 0 0 0-.85-.85L8 7.15 4.83 3.98a.6.6 0 0 0-.85.85L7.15 8l-3.17 3.18a.6.6 0 0 0 .85.85L8 8.85Z" fill="currentColor"/></svg></button></div>
       <ul class="lm-chat__assuntos">${assuntos.map(([n, t, d]) => `<li><a href="${wa(t)}" target="_blank" rel="noopener noreferrer">${tico(d)}${n}</a></li>`).join('')}</ul></dialog>`);
     const chat = document.querySelector('.lm-chat'), abre = chat.querySelector('.lm-chat__abre'), janela = document.querySelector('.lm-chat__janela'), dica = chat.querySelector('.lm-chat__dica');
+    // produto: a caixa de compra já tem os contatos (orçamento); enquanto ela está na tela o chat sai, para não cobrir título, preço e botões no celular e no tablet (loren.css; Marty 09/11)
+    const compra = document.querySelectorAll('.pagina-produto .produto > .row-fluid > .span6')[1];
+    if (compra && window.IntersectionObserver) new IntersectionObserver(([e]) => chat.classList.toggle('lm-chat--some', e.isIntersecting)).observe(compra);
     let dicaT;
     const fechaDial = () => { chat.dataset.open = 'false'; abre.setAttribute('aria-expanded', 'false'); abre.setAttribute('aria-label', 'Fale conosco'); dica.classList.remove('is-visible'); clearTimeout(dicaT); };
     abre.addEventListener('click', () => {
