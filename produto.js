@@ -139,6 +139,10 @@
     const desc = document.querySelector('.pagina-produto #descricao');
     if (desc) {
       desc.closest('.row-fluid')?.classList.add('lm-prod-desc');
+      // &nbsp; em série no fim da linha (vem do editor da LI) quebra em linhas vazias: sai, o texto fica o mesmo
+      const fimDeLinha = (n) => { for (let e = n; e !== desc && !/^(P|LI|DIV|TD|TH|H\d)$/.test(e.nodeName); e = e.parentNode) { let s = e.nextSibling; while (s?.nodeType === 3 && !s.data.trim()) s = s.nextSibling; if (s) return s.nodeName === 'BR'; } return true; };
+      const tw = document.createTreeWalker(desc, NodeFilter.SHOW_TEXT);
+      for (let n; (n = tw.nextNode());) if (/\s$/.test(n.data) && fimDeLinha(n)) n.data = n.data.trimEnd();
       const txt = (e) => e.textContent.replace(/[\s ]+/g, ' ').trim();
       desc.querySelectorAll(':scope > p').forEach((p) => {
         const t = txt(p);

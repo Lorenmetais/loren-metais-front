@@ -36,6 +36,10 @@ html.lm-novo .pagina-produto .lm-prod-gal .produto-thumbs .slides a.lm-ativa { b
 html.lm-novo .pagina-produto .lm-prod-gal .produto-thumbs .flex-direction-nav { display: none !important; }
 html.lm-novo .pagina-produto .lm-prod-gal .bandeiras-produto { position: absolute; top: 16px; left: 120px; z-index: 2; margin: 0 !important; }
 html.lm-novo .pagina-produto .lm-prod-gal .bandeiras-produto span { display: inline-block; padding: 4px 12px; border-radius: 999px !important; background: var(--lm-onda-escura) !important; color: #fff !important; font: 700 13px/1.4 var(--lm-fonte-texto) !important; }
+/* uma foto só: sem coluna de miniaturas, a foto ocupa a galeria toda (sem vão à esquerda) */
+html.lm-novo .pagina-produto .lm-prod-gal:not(:has(.lm-miniaturas)) { grid-template-columns: minmax(0, 1fr); }
+html.lm-novo .pagina-produto .lm-prod-gal:not(:has(.lm-miniaturas)) .conteiner-imagem { grid-column: 1; }
+html.lm-novo .pagina-produto .lm-prod-gal:not(:has(.lm-miniaturas)) .bandeiras-produto { left: 16px; }
 html.lm-novo .pagina-produto .lm-galeria { display: none; }
 html.lm-novo :is(.zm-viewer, .zm-handler, .zoomContainer, .zoomWindowContainer, .zoomLens) { display: none !important; }  /* camadas do zoom de passar o mouse do tema */
 /* setas e lupa na foto principal */
@@ -185,6 +189,7 @@ html.lm-novo .pagina-produto #descricao * { font-family: inherit !important; fon
 html.lm-novo .pagina-produto #descricao p { margin: 0 0 16px !important; text-align: left !important; }
 html.lm-novo .pagina-produto #descricao :is(strong, b) { font-weight: 700; }
 html.lm-novo .pagina-produto #descricao .lm-vazio { display: none !important; }
+html.lm-novo .pagina-produto #descricao > :not(.lm-vazio):not(:has(~ :not(.lm-vazio))) { margin-bottom: 0 !important; }  /* último bloco visível: a seção seguinte já dá o espaço */
 html.lm-novo .pagina-produto #descricao :is(h2, h3, h4, .lm-desc-tit) { font: 700 1.25rem/1.2 var(--lm-fonte-titulo) !important; margin: 32px 0 12px !important; }
 html.lm-novo .pagina-produto #descricao .lm-desc-tit * { font: inherit !important; }
 html.lm-novo .pagina-produto #descricao :is(ul, ol) { margin: 0 0 16px !important; padding-left: 22px !important; }
@@ -250,7 +255,7 @@ html.lm-novo .pagina-produto .next-reviews .card .footer { display: flex; justif
 html.lm-novo .pagina-produto .next-reviews .card .footer .date { color: var(--lm-texto-secundario) !important; }
 html.lm-novo .pagina-produto .next-reviews .btnLoadReviews { margin: var(--lm-esp-3) 0 0 !important; text-align: center; }
 /* relacionados: mesma seção, mesmo título */
-html.lm-novo .pagina-produto .lm-prod-rel { margin: var(--lm-sec) 0 0 !important; }
+html.lm-novo .pagina-produto .lm-prod-rel { margin: 0 !important; }  /* o espaço da seção vem do .listagem.com-caixa (loren.css); aqui somava 2x */
 html.lm-novo .pagina-produto .lm-prod-rel .aproveite-tambem { margin: 0 !important; padding: 0 !important; border: 0 !important; background: none !important; box-shadow: none !important; }
 
 /* sem espaço para 760 + 48 + um cartão de 392 (abaixo de 1280): o cartão desce para baixo da descrição, na mesma coluna de leitura */
