@@ -59,7 +59,11 @@
         const col = document.createElement('div'); col.className = 'lm-miniaturas';
         const vseta = (lado, rot, d) => `<button type="button" class="lm-seta lm-seta--${lado}" aria-label="${rot}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d}"/></svg></button>`;
         thumbs.before(col); col.insertAdjacentHTML('beforeend', vseta('ant', 'Foto anterior', 'm18 15-6-6-6 6')); col.append(thumbs); col.insertAdjacentHTML('beforeend', vseta('prox', 'Próxima foto', 'm6 9 6 6 6-6'));
-      }
+      } else gal.classList.add('lm-prod-gal--uma');  // classe e não :has() (navegador antigo descarta a regra)
+      // miniaturas: o __theme_custom.js do tema troca, 500 ms depois do ready, o 64x50 pelo ORIGINAL (até 90 KB cada; 590 KB no
+      // 12123), até no celular, onde nem aparecem. Aqui viram 160x160 (80 px na tela, nítido em 2x) e lazy, então escondidas não
+      // baixam; sem o /64x50 na URL a troca do tema não faz nada. Se o tema chegou antes, a URL original também volta para 160x160.
+      thumbs?.querySelectorAll('img').forEach((im) => { im.loading = 'lazy'; im.src = im.src.replace(/cdn\.awsli\.com\.br\/(\d+x\d+\/)?/, 'cdn.awsli.com.br/160x160/'); });
       // troca na hora: a foto muda no clique da miniatura ou da seta (o tema esperava a animação dele, que fica de fora)
       const pre = new Set(); const carrega = (k) => { const u = lista[(k + n) % n]?.m; if (u && !pre.has(u)) { pre.add(u); new Image().src = u; } };
       const vai = (i) => {
@@ -70,7 +74,9 @@
         const car = gal.querySelector('.lm-galeria__fotos'); if (car?.clientWidth) car.scrollTo({ left: atual * car.clientWidth, behavior: 'smooth' });  // celular
       };
       fotos.forEach((a, i) => a.addEventListener('click', (e) => { e.preventDefault(); e.stopImmediatePropagation(); vai(i); }, true));
-      fotos[0]?.classList.add('lm-ativa'); carrega(1);
+      fotos[0]?.classList.add('lm-ativa');
+      // a 2ª foto só depois do load: no celular lento ela disputava a rede com a 1ª (a do LCP)
+      if (document.readyState === 'complete') carrega(1); else addEventListener('load', () => carrega(1), { once: true });
       // a variação com foto própria troca a miniatura com $(a).click() do jQuery, que não dispara o clique nativo: acompanha aqui
       if (window.jQuery && thumbs) window.jQuery(thumbs).on('click', '.miniaturas li a', function () { const i = fotos.indexOf(this); if (i >= 0 && i !== atual) vai(i); });
       // a coluna mostra só miniaturas inteiras: altura em múltiplos de 96 (88 + 8) e, ao trocar, rola até a ativa ficar inteira
@@ -124,7 +130,7 @@
 
       // celular: carrossel de arrastar com pontos (o desenho dos pontos é o do loren.css); tocar na foto abre o zoom
       if (n > 1) {
-        const car = document.createElement('div'); car.className = 'lm-galeria';
+        const car = document.createElement('div'); car.className = 'lm-galeria'; gal.classList.add('lm-prod-gal--car');
         car.innerHTML = `<div class="lm-galeria__fotos">${lista.map((f, i) => `<img src="${f.m}" alt="${esc(f.alt)}" loading="${i ? 'lazy' : 'eager'}" draggable="false">`).join('')}</div>
           <ol class="flex-control-nav flex-control-paging">${lista.map((_, i) => `<li><a href="#"${i ? '' : ' class="flex-active"'}>${i + 1}</a></li>`).join('')}</ol>`;
         palco.after(car);
@@ -133,6 +139,15 @@
         pontos.forEach((p, i) => p.addEventListener('click', (e) => { e.preventDefault(); trilho.scrollTo({ left: i * trilho.clientWidth, behavior: 'smooth' }); }));
         [...trilho.children].forEach((im, i) => im.addEventListener('click', () => abre(i)));
       }
+    }
+
+    // galeria fixa (Eduardo 09/11, como na Conceito): de 900 px para cima a coluna de compra é mais alta que a galeria; a galeria
+    // acompanha a rolagem logo abaixo do cabeçalho fixo até o fim da caixa. Só quando cabe inteira na tela (senão o pé ficaria cortado)
+    if (gal) {
+      // altura do cabeçalho fixo: o topo (--lm-topo-h, medido pelo loren.js) + o menu de categorias, que cola logo abaixo dele
+      const cab = () => (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--lm-topo-h')) || 81) + (document.querySelector('#cabecalho .full.menu')?.offsetHeight || 0);
+      const fixa = () => { const c = cab(); gal.style.setProperty('--lm-cab-h', c + 'px'); gal.classList.toggle('lm-prod-gal--fixa', innerWidth >= 900 && gal.offsetHeight + c + 24 <= innerHeight); };
+      fixa(); addEventListener('resize', fixa, { passive: true }); if (window.ResizeObserver) new ResizeObserver(fixa).observe(gal);
     }
 
     // descrição: coluna de leitura; rótulos curtos ("Características e Medidas:") viram subtítulo, links sozinhos viram

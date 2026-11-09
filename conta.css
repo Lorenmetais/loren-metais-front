@@ -2,7 +2,7 @@
 
 /* duas colunas: menu da conta (240) e conteúdo */
 html.lm-novo .lm-conta #corpo .secao-principal { margin: var(--lm-esp-3) 0 var(--lm-sec) !important; }
-html.lm-novo .lm-conta #corpo .secao-principal:has(> .coluna) { display: grid !important; grid-template-columns: 240px minmax(0, 1fr); gap: var(--lm-esp-4); align-items: start; }
+html.lm-novo .lm-conta #corpo .secao-principal.lm-conta-grade { display: grid !important; grid-template-columns: 240px minmax(0, 1fr); gap: var(--lm-esp-4); align-items: start; }
 html.lm-novo .lm-conta #corpo .secao-principal::before, html.lm-novo .lm-conta #corpo .secao-principal::after { display: none !important; }
 html.lm-novo .lm-conta #corpo .secao-principal > * { width: auto !important; margin: 0 !important; float: none !important; min-width: 0; }
 html.lm-novo .lm-conta #corpo .secao-principal > .coluna { display: block !important; }
@@ -99,11 +99,11 @@ html.lm-novo .lm-conta #corpo .secao-principal > .acao-editar { margin-top: calc
 /* formulários (editar, senha, novo endereço): o cartão é quem tem as ações como filho (o <form>, ou o .cadastro no endereço,
    depois do conta.js), com os campos e os botões dentro, à esquerda; a caixa de dentro perde o cartão. No endereço o botão
    continua fora do <form> (o tema envia por JS; dentro do form o <button> também enviaria sozinho: endereço em dobro) */
-html.lm-novo .lm-conta #corpo :is(.cadastro, .cadastro form):has(> .acao-editar) { margin: 0 !important; padding: var(--lm-esp-4) !important; border: var(--lm-cartao-borda) !important; background: #fff !important; box-sizing: border-box; }
-html.lm-novo .lm-conta #corpo :is(.cadastro, .cadastro form):has(> .acao-editar) :is(.caixa-sombreada, .caixa-dados) { margin: 0 !important; padding: 0 !important; border: 0 !important; background: none !important; box-shadow: none !important; }
-html.lm-novo .lm-conta #corpo :is(.cadastro, .cadastro form):has(> .acao-editar) > .acao-editar { justify-content: flex-start; margin: var(--lm-esp-1) 0 0 !important; }  /* 16 do último campo + 8 = 24 */
-html.lm-novo .lm-conta #corpo :is(.cadastro, .cadastro form):has(> .acao-editar) > .acao-editar > [class*="span"] { justify-content: flex-start; margin: 0 !important; }
-html.lm-novo .lm-conta #corpo .cadastro:has(> .acao-editar) > form { margin: 0 !important; }  /* endereço: sem os 20 px do form do Bootstrap */
+html.lm-novo .lm-conta #corpo .lm-form-cartao { margin: 0 !important; padding: var(--lm-esp-4) !important; border: var(--lm-cartao-borda) !important; background: #fff !important; box-sizing: border-box; }
+html.lm-novo .lm-conta #corpo .lm-form-cartao :is(.caixa-sombreada, .caixa-dados) { margin: 0 !important; padding: 0 !important; border: 0 !important; background: none !important; box-shadow: none !important; }
+html.lm-novo .lm-conta #corpo .lm-form-cartao > .acao-editar { justify-content: flex-start; margin: var(--lm-esp-1) 0 0 !important; }  /* 16 do último campo + 8 = 24 */
+html.lm-novo .lm-conta #corpo .lm-form-cartao > .acao-editar > [class*="span"] { justify-content: flex-start; margin: 0 !important; }
+html.lm-novo .lm-conta #corpo .cadastro.lm-form-cartao > form { margin: 0 !important; }  /* endereço: sem os 20 px do form do Bootstrap */
 html.lm-novo .lm-conta #corpo form .caixa-dados .row-fluid:has(> .control-group) { row-gap: 0; }  /* senha: entre campos só os 16 do campo, como nos outros formulários */
 
 /* lista de desejos vazia */
@@ -121,7 +121,7 @@ html.lm-novo .lm-conta .alert-danger { color: var(--lm-erro) !important; }
 @media (max-width: 1023px) {
   html.lm-novo .lm-conta #corpo .secao-principal > .acao-editar { margin-top: calc(-1 * var(--lm-esp-1)) !important; }
   /* menu em chips roláveis, em cima do conteúdo */
-  html.lm-novo .lm-conta #corpo .secao-principal:has(> .coluna) { grid-template-columns: minmax(0, 1fr); gap: var(--lm-esp-2); }
+  html.lm-novo .lm-conta #corpo .secao-principal.lm-conta-grade { grid-template-columns: minmax(0, 1fr); gap: var(--lm-esp-2); }
   html.lm-novo .lm-conta .conta-menu { padding: 0 !important; border: 0 !important; }
   html.lm-novo .lm-conta .conta-menu ul { display: flex; gap: var(--lm-esp-1); overflow-x: auto; scrollbar-width: none; padding-bottom: 2px !important; }
   html.lm-novo .lm-conta .conta-menu ul::-webkit-scrollbar { display: none; }
@@ -133,7 +133,7 @@ html.lm-novo .lm-conta .alert-danger { color: var(--lm-erro) !important; }
 @media (max-width: 767px) {
   html.lm-novo .lm-conta #corpo .secao-principal { margin: var(--lm-esp-2) 0 var(--lm-sec) !important; }
   html.lm-novo .lm-conta .caixa-dados, html.lm-novo .lm-conta .cadastro > form:not(:has(.caixa-sombreada, .caixa-dados)), html.lm-novo .lm-conta .cadastro .caixa-sombreada { margin-bottom: var(--lm-esp-2) !important; padding: var(--lm-esp-2) !important; }
-  html.lm-novo .lm-conta #corpo :is(.cadastro, .cadastro form):has(> .acao-editar) { padding: var(--lm-esp-2) !important; }
+  html.lm-novo .lm-conta #corpo .lm-form-cartao { padding: var(--lm-esp-2) !important; }
   html.lm-novo .lm-conta .acao-editar .botao, html.lm-novo .lm-conta form .botao, html.lm-novo .lm-conta :is(.cadastro .acao-editar, .secao-principal > .acao-editar) > [class*="span"] { flex: 1 1 100%; width: 100% !important; }
   html.lm-novo .lm-conta #corpo .secao-principal .buscar-pedidos :is(input:not([type=hidden], [type=checkbox], [type=radio], [type=submit], [type=button]), select, textarea) { width: 100% !important; }
   /* itens do pedido empilhados: cada valor com o título da coluna (conta.js) e os totais sem as células vazias */

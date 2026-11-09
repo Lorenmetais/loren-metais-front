@@ -36,11 +36,13 @@ html.lm-novo .pagina-produto .lm-prod-gal .produto-thumbs .slides a.lm-ativa { b
 html.lm-novo .pagina-produto .lm-prod-gal .produto-thumbs .flex-direction-nav { display: none !important; }
 html.lm-novo .pagina-produto .lm-prod-gal .bandeiras-produto { position: absolute; top: 16px; left: 120px; z-index: 2; margin: 0 !important; }
 html.lm-novo .pagina-produto .lm-prod-gal .bandeiras-produto span { display: inline-block; padding: 4px 12px; border-radius: 999px !important; background: var(--lm-onda-escura) !important; color: #fff !important; font: 700 13px/1.4 var(--lm-fonte-texto) !important; }
-/* uma foto só: sem coluna de miniaturas, a foto ocupa a galeria toda (sem vão à esquerda) */
-html.lm-novo .pagina-produto .lm-prod-gal:not(:has(.lm-miniaturas)) { grid-template-columns: minmax(0, 1fr); }
-html.lm-novo .pagina-produto .lm-prod-gal:not(:has(.lm-miniaturas)) .conteiner-imagem { grid-column: 1; }
-html.lm-novo .pagina-produto .lm-prod-gal:not(:has(.lm-miniaturas)) .bandeiras-produto { left: 16px; }
+/* uma foto só (produto.js põe .lm-prod-gal--uma; classe e não :has(), que navegador antigo descarta): a foto ocupa a galeria toda */
+html.lm-novo .pagina-produto .lm-prod-gal--uma { grid-template-columns: minmax(0, 1fr); }
+html.lm-novo .pagina-produto .lm-prod-gal--uma .conteiner-imagem { grid-column: 1; }
+html.lm-novo .pagina-produto .lm-prod-gal--uma .bandeiras-produto { left: 16px; }
 html.lm-novo .pagina-produto .lm-galeria { display: none; }
+/* galeria fixa ao rolar (produto.js liga a classe de 900 px para cima, quando a galeria cabe na tela): logo abaixo do cabeçalho fixo */
+html.lm-novo .pagina-produto .lm-prod-gal--fixa { position: sticky; top: calc(var(--lm-cab-h, 130px) + var(--lm-esp-3)); }
 html.lm-novo :is(.zm-viewer, .zm-handler, .zoomContainer, .zoomWindowContainer, .zoomLens) { display: none !important; }  /* camadas do zoom de passar o mouse do tema */
 /* setas e lupa na foto principal */
 html.lm-novo .pagina-produto .lm-prod-gal .conteiner-imagem { position: relative; cursor: zoom-in; }
@@ -275,7 +277,7 @@ html.lm-novo .pagina-produto .lm-prod-rel .aproveite-tambem { margin: 0 !importa
 @media (max-width: 767px) {
   html.lm-novo .pagina-produto .lm-prod-topo { grid-template-columns: minmax(0, 1fr); gap: var(--lm-esp-2); }
   html.lm-novo .pagina-produto .lm-prod-gal { display: block; }
-  html.lm-novo .pagina-produto .lm-prod-gal:has(.lm-galeria) :is(.conteiner-imagem, .produto-thumbs, .lm-miniaturas) { display: none !important; }  /* celular: deslizar + bolinhas, sem setas */
+  html.lm-novo .pagina-produto .lm-prod-gal--car :is(.conteiner-imagem, .produto-thumbs, .lm-miniaturas) { display: none !important; }  /* celular: deslizar + bolinhas, sem setas */
   html.lm-novo .pagina-produto .lm-galeria { display: block; }
   html.lm-novo .pagina-produto .lm-galeria__fotos { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; border: var(--lm-borda-padrao); background: #fff; }
   html.lm-novo .pagina-produto .lm-galeria__fotos::-webkit-scrollbar { display: none; }

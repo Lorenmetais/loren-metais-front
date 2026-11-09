@@ -19,6 +19,10 @@
   // endereço: o tema deixa as ações soltas ao lado do formulário; ficam embaixo dele, na mesma coluna
   const acoes = document.querySelector('#corpo .secao-principal > .acao-editar');
   if (acoes?.previousElementSibling?.matches('.cadastro')) acoes.previousElementSibling.append(acoes);
+  // classes no lugar de :has() no conta.css (navegador antigo descarta a regra inteira): grade com o menu e cartão dos formulários
+  const filho = (e, cls) => [...e.children].some((c) => c.classList.contains(cls));
+  document.querySelectorAll('#corpo .secao-principal').forEach((s) => { if (filho(s, 'coluna')) s.classList.add('lm-conta-grade'); });
+  document.querySelectorAll('#corpo .cadastro, #corpo .cadastro form').forEach((e) => { if (filho(e, 'acao-editar')) e.classList.add('lm-form-cartao'); });
 
   // itens do pedido: no celular a tabela empilha e o título da coluna acompanha cada valor
   document.querySelectorAll('#corpo .table-pedido-item').forEach((t) => {
