@@ -30,7 +30,7 @@
     const caixa = document.createElement('span'); caixa.className = 'lm-qtd';
     const botao = (cls, rotulo, d) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'lm-qtd__btn ' + cls; b.setAttribute('aria-label', rotulo); b.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="' + d + '"/></svg>'; return b; };
     const menos = botao('lm-qtd__menos', 'Diminuir a quantidade', 'M5 12h14'), mais = botao('lm-qtd__mais', 'Aumentar a quantidade', 'M12 5v14M5 12h14');
-    input.before(caixa); caixa.append(menos, input, mais); input.setAttribute('min', String(min)); input.setAttribute('inputmode', 'numeric');
+    input.before(caixa); caixa.append(menos, input, mais); caixa.parentElement.classList.add('lm-tem-qtd');  // classe no pai para o loren.css (sem :has()) input.setAttribute('min', String(min)); input.setAttribute('inputmode', 'numeric');
     const valor = () => Math.max(min, Math.min(max, parseInt(input.value, 10) || min));
     const atualiza = () => { menos.disabled = valor() <= min; mais.disabled = valor() >= max; };
     const muda = (n) => { input.value = n; ['input', 'change'].forEach((t) => input.dispatchEvent(new Event(t, { bubbles: true }))); atualiza(); };
@@ -77,6 +77,7 @@
     const cab = document.querySelector('#cabecalho');
     if (cab && !cab.querySelector('.lm-topo')) {
       const i = (d) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+      cab.classList.add('lm-com-topo');  // o loren.css esconde o cabeçalho antigo por esta classe (com :has(), navegador sem suporte mostrava os dois)
       cab.insertAdjacentHTML('afterbegin', `<div class="lm-topo"><div class="lm-wrap lm-topo__linha">
         <button type="button" class="lm-topo__menu" aria-label="Abrir o menu">${i('<path d="M3 6h18M3 12h18M3 18h18"/>')}</button>
         <a class="lm-topo__logo" href="/" aria-label="Loren Metais, página inicial"><img src="${LOGO}" alt="Loren Metais" width="203" height="46"></a>
@@ -187,9 +188,13 @@
   };
   // Espera as 3 faces do site de verdade (document.fonts.ready resolve na hora, antes de a fonte começar a baixar, e a troca de fonte depois de revelar a página dá salto de texto)
   const fontesProntas = () => { try { return Promise.all(['400 1em Inter', '600 1em Inter', '700 1em "Barlow Semi Condensed"'].map((f) => document.fonts.load(f))); } catch (e) { return 0; } };
-  // html.lm-pronto: o loren.css reserva o espaço do que o JS monta e esconde o que ele troca até esta classe; o código do cabeçalho a liga sozinho 6 s depois de ligar lm-novo se o JS demorar, e desfaz tudo (visual antigo) se ele falhar
-  const tudo = () => { if (window.__lmDesliga) return; const carga = extra(); monta(); window.__lmMontou = true; qtdAuto(); Promise.race([Promise.all([carga, fontesProntas()]), new Promise((ok) => setTimeout(ok, 2500))]).then(() => document.documentElement.classList.add('lm-pronto')); };
+  // html.lm-pronto: o loren.css reserva o espaço do que o JS monta e esconde o que ele troca até esta classe (até lá fica a casca); o código do cabeçalho só desfaz tudo (visual antigo) se o JS falhar ou ficar parado
+  let foi = false;
+  const tudo = () => { if (foi || window.__lmDesliga) return; foi = true; const carga = extra(); monta(); window.__lmMontou = true; qtdAuto(); Promise.race([Promise.all([carga, fontesProntas()]), new Promise((ok) => setTimeout(ok, 2500))]).then(() => document.documentElement.classList.add('lm-pronto')); };
   // o tema monta o menu e a gaveta no ready do jQuery (LI.methods.otherCategories joga para "Outros" tudo que passa de 6 itens, inclusive o nosso Obras finalizadas): entramos depois dele
-  const arranca = () => (window.jQuery ? window.jQuery(() => setTimeout(tudo, 0)) : tudo());
+  // Também sem o ready: no jQuery antigo do tema, uma exceção num ready anterior (EmailJS bloqueado: 'emailjs is not defined') para a fila e o nosso nunca rodaria (Ellie 09/11).
+  // Então tudo() roda também depois de qualquer erro de script, no load e já, se o ready do jQuery já passou; a trava 'foi' faz rodar uma vez só.
+  const vai = () => setTimeout(tudo, 0);
+  const arranca = () => { const $ = window.jQuery; if (!$) return tudo(); $(vai); if ($.isReady) vai(); addEventListener('error', vai); addEventListener('load', vai); };
   document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', arranca) : arranca();
 })();

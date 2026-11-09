@@ -114,7 +114,8 @@ html.lm-novo #rodape > div:last-child img, html.lm-novo #rodape > div:last-child
   html.lm-novo #rodape .links-rodape .titulo { position: relative; margin: 0 !important; padding: var(--lm-esp-2) 0 !important; text-align: left; }
   /* a setinha do acordeão era glifo FontAwesome do tema; agora é máscara (sem baixar a fonte) */
   html.lm-novo #rodape .links-rodape .titulo::after { content: ''; position: absolute; top: 50%; right: 0; left: auto; width: 20px; height: 20px; margin: -10px 0 0; background: currentColor; -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22m6 9 6 6 6-6%22 /%3E%3C/svg%3E") center/contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22m6 9 6 6 6-6%22 /%3E%3C/svg%3E") center/contain no-repeat; font-family: var(--lm-fonte-texto) !important; transform: none; color: var(--lm-sobre-escuro-2); transition: transform .2s; }
-  html.lm-novo #rodape .links-rodape .titulo:has(+ ul.active)::after, html.lm-novo #rodape .links-rodape .active > .titulo::after { transform: rotate(180deg); }
+  html.lm-novo #rodape .links-rodape .active > .titulo::after { transform: rotate(180deg); }
+  html.lm-novo #rodape .links-rodape .titulo:has(+ ul.active)::after { transform: rotate(180deg); }  /* separada: sem :has() some só esta, não a de cima */
   html.lm-novo #rodape .links-rodape ul.active { padding-bottom: var(--lm-esp-2); }
   html.lm-novo #rodape .redes-sociais { padding: var(--lm-esp-3) 0; }
   html.lm-novo #rodape .redes-sociais .titulo { display: block !important; }
@@ -299,7 +300,7 @@ html.lm-novo .flex-control-paging li a.flex-active::after { background: var(--lm
 
 /* ===== cabeçalho nosso (04/11) ===== o original do tema fica no HTML, escondido; a busca e o menu do celular foram movidos */
 html.lm-novo #cabecalho { padding: 0 !important; border-bottom: 0 !important; }
-html.lm-novo:not(.lm-pronto) #cabecalho > :not(.lm-topo):not(.full.menu), html.lm-novo #cabecalho:has(> .lm-topo) > :not(.lm-topo):not(.full.menu) { display: none !important; }  /* o antigo some enquanto a página está escondida (o espaço do novo já está reservado: sem salto) e, depois de revelada, só quando o novo existe: se o JS falhar em silêncio, o antigo continua à vista */
+html.lm-novo:not(.lm-pronto) #cabecalho > :not(.lm-topo):not(.full.menu), html.lm-novo #cabecalho.lm-com-topo > :not(.lm-topo):not(.full.menu) { display: none !important; }  /* o antigo some enquanto a página está escondida (o espaço do novo já está reservado: sem salto) e, depois de revelada, quando o novo existe (.lm-com-topo, posta pelo loren.js; era :has(), que navegador antigo descartava junto com a regra inteira) */
 html.lm-novo .lm-topo { background: var(--lm-branco); border-bottom: var(--lm-borda-padrao); }
 html.lm-novo .lm-topo__linha { display: flex; align-items: center; gap: 32px; height: 80px; }
 html.lm-novo .lm-topo__logo { flex: none; line-height: 0; }
@@ -384,7 +385,7 @@ html.lm-novo .breadcrumbs a:hover { color: var(--lm-onda-escura) !important; }
 html.lm-novo body:not(.pagina-produto) #corpo :not(.lm-pagcab__in) > .breadcrumbs { margin: 0 !important; padding: 16px 0 0 !important; border: 0 !important; background: none !important; box-shadow: none !important; font-size: .8125rem; }
 html.lm-novo body:not(.pagina-produto) #corpo .breadcrumbs :is(ul, li) { margin: 0 !important; padding: 0 !important; }  /* solta no corpo; dentro da faixa .lm-pagcab a trilha segue a regra dela, mais abaixo */
 @media (max-width: 767px) {
-  html.lm-novo body.mostrarAvisoCookie .lm-chat { bottom: 176px; }
+  html.lm-novo body.mostrarAvisoCookie .lm-chat { display: none; }  /* com o aviso de cookies aberto o chat saía por cima do ENTENDI e, subido, do título do produto; volta depois do ENTENDI (Wednesday e Marty 09/11) */
 }
 /* produto no celular e no tablet: o chat sai enquanto a caixa de compra está na tela (o loren.js põe .lm-chat--some), senão cobre o título, o preço e os botões dela */
 @media (max-width: 1023px) {
@@ -592,8 +593,8 @@ html.lm-novo .lm-topo { position: sticky; top: 0; z-index: 1001; background: var
 
 /* seletor de quantidade padrão (.lm-qtd, montado por window.lmQtd no loren.js): pill de 48, − e + sempre visíveis (toque de 44), sem as setinhas nativas.
    :is(#corpo, body) dá peso de ID para valer sobre as regras de input das páginas, em qualquer lugar (página, carrinho, janela) */
-html.lm-novo :is(#corpo, body) :is(label, div, span):has(> .lm-qtd) { width: auto !important; min-width: 0 !important; flex: none !important; }
-html.lm-novo :is(#corpo, body) :has(> .lm-qtd) > :is(a, button):is([class*="icon-minus"], [class*="icon-plus"]) { display: none !important; }  /* o − e o + do tema (carrinho) saem: o .lm-qtd já tem os dele */
+html.lm-novo :is(#corpo, body) :is(label, div, span).lm-tem-qtd { width: auto !important; min-width: 0 !important; flex: none !important; }  /* .lm-tem-qtd: o pai do .lm-qtd, posta pelo lmQtd() (era :has()) */
+html.lm-novo :is(#corpo, body) .lm-tem-qtd > :is(a, button):is([class*="icon-minus"], [class*="icon-plus"]) { display: none !important; }  /* o − e o + do tema (carrinho) saem: o .lm-qtd já tem os dele */
 html.lm-novo :is(#corpo, body) .lm-qtd { box-sizing: border-box; flex: none; display: inline-flex !important; align-items: center; vertical-align: middle; width: auto !important; height: var(--lm-campo-altura) !important; margin: 0; padding: 0 !important; border: var(--lm-campo-borda); border-radius: var(--lm-btn-raio) !important; background: var(--lm-campo-fundo); overflow: hidden; }  /* !important: o html.lm-novo * do topo zera todo raio */
 html.lm-novo :is(#corpo, body) .lm-qtd .lm-qtd__btn { flex: none; display: grid; place-items: center; width: 44px; height: 100%; min-height: 0; margin: 0; padding: 0; border: 0; border-radius: 0 !important; background: none; color: var(--lm-grafite); cursor: pointer; }
 html.lm-novo .lm-qtd .lm-qtd__btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
