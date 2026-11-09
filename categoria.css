@@ -42,8 +42,10 @@ html.lm-novo body.lm-cat .lm-cat-chips a:hover { border-color: var(--lm-onda-esc
 
 /* duas colunas: 240 px (menu + filtros) e a lista */
 html.lm-novo body.lm-cat #corpo .secao-principal { display: grid !important; grid-template-columns: 240px minmax(0, 1fr); gap: 32px; margin: 0 !important; }
-html.lm-novo body.lm-cat #corpo .secao-principal:is(.sem-coluna, :not(:has(> .coluna))) { grid-template-columns: minmax(0, 1fr); }  /* marca: sem filtros, a lista usa a largura toda */
-html.lm-novo body.lm-cat #corpo .secao-principal.sem-coluna > .coluna { display: none !important; }
+/* marca: sem filtros, a lista usa a largura toda. Pela classe da página, não pelo .sem-coluna: o tema também o põe na
+   categoria e na busca, e a regra escondia os filtros no computador e o painel do Filtrar (Ellie 09/11) */
+html.lm-novo body.lm-cat.pagina-marca #corpo .secao-principal, html.lm-novo body.lm-cat #corpo .secao-principal:not(:has(> .coluna)) { grid-template-columns: minmax(0, 1fr); }
+html.lm-novo body.lm-cat.pagina-marca #corpo .secao-principal > .coluna { display: none !important; }
 html.lm-novo body.lm-cat .marca-info:not(:has(*)) { display: none !important; }  /* o nome da marca foi para a faixa */
 html.lm-novo body.lm-cat #corpo .secao-principal::before, html.lm-novo body.lm-cat #corpo .secao-principal::after { display: none !important; }
 html.lm-novo body.lm-cat #corpo .secao-principal > .coluna, html.lm-novo body.lm-cat #corpo .secao-principal > .conteudo { display: block !important; width: auto !important; margin: 0 !important; float: none !important; min-width: 0; }
@@ -80,6 +82,7 @@ html.lm-novo body.lm-cat .coluna .lm-preco label { display: block; padding: 0; f
 html.lm-novo body.lm-cat .coluna .lm-preco label::before { display: none; }
 html.lm-novo body.lm-cat .lm-preco input.lm-campo { display: block; width: 100% !important; margin: 4px 0 0 !important; padding: 0 16px !important; }  /* campo padrão: .lm-campo do loren.css; aqui só largura e respiro */
 html.lm-novo body.lm-cat .lm-preco .botao { grid-column: 1 / -1; width: 100%; margin: 8px 0 0 !important; }
+html.lm-novo body.lm-cat .lm-preco-livre h4 .limpar { display: none !important; }  /* "Limpar" do tema no título (11 px, ícone sem glifo): o Limpar preço abaixo faz o mesmo (Ellie 09/11) */
 html.lm-novo body.lm-cat .lm-preco-limpa { grid-column: 1 / -1; justify-self: start; font-size: 14px; color: var(--lm-azul-hover) !important; text-decoration: underline; text-underline-offset: 3px; }
 html.lm-novo body.lm-cat .lm-cat-fechar, html.lm-novo body.lm-cat .lm-cat-filtrar { display: none; }
 html.lm-novo body.lm-cat .filtro-mobile, html.lm-novo body.lm-cat .filtro-mobile-itens { display: none !important; }  /* cópia dos filtros que o tema cria no celular: os mesmos filtros abrem pelo Filtrar */
@@ -103,7 +106,7 @@ html.lm-novo body.lm-cat #corpo .conteudo #listagemProdutos { margin: 0 !importa
 
 /* paginação */
 html.lm-novo body.lm-cat .ordenar-listagem.rodape { border: 0 !important; background: none !important; box-shadow: none !important; padding: 16px 0 0 !important; margin: 0 !important; }
-html.lm-novo body.lm-cat #listagemProdutos > ul > li.lm-cat-pag { grid-column: 1 / -1; list-style: none; }
+html.lm-novo body.lm-cat #listagemProdutos > ul > li.lm-cat-pag { grid-column: 1 / -1; list-style: none; padding: 0 !important; }  /* o tema dá padding de item de lista até 1024 (0 0 15) e 767 (0 15 30): +30 px até a newsletter (Ellie 09/11) */
 html.lm-novo body.lm-cat .lm-cat-pag .ordenar-listagem.rodape { padding: 0 !important; }
 html.lm-novo body.lm-cat .ordenar-listagem.rodape.lm-cat-sem-pag, html.lm-novo body.lm-cat .ordenar-listagem.topo.lm-cat-barra-vazia { display: none !important; }
 
@@ -140,6 +143,7 @@ html.lm-novo body.lm-cat .lm-cat-faq details p { margin: 8px 0 0; color: var(--l
   html.lm-novo body.lm-filtros .lm-cat-fechar { display: block; position: sticky; top: 0; z-index: 1; width: calc(100% + 32px); margin: 0 -16px 16px; height: 52px; border: 0; border-bottom: var(--lm-borda-padrao); background: #fff; text-align: right; padding: 0 16px; font: 600 .9375rem/1 var(--lm-fonte-texto); color: var(--lm-onda-escura); }
   html.lm-novo body.lm-filtros { overflow: hidden; }
   html.lm-novo body.lm-filtros .coluna .menu.lateral, html.lm-novo body.lm-filtros .coluna .menu.lateral ul { display: block !important; }  /* o tema esconde o menu lateral no celular */
+  html.lm-novo body.lm-cat .coluna :is(.lm-cat-news, .newsletter) { display: none !important; }  /* painel do Filtrar só com filtros; a faixa do rodapé já tem a newsletter (Ellie 09/11) */
   html.lm-novo body.lm-cat .ordenar-listagem.topo { position: sticky; top: 0; z-index: 20; padding: 8px 0 !important; margin-bottom: 12px !important; border-bottom: var(--lm-borda-padrao) !important; }
   html.lm-novo body.lm-cat .lm-cat-filtrar { display: block; flex: 1; }
   html.lm-novo body.lm-cat .ordenar-listagem.topo > .row-fluid, html.lm-novo body.lm-cat .ordenar-listagem.topo .span6, html.lm-novo body.lm-cat .ordenar-listagem.topo .input-append { flex: 1; width: auto !important; }
@@ -160,7 +164,7 @@ html.lm-novo body.lm-cat .lm-cat-pag :is(.row-fluid, [class*="span"]) { display:
 html.lm-novo body.lm-cat .lm-cat-pag .row-fluid::before, html.lm-novo body.lm-cat .lm-cat-pag .row-fluid::after { display: none !important; }
 html.lm-novo body.lm-cat .lm-cat-pag .pagination { float: none !important; width: 100% !important; margin: 0 !important; text-align: center; }  /* o tema põe float: right */
 html.lm-novo body.lm-cat .lm-cat-pag .pagination ul { display: flex !important; justify-content: center; flex-wrap: wrap; gap: 8px; margin: 0 !important; padding: 0 !important; box-shadow: none !important; }
-html.lm-novo body.lm-cat .lm-cat-pag .pagination li { display: block !important; flex: none; width: auto !important; float: none !important; margin: 0 !important; }  /* no celular o tema dava 100% a cada item */
+html.lm-novo body.lm-cat .lm-cat-pag .pagination li { display: block !important; flex: none; width: auto !important; float: none !important; margin: 0 !important; padding: 0 !important; }  /* no celular o tema dava 100% a cada item, e padding de item de lista (.listagem ul>li li) */
 html.lm-novo body.lm-cat .lm-cat-pag .pagination li > :is(a, span) { box-sizing: border-box; display: grid !important; place-content: center; min-width: 40px; height: 40px; padding: 0 12px !important; margin: 0 !important; border: var(--lm-borda-padrao) !important; border-radius: 999px !important; background: #fff !important; color: var(--lm-grafite) !important; font: 600 15px/1 var(--lm-fonte-texto) !important; text-decoration: none !important; float: none !important; }
 html.lm-novo body.lm-cat .lm-cat-pag .pagination li:not(.active, .disabled) > a:hover { border-color: var(--lm-onda-escura) !important; color: var(--lm-onda-escura) !important; }
 html.lm-novo body.lm-cat .lm-cat-pag .pagination li.active > :is(a, span) { background: var(--lm-onda-escura) !important; border-color: var(--lm-onda-escura) !important; color: #fff !important; }
