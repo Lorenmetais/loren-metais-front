@@ -99,6 +99,7 @@
     topo.querySelectorAll(':scope > .lm-cat-intro, :scope > .lm-cat-mais').forEach((n) => ap.append(n));
     window.lmPagcab(h1, ap.childElementCount ? { apoio: ap } : {});
     if (!topo.childElementCount) topo.classList.add('lm-cat-topo-vazio');
+    else if ([...topo.children].every((n) => n.classList.contains('lm-cat-chips'))) topo.classList.add('lm-cat-topo-chips');  // só chips: some a ≥1024 (categoria.css)
   }
 
   // preço: a LI aceita qualquer faixa em fq=price_range:min-max (testado 04/11), então as faixas fixas viram mínimo/máximo
