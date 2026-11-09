@@ -97,7 +97,7 @@ html.lm-novo #rodape .bandeiras-pagamento i { display: block; }
 /* Pague com: o loren.js monta a lista .lm-pag; SVG em front/pagamento (Simple Icons CC0) como máscara branca, cada um num selo do mesmo tamanho */
 html.lm-novo #rodape .bandeiras-pagamento.lm-pag { gap: 8px; }
 /* cada meio num selo de 52 x 34 com contorno discreto: o tamanho visual fica igual, seja o logo largo (Visa), quadrado (Amex) ou redondo (Diners) */
-html.lm-novo #rodape .lm-pag li { display: flex; align-items: center; justify-content: center; width: 52px; height: 34px; border: 1px solid rgb(255 255 255 / 0.22); border-radius: 4px; }
+html.lm-novo #rodape .lm-pag li { box-sizing: border-box; display: flex; align-items: center; justify-content: center; width: 52px; height: 34px; border: 1px solid rgb(255 255 255 / 0.22); border-radius: 4px; }
 html.lm-novo #rodape .lm-pag__logo { display: block; width: 40px; height: 22px; background: var(--lm-branco); -webkit-mask: var(--lm-pag-svg) center / contain no-repeat; mask: var(--lm-pag-svg) center / contain no-repeat; }
 html.lm-novo #rodape .lm-pag__texto { color: var(--lm-branco); font: 700 14px/1 var(--lm-fonte-texto); letter-spacing: .02em; text-transform: lowercase; white-space: nowrap; }
 @media (max-width: 767px) {
