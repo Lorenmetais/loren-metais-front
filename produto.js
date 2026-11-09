@@ -235,6 +235,20 @@
     document.addEventListener('submit', calcula, true);
     document.addEventListener('click', calcula, true);
 
+    // Calculadora de frete quando o código do cabeçalho não rodou (favorito da prévia, ou falha): o script "Orçamento produtos" do
+    // painel pôs a frase do carrinho no 2º .cep. O conteúdo original desse .cep vem do HTML cru da própria página e o envio é
+    // religado ao calcular_frete do tema (global). Assíncrono: não segura a revelação. No ar a frase não está lá e nada roda.
+    const cep2 = document.getElementsByClassName('cep')[1];
+    if (cep2 && /frete no carrinho/.test(cep2.textContent) && window.jQuery && typeof window.calcular_frete === 'function') {
+      fetch(location.href, { credentials: 'same-origin' }).then((r) => r.text()).then((html) => {
+        const cru = new DOMParser().parseFromString(html, 'text/html').getElementsByClassName('cep')[1];
+        if (!cru || !/frete no carrinho/.test(cep2.textContent)) return;  // alguém já devolveu
+        const tinha = !!document.getElementById('formCalcularCep');  // com variação a calculadora é outro .cep: só sai a frase
+        cep2.replaceChildren(...[...cru.childNodes].map((n) => document.importNode(n, true)));
+        if (!tinha) window.jQuery('#formCalcularCep').submit(window.calcular_frete);
+      }).catch(() => {});
+    }
+
     // selos curtos: só o que a loja já diz (as frases da barra do topo)
     compra?.querySelector('.grandes_qtd')?.insertAdjacentHTML('afterend', `<ul class="lm-selos">
       <li>${ico('<path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6"/>')}Direto da fábrica</li>

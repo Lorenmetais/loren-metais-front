@@ -786,3 +786,12 @@ html.lm-novo .componente.newsletter .botao::before { content: "Assinar" !importa
 /* sem FontAwesome: os glifos já viraram máscara (acima). O elemento icon-xxx (ou fa) e o ::before dele ainda declaram a fonte FontAwesome e o navegador a baixa só para medir a linha
    (mesmo vazios), então os dois usam a fonte do texto: nenhum fontawesome-webfont é pedido */
 html.lm-novo :is([class^="icon-"], [class*=" icon-"], .fa, [class^="fa-"], [class*=" fa-"], .adic-favo), html.lm-novo :is([class^="icon-"], [class*=" icon-"], .fa, [class^="fa-"], [class*=" fa-"], .adic-favo)::before, html.lm-novo :is([class^="icon-"], [class*=" icon-"], .fa, [class^="fa-"], [class*=" fa-"])::after { font-family: var(--lm-fonte-texto) !important; }
+
+/* crédito da Lucerpy (igual ao da Conceito): mono do sistema, cinza, coração âmbar, bem discreto no fim do rodapé */
+/* a regra geral da fonte (linha 9) tem 3 classes de peso: aqui 4 */
+html.lm-novo .lm-credito.lm-credito.lm-credito, html.lm-novo .lm-credito.lm-credito.lm-credito * { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important; }
+html.lm-novo .lm-credito { position: relative; margin: 8px 0 0 !important; padding: 0 0 16px; text-align: center; font: 400 12px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important; color: #a1a1aa !important; }
+html.lm-novo .lm-credito__cor::before { content: '<3'; color: #e8a659; }
+html.lm-novo .lm-credito__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+html.lm-novo .lm-credito a { color: #e4e4e7 !important; text-decoration: underline; text-decoration-color: rgb(255 255 255 / 0.25); text-underline-offset: 3px; }
+html.lm-novo .lm-credito a:hover { text-decoration-color: #e8a659; }

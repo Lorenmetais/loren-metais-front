@@ -98,6 +98,9 @@
       pag.querySelector('.gateways-rodape')?.remove();
     }
     const selos = document.querySelector('#rodape .selos > ul'); if (selos) selos.innerHTML = `<li>${window.lmSelo('ssl')}</li><li>${window.lmSelo('google')}</li>`;  // os PNGs da LI saem; o link do Google ia para uma URL antiga
+    // crédito discreto da Lucerpy no fim do rodapé, igual ao da Conceito (Eduardo 09/11); o "<3" vem do CSS, o leitor de tela ouve "carinho"
+    const direitos = [...document.querySelectorAll('p')].find((p) => /Todos os direitos reservados/.test(p.textContent));
+    if (direitos && !document.querySelector('.lm-credito')) direitos.closest('.conteiner')?.insertAdjacentHTML('beforeend', '<p class="lm-credito">Feito com <span class="lm-credito__cor" aria-hidden="true"></span><span class="lm-credito__sr">carinho</span> por <a href="https://lucerpy.com.br/" target="_blank" rel="noopener">Lucerpy</a></p>');
     // cartão "Preço sob consulta": o botão aparece como CONSULTAR (loren.css); o leitor de tela também ouve isso, e não o "Adicionar" do tema
     document.querySelectorAll('.listagem-item:has(.preco-produto > .titulo) .acoes-produto .botao-comprar').forEach((b) => b.setAttribute('aria-label', 'Consultar ' + (b.closest('.listagem-item').querySelector('.nome-produto')?.textContent.trim() || '')));
     // cabeçalho nosso (Eduardo 04/11: o do tema "doido e horrível"): logo | busca da loja | conta, orçamento, carrinho.
