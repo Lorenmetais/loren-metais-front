@@ -29,6 +29,10 @@
   const topo = document.createElement('div'); topo.className = 'lm-cat-topo';
   const h1 = conteudo.querySelector('h1') || document.querySelector('.marca-info > h1'); if (h1) topo.append(h1);  // marca: o nome é o h1 da .marca-info
   sec.before(topo);
+  // classes no lugar de :has no categoria.css (navegador antigo descarta a regra inteira): sem coluna, a lista usa a largura
+  // toda; a .marca-info que ficou sem nada depois que o h1 saiu some
+  if (!coluna) sec.classList.add('lm-cat-sem-coluna');
+  const marcaInfo = document.querySelector('.marca-info'); if (marcaInfo && !marcaInfo.children.length) marcaInfo.classList.add('lm-marca-vazia');
 
   // descrição: componente do menu lateral com título + parágrafos (não o da newsletter)
   const comp = [...(coluna?.querySelectorAll('.componente:not(.newsletter) > .interno') || [])].find((c) => c.querySelector(':scope > h4.titulo') && c.querySelector(':scope > p, :scope > h3'));

@@ -84,6 +84,12 @@ html.lm-novo :is(.modal, .fancybox-wrap) :is(.lm-rotulo, .control-label) {
 html.lm-novo :is(.modal, .fancybox-wrap) .lm-campo { width: 100% !important; max-width: none !important; float: none !important; }
 html.lm-novo :is(.modal, .fancybox-wrap) textarea.lm-campo { height: 120px !important; padding: 12px 24px !important; border-radius: 16px !important; resize: vertical; line-height: 1.5 !important; }
 html.lm-novo :is(.modal, .fancybox-wrap) .lm-campo::placeholder { color: var(--lm-texto-secundario) !important; opacity: 1; }
+/* campo obrigatório vazio ou inválido, só depois que a pessoa mexeu ou tentou enviar (:user-invalid) */
+html.lm-novo :is(.modal, .fancybox-wrap) .lm-campo:user-invalid { border-color: var(--lm-erro) !important; box-shadow: inset 0 0 0 1px var(--lm-erro) !important; }
+/* aviso de erro do tema na janela (fale conosco: "Nome, E-mail e Mensagem são campos obrigatórios."): o vermelho do tema dava 3,9:1 (Ellie 09/11) */
+html.lm-novo #modalContato .alert:not(.modal-body .alert, .modal-header .alert) { margin-inline: 32px !important; }  /* no fale conosco o aviso fica fora do cabeçalho e do corpo: encostava nas bordas da janela */
+@media (max-width: 749px) { html.lm-novo #modalContato .alert:not(.modal-body .alert, .modal-header .alert) { margin-inline: 16px !important; } }
+html.lm-novo :is(.modal, .fancybox-wrap) :is(.alert-error, .alert-danger) { margin-block: 0 16px !important; border-radius: 0 !important; text-shadow: none !important; color: var(--lm-erro) !important; font: 400 14px/1.5 var(--lm-fonte-texto) !important; }
 /* grade de campos do tema (span5/span7, form-horizontal) empilhada */
 html.lm-novo :is(.modal, .fancybox-wrap) :is(.controls-row, .control-group, .controls, .avise-input, .email-box, .senha-box, .form-horizontal, [class*="span"]:not(.lm-campo)) { float: none !important; width: auto !important; margin-left: 0 !important; margin-right: 0 !important; padding: 0 !important; min-height: 0 !important; }
 html.lm-novo :is(.modal, .fancybox-wrap) .control-group { margin: 0 0 16px !important; }

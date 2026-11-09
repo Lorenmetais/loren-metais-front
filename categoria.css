@@ -43,9 +43,9 @@ html.lm-novo body.lm-cat .lm-cat-chips a:hover { border-color: var(--lm-onda-esc
 html.lm-novo body.lm-cat #corpo .secao-principal { display: grid !important; grid-template-columns: 240px minmax(0, 1fr); gap: 32px; margin: 0 !important; }
 /* marca: sem filtros, a lista usa a largura toda. Pela classe da página, não pelo .sem-coluna: o tema também o põe na
    categoria e na busca, e a regra escondia os filtros no computador e o painel do Filtrar (Ellie 09/11) */
-html.lm-novo body.lm-cat.pagina-marca #corpo .secao-principal, html.lm-novo body.lm-cat #corpo .secao-principal:not(:has(> .coluna)) { grid-template-columns: minmax(0, 1fr); }
+html.lm-novo body.lm-cat.pagina-marca #corpo .secao-principal, html.lm-novo body.lm-cat #corpo .secao-principal.lm-cat-sem-coluna { grid-template-columns: minmax(0, 1fr); }  /* classes do categoria.js, sem :has (Chrome < 105 e Safari < 15.4 descartam a regra inteira) */
 html.lm-novo body.lm-cat.pagina-marca #corpo .secao-principal > .coluna { display: none !important; }
-html.lm-novo body.lm-cat .marca-info:not(:has(*)) { display: none !important; }  /* o nome da marca foi para a faixa */
+html.lm-novo body.lm-cat .marca-info.lm-marca-vazia { display: none !important; }  /* o nome da marca foi para a faixa */
 html.lm-novo body.lm-cat #corpo .secao-principal::before, html.lm-novo body.lm-cat #corpo .secao-principal::after { display: none !important; }
 html.lm-novo body.lm-cat #corpo .secao-principal > .coluna, html.lm-novo body.lm-cat #corpo .secao-principal > .conteudo { display: block !important; width: auto !important; margin: 0 !important; float: none !important; min-width: 0; }
 
@@ -96,7 +96,7 @@ html.lm-novo body.lm-cat .ordenar-listagem .input-append { display: flex !import
 html.lm-novo body.lm-cat .ordenar-listagem .input-append::before { content: 'Ordenar:'; margin-right: 6px; font-weight: 400; color: var(--lm-texto-secundario); }
 html.lm-novo body.lm-cat .ordenar-listagem .input-append label { margin: 0 !important; padding: 0 !important; border: 0 !important; background: none !important; font: inherit !important; height: auto !important; line-height: 1 !important; box-shadow: none !important; }
 html.lm-novo body.lm-cat .ordenar-listagem .input-append .btn { height: 42px; border: 0 !important; background: none !important; box-shadow: none !important; border-radius: 0 !important; padding: 0 12px !important; }
-html.lm-novo body.lm-cat .ordenar-listagem .dropdown-menu { border-radius: 0 !important; border: var(--lm-borda-padrao) !important; box-shadow: var(--lm-cartao-sombra-hover) !important; }
+html.lm-novo body.lm-cat .ordenar-listagem .dropdown-menu { left: auto !important; right: 0 !important;  /* abre para a esquerda: o Ordenar fica na borda direita e a 768/390 as opções saíam da tela (Ellie 09/11) */ border-radius: 0 !important; border: var(--lm-borda-padrao) !important; box-shadow: var(--lm-cartao-sombra-hover) !important; }
 html.lm-novo body.lm-cat .lm-cat-filtrar { height: 44px; border: var(--lm-borda-padrao); background: #fff; padding: 0 14px; font: 600 .875rem/1 var(--lm-fonte-texto); color: var(--lm-grafite); border-radius: 0; cursor: pointer; }
 
 /* lista: 3 por linha no computador (os cards são da base) */

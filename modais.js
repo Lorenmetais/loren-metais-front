@@ -140,10 +140,18 @@
     ['#modal_consulte', '#modal_qtds', '#avise-me-cadastro', '#login-content', '#comprar-ajax-status'].forEach((s) => rotula(document.querySelector(s)));
     // as outras janelas do tema que já estão na página (ex.: recuperar senha do login, que abre sozinha pelo #recuperar_senha)
     document.querySelectorAll('.modal').forEach(rotula);
-    document.querySelectorAll('.modal form.consulta').forEach((f) => { novos(f); pares(f); });
+    // orçamento: o tema enviava o formulário vazio (testado 09/11, com o envio barrado); com required o navegador não dispara o
+    // submit (que é por onde o tema envia) e mostra o aviso no campo
+    document.querySelectorAll('.modal form.consulta').forEach((f) => { novos(f); pares(f); f.querySelectorAll('[name=nome], [name=email], [name=tel]').forEach((c) => (c.required = true)); });
     // fale conosco: o formulário chega por ajax de /contato/popup/
     const contato = document.querySelector('#modalContato');
     if (contato) new MutationObserver(() => rotula(contato)).observe(contato, { childList: true, subtree: true });
+    // fale conosco: o aviso "campos obrigatórios" do tema aparece no alto da janela, logo abaixo do título, e a janela tinha
+    // rolado até o Enviar; volta ao topo para mostrar título e aviso
+    contato?.addEventListener('click', (e) => {
+      if (!e.target.closest('button.principal, [type=submit]')) return;
+      setTimeout(() => { if ([...contato.querySelectorAll('.alert')].some((a) => a.offsetHeight)) contato.scrollTo({ top: 0, behavior: 'smooth' }); }, 400);
+    });
     if (window.jQuery) jQuery(document).on('shown shown.bs.modal', '.modal', function () { rotula(this); });
     const mini = document.querySelector('#carrinho-mini');
     if (mini) new MutationObserver(() => miniCarrinho(mini)).observe(mini, { childList: true });
