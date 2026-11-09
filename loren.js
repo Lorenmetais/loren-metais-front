@@ -59,15 +59,16 @@
   // um par de arquivos por tipo de página (cada agente mexe no seu): categoria.* (categoria e busca), produto.*
   const pagina = () => { const c = document.body.className; return /pagina-categoria|pagina-busca|pagina-marca/.test(c) ? 'categoria' : /pagina-produto/.test(c) ? 'produto' : /pagina-inicial/.test(c) ? '' : /pagina-conta|pagina-pedido|pagina-favorito/.test(c) ? 'conta' : 'paginas'; };  // paginas.*: institucionais, carrinho, conta (Marty)
   // modais.* (formulários em janela, como o Pedir orçamento) vale em toda página
-  // no live o código do cabeçalho já traz o CSS (head); aqui entram o que faltar e o JS da página. Devolve uma promessa para o html.lm-pronto esperar
+  // CSS e JS da página e o modais: no live o código do cabeçalho já os pré-carregou (só baixa); aqui são aplicados e rodados, depois do ready do tema. Devolve uma promessa para o html.lm-pronto esperar
   const extra = () => { if (!BASE) return Promise.resolve(); const espera = []; const nova = (el) => { espera.push(new Promise((ok) => { el.onload = el.onerror = ok; })); document.head.append(el); };
     for (const n of [pagina(), 'modais'].filter(Boolean)) {
-      if (!document.querySelector(`link[href*="/${n}.css"]`)) { const l = document.createElement('link'); l.rel = 'stylesheet'; l.href = BASE + n + '.css'; nova(l); }
+      const ja = document.querySelector(`link[rel="stylesheet"][href*="/${n}.css"]`); if (ja) { if (!ja.sheet) espera.push(new Promise((ok) => { ja.addEventListener('load', ok); ja.addEventListener('error', ok); })); } else { const l = document.createElement('link'); l.rel = 'stylesheet'; l.href = BASE + n + '.css'; nova(l); }
       if (!document.querySelector(`script[src*="/${n}.js"]`)) { const j = document.createElement('script'); j.src = BASE + n + '.js'; nova(j); } }
     return Promise.all(espera); };
 
   const monta = () => {
     if (document.body.dataset.lm) return; document.body.dataset.lm = '1';
+    if (/pagina-conta|pagina-pedido|pagina-favorito/.test(document.body.className) && !document.querySelector('.pedido-finalizado')) document.body.classList.add('lm-conta');  // o layout da área logada depende desta classe: entra antes de a página aparecer (o conta.js aceita que ela já exista)
     document.querySelectorAll('#cabecalho .logo img').forEach((img) => { img.src = LOGO; img.removeAttribute('srcset'); });
     // cabeçalho nosso (Eduardo 04/11: o do tema "doido e horrível"): logo | busca da loja | conta, orçamento, carrinho.
     // A busca (#form-buscar, com o autocompletar) e o menu do celular do tema são MOVIDOS para cá, não copiados.
@@ -181,7 +182,7 @@
   };
   // Espera as 3 faces do site de verdade (document.fonts.ready resolve na hora, antes de a fonte começar a baixar, e a troca de fonte depois de revelar a página dá salto de texto)
   const fontesProntas = () => { try { return Promise.all(['400 1em Inter', '600 1em Inter', '700 1em "Barlow Semi Condensed"'].map((f) => document.fonts.load(f))); } catch (e) { return 0; } };
-  // html.lm-pronto: o loren.css reserva o espaço do que o JS monta e esconde o que ele troca até esta classe; o snippet do cabeçalho a liga sozinho em 3 s se o JS falhar
+  // html.lm-pronto: o loren.css reserva o espaço do que o JS monta e esconde o que ele troca até esta classe; o código do cabeçalho a liga sozinho 6 s depois de ligar lm-novo se o JS demorar, e desfaz tudo (visual antigo) se ele falhar
   const tudo = () => { if (window.__lmDesliga) return; const carga = extra(); monta(); window.__lmMontou = true; qtdAuto(); Promise.race([Promise.all([carga, fontesProntas()]), new Promise((ok) => setTimeout(ok, 2500))]).then(() => document.documentElement.classList.add('lm-pronto')); };
   // o tema monta o menu e a gaveta no ready do jQuery (LI.methods.otherCategories joga para "Outros" tudo que passa de 6 itens, inclusive o nosso Obras finalizadas): entramos depois dele
   const arranca = () => (window.jQuery ? window.jQuery(() => setTimeout(tudo, 0)) : tudo());

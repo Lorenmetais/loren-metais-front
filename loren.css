@@ -73,9 +73,10 @@ html.lm-novo #rodape .institucional a:hover { color: var(--lm-branco) !important
 html.lm-novo #rodape .links-rodape-atendimento ul { margin: 0; padding: 0; border: 0; }
 html.lm-novo #rodape .institucional a i { margin-right: var(--lm-esp-1); color: var(--lm-sobre-escuro-2) !important; }
 html.lm-novo #rodape .institucional svg { fill: var(--lm-sobre-escuro-2) !important; }
+html.lm-novo #rodape .links-rodape-atendimento li:is(:has(.icon-phone), .tel-whatsapp) > span { white-space: nowrap; }  /* o número não quebra no hífen (768: "(19) 2660-" / "1423") */
 /* redes sociais */
 html.lm-novo #rodape .redes-sociais { position: static; width: auto; margin: 0; padding: 0; border: 0; background: none; box-shadow: none; }
-html.lm-novo #rodape .lista-redes ul { display: flex; gap: var(--lm-esp-1); }
+html.lm-novo #rodape .lista-redes ul { display: flex; flex-wrap: wrap; gap: var(--lm-esp-1); }  /* a 768/820 a coluna é estreita: os 4 ícones quebram em vez de passar da tela */
 html.lm-novo #rodape .lista-redes ul li { float: none; margin: 0; border: 0; }
 html.lm-novo #rodape .lista-redes ul li a { display: grid; place-items: center; width: var(--lm-campo-altura); height: var(--lm-campo-altura); padding: 0; border: 1px solid var(--lm-linha-escuro-2); color: var(--lm-sobre-escuro-2) !important; line-height: 1; }
 html.lm-novo #rodape .lista-redes ul li a i { width: auto; height: auto; margin: 0; background: none !important; color: inherit !important; font-size: 20px; line-height: 1; }  /* o ícone é um SVG em máscara (icones, no fim deste arquivo): herda a cor do link */
@@ -91,9 +92,11 @@ html.lm-novo #rodape .bandeiras-pagamento, html.lm-novo #rodape .selos > ul { di
 html.lm-novo #rodape .bandeiras-pagamento li, html.lm-novo #rodape .selos li { float: none; margin: 0; }
 html.lm-novo #rodape .bandeiras-pagamento i { display: block; }
 html.lm-novo #rodape .selos img { display: block; height: var(--lm-esp-6); width: auto; }
-html.lm-novo #rodape .gateways-rodape { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: auto; max-width: 320px; margin-top: var(--lm-esp-2); border: 0; border-radius: 0; background: var(--lm-branco); }
-html.lm-novo #rodape .gateways-rodape li { display: grid; place-items: center; width: auto; padding: var(--lm-esp-1); border: 0 !important; margin: 0 !important; }
-html.lm-novo #rodape .gateways-rodape img { max-width: 100%; height: var(--lm-esp-4); object-fit: contain; }
+/* meios do painel (Pix, Mercado Pago): selos pequenos na altura das bandeiras, sem a caixa branca; o boleto já está nas bandeiras (e o painel o lista 2 vezes) */
+html.lm-novo #rodape .gateways-rodape { display: flex; flex-wrap: wrap; gap: var(--lm-esp-1); width: auto; margin: var(--lm-esp-1) 0 0 !important; padding: 0; border: 0; background: none; }
+html.lm-novo #rodape .gateways-rodape li { float: none; width: auto; padding: 0; border: 0 !important; margin: 0 !important; }
+html.lm-novo #rodape .gateways-rodape li:has(img[class*="boleto"]) { display: none; }
+html.lm-novo #rodape .gateways-rodape img { display: block; width: auto; max-width: none; height: var(--lm-esp-3); padding: 2px var(--lm-esp-1); background: var(--lm-branco); object-fit: contain; }
 /* faixa final: direitos e marcas da plataforma, centradas e discretas (a Loja Integrada fixa o tamanho em style inline) */
 html.lm-novo #rodape > div:last-child { background: var(--lm-grafite) !important; border-top: 1px solid var(--lm-linha-escuro) !important; }
 html.lm-novo #rodape > div:last-child .conteiner { padding: var(--lm-esp-2) var(--lm-margem) !important; }
@@ -328,6 +331,9 @@ html.lm-novo .busca-mobile.fixed { position: static !important; box-shadow: none
   html.lm-novo .lm-topo__acoes { order: 2; margin: 0; gap: 24px; }
   html.lm-novo .lm-topo__busca { order: 3; flex: 0 0 100%; max-width: none; }
   html.lm-novo .secao-banners .flex-direction-nav a { background: var(--lm-grafite) !important; }  /* sólido: sobre o banner claro o 55% some */
+  html.lm-novo .lm-vant .lm-wrap { grid-template-columns: repeat(2, minmax(0, 1fr)); }  /* vantagens em 2 x 2 (em 4 colunas o título quebrava em 3 linhas) */
+  /* rodapé: a coluna de atendimento (telefone, e-mail) fica mais larga e a de redes, mais estreita (os ícones quebram em 2 x 2) */
+  html.lm-novo #rodape .institucional .conteiner > .row-fluid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.3fr) minmax(0, .7fr); }
 }
 @media (max-width: 767px) {
   html.lm-novo .lm-topo__linha { height: auto; flex-wrap: wrap; gap: 8px 16px; padding-block: 16px; }
@@ -512,7 +518,7 @@ html.lm-novo .listagem .info-produto > div:has(.preco-produto) { margin-top: aut
 }
 
 /* ===== carregamento sem quebra no live (04/11) =====
-   O loren.css entra no head e html.lm-novo liga antes do HTML; o loren.js monta as peças e liga html.lm-pronto (o snippet do cabeçalho liga em 3 s se o JS falhar).
+   O código do cabeçalho liga html.lm-novo na hora e pinta a casca (CSS inline: barra, cabeçalho com a logo, o resto escondido); o loren.js monta as peças e liga html.lm-pronto, que tira a casca (se ele não montar, o código do cabeçalho liga 6 s depois de o loren.css chegar e, se o CSS ou o JS falharem de vez, desfaz tudo e a loja volta ao visual antigo).
    Até lá, o CSS reserva o espaço do que o JS monta, na altura exata da peça, e esconde o que o JS troca; ao ligar a classe a peça real ocupa o mesmo lugar, sem salto. */
 html.lm-novo:not(.lm-pronto) body::before { content: ''; display: block; height: 33px; }   /* barra do topo (.lm-barra) */
 html.lm-novo:not(.lm-pronto) #cabecalho::before { content: ''; display: block; height: 81px; }  /* cabeçalho nosso (.lm-topo) */
@@ -598,6 +604,7 @@ html.lm-novo .listagem .listagem-item.produto-adicionado .acoes-produto .botao-c
   html.lm-novo { --lm-btn-altura-card: 40px; }
   html.lm-novo :is(#listagemProdutos, .aproveite-tambem).listagem .listagem-item .acoes-produto.hidden-phone { display: block !important; }
   html.lm-novo :is(#listagemProdutos, .aproveite-tambem).listagem .listagem-item:has(.preco-produto > .titulo) .acoes-produto.hidden-phone { display: none !important; }
+  html.lm-novo :is(#listagemProdutos, .aproveite-tambem).listagem .listagem-item.produto-adicionado .acoes-produto .botao-comprar { margin: 5px 0 !important; }  /* mesma margem do Adicionar no celular (5 + 11 do bloco = 16 do preço); no computador e no tablet o Adicionar não tem margem */
 }
 
 /* ===== ícones (Wednesday 04/11, dev/icones/MAPA.md): troca as fontes FontAwesome do tema (icon-* e fa-*, ~99 KB em 2 arquivos) por SVG em máscara; sem JS e sem biblioteca ===== */

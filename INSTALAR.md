@@ -10,7 +10,7 @@ O texto abaixo é uma cópia de `front/cabecalho-snippet.html`. Troque `COMMIT` 
   if (/\/(checkout|pagamento)/i.test(location.pathname)) return;   // checkout: este código não faz nada e não pede nenhum arquivo
   var BASE = 'https://cdn.jsdelivr.net/gh/eduserpa/loren-metais-front@COMMIT/';
   var PERCENTUAL = 100;   // % das visitas que veem o visual novo; a escolha fica guardada no visitante (?lm=novo ou ?lm=antigo força, para teste)
-  var CSS_MS = 5000;      // o CSS tem este tempo para chegar; senão a loja abre inteira no visual antigo
+  var CSS_MS = 6000;      // o CSS tem este tempo para chegar; senão a loja volta ao visual antigo (até lá a casca nova está na tela)
   var JS_MS = 4000;       // depois do CSS, o loren.js tem este tempo para chegar; senão também volta ao visual antigo
   var MONTA_MS = 8000;    // e, depois do fim do HTML, este tempo para montar o cabeçalho (monta no ready do tema; devagar é aceito, parado não)
   var t0 = Date.now(), h = document.documentElement, head = document.head || h;
@@ -34,34 +34,42 @@ O texto abaixo é uma cópia de `front/cabecalho-snippet.html`. Troque `COMMIT` 
     $.fn.load.__lm = true;
     $.ajax = function (o) { return o && o.url === '../' && !/\/carrinho/.test(location.pathname) ? $.Deferred().promise() : ajax.apply(this, arguments); };
   }
-  // enquanto decide, a página fica escondida (no máximo CSS_MS)
-  var esconde = document.createElement('style'); esconde.textContent = 'html.lm-carregando body,html.lm-carregando body *{visibility:hidden!important}';
-  head.appendChild(esconde); h.classList.add('lm-carregando');
-  var meus = [esconde], feito = false;
+  var meus = [], feito = false;
+  // CASCA: html.lm-novo liga AGORA, sem esperar rede, e este CSS pequeno pinta a primeira tela já no visual novo (barra escura, cabeçalho branco com a logo, resto escondido, espaço reservado
+  // na altura exata das peças que o loren.js monta). Quando o loren.css chega ele traz as mesmas regras; ao ligar html.lm-pronto a casca sai. Só em falha real do CDN a loja volta ao visual antigo.
+  var casca = document.createElement('style');
+  casca.textContent = "html.lm-novo:not(.lm-pronto) body{visibility:hidden;background:#fff!important}html.lm-novo:not(.lm-pronto) body::before{content:'';display:block;visibility:visible;height:33px;background:#303136}html.lm-novo:not(.lm-pronto) #cabecalho{padding:0!important;border:0!important}html.lm-novo:not(.lm-pronto) #cabecalho>*,html.lm-novo:not(.lm-pronto) #topbar,html.lm-novo:not(.lm-pronto) #full-page-loading{display:none!important}html.lm-novo:not(.lm-pronto) #cabecalho::before{content:'';display:block;visibility:visible;height:81px;border-bottom:1px solid #e3e3e6;background:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 611.34 138.7' role='img'%3E%3Cg transform='translate(-103.546,-14.701) scale(0.639171)'%3E%3Cpath fill='%2381BBD3' d='M239.12 24.00 C219.62 113.04 295.89 90.46 328.12 144.12 C329.82 75.77 264.98 81.15 239.12 24.00Z'/%3E%3Cpath fill='%23009EA4' d='M178.62 62.62 C180.39 191.05 274.13 136.34 335.75 199.62 C316.21 105.91 228.74 135.80 178.62 62.62Z'/%3E%3Cpath fill='%23018086' d='M162.50 138.50 C187.54 258.42 267.30 188.99 335.00 236.88 C300.75 152.67 222.63 195.11 162.50 138.50Z'/%3E%3C/g%3E%3Cg transform='translate(127.344,-225.150)'%3E%3Cpath fill='%231394B1' transform='translate(18,258) scale(0.043224,0.043272) translate(-84,1653)' d='M505 -1619V-324H761V0H84V-1619Z M1825 -671Q1825 -427 1813.5 -325.5Q1802 -224 1741.5 -140.0Q1681 -56 1578.0 -11.0Q1475 34 1338 34Q1208 34 1104.5 -8.5Q1001 -51 938.0 -136.0Q875 -221 863.0 -321.0Q851 -421 851 -671V-948Q851 -1192 862.5 -1293.5Q874 -1395 934.5 -1479.0Q995 -1563 1098.0 -1608.0Q1201 -1653 1338 -1653Q1468 -1653 1571.5 -1610.5Q1675 -1568 1738.0 -1483.0Q1801 -1398 1813.0 -1298.0Q1825 -1198 1825 -948ZM1404 -1203Q1404 -1316 1391.5 -1347.5Q1379 -1379 1340 -1379Q1307 -1379 1289.5 -1353.5Q1272 -1328 1272 -1203V-447Q1272 -306 1283.5 -273.0Q1295 -240 1337 -240Q1380 -240 1392.0 -278.0Q1404 -316 1404 -459Z M1982 -1619H2280Q2578 -1619 2683.5 -1596.0Q2789 -1573 2855.5 -1478.5Q2922 -1384 2922 -1177Q2922 -988 2875.0 -923.0Q2828 -858 2690 -845Q2815 -814 2858.0 -762.0Q2901 -710 2911.5 -666.5Q2922 -623 2922 -427V0H2531V-538Q2531 -668 2510.5 -699.0Q2490 -730 2403 -730V0H1982ZM2403 -1342V-982Q2474 -982 2502.5 -1001.5Q2531 -1021 2531 -1128V-1217Q2531 -1294 2503.5 -1318.0Q2476 -1342 2403 -1342Z M3085 -1619H3787V-1295H3506V-988H3769V-680H3506V-324H3815V0H3085Z M4876 -1619V0H4507L4288 -736V0H3936V-1619H4288L4524 -890V-1619Z M6344 -1619V0H5976V-1093L5829 0H5568L5413 -1068V0H5045V-1619H5590Q5614 -1473 5641 -1275L5699 -863L5795 -1619Z M6513 -1619H7215V-1295H6934V-988H7197V-680H6934V-324H7243V0H6513Z M8212 -1619V-1295H7962V0H7541V-1295H7292V-1619Z M9035 -1619 9276 0H8845L8824 -291H8673L8648 0H8212L8426 -1619ZM8812 -578Q8780 -853 8748 -1257Q8684 -793 8668 -578Z M9769 -1619V0H9348V-1619Z M10830 -1129H10439V-1249Q10439 -1333 10424.0 -1356.0Q10409 -1379 10374 -1379Q10336 -1379 10316.5 -1348.0Q10297 -1317 10297 -1254Q10297 -1173 10319 -1132Q10340 -1091 10438 -1033Q10719 -866 10792 -759Q10865 -652 10865 -414Q10865 -241 10824.5 -159.0Q10784 -77 10668.0 -21.5Q10552 34 10398 34Q10229 34 10109.5 -30.0Q9990 -94 9953.0 -193.0Q9916 -292 9916 -474V-580H10307V-383Q10307 -292 10323.5 -266.0Q10340 -240 10382 -240Q10424 -240 10444.5 -273.0Q10465 -306 10465 -371Q10465 -514 10426 -558Q10386 -602 10229 -705Q10072 -809 10021.0 -856.0Q9970 -903 9936.5 -986.0Q9903 -1069 9903 -1198Q9903 -1384 9950.5 -1470.0Q9998 -1556 10104.0 -1604.5Q10210 -1653 10360 -1653Q10524 -1653 10639.5 -1600.0Q10755 -1547 10792.5 -1466.5Q10830 -1386 10830 -1193Z'/%3E%3C/g%3E%3C/svg%3E\") no-repeat max(40px,calc(50% - 560px)) 17px/203px 46px}html.lm-novo:not(.lm-pronto) .secao-banners::after{content:'';display:block;height:115px}@media(max-width:767px){html.lm-novo:not(.lm-pronto) body::before{height:50px}html.lm-novo:not(.lm-pronto) #cabecalho::before{height:125px;background-position:72px 16px;background-size:150px 34px}html.lm-novo:not(.lm-pronto) .secao-banners::after{height:72px}}";
+  head.appendChild(casca); meus.push(casca); h.classList.add('lm-novo');
+
   var poe = function (tag, atributos) { var e = document.createElement(tag); for (var k in atributos) e.setAttribute(k, atributos[k]); head.appendChild(e); meus.push(e); return e; };
   var desliga = function (motivo) {   // visual antigo inteiro nesta visita: tira a classe, o CSS e o JS, e o loren.js, se chegar, não faz nada
     if (feito) return; feito = true; window.__lmDesliga = true;
-    h.classList.remove('lm-novo', 'lm-pronto', 'lm-carregando');
+    h.classList.remove('lm-novo', 'lm-pronto');
     meus.forEach(function (e) { if (e.parentNode) e.parentNode.removeChild(e); });
     aviso('lm_falha', motivo);
   };
-  var mostra = function () { if (!feito) h.classList.add('lm-pronto'); };   // rede de segurança: a página aparece no máximo 6 s depois de abrir
-  setTimeout(mostra, 6000);
-  document.addEventListener('DOMContentLoaded', function () { setTimeout(mostra, 3000); });
+  var mostra = function () { if (!feito && h.classList.contains('lm-novo')) h.classList.add('lm-pronto'); };   // rede de segurança: com o visual novo ligado, a página aparece no máximo 6 s depois (se o loren.js ainda não montou, o cabeçalho antigo segue à vista)
   poe('link', { rel: 'preconnect', href: 'https://cdn.jsdelivr.net', crossorigin: '' });
   poe('link', { rel: 'preload', as: 'script', crossorigin: 'anonymous', fetchpriority: 'high', href: BASE + 'loren.js' });   // o JS baixa junto com o CSS (sem isto o navegador o segura até o fim do HTML)
   var faltam = 0, pronto = function () {
     if (feito) return; clearTimeout(limite);
-    h.classList.add('lm-novo'); h.classList.remove('lm-carregando'); esconde.parentNode.removeChild(esconde);
+    setTimeout(mostra, 6000);
     var chegou = false, js = poe('script', { src: BASE + 'loren.js', crossorigin: 'anonymous', fetchpriority: 'high' });
     js.onload = function () { chegou = true; }; js.onerror = function () { desliga('js_erro'); };
     setTimeout(function () { if (!chegou) desliga('js_lento'); }, JS_MS);
     window.addEventListener('error', function (e) { if (!window.__lmMontou && /loren-metais-front/.test(e.filename || '')) desliga('js_excecao'); });   // o loren.js quebrou antes de montar
     var confere = function () { setTimeout(function () { if (!window.__lmMontou) desliga('js_nao_montou'); }, MONTA_MS); };
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', confere); else confere();
+    // CSS e JS da página e o modais: baixam agora, depois dos 2 CSS (antes saíam só depois do fim do HTML, pelo loren.js; pedidos junto com o loren.css, atrasavam o loren.css em ~1 s no celular lento).
+    // Só PRÉ-carrega: quem aplica o CSS e roda o JS é o loren.js, depois do ready do tema (CSS aplicado antes deixava os handlers de ready do tema 2 a 5 s mais lentos, medido em 09/11).
+    [{ product: 'produto', category: 'categoria' }[tipo], 'modais'].forEach(function (n) {
+      if (n) { poe('link', { rel: 'preload', as: 'style', href: BASE + n + '.css' }); poe('link', { rel: 'preload', as: 'script', href: BASE + n + '.js' }); }
+    });
   };
+  var tipo = ''; for (var s = document.scripts, i = s.length - 1; i >= 0 && !tipo; i--) { var m = /page: \{[^}]*type: '(\w+)'/.exec(s[i].text); if (m) tipo = m[1]; }   // o tipo da página vem do script de métricas do tema, no head
   var limite = setTimeout(function () { desliga('css_lento'); }, CSS_MS);
-  ['brand-tokens.css', 'loren.css', 'produto.css', 'categoria.css', 'paginas.css', 'modais.css'].forEach(function (a) {
+  ['brand-tokens.css', 'loren.css'].forEach(   // só o que decide o visual; o CSS e o JS da página (produto, categoria, modais) são pré-carregados em pronto() e o loren.js os aplica e espera antes de revelar
+  function (a) {
     faltam++; var l = poe('link', { rel: 'stylesheet', href: BASE + a });
     l.onload = function () { if (!--faltam) pronto(); }; l.onerror = function () { desliga('css_erro'); };
   });
@@ -76,13 +84,21 @@ O texto abaixo é uma cópia de `front/cabecalho-snippet.html`. Troque `COMMIT` 
 
 ## Como funciona
 
-1. **Nada é carregado antes de decidir.** O código não tem `<link>` nem `<script src>` escritos no HTML. Ele cria os elementos por JavaScript e, enquanto decide (no máximo `CSS_MS`), esconde a página (`html.lm-carregando`). Um `<link rel=stylesheet>` escrito no head bloqueia a pintura: com o jsDelivr travado a loja ficava em branco por minutos (medido no estudo de 05/11).
-2. **Caminho feliz.** Os 6 CSS (`brand-tokens`, `loren`, `produto`, `categoria`, `paginas`, `modais`) e o `loren.js` baixam em paralelo. Quando os 6 CSS chegam, entra `html.lm-novo` e entra o `loren.js`, que monta cabeçalho, vantagens e o resto e liga `html.lm-pronto`. Todo o CSS só vale dentro de `html.lm-novo` (inclusive os ícones), então CSS carregado sem a classe não muda nada.
-3. **Se o CSS não chegar em `CSS_MS` (5 s) ou der erro**: o código tira a classe, remove os `<link>` e a loja abre inteira no visual antigo, naquela visita. O `loren.js`, se chegar depois, vê `window.__lmDesliga` e não faz nada (foi isso que misturou os dois visuais na primeira versão do estudo).
-4. **Se o `loren.js` não chegar em `JS_MS` (4 s depois do CSS), der erro de rede, lançar exceção antes de montar, ou não montar em `MONTA_MS` (8 s) depois do fim do HTML**: o mesmo plano B (tira tudo, visual antigo).
-5. **Aviso.** Cada plano B empurra um evento no `dataLayer`: `lm_falha` com `lm_motivo` = `css_lento`, `css_erro`, `js_lento`, `js_erro`, `js_excecao` ou `js_nao_montou` (e `lm_ms`). Para contar no GA4 falta um acionador no GTM para esse evento (a cargo da Wednesday/Maestro).
-6. **Rede de segurança de exibição**: `html.lm-pronto` entra sozinho no máximo 6 s depois de abrir, ou 3 s depois do fim do HTML. O cabeçalho antigo só some do ar quando o novo existe (ou enquanto a página está escondida, com o espaço do novo reservado), então um JS que falhe em silêncio não deixa a loja sem logo, busca e carrinho.
-7. **Checkout e pagamento**: o código encerra na primeira linha. Nenhuma requisição ao jsDelivr (testado com `/checkout/...`).
+Regra do Eduardo (05/11): a visita normal **nunca** vê o visual antigo, nem por um instante. O visual antigo só aparece se o CDN falhar de verdade (plano B).
+
+1. **Casca síncrona.** O código liga `html.lm-novo` na hora (antes do `<body>`, sem esperar rede) e coloca no head um CSS pequeno (`casca`, inline, ~3 KB com a logo embutida): barra escura de 33 px (50 no celular), cabeçalho branco de 81 px (125 no celular) com a logo, o resto da página escondido (`visibility`, que não conta como salto) e o espaço das peças que o JS monta já reservado (vantagens, 115/72 px). A primeira pintura já é o visual novo, sem depender do jsDelivr. As alturas são as de `loren.css` (seção "carregamento sem quebra"); se mudarem lá, mude aqui.
+2. **Nada escrito no HTML.** Não há `<link>` nem `<script src>` no código do painel: um `<link rel=stylesheet>` no head bloqueia a pintura (jsDelivr travado = loja em branco por minutos, estudo de 05/11). Os arquivos são pedidos por JavaScript, em paralelo: `brand-tokens.css` e `loren.css` (os dois que decidem), `loren.js` (preload) e as fontes. O CSS e o JS da página (`produto`, `categoria`, `paginas`, `conta`, `modais`, só o que a página usa) o `loren.js` baixa e espera antes de revelar.
+3. **Caminho feliz.** Os dois CSS chegam, o `loren.js` entra, monta cabeçalho, vantagens e o resto e liga `html.lm-pronto`; a casca sai e a página revelada ocupa o mesmo lugar (sem salto). Todo o CSS só vale dentro de `html.lm-novo`, inclusive os ícones e a casca. O CSS e o JS da página (produto ou categoria, pelo `type` que o tema escreve no head) e o `modais` só são **pré-carregados** pelo código (`rel=preload`): o `loren.js` os aplica e roda depois do ready do tema. Aplicar o CSS antes deixava os handlers de ready do tema 2 a 5 s mais lentos (medido em 09/11, `dev/prints-rocky/pronto/`).
+4. **Plano B (CDN falhou).** Se os 2 CSS não chegam em `CSS_MS` (6 s) ou dão erro, ou o `loren.js` não chega em `JS_MS` (4 s depois do CSS), dá erro de rede, lança exceção antes de montar, ou não monta em `MONTA_MS` (8 s depois do fim do HTML): o código tira a classe, a casca, os `<link>` e o `<script>`, e a loja abre inteira no visual antigo naquela visita. O `loren.js`, se chegar depois, vê `window.__lmDesliga` e não faz nada (foi isso que misturou os dois visuais na 1ª versão do estudo).
+5. **Aviso.** Cada plano B empurra um evento no `dataLayer`: `lm_falha` com `lm_motivo` = `css_lento`, `css_erro`, `js_lento`, `js_erro`, `js_excecao` ou `js_nao_montou` (e `lm_ms`). Para contar no GA4 falta um acionador no GTM para esse evento.
+6. **Rede de segurança de exibição.** Depois que os 2 CSS chegam, `html.lm-pronto` entra sozinho 6 s depois se o `loren.js` ainda não revelou (nunca antes: testado com o CSS chegando 7,5 s após o início). O cabeçalho antigo só some do ar quando o novo existe, então um JS que falhe em silêncio não deixa a loja sem logo, busca e carrinho.
+7. **Checkout e pagamento.** O código encerra na primeira linha: nenhuma requisição ao jsDelivr, nenhuma classe (testado com `/checkout/...`).
+
+### Pior caso do desenho novo (anotado, ainda sem número da medição independente)
+
+- **Casca seguida do visual antigo.** Se o CSS não chegar em `CSS_MS`, a visita vê a casca nova (cabeçalho branco com logo, corpo vazio) por até 6 s e DEPOIS a loja antiga inteira. O Eduardo reprovou "antigo depois de novo" em visita normal; aqui só acontece com CDN lento ou fora, mas o limite de 6 s é o tempo em que a pessoa olha para a casca.
+- **Ideias para evitar, sem mudar nada antes do número da Wednesday:** (a) `CSS_MS` maior só para rede lenta (`navigator.connection.effectiveType` em `2g`/`3g`, `saveData` ou `deviceMemory` baixo): casca por mais tempo em vez de antigo; (b) `CSS_MS` crescente conforme o HTML demora (medir o início do código contra `performance.timing.responseStart`), porque o CSS disputa banda com os 250 KB do HTML; (c) mais CSS crítico inline (faixa de vantagens, rodapé), de modo que o visual novo fique usável mesmo sem o `loren.css`; custa tamanho do campo (hoje ~11,6 KB no total); (d) `.min.css` do jsDelivr (CSS 36,7 para 24,7 KB em brotli) para o CSS chegar mais cedo; (e) em falha de CSS, nunca voltar ao antigo e sim a uma casca estática com links para as categorias (decisão de produto).
+- **Calibragem do `CSS_MS`:** só com número de campo (`lm_falha` no GA4) ou da medição da Wednesday (celular lento, rede boa, 2ª página com cache). O estudo viu 2,5 s disparar sob carga; a verificação viu 1 de 5 passadas passar de 5 s no início com o HTML chegando em pedaços.
 
 ## Ligar para parte das visitas
 
@@ -111,6 +127,7 @@ Medido (rede 1,6 Mbps, 05/11, `dev/teste-carregador.mjs`, sem o kit FontAwesome)
 
 ## Limites conhecidos
 
-- O LCP no celular não chega a 2,5 s sem controlar o HTML do tema (a página só aparece quando o JS monta; estudo de 05/11). Não perseguido.
+- **Teto da Loja Integrada:** o HTML do tema trava em scripts síncronos (kit FontAwesome, GTM, Clarity) e o conteúdo novo completo só aparece quando o `loren.js` monta no ready do tema (DCL de ~5 a 7 s no celular lento). A casca melhora o primeiro quadro, não o LCP; o LCP no celular não chega a 2,5 s sem controlar o HTML do tema.
+- **Tamanho do campo do painel:** não consta nos documentos; o código tem ~11,6 KB (a logo embutida pesa 3 KB; sem ela ~8,6 KB). Confirmar com o Eduardo antes de colar.
 - Se o `loren.js` montar parte do cabeçalho e depois falhar, o plano B pode deixar peças soltas na página; o caso comum (JS que nem chega ou quebra ao carregar) é tratado.
-- O primeiro CSS leva ~1,1 a 1,8 s para chegar na rede de teste (5 passadas, 1,6 Mbps, 150 ms, CPU 4x); `CSS_MS = 5000` dá quase 3 vezes o pior caso medido. A 2,5 s o limite disparou sob carga e misturou os visuais no estudo; por isso 5 s e o `loren.js` desligado quando o plano B já valeu.
+- A casca imita o cabeçalho com uma imagem (logo) e um fundo; o JS depois troca pelo cabeçalho real na mesma altura. Se a altura do cabeçalho mudar em `loren.css`, a casca precisa mudar junto.
