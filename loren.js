@@ -94,8 +94,8 @@
       pag.querySelectorAll('.gateways-rodape img').forEach((img) => tem.push(/boleto/.test(img.className) ? 'boleto' : /pix/.test(img.className) ? 'pix' : /mercadopago/.test(img.className) ? 'mercadopago' : ''));
       const lista = [...new Set(tem.filter(Boolean))];
       ul.classList.add('lm-pag');
-      const comNome = { pix: 1, mercadopago: 1 };   // símbolo sozinho difícil de reconhecer (Maestro 09/11): o nome vai ao lado
-      ul.innerHTML = lista.map((n) => `<li${comNome[n] && svg[n] ? ' class="lm-pag__com-nome"' : ''}>${svg[n] ? (comNome[n] ? `<span class="lm-pag__logo" style="--lm-pag-svg: url(${BASE}pagamento/${svg[n]}.svg)" aria-hidden="true"></span><span class="lm-pag__nome">${nomes[n]}</span>` : `<span class="lm-pag__logo" style="--lm-pag-svg: url(${BASE}pagamento/${svg[n]}.svg)" role="img" aria-label="${nomes[n] || n}"></span>`) : `<span class="lm-pag__texto">${nomes[n] || n}</span>`}</li>`).join('');
+      // cada meio num selo do mesmo tamanho (Eduardo 09/11: padronizar; Pix e Mercado Pago só com o símbolo)
+      ul.innerHTML = lista.map((n) => `<li title="${nomes[n] || n}">${svg[n] ? `<span class="lm-pag__logo" style="--lm-pag-svg: url(${BASE}pagamento/${svg[n]}.svg)" role="img" aria-label="${nomes[n] || n}"></span>` : `<span class="lm-pag__texto">${nomes[n] || n}</span>`}</li>`).join('');
       pag.querySelector('.gateways-rodape')?.remove();
     }
     const selos = document.querySelector('#rodape .selos > ul'); if (selos) selos.innerHTML = `<li>${window.lmSelo('ssl')}</li><li>${window.lmSelo('google')}</li>`;  // os PNGs da LI saem; o link do Google ia para uma URL antiga

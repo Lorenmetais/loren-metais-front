@@ -94,17 +94,17 @@ html.lm-novo #rodape .pagamento-selos ul { margin: 0; padding: 0; list-style: no
 html.lm-novo #rodape .bandeiras-pagamento, html.lm-novo #rodape .selos > ul { display: flex; flex-wrap: wrap; align-items: center; gap: var(--lm-esp-1); }
 html.lm-novo #rodape .bandeiras-pagamento li, html.lm-novo #rodape .selos li { float: none; margin: 0; }
 html.lm-novo #rodape .bandeiras-pagamento i { display: block; }
-/* Pague com: logos brancos da mesma altura, sem caixas (o loren.js monta a lista .lm-pag; SVG em front/pagamento, Simple Icons CC0, como máscara na cor do texto) */
-html.lm-novo #rodape .bandeiras-pagamento.lm-pag { gap: var(--lm-esp-2); }
-html.lm-novo #rodape .lm-pag__logo { display: block; width: 36px; height: 36px; background: var(--lm-branco); -webkit-mask: var(--lm-pag-svg) center / contain no-repeat; mask: var(--lm-pag-svg) center / contain no-repeat; }
-/* o nome ao lado do Pix e do Mercado Pago no mesmo estilo do "elo" em texto (Maestro 09/11); classe no li em vez de :has() */
-html.lm-novo #rodape :is(.lm-pag__texto, .lm-pag__nome) { display: flex; align-items: center; height: 36px; color: var(--lm-branco); font: 700 18px/1 var(--lm-fonte-texto); letter-spacing: .02em; text-transform: lowercase; white-space: nowrap; }
-html.lm-novo #rodape .lm-pag li.lm-pag__com-nome { display: flex; align-items: center; gap: 6px; }
-@media (max-width: 767px) {   /* os 8 numa linha só no celular (358 px úteis a 390): ícones de 24, nomes em 14 */
+/* Pague com: o loren.js monta a lista .lm-pag; SVG em front/pagamento (Simple Icons CC0) como máscara branca, cada um num selo do mesmo tamanho */
+html.lm-novo #rodape .bandeiras-pagamento.lm-pag { gap: 8px; }
+/* cada meio num selo de 48 x 32 com contorno discreto: o tamanho visual fica igual, seja o logo largo (Visa), quadrado (Amex) ou redondo (Diners) */
+html.lm-novo #rodape .lm-pag li { display: flex; align-items: center; justify-content: center; width: 48px; height: 32px; border: 1px solid rgb(255 255 255 / 0.22); border-radius: 4px; }
+html.lm-novo #rodape .lm-pag__logo { display: block; width: 32px; height: 20px; background: var(--lm-branco); -webkit-mask: var(--lm-pag-svg) center / contain no-repeat; mask: var(--lm-pag-svg) center / contain no-repeat; }
+html.lm-novo #rodape .lm-pag__texto { color: var(--lm-branco); font: 700 14px/1 var(--lm-fonte-texto); letter-spacing: .02em; text-transform: lowercase; white-space: nowrap; }
+@media (max-width: 767px) {
   html.lm-novo #rodape .bandeiras-pagamento.lm-pag { gap: 4px; }
-  html.lm-novo #rodape .lm-pag__logo { width: 24px; height: 24px; }
-  html.lm-novo #rodape :is(.lm-pag__texto, .lm-pag__nome) { height: 24px; font-size: 14px; }
-  html.lm-novo #rodape .lm-pag li.lm-pag__com-nome { gap: 4px; }
+  html.lm-novo #rodape .lm-pag li { width: 40px; height: 28px; }
+  html.lm-novo #rodape .lm-pag__logo { width: 28px; height: 18px; }
+  html.lm-novo #rodape .lm-pag__texto { font-size: 12px; }
 }
 /* selo de segurança .lm-selo (window.lmSelo no loren.js; Eduardo 09/11): ícone SVG no azul da marca + 2 linhas, contorno discreto, mesma altura. Claro por padrão (carrinho); escuro no rodapé */
 html.lm-novo .lm-selo { box-sizing: border-box; display: inline-flex; align-items: center; gap: var(--lm-esp-1); min-height: var(--lm-campo-altura); padding: var(--lm-esp-1) var(--lm-esp-2) var(--lm-esp-1) 12px; border: var(--lm-borda-padrao); background: none; color: var(--lm-grafite) !important; text-decoration: none !important; text-align: left; line-height: 1.15; }
