@@ -43,7 +43,8 @@
       dlg.querySelector('.lm-zoom__fechar').addEventListener('click', () => dlg.close());
       dlg.querySelector('.lm-seta--ant')?.addEventListener('click', () => passa(-1));
       dlg.querySelector('.lm-seta--prox')?.addEventListener('click', () => passa(1));
-      dlg.addEventListener('keydown', (e) => { if (e.key === 'ArrowLeft') passa(-1); if (e.key === 'ArrowRight') passa(1); });
+      // preventDefault: a seta também rola o trilho (scroll-snap) e a foto pulava duas
+      dlg.addEventListener('keydown', (e) => { const d = { ArrowLeft: -1, ArrowRight: 1 }[e.key]; if (d) { e.preventDefault(); passa(d); } });
       // clique fora da foto fecha (a <img> ocupa o quadro todo com contain: a margem branca em volta da foto também é "fora")
       tz.addEventListener('click', (e) => {
         const im = e.target; if (im.tagName !== 'IMG' || !im.naturalWidth) { dlg.close(); return; }

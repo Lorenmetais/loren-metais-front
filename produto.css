@@ -164,6 +164,11 @@ html.lm-novo .pagina-produto .principal .cep { margin: 0 !important; padding: 0 
 html.lm-novo .pagina-produto .principal #formCalcularCep { max-width: none; width: 100%; }  /* na largura da caixa (a base limita a 360 e estourava em telas de 360) */
 html.lm-novo .pagina-produto .principal #formCalcularCep :is(.form-inline, .input-append) { display: block; width: 100%; margin: 0; }
 html.lm-novo .pagina-produto .principal #formCalcularCep .input-cep { width: 100% !important; min-width: 0; box-sizing: border-box; }
+/* tablet: a caixa tem ~215 px por dentro; com o botão dentro do campo sobravam 55 px para o CEP e o toque no meio caía no botão. Botão embaixo */
+@media (min-width: 768px) and (max-width: 1023px) {
+  html.lm-novo .pagina-produto .principal #formCalcularCep .input-cep { padding-right: 24px !important; }
+  html.lm-novo .pagina-produto .principal #formCalcularCep button.btn { position: static !important; display: block !important; width: 100% !important; height: 48px !important; margin-top: var(--lm-esp-1) !important; }
+}
 html.lm-novo .pagina-produto .principal .cep:not(:has(*)) { display: none !important; }  /* .cep vazia não soma espaço */
 html.lm-novo .pagina-produto .acoes-flutuante { display: none !important; }  /* balão de compra que aparecia ao rolar (tema) */
 /* resultado do frete: uma linha por opção (nome e prazo à esquerda, valor à direita) */
