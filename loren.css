@@ -170,7 +170,8 @@ html.lm-novo .full.menu .nivel-um > li:not(:has(a[href]:not([href=""]):not([href
 /* tablet: com vão de 32 as entradas só cabem a partir de ~860 px; abaixo disso o vão encolhe (24 e 16) em vez de quebrar em 2 linhas */
 @media (max-width: 899px) { html.lm-novo .full.menu .nivel-um { gap: 24px; } }
 @media (max-width: 799px) { html.lm-novo .full.menu .nivel-um { gap: 16px; } }
-html.lm-novo #cabecalho .full.menu .nivel-um > li.lm-menu-obras > a, html.lm-novo #cabecalho .full.menu .nivel-um > li.lm-menu-obras > a > strong.titulo { color: var(--lm-onda-escura) !important; font: 600 15px/1 var(--lm-fonte-texto) !important; }
+html.lm-novo #cabecalho .full.menu .nivel-um > li.lm-menu-obras > a, html.lm-novo #cabecalho .full.menu .nivel-um > li.lm-menu-obras > a > strong.titulo { color: var(--lm-grafite) !important; font: 600 15px/1 var(--lm-fonte-texto) !important; }  /* mesma cor dos outros itens: em azul parecia selecionado (Eduardo 09/11) */
+html.lm-novo #cabecalho .full.menu .nivel-um > li.lm-menu-obras:hover > a { color: var(--lm-onda-escura) !important; }  /* no hover, azul como os outros */
 /* submenus (nível 2 e 3): lista em coluna única, fundo branco, borda fina, itens com 8 / 24 de respiro. O produto em destaque do tema
    (.mega-recebe) sai: a grade .listagem daqui o espremia numa coluna de 20 px e o submenu abria com 1.600 px de altura */
 html.lm-novo .full.menu .nivel-dois { width: max-content !important; min-width: 240px; max-width: 360px; margin: 0 !important; padding: 16px 0 !important; z-index: 20; }
