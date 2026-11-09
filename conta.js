@@ -3,8 +3,8 @@
 // e as abas, que repetem parte dele, saem. Login e cadastro são do paginas.*.
 (() => {
   const b = document.body;
-  if (!/pagina-conta|pagina-pedido|pagina-favorito/.test(b.className) || b.classList.contains('lm-conta') || document.querySelector('.pedido-finalizado')) return;  // a confirmação de compra (Pix, boleto) fica como o tema entrega
-  b.classList.add('lm-conta');
+  if (!/pagina-conta|pagina-pedido|pagina-favorito/.test(b.className) || b.dataset.lmConta || document.querySelector('.pedido-finalizado')) return;  // a confirmação de compra (Pix, boleto) fica como o tema entrega
+  b.dataset.lmConta = '1'; b.classList.add('lm-conta');  // a classe pode já vir do loren.js, antes de a página aparecer
 
   // menu: marca a página atual (o tema não marca; pedido e endereço contam como a seção deles)
   const caminho = location.pathname;
@@ -19,9 +19,6 @@
   // endereço: o tema deixa as ações soltas ao lado do formulário; ficam embaixo dele, na mesma coluna
   const acoes = document.querySelector('#corpo .secao-principal > .acao-editar');
   if (acoes?.previousElementSibling?.matches('.cadastro')) acoes.previousElementSibling.append(acoes);
-
-  // tabela larga rola sozinha no celular, sem levar a página junto
-  document.querySelectorAll('#corpo .abas-conteudo table').forEach((t) => { const w = document.createElement('div'); w.className = 'lm-conta-tab'; t.before(w); w.append(t); });
 
   // itens do pedido: no celular a tabela empilha e o título da coluna acompanha cada valor
   document.querySelectorAll('#corpo .table-pedido-item').forEach((t) => {

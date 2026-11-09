@@ -60,38 +60,51 @@ html.lm-novo .lm-conta .buscar-pedidos { display: flex !important; flex-wrap: wr
 html.lm-novo .lm-conta .buscar-pedidos > [class*="span"] { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--lm-esp-2); width: auto !important; margin: 0 !important; float: none !important; }
 html.lm-novo .lm-conta .buscar-pedidos label { margin: 0 !important; font: 600 14px/1.3 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
 html.lm-novo .lm-conta .buscar-pedidos label span { display: block; margin: 0 0 var(--lm-esp-1); }
-html.lm-novo .lm-conta .buscar-pedidos .lm-campo { width: 144px !important; float: none !important; }
+html.lm-novo .lm-conta #corpo .secao-principal .buscar-pedidos :is(input:not([type=hidden], [type=checkbox], [type=radio], [type=submit], [type=button]), select, textarea) { width: 144px !important; float: none !important; }
 html.lm-novo .lm-conta .buscar-pedidos .botao { margin: 0 !important; }
 
 /* tabelas (pedidos e itens do pedido) */
-html.lm-novo .lm-conta .abas-conteudo .caixa-sombreada { margin: 0 !important; padding: 0 !important; border: 0 !important; background: none !important; box-shadow: none !important; }
-html.lm-novo .lm-conta .lm-conta-tab { overflow-x: auto; }
-html.lm-novo .lm-conta .lm-conta-tab table { width: 100%; margin: 0 !important; border: 0 !important; border-collapse: collapse; background: #fff; font: 400 15px/1.5 var(--lm-fonte-texto); color: var(--lm-grafite); }
-html.lm-novo .lm-conta .lm-conta-tab :is(th, td) { width: auto !important; padding: var(--lm-esp-1) var(--lm-esp-2) !important; border: 0 !important; border-bottom: var(--lm-borda-padrao) !important; background: none !important; text-align: left !important; vertical-align: middle !important; }
-html.lm-novo .lm-conta .lm-conta-tab :is(th, th *) { margin: 0 !important; font: 600 13px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; text-transform: none !important; }
-html.lm-novo .lm-conta .lm-conta-tab td a { color: var(--lm-botao) !important; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
-html.lm-novo .lm-conta .lm-conta-tab td strong { color: var(--lm-grafite) !important; }
-html.lm-novo .lm-conta .lm-conta-tab .produto-info ul { list-style: none; margin: var(--lm-esp-1) 0 0 !important; padding: 0 !important; }
+html.lm-novo .lm-conta .abas-conteudo .caixa-sombreada { overflow-x: auto; margin: 0 !important; padding: 0 !important; border: 0 !important; background: none !important; box-shadow: none !important; }
+html.lm-novo .lm-conta .abas-conteudo table { width: 100%; margin: 0 !important; border: 0 !important; border-collapse: collapse; background: #fff; font: 400 15px/1.5 var(--lm-fonte-texto); color: var(--lm-grafite); }
+html.lm-novo .lm-conta .abas-conteudo :is(th, td) { width: auto !important; padding: var(--lm-esp-1) var(--lm-esp-2) !important; border: 0 !important; border-bottom: var(--lm-borda-padrao) !important; background: none !important; text-align: left !important; vertical-align: middle !important; }
+html.lm-novo .lm-conta .abas-conteudo :is(th, th *) { margin: 0 !important; font: 600 13px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; text-transform: none !important; }
+html.lm-novo .lm-conta .abas-conteudo td a { color: var(--lm-botao) !important; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+html.lm-novo .lm-conta .abas-conteudo td strong { color: var(--lm-grafite) !important; }
+html.lm-novo .lm-conta .abas-conteudo .produto-info ul { list-style: none; margin: var(--lm-esp-1) 0 0 !important; padding: 0 !important; }
 /* itens do pedido: valores à direita e os totais sem linha entre si */
-html.lm-novo .lm-conta .lm-conta-tab .table-pedido-item :is(th, td):last-child { text-align: right !important; }
-html.lm-novo .lm-conta .lm-conta-tab .table-pedido-item tr:has(.subtotal, .total) td { padding-block: 4px !important; border-bottom: 0 !important; }
-html.lm-novo .lm-conta .lm-conta-tab .table-pedido-item .total strong { margin: 0 !important; padding: 0 !important; font: 700 var(--lm-h3)/1.1 var(--lm-fonte-titulo) !important; }
-html.lm-novo .lm-conta .lm-conta-tab .tabela-pedidos td:last-child { white-space: nowrap; }
+html.lm-novo .lm-conta .abas-conteudo .table-pedido-item :is(th, td):last-child { text-align: right !important; }
+html.lm-novo .lm-conta .abas-conteudo .table-pedido-item tr:has(.subtotal, .total) td { padding-block: 4px !important; border-bottom: 0 !important; }
+html.lm-novo .lm-conta .abas-conteudo .table-pedido-item .total strong { margin: 0 !important; padding: 0 !important; font: 700 var(--lm-h3)/1.1 var(--lm-fonte-titulo) !important; }
+html.lm-novo .lm-conta .abas-conteudo .tabela-pedidos td:last-child { white-space: nowrap; }
 html.lm-novo .lm-conta .text-error { color: var(--lm-erro) !important; }
 
 /* formulários (dados, endereço, senha, filtros): rótulo em cima, campo padrão */
 html.lm-novo .lm-conta .cadastro legend { margin-bottom: var(--lm-esp-3) !important; font: 700 var(--lm-h3)/1.1 var(--lm-fonte-titulo) !important; }
-html.lm-novo .lm-conta .cadastro .row-fluid::before, html.lm-novo .lm-conta .cadastro .row-fluid::after { display: none !important; }
-html.lm-novo .lm-conta .cadastro .row-fluid > [class*="span"] { width: auto !important; margin: 0 !important; float: none !important; }
+html.lm-novo .lm-conta :is(.cadastro .row-fluid, .secao-principal > .acao-editar)::before, html.lm-novo .lm-conta :is(.cadastro .row-fluid, .secao-principal > .acao-editar)::after { display: none !important; }
+html.lm-novo .lm-conta :is(.cadastro .row-fluid, .cadastro > form, .secao-principal > .acao-editar) > [class*="span"] { width: auto !important; margin: 0 !important; float: none !important; }
 html.lm-novo .lm-conta .cadastro .cabecalho-interno { margin: 0 !important; padding: 0 !important; border: 0 !important; background: none !important; }
 html.lm-novo .lm-conta form:not(.buscar-pedidos) .control-group { margin: 0 0 var(--lm-esp-2) !important; }
 html.lm-novo .lm-conta form:not(.buscar-pedidos) .control-label { float: none !important; display: block; width: auto !important; margin: 0 0 var(--lm-esp-1) !important; padding: 0 !important; text-align: left !important; font: 600 14px/1.3 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
 html.lm-novo .lm-conta form:not(.buscar-pedidos) .controls { margin: 0 !important; }
-html.lm-novo .lm-conta form:not(.buscar-pedidos) .lm-campo { display: block; width: 100% !important; max-width: 480px; float: none !important; }
+/* a altura dos campos não espera o conta.js: a página não salta quando .lm-campo entra (mesmos valores da base) */
+html.lm-novo .lm-conta #corpo .secao-principal form :is(input:not([type=hidden], [type=checkbox], [type=radio], [type=submit], [type=button]), select, textarea) { box-sizing: border-box !important; height: var(--lm-campo-altura) !important; min-height: 0 !important; margin: 0 !important; }
+html.lm-novo .lm-conta #corpo .secao-principal form:not(.buscar-pedidos) :is(input:not([type=hidden], [type=checkbox], [type=radio], [type=submit], [type=button]), select, textarea) { display: block; width: 100% !important; max-width: 480px; float: none !important; }
 html.lm-novo .lm-conta form .lm-campo[disabled], html.lm-novo .lm-conta form .lm-campo[readonly] { color: var(--lm-texto-secundario) !important; cursor: not-allowed; }
 html.lm-novo .lm-conta form :is(.help-block, .help-inline) { display: block; padding: 0 !important; margin: var(--lm-esp-1) 0 0 !important; font: 400 13px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; }
-html.lm-novo .lm-conta form .form-actions, html.lm-novo .lm-conta .cadastro .acao-editar, html.lm-novo .lm-conta .cadastro .acao-editar > [class*="span"] { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: var(--lm-esp-1); margin: var(--lm-esp-3) 0 0 !important; padding: 0 !important; border: 0 !important; background: none !important; }
+html.lm-novo .lm-conta form .form-actions, html.lm-novo .lm-conta :is(.cadastro, .secao-principal) .acao-editar:is(.cadastro *, .secao-principal > *), html.lm-novo .lm-conta :is(.cadastro .acao-editar, .secao-principal > .acao-editar) > [class*="span"] { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: var(--lm-esp-1); margin: var(--lm-esp-3) 0 0 !important; padding: 0 !important; border: 0 !important; background: none !important; }
 html.lm-novo .lm-conta form .botao { float: none !important; margin: 0 !important; }
+/* novo endereço: o tema deixa as ações soltas, fora do formulário. Margem negativa = o vão da grade menos o espaço que elas têm depois de ir para a coluna */
+html.lm-novo .lm-conta #corpo .secao-principal > .acao-editar { margin-top: calc(-1 * var(--lm-esp-4)) !important; }
+@media (min-width: 1024px) { html.lm-novo .lm-conta #corpo .secao-principal > .acao-editar { grid-column: 2; } }
+/* formulários (editar, senha, novo endereço): o cartão é quem tem as ações como filho (o <form>, ou o .cadastro no endereço,
+   depois do conta.js), com os campos e os botões dentro, à esquerda; a caixa de dentro perde o cartão. No endereço o botão
+   continua fora do <form> (o tema envia por JS; dentro do form o <button> também enviaria sozinho: endereço em dobro) */
+html.lm-novo .lm-conta #corpo :is(.cadastro, .cadastro form):has(> .acao-editar) { margin: 0 !important; padding: var(--lm-esp-4) !important; border: var(--lm-cartao-borda) !important; background: #fff !important; box-sizing: border-box; }
+html.lm-novo .lm-conta #corpo :is(.cadastro, .cadastro form):has(> .acao-editar) :is(.caixa-sombreada, .caixa-dados) { margin: 0 !important; padding: 0 !important; border: 0 !important; background: none !important; box-shadow: none !important; }
+html.lm-novo .lm-conta #corpo :is(.cadastro, .cadastro form):has(> .acao-editar) > .acao-editar { justify-content: flex-start; margin: var(--lm-esp-1) 0 0 !important; }  /* 16 do último campo + 8 = 24 */
+html.lm-novo .lm-conta #corpo :is(.cadastro, .cadastro form):has(> .acao-editar) > .acao-editar > [class*="span"] { justify-content: flex-start; margin: 0 !important; }
+html.lm-novo .lm-conta #corpo .cadastro:has(> .acao-editar) > form { margin: 0 !important; }  /* endereço: sem os 20 px do form do Bootstrap */
+html.lm-novo .lm-conta #corpo form .caixa-dados .row-fluid:has(> .control-group) { row-gap: 0; }  /* senha: entre campos só os 16 do campo, como nos outros formulários */
 
 /* lista de desejos vazia */
 html.lm-novo .lm-conta .caixa-destaque { margin: 0 !important; padding: var(--lm-esp-6) var(--lm-esp-3) !important; border: 0 !important; background: none !important; box-shadow: none !important; text-align: center; }
@@ -106,6 +119,7 @@ html.lm-novo .lm-conta #corpo .alert .close:hover { opacity: 1; }
 html.lm-novo .lm-conta .alert-danger { color: var(--lm-erro) !important; }
 
 @media (max-width: 1023px) {
+  html.lm-novo .lm-conta #corpo .secao-principal > .acao-editar { margin-top: calc(-1 * var(--lm-esp-1)) !important; }
   /* menu em chips roláveis, em cima do conteúdo */
   html.lm-novo .lm-conta #corpo .secao-principal:has(> .coluna) { grid-template-columns: minmax(0, 1fr); gap: var(--lm-esp-2); }
   html.lm-novo .lm-conta .conta-menu { padding: 0 !important; border: 0 !important; }
@@ -119,15 +133,16 @@ html.lm-novo .lm-conta .alert-danger { color: var(--lm-erro) !important; }
 @media (max-width: 767px) {
   html.lm-novo .lm-conta #corpo .secao-principal { margin: var(--lm-esp-2) 0 var(--lm-sec) !important; }
   html.lm-novo .lm-conta .caixa-dados, html.lm-novo .lm-conta .cadastro > form:not(:has(.caixa-sombreada, .caixa-dados)), html.lm-novo .lm-conta .cadastro .caixa-sombreada { margin-bottom: var(--lm-esp-2) !important; padding: var(--lm-esp-2) !important; }
-  html.lm-novo .lm-conta .acao-editar .botao, html.lm-novo .lm-conta form .botao, html.lm-novo .lm-conta .cadastro .acao-editar > [class*="span"] { flex: 1 1 100%; width: 100% !important; }
-  html.lm-novo .lm-conta .buscar-pedidos .lm-campo { width: 100% !important; }
+  html.lm-novo .lm-conta #corpo :is(.cadastro, .cadastro form):has(> .acao-editar) { padding: var(--lm-esp-2) !important; }
+  html.lm-novo .lm-conta .acao-editar .botao, html.lm-novo .lm-conta form .botao, html.lm-novo .lm-conta :is(.cadastro .acao-editar, .secao-principal > .acao-editar) > [class*="span"] { flex: 1 1 100%; width: 100% !important; }
+  html.lm-novo .lm-conta #corpo .secao-principal .buscar-pedidos :is(input:not([type=hidden], [type=checkbox], [type=radio], [type=submit], [type=button]), select, textarea) { width: 100% !important; }
   /* itens do pedido empilhados: cada valor com o título da coluna (conta.js) e os totais sem as células vazias */
-  html.lm-novo .lm-conta .lm-conta-tab .table-pedido-item thead { display: none; }
-  html.lm-novo .lm-conta .lm-conta-tab .table-pedido-item :is(tbody, tr, td) { display: block; width: auto !important; }
-  html.lm-novo .lm-conta .lm-conta-tab .table-pedido-item :is(th, td) { padding-inline: 0 !important; }
-  html.lm-novo .lm-conta .lm-conta-tab .table-pedido-item td[data-rotulo] { display: flex; justify-content: space-between; gap: var(--lm-esp-2); }
-  html.lm-novo .lm-conta .lm-conta-tab .table-pedido-item td[data-rotulo]::before { content: attr(data-rotulo); color: var(--lm-texto-secundario); }
-  html.lm-novo .lm-conta .lm-conta-tab .table-pedido-item tr:has(.subtotal, .total) td:not(.subtotal, .total) { display: none !important; }
-  html.lm-novo .lm-conta .lm-conta-tab .table-pedido-item tr:has(.subtotal, .total) { margin: 0 !important; padding: 0 !important; }
+  html.lm-novo .lm-conta .abas-conteudo .table-pedido-item thead { display: none; }
+  html.lm-novo .lm-conta .abas-conteudo .table-pedido-item :is(tbody, tr, td) { display: block; width: auto !important; }
+  html.lm-novo .lm-conta .abas-conteudo .table-pedido-item :is(th, td) { padding-inline: 0 !important; }
+  html.lm-novo .lm-conta .abas-conteudo .table-pedido-item td[data-rotulo] { display: flex; justify-content: space-between; gap: var(--lm-esp-2); }
+  html.lm-novo .lm-conta .abas-conteudo .table-pedido-item td[data-rotulo]::before { content: attr(data-rotulo); color: var(--lm-texto-secundario); }
+  html.lm-novo .lm-conta .abas-conteudo .table-pedido-item tr:has(.subtotal, .total) td:not(.subtotal, .total) { display: none !important; }
+  html.lm-novo .lm-conta .abas-conteudo .table-pedido-item tr:has(.subtotal, .total) { margin: 0 !important; padding: 0 !important; }
   html.lm-novo .lm-conta .buscar-pedidos > [class*="span"], html.lm-novo .lm-conta .buscar-pedidos label { flex: 1 1 100%; width: 100% !important; }
 }
