@@ -56,6 +56,14 @@
     corpo.querySelectorAll('.cabecalho-interno, .box-destaque').forEach((e) => { if (!temTexto(e)) e.classList.add('lm-vazio-cab'); });  // caixas do tema que ficaram vazias
     return cab;
   };
+  // Selo de segurança (Eduardo 09/11: os PNGs da LI no rodapé estavam borrados): ícone em SVG no azul da marca + 2 linhas de texto, estilo .lm-selo no loren.css
+  // (claro por padrão; escuro dentro do #rodape). window.lmSelo('ssl' | 'google') devolve o HTML; o carrinho (paginas.js) usa o mesmo.
+  window.lmSelo = (tipo) => {
+    const svg = (d) => `<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+    return tipo === 'google'
+      ? `<a class="lm-selo" href="https://transparencyreport.google.com/safe-browsing/search?url=www.lorenmetais.com.br" target="_blank" rel="noopener noreferrer">${svg('<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="m9 12 2 2 4-4"/>')}<span><small>Verificado pelo</small><b>Google Safe Browsing</b></span></a>`
+      : `<span class="lm-selo">${svg('<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/><path d="M12 15v2"/>')}<span><small>Site seguro</small><b>Certificado SSL</b></span></span>`;
+  };
   // um par de arquivos por tipo de página (cada agente mexe no seu): categoria.* (categoria e busca), produto.*
   const pagina = () => { const c = document.body.className; return /pagina-categoria|pagina-busca|pagina-marca/.test(c) ? 'categoria' : /pagina-produto/.test(c) ? 'produto' : /pagina-inicial/.test(c) ? '' : /pagina-conta|pagina-pedido|pagina-favorito/.test(c) ? 'conta' : 'paginas'; };  // paginas.*: institucionais, carrinho, conta (Marty)
   // modais.* (formulários em janela, como o Pedir orçamento) vale em toda página
@@ -68,8 +76,15 @@
 
   const monta = () => {
     if (document.body.dataset.lm) return; document.body.dataset.lm = '1';
+    // newsletter (rodapé, coluna, janela): o tema enviava vazio, "abc" e "abc@x" sem aviso (Wednesday 09/11). Antes do tema (fase de captura), e-mail inválido não sai e o navegador mostra o aviso
+    const emailOk = (v) => /^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(v.trim());
+    document.querySelectorAll('.newsletter-cadastro input[name="email"]').forEach((i) => { i.type = 'email'; i.autocomplete = 'email'; i.addEventListener('input', () => i.setCustomValidity('')); });
+    const barra = (e, i) => { if (!i || emailOk(i.value)) return; e.preventDefault(); e.stopImmediatePropagation(); i.setCustomValidity(i.value.trim() ? 'Confira o e-mail, por exemplo: nome@empresa.com.br' : 'Digite o seu e-mail'); i.reportValidity(); };
+    document.addEventListener('click', (e) => { const b = e.target.closest('.newsletter-assinar'); if (b) barra(e, b.parentElement.querySelector('input[name="email"]')); }, true);
+    document.addEventListener('keydown', (e) => { if (e.key === 'Enter' && e.target.matches?.('.newsletter-cadastro input[name="email"]')) barra(e, e.target); }, true);
     if (/pagina-conta|pagina-pedido|pagina-favorito/.test(document.body.className) && !document.querySelector('.pedido-finalizado')) document.body.classList.add('lm-conta');  // o layout da área logada depende desta classe: entra antes de a página aparecer (o conta.js aceita que ela já exista)
     document.querySelectorAll('#cabecalho .logo img').forEach((img) => { img.src = LOGO; img.removeAttribute('srcset'); });
+    const selos = document.querySelector('#rodape .selos > ul'); if (selos) selos.innerHTML = `<li>${window.lmSelo('ssl')}</li><li>${window.lmSelo('google')}</li>`;  // os PNGs da LI saem; o link do Google ia para uma URL antiga
     // cartão "Preço sob consulta": o botão aparece como CONSULTAR (loren.css); o leitor de tela também ouve isso, e não o "Adicionar" do tema
     document.querySelectorAll('.listagem-item:has(.preco-produto > .titulo) .acoes-produto .botao-comprar').forEach((b) => b.setAttribute('aria-label', 'Consultar ' + (b.closest('.listagem-item').querySelector('.nome-produto')?.textContent.trim() || '')));
     // cabeçalho nosso (Eduardo 04/11: o do tema "doido e horrível"): logo | busca da loja | conta, orçamento, carrinho.
@@ -88,6 +103,8 @@
           <a href="/carrinho/index" class="lm-topo__carrinho">${i('<path d="M3 4h2l2.4 11h10.2L20 7H6.2"/><circle cx="9" cy="20" r="1.4"/><circle cx="17" cy="20" r="1.4"/>')}<span>Carrinho</span><b class="lm-topo__qtd">0</b></a>
         </nav></div></div>`);
       const topo = cab.querySelector('.lm-topo');
+      // o menu de categorias cola logo abaixo do topo (loren.css, --lm-topo-h): a altura real, que muda com a largura (81 no computador, 2 linhas no tablet; Wednesday 09/11: a 768 o menu ficava embaixo da busca)
+      if (window.ResizeObserver) new ResizeObserver(() => document.documentElement.style.setProperty('--lm-topo-h', topo.offsetHeight + 'px')).observe(topo);
       const form = document.querySelector('#form-buscar');
       if (form) { topo.querySelector('.lm-topo__busca').append(form); const q = form.querySelector('input'); if (q) q.placeholder = q.placeholder || 'Buscar'; }
       const menuCel = document.querySelector('#cabecalho .menu.superior.visible-phone'); if (menuCel) topo.append(menuCel);

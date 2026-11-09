@@ -186,6 +186,14 @@ html.lm-novo #corpo .lm-inst > div .lm-selos li { display: grid; place-items: ce
 html.lm-novo #corpo .lm-inst > div .lm-selos li::marker { content: none; }
 html.lm-novo #corpo .lm-inst > div .lm-selos img { width: auto !important; max-width: 80% !important; max-height: 36px !important; margin: 0 !important; }
 html.lm-novo #corpo .lm-inst > div .lm-arte img { border: var(--lm-cartao-borda); }
+/* selos novos (window.lmSelo): lado a lado, sem a caixa de 64 px das bandeiras; o texto das institucionais força fonte, cor,
+   entrelinha e o link de parágrafo em tudo o que está dentro, aqui o selo volta ao desenho do loren.css */
+html.lm-novo #corpo .lm-inst > div .lm-selos.lm-selos--novo { display: flex; flex-wrap: wrap; gap: 8px; }
+html.lm-novo #corpo .lm-inst > div .lm-selos--novo li { display: block; height: auto; border: 0; }
+html.lm-novo #corpo .lm-inst > div .lm-selos--novo .lm-selo { display: inline-flex !important; padding: var(--lm-esp-1) var(--lm-esp-2) var(--lm-esp-1) 12px !important; color: var(--lm-grafite) !important; font-weight: 400 !important; line-height: 1.15 !important; text-decoration: none !important; }
+html.lm-novo #corpo .lm-inst > div .lm-selos--novo .lm-selo small { font-size: 11px !important; line-height: 1.15 !important; color: var(--lm-texto-secundario) !important; }
+html.lm-novo #corpo .lm-inst > div .lm-selos--novo .lm-selo b { font-size: 13px !important; font-weight: 600 !important; line-height: 1.15 !important; white-space: nowrap !important; }
+html.lm-novo #corpo .lm-inst > div .lm-selos--novo a.lm-selo:is(:hover, :focus-visible) { color: var(--lm-grafite) !important; text-decoration: none !important; border-color: var(--lm-azul); }
 
 /* ===== página não encontrada (404): título no padrão das páginas (Barlow h1, grafite) e o texto de apoio (Ellie 04/11) ===== */
 html.lm-novo #corpo .box-destaque { margin: 0 !important; padding: 24px 0 48px !important; border: 0 !important; background: none !important; box-shadow: none !important; text-align: left !important; }

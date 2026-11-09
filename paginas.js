@@ -52,7 +52,9 @@
       const sec = document.createElement('section'); sec.className = 'lm-selos-pag';
       for (const bloco of document.querySelectorAll('.pagamento-selos :is(.pagamento, .selos)')) {
         const tit = bloco.querySelector('.titulo'); const vistos = new Set(); const ul = document.createElement('ul'); ul.className = 'lm-selos';
-        bloco.querySelectorAll('i.icone-pagamento, img').forEach((x) => {
+        // selos: o mesmo componente do rodapé e do carrinho (window.lmSelo, SVG), não os PNG do tema (Eduardo 09/11)
+        if (bloco.matches('.selos') && window.lmSelo) { ul.classList.add('lm-selos--novo'); ul.innerHTML = `<li>${window.lmSelo('ssl')}</li><li>${window.lmSelo('google')}</li>`; }
+        else bloco.querySelectorAll('i.icone-pagamento, img').forEach((x) => {
           const chave = x.tagName === 'IMG' ? x.src : x.className; if (vistos.has(chave)) return; vistos.add(chave);
           const li = document.createElement('li'); const c = x.cloneNode(true); c.removeAttribute('class');
           if (x.tagName === 'I') {
@@ -80,7 +82,8 @@
   document.querySelectorAll('body.pagina-carrinho .tabela-carrinho .quantidade input[name=quantidade]').forEach((i) => { window.lmQtd?.(i); const q = i.closest('.quantidade'); if (q?.querySelector('.lm-qtd')) q.classList.add('lm-com-qtd'); });
   // "Continuar comprando" vinha com o estilo do tema (texto fino, borda preta): vira o botão de contorno do site (Maestro 09/11)
   document.querySelectorAll('body.pagina-carrinho .acao-editar .botao:not(.principal)').forEach((a) => a.classList.add('lm-btn2'));
-  document.querySelectorAll('body.pagina-carrinho .acao-editar > .selo-ssl').forEach((s) => s.parentElement.classList.add('lm-com-selo'));
+  // selo SSL: o mesmo componente do rodapé (window.lmSelo do loren.js, SVG inline), no lugar do PNG do tema (Eduardo 09/11)
+  document.querySelectorAll('body.pagina-carrinho .acao-editar > .selo-ssl').forEach((s) => { s.parentElement.classList.add('lm-com-selo'); if (window.lmSelo) s.innerHTML = window.lmSelo('ssl'); });
 
   // cadastro (/conta/criar): campos com .lm-campo; Cancelar e Criar conta numa linha de ações (Ellie 04/11)
   const criar = b.classList.contains('pagina-cadastro') && document.querySelector('#corpo form[action*="criar"]');
