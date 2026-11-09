@@ -53,6 +53,9 @@ html.lm-novo .bandeiras-produto .bandeira-promocao { background: var(--lm-onda-e
 
 /* ===== rodapé (04/11): grade de 8, 4 colunas alinhadas ao site (categorias, conteúdo, atendimento, redes), títulos e links no padrão, pagamento e selos na mesma grade ===== */
 html.lm-novo #rodape { text-align: left; }
+/* com o aviso de cookies aberto o tema dá ao #rodape uma margem de baixo (60 a 140 px, a altura do aviso fixo) que sai do body e mostrava o fundo branco do html: o html fica da cor do rodapé
+   (o body continua branco; só depois de lm-pronto, porque na casca o body ainda é curto e o escuro apareceria embaixo dele) */
+html.lm-novo.lm-pronto { background: var(--lm-grafite) !important; }
 html.lm-novo #rodape .institucional { min-height: 0 !important; padding: var(--lm-sec) 0 !important; background: var(--lm-grafite) !important; }
 html.lm-novo #rodape .pagamento-selos { padding: var(--lm-esp-4) 0 !important; background: var(--lm-grafite) !important; border-top: 1px solid var(--lm-linha-escuro); }
 html.lm-novo #rodape .institucional .conteiner > .row-fluid, html.lm-novo #rodape .pagamento-selos .conteiner > .row-fluid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--lm-esp-4); }
@@ -416,6 +419,7 @@ html.lm-novo .lm-mais { display: flex !important; width: max-content !important;
 /* principal: comprar, pedir orçamento, assinar, calcular, ver obras */
 html.lm-novo :is(.botao-comprar, .tag-comprar, .botao.principal, .lm-btn) { background: var(--lm-btn-gradiente) !important; color: var(--lm-branco) !important; font: 700 15px/1.2 var(--lm-fonte-texto) !important; letter-spacing: .04em !important; text-transform: uppercase !important; border: 0 !important; border-radius: var(--lm-btn-raio) !important; box-shadow: var(--lm-btn-sombra) !important; text-shadow: none !important; }
 html.lm-novo :is(.botao-comprar, .tag-comprar, .botao.principal, .lm-btn):hover { background: var(--lm-btn-gradiente-hover) !important; }
+html.lm-novo :is(.botao, .botao-comprar, .tag-comprar):hover { opacity: 1 !important; }  /* o tema apagava o botão a 70% no hover (texto branco sobre azul desbotado); o hover é só a troca de cor */
 /* voltar ao topo removido (Eduardo 04/11) */
 html.lm-novo .scrollToTop { display: none !important; }
 /* secundário: contorno, no hover vira o gradiente */
@@ -448,6 +452,7 @@ html.lm-novo .lm-fab { background: var(--lm-gradiente-fab) !important; }
 html.lm-novo #barraNewsletter :is(.titulo, span, p, i, strong, label, h4) { color: var(--lm-branco) !important; }
 /* na coluna dos filtros: mesmo desenho dos outros blocos da coluna (título como "Filtrar por Preço", texto comum, alinhado à esquerda) */
 html.lm-novo .coluna .componente.newsletter, html.lm-novo .coluna .componente.newsletter * { text-align: left !important; }
+html.lm-novo .coluna .componente.newsletter .interno { display: block !important; padding: 0 !important; }  /* o tema faz o .interno flex centrado com 20 px de folga: título no meio e conteúdo recuado dos filtros */
 html.lm-novo .coluna .componente.newsletter .titulo { display: block !important; margin: 0 0 8px !important; padding: 0 !important; font: 700 18px/1.2 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; }
 html.lm-novo .coluna .componente.newsletter .titulo i { display: none !important; }
 html.lm-novo .coluna .componente.newsletter .texto-newsletter { margin: 0 0 16px !important; font: 400 15px/1.5 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; }
@@ -599,11 +604,14 @@ html.lm-novo :is(#listagemProdutos, .aproveite-tambem).listagem .listagem-item.p
 html.lm-novo :is(#listagemProdutos, .aproveite-tambem).listagem .listagem-item.produto-adicionado .acoes-produto .botao-comprar { font-size: 0 !important; background: var(--lm-sucesso) !important; }
 html.lm-novo .listagem .listagem-item.produto-adicionado .acoes-produto .botao-comprar::before { content: ''; width: 16px; height: 16px; flex: none; background: currentColor; -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center/contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center/contain no-repeat; }
 html.lm-novo .listagem .listagem-item.produto-adicionado .acoes-produto .botao-comprar::after { content: 'Adicionado'; font: 700 13px/1.2 var(--lm-fonte-texto); letter-spacing: .04em; text-transform: uppercase; }
-/* celular: o tema esconde o botão do cartão (.hidden-phone); aqui ele aparece, na altura do botão do cartão (40), menos nos "Preço sob consulta" (sem preço, sem comprar) */
+/* "Preço sob consulta": o botão do tema já leva ao produto (onde fica o pedido de orçamento); vira o de contorno (padrão .lm-btn2) CONSULTAR, no lugar e na altura do Adicionar */
+html.lm-novo :is(#listagemProdutos, .aproveite-tambem).listagem .listagem-item:has(.preco-produto > .titulo) .acoes-produto .botao-comprar { font-size: 0 !important; background: var(--lm-branco) !important; color: var(--lm-onda-escura) !important; box-shadow: inset 0 0 0 2px var(--lm-onda-escura) !important; }
+html.lm-novo :is(#listagemProdutos, .aproveite-tambem).listagem .listagem-item:has(.preco-produto > .titulo) .acoes-produto .botao-comprar:hover { background: var(--lm-btn-gradiente) !important; color: var(--lm-branco) !important; box-shadow: none !important; }
+html.lm-novo :is(#listagemProdutos, .aproveite-tambem).listagem .listagem-item:has(.preco-produto > .titulo) .acoes-produto .botao-comprar::after { content: 'Consultar'; font: 700 13px/1.2 var(--lm-fonte-texto); letter-spacing: .04em; text-transform: uppercase; }
+/* celular: o tema esconde o botão do cartão (.hidden-phone); aqui ele aparece, na altura do botão do cartão (40) */
 @media (max-width: 767px) {
   html.lm-novo { --lm-btn-altura-card: 40px; }
   html.lm-novo :is(#listagemProdutos, .aproveite-tambem).listagem .listagem-item .acoes-produto.hidden-phone { display: block !important; }
-  html.lm-novo :is(#listagemProdutos, .aproveite-tambem).listagem .listagem-item:has(.preco-produto > .titulo) .acoes-produto.hidden-phone { display: none !important; }
   html.lm-novo :is(#listagemProdutos, .aproveite-tambem).listagem .listagem-item.produto-adicionado .acoes-produto .botao-comprar { margin: 5px 0 !important; }  /* mesma margem do Adicionar no celular (5 + 11 do bloco = 16 do preço); no computador e no tablet o Adicionar não tem margem */
 }
 
