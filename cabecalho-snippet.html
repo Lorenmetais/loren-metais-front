@@ -54,10 +54,13 @@
     window.addEventListener('error', function (e) { if (!window.__lmMontou && /loren-metais-front/.test(e.filename || '')) desliga('js_excecao'); });   // o loren.js quebrou antes de montar
     var confere = function () { setTimeout(function () { if (!window.__lmMontou) desliga('js_nao_montou'); }, MONTA_MS); };
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', confere); else confere();
-    // CSS e JS da página e o modais: baixam agora, depois dos 2 CSS (antes saíam só depois do fim do HTML, pelo loren.js; pedidos junto com o loren.css, atrasavam o loren.css em ~1 s no celular lento).
-    // Só PRÉ-carrega: quem aplica o CSS e roda o JS é o loren.js, depois do ready do tema (CSS aplicado antes deixava os handlers de ready do tema 2 a 5 s mais lentos, medido em 09/11).
+    // CSS e JS da página e o modais: saem agora, depois dos 2 CSS (antes só depois do fim do HTML, pelo loren.js; pedidos junto com o loren.css, atrasavam o loren.css em ~1 s no celular lento).
+    // O CSS já vale (0,3 a 0,8 s a menos no produto, 09/11; exige o modais.css SEM :has(), que com ele os handlers de ready do tema ficavam 2 a 5 s mais lentos); data-fim avisa o loren.js
+    // que o load ou o erro já passou. O JS só pré-carrega: quem o roda é o loren.js, depois do ready do tema.
     [{ product: 'produto', category: 'categoria' }[tipo], 'modais'].forEach(function (n) {
-      if (n) { poe('link', { rel: 'preload', as: 'style', href: BASE + n + '.css' }); poe('link', { rel: 'preload', as: 'script', href: BASE + n + '.js' }); }
+      if (!n) return; var l = poe('link', { rel: 'stylesheet', href: BASE + n + '.css' });
+      l.onload = l.onerror = function () { l.setAttribute('data-fim', '1'); };
+      poe('link', { rel: 'preload', as: 'script', href: BASE + n + '.js' });
     });
   };
   var tipo = ''; for (var s = document.scripts, i = s.length - 1; i >= 0 && !tipo; i--) { var m = /page: \{[^}]*type: '(\w+)'/.exec(s[i].text); if (m) tipo = m[1]; }   // o tipo da página vem do script de métricas do tema, no head

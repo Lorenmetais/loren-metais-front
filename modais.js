@@ -16,6 +16,7 @@
     if (!raiz) return;
     // alerta, favorito e carregando vêm sem o fechar: toda janela tem o X de 44 no mesmo lugar
     if (raiz.matches('.modal') && !raiz.querySelector('.close')) raiz.insertAdjacentHTML('afterbegin', '<button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><i></i></button>');
+    if (raiz.matches('.modal')) raiz.classList.toggle('lm-sem-cab', !raiz.querySelector('.modal-header'));  // alerta e carregando
     raiz.querySelectorAll('input:not([type=hidden]):not([type=radio]):not([type=checkbox]):not([type=submit]):not([type=button]), select, textarea:not(.g-recaptcha-response)').forEach((c) => {
       c.classList.add('lm-campo');   // campo padrão do loren.css (pill de 48)
       if (c.closest('.lm-grupo, .prod_qtd')) return;
@@ -43,6 +44,10 @@
       const fecha = b.matches('[data-dismiss="modal"]');
       b.classList.add('botao', fecha ? 'lm-btn2' : 'principal'); b.classList.remove(fecha ? 'principal' : 'lm-btn2', 'btn-primary');
     });
+    // sem :has (o navegador reavalia :has a cada mudança do DOM e atrasava o ready do tema, Rocky 09/11): fale conosco em pares (bloco com grupos, grupo de uma linha só) e a linha dos botões
+    raiz.querySelectorAll('.controls').forEach((c) => c.classList.toggle('lm-acoes', !!c.querySelector(':scope > button.principal')));
+    raiz.querySelectorAll('[class*="span"]').forEach((s) => s.classList.toggle('lm-contato-grade', !!s.querySelector(':scope > .control-group')));
+    raiz.querySelectorAll('.control-group').forEach((g) => g.classList.toggle('lm-meio', !!g.querySelector('input.lm-campo') && !g.querySelector('textarea, .g-recaptcha, button')));
   };
 
   // orçamento B2B: tipo de compra, quantidade e prazo. Os campos novos não têm name (não vão sozinhos para o envio do
@@ -143,6 +148,17 @@
     const mini = document.querySelector('#carrinho-mini');
     if (mini) new MutationObserver(() => miniCarrinho(mini)).observe(mini, { childList: true });
     document.addEventListener('change', mudaQtd);
+    // sem :has (o navegador reavalia :has a cada mudança do DOM e atrasava o ready do tema, Rocky 09/11): janela aberta (fundo do Bootstrap ou do fancybox no body) tira o aviso de cookies da frente, e
+    // a janela do fancybox com o "Produto adicionado" visível ganha a largura de 720. Observa só os filhos do body
+    const estado = () => {
+      document.documentElement.classList.toggle('lm-janela-aberta', !!document.querySelector('body > .modal-backdrop, .fancybox-overlay'));
+      const s = document.querySelector('#comprar-ajax-status > .sucesso'), w = s?.closest('.fancybox-wrap');
+      document.querySelectorAll('.fancybox-wrap.lm-jan-carrinho').forEach((x) => x !== w && x.classList.remove('lm-jan-carrinho'));
+      w?.classList.toggle('lm-jan-carrinho', !(s.getAttribute('style') || '').includes('none'));
+    };
+    new MutationObserver(estado).observe(document.body, { childList: true });
+    const fb = window.jQuery?.fancybox?.defaults;  // a janela já montada, antes de aparecer; se o tema passar beforeShow próprio, o observer do body cobre
+    if (fb) { const antes = fb.beforeShow; fb.beforeShow = function () { estado(); return antes?.apply(this, arguments); }; }
   };
   document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', prepara) : prepara();
 })();

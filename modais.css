@@ -40,16 +40,16 @@ html.lm-novo :is(.modal .modal-header :is(h1, h2, h3, h4, h5, h6, .titulo), .mod
 html.lm-novo .modal .modal-body { max-height: none !important; overflow: visible !important; margin: 0 !important; padding: 16px 32px 32px !important; border: 0 !important; }
 html.lm-novo .modal .modal-body { color: var(--lm-texto-secundario); font: 400 15px/1.5 var(--lm-fonte-texto); }
 html.lm-novo .modal .modal-body > p:not(.p_form) { margin: 0 !important; color: inherit; font: inherit; }
-html.lm-novo .modal:not(:has(.modal-header)) > .modal-body { padding: 32px 72px 32px 32px !important; }  /* alerta e carregando: sem cabeçalho, o texto começa no alto e não passa sob o fechar */
+html.lm-novo .modal.lm-sem-cab > .modal-body { padding: 32px 72px 32px 32px !important; }  /* alerta e carregando: sem cabeçalho, o texto começa no alto e não passa sob o fechar */
 html.lm-novo .modal .modal-body .modal-body { padding: 0 !important; }  /* "carregando" do tema: uma .modal-body dentro da outra */
 /* rodapé de botões: secundário à esquerda, principal à direita, dividindo a largura (um botão só ocupa tudo) */
-html.lm-novo :is(.modal .modal-footer, #comprar-ajax-status .buttons, #modalContato .controls:has(> button.principal)) { display: flex !important; gap: 16px; margin: 0 !important; border: 0 !important; background: none !important; box-shadow: none !important; }
+html.lm-novo :is(.modal .modal-footer, #comprar-ajax-status .buttons, #modalContato .controls.lm-acoes) { display: flex !important; gap: 16px; margin: 0 !important; border: 0 !important; background: none !important; box-shadow: none !important; }
 html.lm-novo .modal .modal-footer::before, html.lm-novo .modal .modal-footer::after { display: none !important; }  /* clearfix do tema: dentro da flex somava gap */
 html.lm-novo .modal .modal-footer { padding: 0 32px 32px !important; }
 html.lm-novo #comprar-ajax-status .buttons { padding: 0 !important; }
-html.lm-novo :is(.modal .modal-footer, #comprar-ajax-status .buttons, #modalContato .controls:has(> button.principal)) > :is(.botao, .btn) { flex: 1 1 auto; display: flex !important; width: auto !important; min-width: 0; margin: 0 !important; float: none !important; }
+html.lm-novo :is(.modal .modal-footer, #comprar-ajax-status .buttons, #modalContato .controls.lm-acoes) > :is(.botao, .btn) { flex: 1 1 auto; display: flex !important; width: auto !important; min-width: 0; margin: 0 !important; float: none !important; }
 html.lm-novo #comprar-ajax-status .buttons > .botao { flex-basis: 0 !important; }  /* carrinho: dois botões iguais */
-html.lm-novo :is(.modal .modal-footer, #comprar-ajax-status .buttons, #modalContato .controls:has(> button.principal)) > .principal { order: 2; }
+html.lm-novo :is(.modal .modal-footer, #comprar-ajax-status .buttons, #modalContato .controls.lm-acoes) > .principal { order: 2; }
 html.lm-novo :is(#corpo, body) .modal .modal-footer > .botao[style*="none"] { display: none !important; }  /* "Logar" do favorito: o tema só mostra quando precisa (:is com peso de ID, para valer sobre o display do rodapé) */
 html.lm-novo :is(.modal .p_form, .fancybox-wrap .avise-descr, .fancybox-wrap .avise-suc-descr) { display: block !important; margin: 0 0 24px !important; color: var(--lm-texto-secundario) !important; font: 400 15px/1.5 var(--lm-fonte-texto) !important; text-align: left !important; }
 html.lm-novo .fancybox-wrap :is(.avise-me, .identificacao-inner), html.lm-novo .fancybox-wrap :is(.avise-me, .identificacao-inner) * { text-align: left !important; }
@@ -105,8 +105,8 @@ html.lm-novo :is(.modal, .fancybox-wrap) :is(.consulta button[type=submit], .avi
    título do tema com o visto, uma linha por produto (foto 80, nome em 2 linhas, preço, quantidade, subtotal da linha,
    excluir), subtotal à direita, cupom recolhido e os dois botões. As tabelas do tema continuam na marcação (o tema escuta
    os cliques em #carrinho-mini .table-body) e viram grade aqui; modais.js marca as células com lm-mini-* */
-html.lm-novo .fancybox-wrap:has(#comprar-ajax-status > .sucesso:not([style*="none"])) { width: calc(100vw - 32px) !important; }
-@media (min-width: 750px) { html.lm-novo .fancybox-wrap:has(#comprar-ajax-status > .sucesso:not([style*="none"])) { width: min(720px, calc(100vw - 64px)) !important; } }
+html.lm-novo .fancybox-wrap.lm-jan-carrinho { width: calc(100vw - 32px) !important; }
+@media (min-width: 750px) { html.lm-novo .fancybox-wrap.lm-jan-carrinho { width: min(720px, calc(100vw - 64px)) !important; } }
 html.lm-novo #comprar-ajax-status > .sucesso:not([style*="none"]) { display: flex !important; flex-direction: column; gap: 24px; }
 html.lm-novo #comprar-ajax-status .head { order: -1; margin: 0 !important; padding: 0 48px 0 0 !important; }
 html.lm-novo #comprar-ajax-status .head::before { content: '\2713'; margin-right: 8px; color: var(--lm-onda-escura); }
@@ -181,13 +181,13 @@ html.lm-novo #modalContato .modal-body :is(b, strong, p, span, td, li, dt, dd) {
 @media (max-width: 749px) {
   html.lm-novo .modal .modal-header { padding: 16px 56px 0 16px !important; }
   html.lm-novo .modal .modal-body { padding: 16px !important; }
-  html.lm-novo .modal:not(:has(.modal-header)) > .modal-body { padding: 16px 56px 16px 16px !important; }
+  html.lm-novo .modal.lm-sem-cab > .modal-body { padding: 16px 56px 16px 16px !important; }
   html.lm-novo .modal .modal-footer { padding: 0 16px 16px !important; }
   html.lm-novo .fancybox-wrap .fancybox-inner { padding: 16px !important; }
   html.lm-novo :is(.modal .close, .fancybox-close) { top: 8px !important; right: 8px !important; }
   html.lm-novo :is(.modal .modal-header :is(h1, h2, h3, h4, h5, h6, .titulo), .modal .modal-header > span:first-of-type, .fancybox-wrap :is(.avise-tit, .avise-suc-tit, .identificacao-title, .titulo), #comprar-ajax-status .head) { font-size: 22px !important; }
-  html.lm-novo :is(.modal .modal-footer, #comprar-ajax-status .buttons, #modalContato .controls:has(> button.principal)) { flex-direction: column-reverse; gap: 8px; }  /* o principal fica em cima */
-  html.lm-novo :is(.modal .modal-footer, #comprar-ajax-status .buttons, #modalContato .controls:has(> button.principal)) > :is(.botao, .btn) { flex: none; width: 100% !important; }
+  html.lm-novo :is(.modal .modal-footer, #comprar-ajax-status .buttons, #modalContato .controls.lm-acoes) { flex-direction: column-reverse; gap: 8px; }  /* o principal fica em cima */
+  html.lm-novo :is(.modal .modal-footer, #comprar-ajax-status .buttons, #modalContato .controls.lm-acoes) > :is(.botao, .btn) { flex: none; width: 100% !important; }
 }
 
 /* ===== janelas grandes de formulário (Eduardo 04/11: "mais encorpada"): orçamento geral, orçamento do produto e fale
@@ -220,16 +220,16 @@ html.lm-novo #modalContato .modal-body :is(b, strong, p, span, td, li, dt, dd) {
   html.lm-novo :is(#modal_consulte, #modal_qtds) form.consulta > button[type=submit] { order: 15; grid-column: 1 / -1; }
   html.lm-novo :is(#modal_consulte, #modal_qtds) .prod_qtd input { width: 100% !important; }
   /* fale conosco: os grupos do formulário em pares (Nome | E-mail, Telefone | Nº do pedido), Mensagem inteira */
-  html.lm-novo #modalContato .modal-body [class*="span"]:has(> .control-group) { display: grid !important; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 24px; }
-  html.lm-novo #modalContato .modal-body [class*="span"]:has(> .control-group) > * { grid-column: 1 / -1; }
+  html.lm-novo #modalContato .modal-body .lm-contato-grade { display: grid !important; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 24px; }
+  html.lm-novo #modalContato .modal-body .lm-contato-grade > * { grid-column: 1 / -1; }
   html.lm-novo #modalContato .g-recaptcha { margin: 0 !important; }  /* alinhado com os campos */
   /* em pares só os campos de uma linha; mensagem, reCAPTCHA e botões na largura toda */
-  html.lm-novo #modalContato .modal-body [class*="span"]:has(> .control-group) > .control-group:has(input.lm-campo):not(:has(textarea, .g-recaptcha, button)) { grid-column: auto; }
+  html.lm-novo #modalContato .modal-body .lm-contato-grade > .control-group.lm-meio { grid-column: auto; }
 }
 
 /* com uma janela aberta (o fundo escurecido existe), o aviso de cookies sai da frente; volta quando ela fecha.
    O fundo é o sinal porque o #modal_consulte já vem com a classe .in na marcação mesmo fechado */
-html.lm-novo body:has(> .modal-backdrop, .fancybox-overlay) #avisoCookies { display: none !important; }
+html.lm-novo.lm-janela-aberta #avisoCookies { display: none !important; }
 
 /* foto no lightbox do tema (fancybox de imagem), se aparecer: maior que as janelas, sem respiro, inteira na tela */
 html.lm-novo .fancybox-wrap.fancybox-type-image { width: min(960px, calc(100vw - 32px)) !important; }

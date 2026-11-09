@@ -59,10 +59,10 @@
   // um par de arquivos por tipo de página (cada agente mexe no seu): categoria.* (categoria e busca), produto.*
   const pagina = () => { const c = document.body.className; return /pagina-categoria|pagina-busca|pagina-marca/.test(c) ? 'categoria' : /pagina-produto/.test(c) ? 'produto' : /pagina-inicial/.test(c) ? '' : /pagina-conta|pagina-pedido|pagina-favorito/.test(c) ? 'conta' : 'paginas'; };  // paginas.*: institucionais, carrinho, conta (Marty)
   // modais.* (formulários em janela, como o Pedir orçamento) vale em toda página
-  // CSS e JS da página e o modais: no live o código do cabeçalho já os pré-carregou (só baixa); aqui são aplicados e rodados, depois do ready do tema. Devolve uma promessa para o html.lm-pronto esperar
+  // CSS e JS da página e o modais: no live o código do cabeçalho já aplicou o CSS e pré-carregou o JS; aqui entra o que faltar e o JS roda, depois do ready do tema. Devolve uma promessa para o html.lm-pronto esperar
   const extra = () => { if (!BASE) return Promise.resolve(); const espera = []; const nova = (el) => { espera.push(new Promise((ok) => { el.onload = el.onerror = ok; })); document.head.append(el); };
     for (const n of [pagina(), 'modais'].filter(Boolean)) {
-      const ja = document.querySelector(`link[rel="stylesheet"][href*="/${n}.css"]`); if (ja) { if (!ja.sheet) espera.push(new Promise((ok) => { ja.addEventListener('load', ok); ja.addEventListener('error', ok); })); } else { const l = document.createElement('link'); l.rel = 'stylesheet'; l.href = BASE + n + '.css'; nova(l); }
+      const ja = document.querySelector(`link[rel="stylesheet"][href*="/${n}.css"]`); if (ja) { if (!ja.sheet && !ja.dataset.fim) espera.push(new Promise((ok) => { ja.addEventListener('load', ok); ja.addEventListener('error', ok); })); } else { const l = document.createElement('link'); l.rel = 'stylesheet'; l.href = BASE + n + '.css'; nova(l); }
       if (!document.querySelector(`script[src*="/${n}.js"]`)) { const j = document.createElement('script'); j.src = BASE + n + '.js'; nova(j); } }
     return Promise.all(espera); };
 
@@ -70,6 +70,8 @@
     if (document.body.dataset.lm) return; document.body.dataset.lm = '1';
     if (/pagina-conta|pagina-pedido|pagina-favorito/.test(document.body.className) && !document.querySelector('.pedido-finalizado')) document.body.classList.add('lm-conta');  // o layout da área logada depende desta classe: entra antes de a página aparecer (o conta.js aceita que ela já exista)
     document.querySelectorAll('#cabecalho .logo img').forEach((img) => { img.src = LOGO; img.removeAttribute('srcset'); });
+    // cartão "Preço sob consulta": o botão aparece como CONSULTAR (loren.css); o leitor de tela também ouve isso, e não o "Adicionar" do tema
+    document.querySelectorAll('.listagem-item:has(.preco-produto > .titulo) .acoes-produto .botao-comprar').forEach((b) => b.setAttribute('aria-label', 'Consultar ' + (b.closest('.listagem-item').querySelector('.nome-produto')?.textContent.trim() || '')));
     // cabeçalho nosso (Eduardo 04/11: o do tema "doido e horrível"): logo | busca da loja | conta, orçamento, carrinho.
     // A busca (#form-buscar, com o autocompletar) e o menu do celular do tema são MOVIDOS para cá, não copiados.
     const cab = document.querySelector('#cabecalho');
