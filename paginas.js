@@ -77,6 +77,8 @@
   // quantidade do carrinho: seletor padrão (.lm-qtd, window.lmQtd do loren.js); o CSS tira o − e o + do tema e o "Atualizar quantidade",
   // e a linha atualiza sozinha ao mudar (modais.js, mudaQtd)
   document.querySelectorAll('body.pagina-carrinho .tabela-carrinho .quantidade input[name=quantidade]').forEach((i) => window.lmQtd?.(i));
+  // "Continuar comprando" vinha com o estilo do tema (texto fino, borda preta): vira o botão de contorno do site (Maestro 09/11)
+  document.querySelectorAll('body.pagina-carrinho .acao-editar .botao:not(.principal)').forEach((a) => a.classList.add('lm-btn2'));
 
   // cadastro (/conta/criar): campos com .lm-campo; Cancelar e Criar conta numa linha de ações (Ellie 04/11)
   const criar = b.classList.contains('pagina-cadastro') && document.querySelector('#corpo form[action*="criar"]');

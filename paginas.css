@@ -92,6 +92,14 @@ html.lm-novo .pagina-carrinho .total { text-align: right; font-size: 15px; }
 html.lm-novo .pagina-carrinho .total strong { font: 700 28px/1.2 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; margin-left: 8px; }
 html.lm-novo .pagina-carrinho .valores-descontos { text-align: right; font-size: 14px; color: var(--lm-texto-secundario); }
 html.lm-novo .pagina-carrinho .acao-editar { margin-top: 24px !important; }
+/* rótulos "Calcule o frete:" e "Cupom de desconto:": o <b> do tema vinha com peso 900 (parecia outra fonte); fica o 600 do rótulo */
+html.lm-novo .pagina-carrinho .tabela-carrinho .control-label :is(b, strong) { font-weight: inherit !important; }
+/* selo Site Protegido: o tema o posiciona absoluto e ele descia 15 px sobre o rodapé; volta ao fluxo, à esquerda das ações
+   (no celular o tema já o esconde, .hidden-phone) (Maestro 09/11) */
+html.lm-novo .pagina-carrinho .acao-editar:has(> .selo-ssl) { display: flex !important; align-items: center; gap: 16px; }
+html.lm-novo .pagina-carrinho .acao-editar:has(> .selo-ssl)::before, html.lm-novo .pagina-carrinho .acao-editar:has(> .selo-ssl)::after { display: none !important; }
+html.lm-novo .pagina-carrinho .acao-editar > .selo-ssl { position: static !important; order: -1; flex: none; margin: 0 !important; }
+html.lm-novo .pagina-carrinho .acao-editar > .span12 { flex: 1 1 auto; margin: 0 !important; }
 html.lm-novo .pagina-carrinho .acao-editar .span12 { display: flex; justify-content: flex-end; align-items: center; gap: 12px; flex-wrap: wrap; float: none !important; width: auto !important; }
 html.lm-novo .pagina-carrinho .acao-editar .botao { margin: 0 !important; float: none !important; }
 html.lm-novo .pagina-carrinho .acao-editar .botao > i, html.lm-novo .pagina-carrinho .acao-editar .botao::before { display: none !important; }  /* ícone tirava o texto do centro do botão */
@@ -113,6 +121,11 @@ html.lm-novo .pagina-carrinho .caixa-destaque h1 { font: 700 var(--lm-h2)/1.1 va
   /* no celular as células viram blocos: a 2ª célula (vazia) das linhas de frete e cupom sobrava como faixa de 25 px com linha dupla
      (sonda 09/11). Sem elemento dentro = vazia; se o tema puser conteúdo nela depois, ela volta sozinha */
   html.lm-novo .pagina-carrinho .tabela-carrinho tr.bg-dark > td:not(:has(*)):not(:only-child) { display: none !important; }
+  /* idem para a célula das opções de frete enquanto não há frete calculado; os blocos de frete, cupom e total ficam colados
+     (o tema dava 20 px de margem e 8 px de padding em cada linha: faixas brancas e linha dupla) */
+  html.lm-novo .pagina-carrinho .tabela-carrinho tr.bg-dark > td:has(> .formas-envio) { padding: 0 !important; border-top: 0 !important; }
+  html.lm-novo .pagina-carrinho .tabela-carrinho .formas-envio { padding: 0 16px; }
+  html.lm-novo .pagina-carrinho .tabela-carrinho tr.bg-dark { margin: 0 !important; padding: 0 !important; }
   html.lm-novo .pagina-carrinho .tabela-carrinho .control-group, html.lm-novo .pagina-carrinho .tabela-carrinho .controls { justify-content: center; }
   html.lm-novo .pagina-carrinho .tabela-carrinho .control-label { min-width: 0; width: 100% !important; text-align: center !important; }
   html.lm-novo .pagina-carrinho .tabela-carrinho .input-append input { width: 150px !important; }
