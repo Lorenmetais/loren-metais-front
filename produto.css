@@ -8,13 +8,13 @@ html.lm-novo .pagina-produto #corpo .produto > .breadcrumbs { background: none !
 html.lm-novo .pagina-produto #corpo .produto > .breadcrumbs :is(ul, li) { margin: 0 !important; padding: 0 !important; }
 
 /* topo em 2 colunas: galeria 7/12, compra 5/12 */
-html.lm-novo .pagina-produto .lm-prod-topo { display: grid !important; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 32px; align-items: start; margin: 0 !important; }
+html.lm-novo .pagina-produto .lm-prod-topo { display: grid !important; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: var(--lm-esp-4); align-items: start; margin: 0 !important; }  /* vão entre caixas: 32 (16 no celular), igual ao da descrição com as especificações */
 html.lm-novo .pagina-produto .lm-prod-topo::before, html.lm-novo .pagina-produto .lm-prod-topo::after { display: none !important; }
 html.lm-novo .pagina-produto .lm-prod-topo > .span6 { width: auto !important; margin: 0 !important; float: none !important; min-width: 0; }
 
 /* galeria: foto quadrada em cartão, miniaturas em coluna à esquerda */
 html.lm-novo .pagina-produto .lm-prod-gal { display: grid; grid-template-columns: 88px minmax(0, 1fr); gap: 16px; align-items: start; position: relative; }
-html.lm-novo .pagina-produto .lm-prod-gal .conteiner-imagem { grid-column: 2; grid-row: 1; aspect-ratio: 1; min-height: 0; overflow: hidden; display: grid; place-items: center; border: var(--lm-borda-padrao); background: #fff; padding: 24px; margin: 0 !important; box-sizing: border-box; }
+html.lm-novo .pagina-produto .lm-prod-gal .conteiner-imagem { grid-column: 2; grid-row: 1; aspect-ratio: 1; min-height: 0; overflow: hidden; display: grid; place-items: center; border: var(--lm-borda-padrao); background: #fff; padding: var(--lm-esp-4); margin: 0 !important; box-sizing: border-box; }  /* respiro das caixas com borda: 32 (16 no celular) */
 html.lm-novo .pagina-produto .lm-prod-gal .conteiner-imagem > div { width: 100% !important; height: 100% !important; min-height: 0 !important; display: grid; place-items: center; }  /* o tema põe altura inline no invólucro */
 html.lm-novo .pagina-produto .lm-prod-gal .conteiner-imagem img { width: 100% !important; height: 100% !important; max-height: none !important; object-fit: contain; }
 html.lm-novo .pagina-produto .lm-prod-gal .produto-thumbs { grid-column: 1; grid-row: 1; margin: 0 !important; height: 0; min-height: 100%; overflow-y: auto; scrollbar-width: none; }  /* altura da foto: com muitas fotos, rola */
@@ -141,7 +141,7 @@ html.lm-novo .pagina-produto .lm-selos { list-style: none; margin: 0 !important;
 html.lm-novo .pagina-produto .lm-selos li { display: flex; align-items: center; gap: 12px; margin: 0; font: 400 14px/1.4 var(--lm-fonte-texto); color: var(--lm-grafite); }
 html.lm-novo .pagina-produto .lm-selos .lm-ico { width: 32px; height: 32px; flex: none; display: grid; place-items: center; background: var(--lm-fundo); color: var(--lm-onda-escura); }
 html.lm-novo .pagina-produto .lm-selos .lm-ico svg { width: 18px; height: 18px; }
-/* ordem na caixa sem mexer no HTML: frete logo abaixo do Adicionar, depois orçamento, selos e formas de pagamento.
+/* ordem na caixa sem mexer no HTML: orçamento logo abaixo do Adicionar, depois frete, selos e formas de pagamento.
    O bloco de pagamento vira "contents" para o frete (que mora dentro dele) poder subir. */
 html.lm-novo .pagina-produto .lm-prod-compra > .principal { display: flex; flex-direction: column; gap: var(--lm-esp-3); }  /* ritmo único da caixa: 24 (16 no celular) */
 html.lm-novo .pagina-produto .lm-prod-compra > .principal > *, html.lm-novo .pagina-produto .lm-prod-compra > .principal > .parcelas-produto > * { margin-top: 0 !important; margin-bottom: 0 !important; }
@@ -149,12 +149,13 @@ html.lm-novo .pagina-produto .lm-prod-compra > .principal > :not(:has(*)), html.
 html.lm-novo .pagina-produto .lm-prod-compra > .principal > * { order: 9; }
 html.lm-novo .pagina-produto .lm-prod-compra > .principal > :is(.info-principal-produto, .atributos, .acoes-produto) { order: 1; }
 html.lm-novo .pagina-produto .lm-prod-compra > .principal > .parcelas-produto:not(.hide):not([style*="none"]) { display: contents !important; }  /* as das outras variações o tema esconde com style inline */
-html.lm-novo .pagina-produto .lm-prod-compra > .principal > .parcelas-produto > .cep { order: 2; }
-html.lm-novo .pagina-produto .lm-prod-compra > .principal > .cep { order: 2; }  /* a calculadora (quando a LI a põe direto na caixa) logo abaixo do Adicionar */
-html.lm-novo .pagina-produto .lm-prod-compra > .principal > .grandes_qtd { order: 3; }
+html.lm-novo .pagina-produto .lm-prod-compra > .principal > .parcelas-produto > .cep { order: 3; }
+html.lm-novo .pagina-produto .lm-prod-compra > .principal > .cep { order: 3; }  /* a calculadora (quando a LI a põe direto na caixa) logo abaixo do Adicionar */
+html.lm-novo .pagina-produto .lm-prod-compra > .principal > .grandes_qtd { order: 2; }  /* orçamento logo abaixo do Estoque, o frete depois (Eduardo 10/11) */
 html.lm-novo .pagina-produto .lm-prod-compra > .principal > .lm-selos { order: 4; }
-html.lm-novo .pagina-produto .lm-prod-compra > .principal > .parcelas-produto > .accordion { order: 5; border: var(--lm-borda-padrao) !important; background: #fff; }
+html.lm-novo .pagina-produto .lm-prod-compra > .principal > .parcelas-produto > .accordion { order: 5; border: var(--lm-borda-padrao) !important; background: #fff; padding: var(--lm-esp-2) var(--lm-esp-4) !important; }  /* 16 em cima e embaixo + a folga da linha de 48 = ~32, como nas outras caixas */
 /* compartilhar (produto.js): por último na caixa, no mesmo ritmo; caixas de 40 com borda fina */
+html.lm-novo .pagina-produto .lm-compartilhe { padding-bottom: 0 !important; }  /* o tema põe 25 (15 no celular) e a caixa ficava com 58 embaixo */
 html.lm-novo .pagina-produto .lm-compartilhe__tit { margin: 0 0 var(--lm-esp-1) !important; font: 700 1rem/1.2 var(--lm-fonte-titulo); color: var(--lm-grafite); text-transform: none; }
 html.lm-novo .pagina-produto .lm-compartilhe__lista { display: flex; flex-wrap: wrap; align-items: center; gap: var(--lm-esp-1); }
 html.lm-novo .pagina-produto .lm-compartilhe__lista :is(a, button) { display: grid; place-items: center; width: 40px; height: 40px; box-sizing: border-box; padding: 0; border: var(--lm-borda-padrao); background: #fff; color: var(--lm-grafite); cursor: pointer; transition: none; }
@@ -167,18 +168,20 @@ html.lm-novo .pagina-produto .parcelas-produto * { font-family: var(--lm-fonte-t
 html.lm-novo .pagina-produto .parcelas-produto .accordion { margin: 0 !important; }
 html.lm-novo .pagina-produto .parcelas-produto .accordion-group { border: 0 !important; border-top: var(--lm-borda-padrao) !important; border-radius: 0 !important; margin: 0 !important; }
 html.lm-novo .pagina-produto .parcelas-produto .accordion-group:first-child { border-top: 0 !important; }
-html.lm-novo .pagina-produto .parcelas-produto .accordion-toggle { display: flex !important; align-items: center; gap: 8px; min-height: 48px; box-sizing: border-box; padding: 8px 16px !important; }
+html.lm-novo .pagina-produto .parcelas-produto .accordion-toggle { display: flex !important; align-items: center; gap: 8px; min-height: 48px; box-sizing: border-box; padding: 8px 0 !important; }
 html.lm-novo .pagina-produto .parcelas-produto .text-parcelas { margin-left: auto; order: 9; float: none !important; display: inline-flex; align-items: center; gap: 8px; }
 html.lm-novo .pagina-produto .parcelas-produto .text-parcelas .icon-chevron-down { display: none !important; }  /* ícone do tema sem a fonte: vira um chevron em CSS */
+html.lm-novo .pagina-produto .parcelas-produto .accordion-toggle:not([data-toggle]) { cursor: default; }
+html.lm-novo .pagina-produto .parcelas-produto .accordion-toggle:not([data-toggle]) .text-parcelas::after { display: none; }  /* Boleto e Pix: a linha não abre nada (sem link nem corpo), então sem seta (Eduardo 10/11) */
 html.lm-novo .pagina-produto .parcelas-produto .text-parcelas::after { content: ''; width: 6px; height: 6px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: translateY(-2px) rotate(45deg); }
-html.lm-novo .pagina-produto .parcelas-produto .accordion-inner { border: 0 !important; padding: 0 16px 12px !important; }
+html.lm-novo .pagina-produto .parcelas-produto .accordion-inner { border: 0 !important; padding: 0 0 12px !important; }
 html.lm-novo .pagina-produto .parcelas-produto .accordion-inner ul { margin: 0 !important; }
 html.lm-novo .pagina-produto .parcelas-produto :is(.cor-secundaria, span, a, li) { color: var(--lm-grafite) !important; font-size: 13px !important; }
 html.lm-novo .pagina-produto .parcelas-produto .cor-principal { color: var(--lm-grafite) !important; }
 html.lm-novo .pagina-produto .principal .cep { margin: 0 !important; padding: 0 !important; }
 html.lm-novo .pagina-produto .principal #formCalcularCep { max-width: none; width: 100%; }  /* na largura da caixa (a base limita a 360 e estourava em telas de 360) */
-html.lm-novo .pagina-produto .principal #formCalcularCep :is(.form-inline, .input-append) { display: block; width: 100%; margin: 0; }
-html.lm-novo .pagina-produto .principal #formCalcularCep .input-cep { width: 100% !important; min-width: 0; box-sizing: border-box; }
+html.lm-novo .pagina-produto .principal #formCalcularCep :is(.form-inline, .input-append) { display: block; width: 100% !important; max-width: none !important; margin: 0; }  /* o tema limita o .input-append a 326: o frete fica na largura da caixa, como o Adicionar */
+html.lm-novo .pagina-produto .principal #formCalcularCep .input-cep { width: 100% !important; max-width: none !important; min-width: 0; box-sizing: border-box; }  /* o tema também limita o campo */
 /* tablet (Maestro 09/11): com 7/5 a caixa ficava com ~215 px por dentro (parcelas em 4 linhas, vazio enorme ao lado).
    Em pé (768-899): uma coluna, galeria até 640 e a caixa embaixo na largura toda. Deitado (900-1023): meio a meio */
 @media (min-width: 768px) and (max-width: 899px) {
@@ -229,8 +232,8 @@ html.lm-novo .pagina-produto .lm-specs { width: 100%; border-collapse: collapse;
 html.lm-novo .pagina-produto .lm-specs :is(th, td) { padding: 12px 16px !important; border-bottom: var(--lm-borda-padrao); text-align: left; vertical-align: top; font-size: 15px !important; line-height: 1.5 !important; }
 html.lm-novo .pagina-produto .lm-specs th { width: 40%; font-weight: 600; background-color: var(--lm-fundo) !important; }
 /* especificações técnicas + baixar ficha (produto.js): cartão à direita da descrição no computador, embaixo no celular */
-html.lm-novo .pagina-produto .lm-desc-grade { display: grid; grid-template-columns: minmax(0, 760px) minmax(0, 1fr); gap: var(--lm-esp-6); align-items: start; }
-html.lm-novo .pagina-produto .lm-ficha { position: sticky; top: var(--lm-esp-3); border: var(--lm-borda-padrao); background: #fff; padding: var(--lm-esp-4); }
+html.lm-novo .pagina-produto .lm-desc-grade { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: var(--lm-esp-4); align-items: start; }  /* as mesmas colunas e o mesmo vão do topo: as especificações ficam embaixo da caixa de compra */
+html.lm-novo .pagina-produto .lm-ficha { border: var(--lm-borda-padrao); background: #fff; padding: var(--lm-esp-4); }
 html.lm-novo .pagina-produto .lm-ficha h2 { font: 700 var(--lm-h3)/1.1 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; text-transform: none !important; margin: 0 0 var(--lm-esp-2) !important; }
 html.lm-novo .pagina-produto .lm-ficha h3 { font: 700 1.125rem/1.2 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; margin: var(--lm-esp-3) 0 var(--lm-esp-1) !important; }
 html.lm-novo .pagina-produto .lm-ficha .lm-specs { margin: 0; }
@@ -282,14 +285,15 @@ html.lm-novo .pagina-produto .next-reviews .btnLoadReviews { margin: var(--lm-es
 html.lm-novo .pagina-produto .lm-prod-rel { margin: 0 !important; }  /* o espaço da seção vem do .listagem.com-caixa (loren.css); aqui somava 2x */
 html.lm-novo .pagina-produto .lm-prod-rel .aproveite-tambem { margin: 0 !important; padding: 0 !important; border: 0 !important; background: none !important; box-shadow: none !important; }
 
-/* sem espaço para 760 + 48 + um cartão de 392 (abaixo de 1280): o cartão desce para baixo da descrição, na mesma coluna de leitura */
+/* abaixo de 1280 a descrição ficaria estreita ao lado do cartão: o cartão desce para baixo da descrição, na mesma coluna de leitura */
 @media (max-width: 1279px) {
   html.lm-novo .pagina-produto .lm-desc-grade { grid-template-columns: minmax(0, 1fr); gap: var(--lm-sec); }
-  html.lm-novo .pagina-produto .lm-ficha { position: static; max-width: 760px; box-sizing: border-box; }
+  html.lm-novo .pagina-produto .lm-ficha { max-width: 760px; box-sizing: border-box; }
 }
 @media (max-width: 767px) {
   html.lm-novo .pagina-produto .lm-prod-topo { grid-template-columns: minmax(0, 1fr); gap: var(--lm-esp-2); }
   html.lm-novo .pagina-produto .lm-prod-gal { display: block; }
+  html.lm-novo .pagina-produto .lm-prod-gal .conteiner-imagem { padding: var(--lm-esp-2); }  /* foto única no celular */
   html.lm-novo .pagina-produto .lm-prod-gal--car :is(.conteiner-imagem, .produto-thumbs, .lm-miniaturas) { display: none !important; }  /* celular: deslizar + bolinhas, sem setas */
   html.lm-novo .pagina-produto .lm-galeria { display: block; }
   html.lm-novo .pagina-produto .lm-galeria__fotos { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; border: var(--lm-borda-padrao); background: #fff; }
@@ -298,6 +302,7 @@ html.lm-novo .pagina-produto .lm-prod-rel .aproveite-tambem { margin: 0 !importa
   html.lm-novo .pagina-produto .lm-galeria .flex-control-paging { margin-top: 8px !important; }
   html.lm-novo .pagina-produto .lm-prod-gal .bandeiras-produto { left: 16px; }
   html.lm-novo .pagina-produto .lm-prod-compra > .principal { padding: var(--lm-esp-2) !important; gap: var(--lm-esp-2); }
+  html.lm-novo .pagina-produto .lm-prod-compra > .principal > .parcelas-produto > .accordion { padding: 0 var(--lm-esp-2) !important; }  /* a folga da linha de 48 já dá ~16 */
   html.lm-novo .pagina-produto .codigo-produto, html.lm-novo .pagina-produto .lm-selos { padding-bottom: 0; }
   html.lm-novo .pagina-produto .lm-selos { padding-top: var(--lm-esp-2) !important; }
   html.lm-novo .pagina-produto .codigo-produto { padding-bottom: var(--lm-esp-2); }
