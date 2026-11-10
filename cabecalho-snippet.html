@@ -60,9 +60,7 @@
     + esq('.pagina-busca', P, '780px', BUS + '272 331 220 449 2 4/236')
     + esq('.pagina-marca', P, '794px', MAR + '0 267 288 527 2 4/304')
     + esq('.pagina-produto', P, '760px', PRO + GAL(118, 53, 5, 533) + '104 118 577 577 3;713 151 487 28 1;713 191 400 28 1;713 231 300 28 1;713 374 200 40 1;713 438 487 48 2 2/0/64')
-    + esq('.pagina-busca.lm-vazio', P, '543px', M + FX(50, 172) + TT + '0 269 560 274 3;33 306 300 20 1;33 352 400 14 2 3/0/30;33 463 179 48 1')
     + '}@media(min-width:1024px) and (max-width:1279px){'
-    + esq('.pagina-busca.lm-vazio', P, '596px', M + FX(50, 224) + TT + '0 181 240 32 1;0 322 560 274 3;33 359 300 20 1;33 404 400 14 2 3/0/30;33 515 179 48 1')
     + esq('.pagina-categoria', P, '971px', CAT + G3(504, 467))
     + esq('.pagina-busca', P, '788px', BUS + G3(331, 457))
     + esq('.pagina-marca', P, '825px', MAR + K(3, 16, 267, 558, 2))
@@ -74,6 +72,10 @@
     + esq('.pagina-carrinho.lm-vazio', P, 'calc(100vh - 266px)', M + '50% calc(50vh_-_162px) 300 28 1;50% calc(50vh_-_76px) 175 48 1')   // a caixa do tema mede 100vh - 340, com título e botão no meio
     + esq('.pagina-carrinho', P, '862px', CX + '0 265 100% 524 3;0 265 100% 38 1;23 320 98 92 2;100% 814 208 48 1;calc(100%_-_220px) 814 256 48 2')
     + esq('.pagina-login', P, '687px', CX + K(2, 24, 265, 422, 3) + '33 298 300 28 1;33 547 calc(50%_-_78px) 48 1')
+    + '}@media(min-width:1100px){'   // busca sem resultado: o título com o termo quebra em 2 linhas abaixo de ~1100 (medido com qzxyqa)
+    + esq('.pagina-busca.lm-vazio', P, '543px', M + FX(50, 172) + TT + '0 269 560 274 3;33 306 300 20 1;33 352 400 14 2 3/0/30;33 463 179 48 1')
+    + '}@media(min-width:1024px) and (max-width:1099px){'
+    + esq('.pagina-busca.lm-vazio', P, '596px', M + FX(50, 224) + TT + '0 181 240 32 1;0 322 560 274 3;33 359 300 20 1;33 404 400 14 2 3/0/30;33 515 179 48 1')
     + '}@media(min-width:768px) and (max-width:1023px){§#cabecalho::before{height:79px;border:0;background-position:' + T + ' 16px}§body' + E3 + '::after{display:none}'
     + esq(E, T, '114px', MT)
     + esq('.pagina-inicial', T, 'calc(var(--b) + 857px)', MT + '0 114 100% var(--b) 3b;' + K(2, 16, 'calc(var(--b)_+_138px)', 74, 2) + K(2, 16, 'calc(var(--b)_+_228px)', 74, 2) + '0 calc(var(--b)_+_352px) 220 28 1;' + K(4, 16, 'calc(var(--b)_+_1.96vw_+_388px)', 454, 2))
