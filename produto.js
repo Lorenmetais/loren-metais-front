@@ -12,10 +12,16 @@
     gal?.classList.add('lm-prod-gal'); compra?.classList.add('lm-prod-compra');
 
     // trilha acima da galeria e da caixa, como nas outras páginas
-    // (no celular o tema tira o bloco do nome da caixa e o põe antes da galeria: a trilha vai antes dele)
-    const info = document.querySelector('.pagina-produto .info-principal-produto');
-    const antes = info && !topo.contains(info) ? info : topo;
-    document.querySelectorAll('.pagina-produto .info-principal-produto .breadcrumbs').forEach((t) => antes.before(t));
+    document.querySelectorAll('.pagina-produto .info-principal-produto .breadcrumbs').forEach((t) => topo.before(t));
+    // bloco do nome: no celular antes da galeria, senão no topo da caixa. Não dá para deixar com o tema: o resize dele
+    // decide pela .atalhos-mobile visível, que o cabeçalho novo esconde (no ar ele punha a galeria antes do título)
+    const caixa = compra?.querySelector(':scope > .principal'), celular = matchMedia('(max-width: 767px)');
+    const lugar = () => {
+      const info = document.querySelector('.pagina-produto .info-principal-produto'); if (!info || !caixa) return;
+      if (celular.matches) { if (info.nextElementSibling !== topo) topo.before(info); } else if (info.parentElement !== caixa) caixa.prepend(info);
+    };
+    lugar(); addEventListener('resize', () => requestAnimationFrame(lugar), { passive: true });  // depois do handler do tema
+    window.jQuery?.(lugar);  // e depois do ready do tema, se ele ainda não rodou
 
     // galeria (no nível da Conceito): setas e miniaturas no computador, carrossel de arrastar com pontos no celular e zoom
     // em tela cheia com navegação. Usa as fotos que a LI já carrega (as grandes estão nos links das miniaturas).
@@ -215,7 +221,6 @@
     });
 
     // compartilhar (como na Conceito): links padrão, sem SDK; o da LI (addthis) segue escondido
-    const caixa = compra?.querySelector(':scope > .principal');
     if (caixa) {
       const url = document.querySelector('link[rel=canonical]')?.href || location.origin + location.pathname, nome = document.querySelector('h1.nome-produto')?.textContent.trim() || document.title;
       const foto = lista?.[0]?.g || principal?.src || '', u = encodeURIComponent(url), t = encodeURIComponent(nome);
