@@ -13,8 +13,8 @@ O visual novo é um código que vai no painel da Loja Integrada, em **2 entradas
 
 O código da seção **O código** (abaixo) é a versão legível, com comentários, e passa de 15.000 caracteres. No painel ele vai **enxuto e em 2 partes**: a parte 1 tem a lógica e a casca básica; a parte 2, só o esqueleto. A ordem das 2 entradas não importa.
 
-1. Gere as 2 partes do commit: `bash dev/painel-2-partes/gera.sh <hash completo>`. Os arquivos de `dev/` ficam fora deste repositório, com a equipe. O script divide e enxuga o código, troca `COMMIT` pelo hash e põe `PERCENTUAL = 0`, e grava `dev/COLAR-NO-PAINEL-1.html` e `-2.html`. Cada parte tem que ficar abaixo de 14.500 caracteres; o script recusa se passar.
-2. Se quiser outro `PERCENTUAL`, troque `PERCENTUAL=0` na parte 1: `0` = ninguém vê o novo, só quem abrir com `?lm=novo` (para testar no ar); `10` a `20` = começo recomendado; `100` = todas as visitas. Detalhes em **Ligar para parte das visitas**.
+1. Gere as 2 partes do commit, na pasta deste repositório: `python painel/gera.py <hash completo> --saida <pasta>`. Precisa de Python 3 e do git; se houver Node, ele também confere a sintaxe. O script divide o código, tira comentários e recuo, troca `COMMIT` pelo hash e põe `PERCENTUAL = 0`, e grava `COLAR-NO-PAINEL-1.html` e `COLAR-NO-PAINEL-2.html` na pasta indicada. Cada parte tem que ficar abaixo de 14.500 caracteres; o script recusa se passar.
+2. Se quiser outro `PERCENTUAL`, troque `var PERCENTUAL = 0;` na parte 1: `0` = ninguém vê o novo, só quem abrir com `?lm=novo` (para testar no ar); `10` a `20` = começo recomendado; `100` = todas as visitas. Detalhes em **Ligar para parte das visitas**.
 3. No painel: **Configurações > Códigos HTML personalizados > Incluir código HTML**. Crie **2 entradas**, uma com cada arquivo inteiro (da linha `<!-- Loren Metais ...` até `</script>`). Nas duas: local **cabeçalho (`<head>`)**; páginas **todas as páginas exceto checkout** (se o painel não oferecer essa escolha, tudo bem: no checkout o código não faz nada e não pede nenhum arquivo). Salve. Não mexa nos outros códigos que já estão no painel.
 4. Espere a loja publicar (a ajuda da LI fala em 15 a 30 minutos).
 5. Faça a conferência abaixo (a equipe tem `node dev/conferir-painel.mjs`, que faz as verificações e escreve OK/ERRO).
@@ -30,7 +30,7 @@ O código da seção **O código** (abaixo) é a versão legível, com comentár
 ## Desinstalar (tirar do ar)
 
 - **Apague (ou desative) as 2 entradas no painel e salve.** Na carga seguinte a loja volta ao que era. Não sobra nada que mude a loja: as chaves `lm_grupo`, `lm_forca` e `lm_equipe` que ficam no navegador dos visitantes não fazem nada sem o código.
-- **Desligar para os visitantes sem apagar:** troque `PERCENTUAL` para `0` na parte 1 e salve. Quem abriu com `?lm=novo` continua vendo o novo até abrir com `?lm=antigo`.
+- **Desligar para os visitantes sem apagar:** troque para `var PERCENTUAL = 0;` na parte 1 e salve. Quem abriu com `?lm=novo` continua vendo o novo até abrir com `?lm=antigo`.
 - **Proteção automática:** se o jsDelivr falhar de verdade numa visita, aquela visita volta sozinha ao visual antigo (veja **Como funciona**, itens 4 e 5). Não é preciso fazer nada.
 
 ## Atualizar para uma versão nova
@@ -246,7 +246,7 @@ Regra do Eduardo (05/11): a visita normal **nunca** vê o visual antigo, nem por
 - **No visual novo:** aparece sempre um "Voltar à interface anterior". No computador e no tablet ele fica na barra escura de cima; no celular, no fim do menu aberto.
 - **No visual de hoje:** o "Ver a nova interface" aparece **só no navegador marcado da equipe**. Para marcar, abra uma vez `https://www.lorenmetais.com.br/?lm=equipe` em cada navegador e aparelho. A marca (`localStorage.lm_equipe`) não muda o visual sozinha; ela só faz o botão aparecer, em qualquer página. Para desmarcar: `?lm=equipe-sair`. Sem a marca, o visitante não vê nada.
 - **O que o botão faz:** grava a mesma escolha do `?lm=novo` / `?lm=antigo` (`lm_forca`) e recarrega a página uma vez, já sem o `?lm=` no endereço. No checkout não aparece.
-- **Abrir o botão a todos os visitantes:** troque `BOTAO_PUBLICO=false` por `true` na parte 1 (no código legível, `var BOTAO_PUBLICO = false;`) e salve.
+- **Abrir o botão a todos os visitantes:** troque `var BOTAO_PUBLICO = false;` por `true` na parte 1 e salve.
 
 ## Ligar para parte das visitas
 
@@ -275,6 +275,6 @@ Medido (rede 1,6 Mbps, 05/11, `dev/teste-carregador.mjs`, sem o kit FontAwesome)
 ## Limites conhecidos
 
 - **Teto da Loja Integrada:** o HTML do tema trava em scripts síncronos (kit FontAwesome, GTM, Clarity) e o conteúdo novo completo só aparece quando o `loren.js` monta no ready do tema (DCL de ~5 a 7 s no celular lento). A casca melhora o primeiro quadro, não o LCP; o LCP no celular não chega a 2,5 s sem controlar o HTML do tema.
-- **Tamanho do campo do painel:** 15.000 caracteres por entrada (o painel mostra a contagem; visto pelo Eduardo em 10/11). Por isso o código vai em 2 partes enxutas: parte 1 com ~10.500 caracteres, parte 2 com ~8.500.
+- **Tamanho do campo do painel:** 15.000 caracteres por entrada (o painel mostra a contagem; visto pelo Eduardo em 10/11). Por isso o código vai em 2 partes enxutas (sem comentários e recuo, por `painel/gera.py`): parte 1 com ~11.500 caracteres, parte 2 com ~9.700.
 - Se o `loren.js` montar parte do cabeçalho e depois falhar, o plano B pode deixar peças soltas na página; o caso comum (JS que nem chega ou quebra ao carregar) é tratado.
 - A casca imita o cabeçalho com uma imagem (logo) e um fundo; o JS depois troca pelo cabeçalho real na mesma altura. Se a altura do cabeçalho mudar em `loren.css`, a casca precisa mudar junto.
