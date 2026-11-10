@@ -15,8 +15,8 @@ html.lm-novo .pagina-produto .lm-prod-topo > .span6 { width: auto !important; ma
 /* galeria: foto quadrada em cartão, miniaturas em coluna à esquerda */
 html.lm-novo .pagina-produto .lm-prod-gal { display: grid; grid-template-columns: 88px minmax(0, 1fr); gap: 16px; align-items: start; position: relative; }
 html.lm-novo .pagina-produto .lm-prod-gal .conteiner-imagem { grid-column: 2; grid-row: 1; aspect-ratio: 1; min-height: 0; overflow: hidden; display: grid; place-items: center; border: var(--lm-borda-padrao); background: #fff; padding: var(--lm-esp-4); margin: 0 !important; box-sizing: border-box; }  /* respiro das caixas com borda: 32 (16 no celular) */
-html.lm-novo .pagina-produto .lm-prod-gal .conteiner-imagem > div { width: 100% !important; height: 100% !important; min-height: 0 !important; display: grid; place-items: center; }  /* o tema põe altura inline no invólucro */
-html.lm-novo .pagina-produto .lm-prod-gal .conteiner-imagem img { width: 100% !important; height: 100% !important; max-height: none !important; object-fit: contain; }
+html.lm-novo .pagina-produto .lm-prod-gal .conteiner-imagem > div { width: 100% !important; height: 100% !important; min-height: 0 !important; margin: 0 !important; padding: 0 !important; position: relative; display: grid; place-items: center; }  /* o tema põe altura inline no invólucro */
+html.lm-novo .pagina-produto .lm-prod-gal .conteiner-imagem img { position: absolute; inset: 0; width: 100% !important; height: 100% !important; max-width: none !important; max-height: none !important; margin: 0 !important; object-fit: contain; }  /* foto inteira na área da caixa (o invólucro tem a medida dela): em fluxo, o 100% de altura não resolvia e a foto em pé saía com a altura natural, cortada (Eduardo 10/11, 2001) */
 html.lm-novo .pagina-produto .lm-prod-gal .produto-thumbs { grid-column: 1; grid-row: 1; margin: 0 !important; height: 0; min-height: 100%; overflow-y: auto; scrollbar-width: none; }  /* altura da foto: com muitas fotos, rola */
 /* coluna de miniaturas com as setas nas pontas (produto.js): seta, miniaturas que rolam, seta; na altura da foto */
 html.lm-novo .pagina-produto .lm-prod-gal .lm-miniaturas { grid-column: 1; grid-row: 1; align-self: stretch; contain: size; display: flex; flex-direction: column; align-items: center; gap: var(--lm-esp-1); }  /* contain: não conta para a altura da linha, só estica até a foto */
@@ -25,7 +25,8 @@ html.lm-novo .pagina-produto .lm-prod-gal .lm-miniaturas .produto-thumbs { flex:
 html.lm-novo .pagina-produto .lm-prod-gal .lm-miniaturas .slides a { scroll-snap-align: start; }
 html.lm-novo .pagina-produto .lm-miniaturas .lm-seta { position: static !important; transform: none !important; flex: none; width: 44px !important; height: 44px !important; }
 html.lm-novo .pagina-produto .lm-prod-gal .produto-thumbs::-webkit-scrollbar { display: none; }
-html.lm-novo .pagina-produto .lm-prod-gal > :not(.conteiner-imagem, .produto-thumbs, .lm-miniaturas, .bandeiras-produto, .lm-galeria) { grid-column: 1 / -1; }  /* vídeo e outros blocos da galeria na largura toda */
+html.lm-novo .pagina-produto .lm-prod-gal > :not(.conteiner-imagem, .produto-thumbs, .lm-miniaturas, .bandeiras-produto, .lm-galeria, .produto-video) { grid-column: 1 / -1; }
+html.lm-novo .pagina-produto .lm-prod-gal > .produto-video { grid-column: -2 / -1; }  /* vídeo embaixo da foto, alinhado com ela, e não sob as miniaturas (Eduardo 10/11) */  /* vídeo e outros blocos da galeria na largura toda */
 html.lm-novo .pagina-produto .lm-prod-gal .produto-thumbs :is(.flexslider, .flex-viewport) { margin: 0 !important; padding: 0 !important; height: auto !important; overflow: visible !important; border: 0 !important; box-shadow: none !important; background: none !important; }
 html.lm-novo .pagina-produto .lm-prod-gal .produto-thumbs .slides { width: auto !important; transform: none !important; display: flex !important; flex-direction: column; gap: 8px; margin: 0 !important; padding: 0 !important; }
 html.lm-novo .pagina-produto .lm-prod-gal .produto-thumbs .slides > li { width: auto !important; float: none !important; margin: 0 !important; display: flex !important; flex-direction: column; gap: 8px; }
@@ -43,7 +44,7 @@ html.lm-novo .pagina-produto .lm-prod-gal--uma .bandeiras-produto { left: 16px; 
 html.lm-novo .pagina-produto .lm-galeria { display: none; }
 /* vídeo do produto (produto.js): cartão baixo com a capa do YouTube e play; no clique, o player 16:9 no lugar */
 html.lm-novo .pagina-produto .produto-video { display: block !important; margin: 0 !important; padding: 0 !important; border: 0 !important; background: none !important; }
-html.lm-novo .pagina-produto .lm-video { display: flex; align-items: center; gap: var(--lm-esp-2); width: 100%; margin: 0; padding: var(--lm-esp-1); border: var(--lm-borda-padrao); background: #fff; cursor: pointer; text-align: left; font: inherit; color: var(--lm-grafite); }
+html.lm-novo .pagina-produto .lm-video { display: flex; align-items: center; gap: var(--lm-esp-2); width: 100%; margin: 0; padding: var(--lm-esp-2); border: var(--lm-borda-padrao); background: #fff; cursor: pointer; text-align: left; font: inherit; color: var(--lm-grafite); }
 html.lm-novo .pagina-produto .lm-video:hover { border-color: var(--lm-onda-escura); }
 html.lm-novo .pagina-produto .lm-video:focus-visible { outline: 2px solid var(--lm-azul); outline-offset: 2px; }
 html.lm-novo .pagina-produto .lm-video__capa { position: relative; flex: none; width: 160px; aspect-ratio: 16 / 9; background: var(--lm-grafite); }

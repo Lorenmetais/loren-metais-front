@@ -116,30 +116,13 @@
         bt.addEventListener('click', (e) => { e.stopPropagation(); ligada = !ligada; try { sessionStorage.setItem('lm-lupa', ligada ? 'on' : 'off'); } catch {} if (!ligada) lente.hidden = true; pinta(); });
         // a foto usa object-fit: contain; a lupa só vale em cima da foto, não nas margens
         const caixa = () => { const r = principal.getBoundingClientRect(), s = Math.min(r.width / principal.naturalWidth, r.height / principal.naturalHeight), w = principal.naturalWidth * s, h = principal.naturalHeight * s; return { x: r.left + (r.width - w) / 2, y: r.top + (r.height - h) / 2, w, h }; };
-        // fundo branco da foto: a lente só aumentaria branco e virava um círculo branco solto (Eduardo 10/11). A foto grande é lida
-        // num canvas de 120 px (o CDN da LI manda Access-Control-Allow-Origin: *; com new Image + crossOrigin o Chrome recusava, pelo
-        // fetch passa); sem leitura, a lente aparece como antes
-        const amostra = (g, pre) => { try { const cv = document.createElement('canvas'); cv.width = 120; cv.height = Math.max(1, Math.round(120 * pre.height / pre.width)); const c = cv.getContext('2d', { willReadFrequently: true }); c.drawImage(pre, 0, 0, cv.width, cv.height); g.px = c.getImageData(0, 0, cv.width, cv.height); } catch {} };
-        const vazio = (d, cx, cy, b) => {
-          if (!d) return false;
-          const k = d.width / b.w, r = Math.ceil(LADO / 2 / ZOOM * k), x0 = Math.round(cx * k), y0 = Math.round(cy * k);
-          // no círculo da lente, menos de 5% de pontos com cor (abaixo de 220: produto ou marca d'água) = fundo; branco e cinza bem claro não contam
-          let n = 0, t = 0;
-          for (let y = Math.max(0, y0 - r); y <= Math.min(d.height - 1, y0 + r); y++) for (let x = Math.max(0, x0 - r); x <= Math.min(d.width - 1, x0 + r); x++) { if ((x - x0) ** 2 + (y - y0) ** 2 > r * r) continue; const i = (y * d.width + x) * 4; t++; if (Math.min(d.data[i], d.data[i + 1], d.data[i + 2]) < 220) n++; }
-          return n < t * 0.05;
-        };
         const mostra = (e) => {
           const b = caixa(), cx = e.clientX - b.x, cy = e.clientY - b.y;
           if (!principal.naturalWidth || cx < 0 || cy < 0 || cx > b.w || cy > b.h) { lente.hidden = true; return; }
           const url = lista[atual]?.g || principal.src; let g = grandes.get(url);
-          if (!g) {
-            g = { ok: false }; grandes.set(url, g);
-            fetch(url, { mode: 'cors' }).then((r) => (r.ok ? r.blob() : Promise.reject())).then(async (bl) => { g.src = URL.createObjectURL(bl); amostra(g, await createImageBitmap(bl)); })
-              .catch(() => {}).finally(() => { g.ok = true; if (ev) mostra(ev); });
-          }
-          if (!g.ok || vazio(g.px, cx, cy, b)) { lente.hidden = true; return; }  // até a grande chegar não há como saber se é fundo
+          if (!g) { g = { ok: false }; grandes.set(url, g); const pre = new Image(); pre.onload = () => { g.ok = true; if (ev) mostra(ev); }; pre.src = url; }
           lente.hidden = false; lente.style.left = e.clientX + 'px'; lente.style.top = e.clientY + 'px';
-          lente.style.backgroundImage = `url("${g.src || url}")`;  // a grande já baixada (blob); se o fetch falhou, o endereço direto
+          lente.style.backgroundImage = `url("${g.ok ? url : principal.currentSrc || principal.src}")`;  // até a grande chegar, a da página
           lente.style.backgroundSize = `${b.w * ZOOM}px ${b.h * ZOOM}px`;
           lente.style.backgroundPosition = `${LADO / 2 - cx * ZOOM}px ${LADO / 2 - cy * ZOOM}px`;
         };
