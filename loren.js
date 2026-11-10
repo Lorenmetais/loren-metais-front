@@ -4,6 +4,7 @@
 (() => {
   if (/\/checkout|\/pagamento/i.test(location.pathname) || window.__lmDesliga) return;  // __lmDesliga: o código do cabeçalho já voltou esta visita ao visual antigo (CSS ou JS demorou demais)
   const BASE = document.currentScript?.src.replace(/[^/]*$/, '') || '';
+  const V = document.currentScript?.src.match(/\?[^#]*/)?.[0] || '';   // o ?v= do código do cabeçalho: os CSS/JS da página vão com o mesmo (mesma URL do preload; ver cabecalho-snippet.html)
   const LOGO = BASE + 'logo.svg';  // no teste inline, previa_real troca esta linha pelo SVG embutido
   const WA = 'https://api.whatsapp.com/send/?phone=5519992306593&text=' + encodeURIComponent('Olá! Vim pelo site da Loren Metais e gostaria de atendimento.');
   const ORC = 'data-toggle="modal" data-target="#modal_consulte"';  // o mesmo formulário de orçamento que o site já tem
@@ -11,7 +12,7 @@
   document.documentElement.classList.add('lm-novo');
   // entrada pelo favorito "Prévia Loren" (só loren.css e loren.js, sem o código do cabeçalho): o loren.css não tem @import, então traz aqui os tokens e as fontes que faltarem
   const poeLink = (parte, href) => { if (!BASE || document.querySelector(`link[href*="${parte}"]`)) return; const l = document.createElement('link'); l.rel = 'stylesheet'; l.href = href; document.head.append(l); };
-  poeLink('brand-tokens.css', BASE + 'brand-tokens.css');
+  poeLink('brand-tokens.css', BASE + 'brand-tokens.css' + V);
   // O tema (LI.methods.menuWithOffers) faz, para CADA item do menu, $(...).load(urlDaCategoria + ' seletor'): baixa a página inteira da categoria por AJAX e a transforma em DOM
   // só para aproveitar 1 cartão do "produto em destaque" do submenu, que o visual novo esconde. Era a causa de ~14 downloads de HTML e ~110 miniaturas (~0,9 MB) em TODA página.
   // Roda antes do ready do tema (loren.js é defer): este .load específico (dentro de .mega-recebe) vira nada; qualquer outro .load do site segue igual.
@@ -69,8 +70,8 @@
   // CSS e JS da página e o modais: no live o código do cabeçalho já aplicou o CSS e pré-carregou o JS; aqui entra o que faltar e o JS roda, depois do ready do tema. Devolve uma promessa para o html.lm-pronto esperar
   const extra = () => { if (!BASE) return Promise.resolve(); const espera = []; const nova = (el) => { espera.push(new Promise((ok) => { el.onload = el.onerror = ok; })); document.head.append(el); };
     for (const n of [pagina(), 'modais'].filter(Boolean)) {
-      const ja = document.querySelector(`link[rel="stylesheet"][href*="/${n}.css"]`); if (ja) { if (!ja.sheet && !ja.dataset.fim) espera.push(new Promise((ok) => { ja.addEventListener('load', ok); ja.addEventListener('error', ok); })); } else { const l = document.createElement('link'); l.rel = 'stylesheet'; l.href = BASE + n + '.css'; nova(l); }
-      if (!document.querySelector(`script[src*="/${n}.js"]`)) { const j = document.createElement('script'); j.src = BASE + n + '.js'; nova(j); } }
+      const ja = document.querySelector(`link[rel="stylesheet"][href*="/${n}.css"]`); if (ja) { if (!ja.sheet && !ja.dataset.fim) espera.push(new Promise((ok) => { ja.addEventListener('load', ok); ja.addEventListener('error', ok); })); } else { const l = document.createElement('link'); l.rel = 'stylesheet'; l.href = BASE + n + '.css' + V; nova(l); }
+      if (!document.querySelector(`script[src*="/${n}.js"]`)) { const j = document.createElement('script'); j.src = BASE + n + '.js' + V; nova(j); } }
     return Promise.all(espera); };
 
   const monta = () => {

@@ -1,0 +1,29 @@
+# Publicar na loja = levar o commit aprovado para o ramo producao:  git push origin <hash>:producao
+# O código do painel aponta para @producao no jsDelivr. Este fluxo limpa o cache do jsDelivr de todos os arquivos de @producao logo depois do push,
+# para a loja pegar a versão nova em minutos (sem ele, o jsDelivr guarda @ramo por até 12 h). O navegador do visitante renova CSS e JS em até 1 h (?v= do código do cabeçalho).
+name: Limpar o jsDelivr de @producao
+on:
+  push:
+    branches: [producao]
+  workflow_dispatch:
+jobs:
+  purge:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Purge de todos os arquivos publicados (uma chamada só) e conferência
+        run: |
+          set -e
+          caminhos=$(git ls-files | grep -vE '^(\.github/|painel/)|\.md$' | jq -R --arg r "/gh/${GITHUB_REPOSITORY}@producao/" '$r + .' | jq -sc '{path: .}')
+          echo "$(echo "$caminhos" | jq '.path | length') arquivos"
+          id=$(curl -sf --retry 3 -X POST https://purge.jsdelivr.net/ -H 'Content-Type: application/json' -d "$caminhos" | jq -r .id)
+          for i in $(seq 1 30); do
+            r=$(curl -sf --retry 3 "https://purge.jsdelivr.net/status/$id")
+            [ "$(echo "$r" | jq -r .status)" = finished ] && break
+            sleep 2
+          done
+          echo "$r" | jq -r '.status'
+          falhas=$(echo "$r" | jq '[.paths // {} | to_entries[] | select(.value.throttled or (.value.providers | to_entries | any(.value | not)))] | length')
+          [ "$(echo "$r" | jq -r .status)" = finished ] && [ "$falhas" = 0 ] || { echo "purge incompleto: $falhas arquivos"; echo "$r" | jq .; exit 1; }
+          echo "ok: jsDelivr de @producao renovado"

@@ -5,15 +5,16 @@ O visual novo é um código que vai no painel da Loja Integrada, em **2 entradas
 ## Antes de começar
 
 - **Acesso:** administrador do painel da loja.
-- **O hash do commit:** 40 letras e números, do repositório `github.com/eduserpa/loren-metais-front`. No GitHub: aba **Commits**, botão de copiar ao lado do commit (copia o hash completo); no terminal: `git rev-parse HEAD`. Use sempre o hash completo, nunca `main` nem o hash curto: o jsDelivr guarda `@main` por até 12 horas e um hash curto pode ser ambíguo.
+- **O ramo `producao`:** o código do painel aponta para `@producao` no jsDelivr. O `main` continua sendo a prévia. **Publicar na loja = levar o commit aprovado para `producao`:** `git push origin <hash completo>:producao`. A GitHub Action `.github/workflows/purge-producao.yml` limpa o cache do jsDelivr logo depois do push, e a loja passa a servir a versão nova em minutos (detalhes em **Atualizar para uma versão nova**).
+- **O hash do commit** (para gerar as partes): 40 letras e números. No GitHub: aba **Commits**, botão de copiar ao lado do commit; no terminal: `git rev-parse HEAD`.
 - **Se o repositório mudou de conta** (transferência para o GitHub da empresa): troque `eduserpa` pela conta nova na linha `var BASE` do código.
-- **Teste rápido do hash:** abra `https://cdn.jsdelivr.net/gh/eduserpa/loren-metais-front@<hash>/loren.css` no navegador. Tem que aparecer texto de CSS, não uma página de erro.
+- **Teste rápido:** abra `https://cdn.jsdelivr.net/gh/eduserpa/loren-metais-front@producao/loren.css` no navegador. Tem que aparecer texto de CSS, não uma página de erro.
 
 ## Instalar (5 passos)
 
 O código da seção **O código** (abaixo) é a versão legível, com comentários, e passa de 15.000 caracteres. No painel ele vai **enxuto e em 2 partes**: a parte 1 tem a lógica e a casca básica; a parte 2, só o esqueleto. A ordem das 2 entradas não importa.
 
-1. Gere as 2 partes do commit, na pasta deste repositório: `python painel/gera.py <hash completo> --saida <pasta>`. Precisa de Python 3 e do git; se houver Node, ele também confere a sintaxe. O script divide o código, tira comentários e recuo, troca `COMMIT` pelo hash e põe `PERCENTUAL = 0`, e grava `COLAR-NO-PAINEL-1.html` e `COLAR-NO-PAINEL-2.html` na pasta indicada. Cada parte tem que ficar abaixo de 14.500 caracteres; o script recusa se passar.
+1. Gere as 2 partes, na pasta deste repositório: `python painel/gera.py <hash completo> --saida <pasta>`. O hash diz de qual commit ler o código do cabeçalho; o painel aponta sempre para `@producao` (`--ref <hash>` só para teste). Precisa de Python 3 e do git; se houver Node, ele também confere a sintaxe. O script divide o código, tira comentários e recuo, aponta para `@producao` e põe `PERCENTUAL = 0`, e grava `COLAR-NO-PAINEL-1.html` e `COLAR-NO-PAINEL-2.html` na pasta indicada. Cada parte tem que ficar abaixo de 14.500 caracteres; o script recusa se passar.
 2. Se quiser outro `PERCENTUAL`, troque `var PERCENTUAL = 0;` na parte 1: `0` = ninguém vê o novo, só quem abrir com `?lm=novo` (para testar no ar); `10` a `20` = começo recomendado; `100` = todas as visitas. Detalhes em **Ligar para parte das visitas**.
 3. No painel: **Configurações > Códigos HTML personalizados > Incluir código HTML**. Crie **2 entradas**, uma com cada arquivo inteiro (da linha `<!-- Loren Metais ...` até `</script>`). Nas duas: local **cabeçalho (`<head>`)**; páginas **todas as páginas exceto checkout** (se o painel não oferecer essa escolha, tudo bem: no checkout o código não faz nada e não pede nenhum arquivo). Salve. Não mexa nos outros códigos que já estão no painel.
 4. Espere a loja publicar (a ajuda da LI fala em 15 a 30 minutos).
@@ -24,7 +25,7 @@ O código da seção **O código** (abaixo) é a versão legível, com comentár
 1. Abra `https://www.lorenmetais.com.br/?lm=novo`. Primeiro aparece um esqueleto cinza com a logo; em seguida, o visual novo. Navegue por uma categoria, um produto (o frete tem o campo de CEP), a busca e o carrinho.
 2. Em outra janela anônima, abra a loja **sem** `?lm`. Com `PERCENTUAL = 0`, ela tem que estar exatamente como antes.
 3. Vá até o checkout (carrinho > Finalizar compra): ele não muda. No DevTools (F12) > aba Rede, não pode haver pedido a `jsdelivr.net/gh/`.
-4. **Se com `?lm=novo` nada mudar:** confira se as 2 entradas estão salvas e se cada uma termina em `</script>` (o campo corta acima de 15.000 caracteres); confira também o hash (passo do teste rápido). Só a parte 1 já liga o visual novo (sem o esqueleto); só a parte 2 não muda nada.
+4. **Se com `?lm=novo` nada mudar:** confira se as 2 entradas estão salvas e se cada uma termina em `</script>` (o campo corta acima de 15.000 caracteres); confira também se o ramo `producao` existe e serve os arquivos (passo do teste rápido). Só a parte 1 já liga o visual novo (sem o esqueleto); só a parte 2 não muda nada.
 5. Para voltar ao visual antigo só no seu navegador: abra qualquer página com `?lm=antigo`.
 
 ## Desinstalar (tirar do ar)
@@ -35,18 +36,24 @@ O código da seção **O código** (abaixo) é a versão legível, com comentár
 
 ## Atualizar para uma versão nova
 
-Quando sair um commit novo: se o arquivo `cabecalho-snippet.html` **não** mudou nele, basta trocar o hash (40 letras e números) na parte 1, logo depois de `loren-metais-front@`. Se mudou, gere as 2 partes de novo (passo 1), mantenha o `PERCENTUAL` que estava e troque as 2 entradas. Depois, repita a conferência.
+**Sem mexer no painel:** depois de aprovar o commit na prévia (`main`), rode `git push origin <hash completo>:producao`. A Action limpa o cache do jsDelivr (confira na aba **Actions** do GitHub que ela terminou em verde). Visitante novo pega a versão nova em minutos. Quem já visitou pega em até 1 hora: o jsDelivr manda o navegador guardar arquivos de `@ramo` por 7 dias, e o código do cabeçalho põe `?v=<hora>` nos CSS e JS para renovar de hora em hora, sem nenhum pedido a mais. Depois, repita a conferência.
+
+- **Voltar uma versão:** `git push --force origin <hash anterior>:producao`. A Action limpa o cache do mesmo jeito.
+- **Recolar o painel** só quando o `cabecalho-snippet.html` mudar (a lógica do painel, raro): gere as 2 partes de novo (passo 1), mantenha o `PERCENTUAL` que estava e troque as 2 entradas.
+- **Imagens e fontes** não levam o `?v=`, então o navegador pode guardá-las por até 7 dias. Se mudar o conteúdo de uma, troque também o nome do arquivo.
+- **Durante a troca** (a hora depois de publicar), uma visita que já tinha um CSS ou JS antigo guardado pode, numa página nova, juntar arquivos de 2 versões. O risco é pequeno e some na hora seguinte. Evite publicar mudanças que dependam umas das outras entre `loren.*` e os arquivos de página em horário de pico.
 
 ## O código
 
 Cópia de `front/cabecalho-snippet.html` (as duas têm que ser iguais).
 
 ```html
-<!-- Loren Metais: visual novo. Código do cabeçalho (head) do painel, em "todas as páginas exceto checkout". Troque COMMIT pelo hash COMPLETO do commit (40 letras e números). Detalhes em INSTALAR.md -->
+<!-- Loren Metais: visual novo. Código do cabeçalho (head) do painel, em "todas as páginas exceto checkout". No painel vai em 2 entradas geradas por painel/gera.py, que troca COMMIT por producao (o ramo publicado). Detalhes em INSTALAR.md -->
 <script>
 (function () {
   if (/\/(checkout|pagamento)/i.test(location.pathname)) return;   // checkout: este código não faz nada e não pede nenhum arquivo
-  var BASE = 'https://cdn.jsdelivr.net/gh/eduserpa/loren-metais-front@COMMIT/';
+  var BASE = 'https://cdn.jsdelivr.net/gh/eduserpa/loren-metais-front@COMMIT/';   // no painel: @producao (o ramo publicado); publicar = levar o commit aprovado para o ramo producao
+  var V = '?v=' + Math.floor(Date.now() / 36e5);   // muda de hora em hora: o jsDelivr manda o navegador guardar @ramo por 7 dias; com isto CSS e JS novos valem em até 1 h, sem pedido a mais (o jsDelivr ignora o ?v)
   var PERCENTUAL = 100;   // % das visitas que veem o visual novo; a escolha fica guardada no visitante (?lm=novo ou ?lm=antigo força, para teste)
   var TETO_MS = 40000;    // lentidão não é falha: o antigo só entra em erro real ou com uma etapa parada este tempo (CSS, JS depois do CSS, montagem depois do HTML)
   var BOTAO_PUBLICO = false;   // "Ver a nova interface" no visual de hoje: false = só no navegador marcado com ?lm=equipe (?lm=equipe-sair desmarca); true = para todo visitante
@@ -181,10 +188,10 @@ Cópia de `front/cabecalho-snippet.html` (as duas têm que ser iguais).
     aviso('lm_falha', motivo);
   };
   poe('link', { rel: 'preconnect', href: 'https://cdn.jsdelivr.net', crossorigin: '' });
-  poe('link', { rel: 'preload', as: 'script', crossorigin: 'anonymous', fetchpriority: 'high', href: BASE + 'loren.js' });   // o JS baixa junto com o CSS (sem isto o navegador o segura até o fim do HTML)
+  poe('link', { rel: 'preload', as: 'script', crossorigin: 'anonymous', fetchpriority: 'high', href: BASE + 'loren.js' + V });   // o JS baixa junto com o CSS (sem isto o navegador o segura até o fim do HTML)
   var faltam = 0, pronto = function () {
     if (feito) return; clearTimeout(limite);
-    var chegou = false, js = poe('script', { src: BASE + 'loren.js', crossorigin: 'anonymous', fetchpriority: 'high' });
+    var chegou = false, js = poe('script', { src: BASE + 'loren.js' + V, crossorigin: 'anonymous', fetchpriority: 'high' });
     js.onload = function () { chegou = true; }; js.onerror = function () { desliga('js_erro'); };
     setTimeout(function () { if (!chegou) desliga('js_parado'); }, TETO_MS);
     window.addEventListener('error', function (e) { if (!window.__lmMontou && /loren-metais-front/.test(e.filename || '')) desliga('js_excecao'); });   // o loren.js quebrou antes de montar
@@ -194,9 +201,9 @@ Cópia de `front/cabecalho-snippet.html` (as duas têm que ser iguais).
     // O CSS já vale (0,3 a 0,8 s a menos no produto, 09/11; exige o modais.css SEM :has(), que com ele os handlers de ready do tema ficavam 2 a 5 s mais lentos); data-fim avisa o loren.js
     // que o load ou o erro já passou. O JS só pré-carrega: quem o roda é o loren.js, depois do ready do tema.
     [{ product: 'produto', category: 'categoria' }[tipo], 'modais'].forEach(function (n) {
-      if (!n) return; var l = poe('link', { rel: 'stylesheet', href: BASE + n + '.css' });
+      if (!n) return; var l = poe('link', { rel: 'stylesheet', href: BASE + n + '.css' + V });
       l.onload = l.onerror = function () { l.setAttribute('data-fim', '1'); };
-      poe('link', { rel: 'preload', as: 'script', href: BASE + n + '.js' });
+      poe('link', { rel: 'preload', as: 'script', href: BASE + n + '.js' + V });
     });
   };
   var tipo = ''; for (var s = document.scripts, i = s.length - 1; i >= 0 && !tipo; i--) { var m = /page: \{[^}]*type: '(\w+)'/.exec(s[i].text); if (m) tipo = m[1]; }   // o tipo da página vem do script de métricas do tema, no head
@@ -213,7 +220,7 @@ Cópia de `front/cabecalho-snippet.html` (as duas têm que ser iguais).
   var limite = setTimeout(function () { desliga('css_parado'); }, TETO_MS);
   ['brand-tokens.css', 'loren.css'].forEach(   // só o que decide o visual; o CSS e o JS da página (produto, categoria, modais) são pré-carregados em pronto() e o loren.js os aplica e espera antes de revelar
   function (a) {
-    faltam++; var l = poe('link', { rel: 'stylesheet', href: BASE + a });
+    faltam++; var l = poe('link', { rel: 'stylesheet', href: BASE + a + V });
     l.onload = function () { if (!--faltam) pronto(); }; l.onerror = function () { desliga('css_erro'); };
   });
   // fontes (servidas do nosso repositório, as mesmas URLs do @font-face do brand-tokens.css) e banner da home (a 1ª arte do carrossel é a LCP): não bloqueiam nada
