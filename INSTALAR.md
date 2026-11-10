@@ -1,7 +1,45 @@
-# Como instalar o visual novo no live (Loja Integrada)
+# Como instalar o visual novo na loja (Loja Integrada)
 
-Onde: painel da loja, **Configurações > Códigos HTML personalizados**, campo do **cabeçalho (`<head>`)**, uma vez só, **para "todas as páginas exceto checkout"** (se o painel não tiver essa escolha, o código se protege sozinho: no checkout ele não faz nada e não pede nenhum arquivo).
-O texto abaixo é uma cópia de `front/cabecalho-snippet.html`. Troque `COMMIT` pelo **hash completo** do commit (40 letras e números, `git rev-parse HEAD`), nunca `@main` nem hash curto: o jsDelivr guarda `@main` por até 12 horas e um hash curto pode ser ambíguo.
+O visual novo é um código que vai **uma vez** no painel da Loja Integrada. Ele busca o resto (CSS, JavaScript, imagens, fontes) neste repositório pelo jsDelivr. Nada do tema é alterado: apagar o código devolve a loja ao que era.
+
+## Antes de começar
+
+- **Acesso:** administrador do painel da loja.
+- **O hash do commit:** 40 letras e números, do repositório `github.com/eduserpa/loren-metais-front`. No GitHub: aba **Commits**, botão de copiar ao lado do commit (copia o hash completo); no terminal: `git rev-parse HEAD`. Use sempre o hash completo, nunca `main` nem o hash curto: o jsDelivr guarda `@main` por até 12 horas e um hash curto pode ser ambíguo.
+- **Se o repositório mudou de conta** (transferência para o GitHub da empresa): troque `eduserpa` pela conta nova na linha `var BASE` do código.
+- **Teste rápido do hash:** abra `https://cdn.jsdelivr.net/gh/eduserpa/loren-metais-front@<hash>/loren.css` no navegador. Tem que aparecer texto de CSS, não uma página de erro.
+
+## Instalar (5 passos)
+
+1. Copie o bloco de código inteiro da seção **O código** (abaixo), da primeira linha (`<!-- Loren Metais ...`) até `</script>`.
+2. Troque `COMMIT` pelo hash completo. Aparece uma vez só, na linha `var BASE = ...@COMMIT/`.
+3. Escolha o `PERCENTUAL` (linha `var PERCENTUAL = 100;`): `0` = ninguém vê o novo, só quem abrir com `?lm=novo` (para testar no ar); `10` a `20` = começo recomendado; `100` = todas as visitas. Detalhes em **Ligar para parte das visitas**.
+4. No painel: **Configurações > Códigos HTML personalizados > Incluir código HTML**. Local: **cabeçalho (`<head>`)**. Páginas: **todas as páginas exceto checkout** (se o painel não oferecer essa escolha, tudo bem: no checkout o código não faz nada e não pede nenhum arquivo). Cole e salve. Não mexa nos outros códigos que já estão no painel.
+5. Faça a conferência abaixo.
+
+Atalho para a equipe: `dev/COLAR-NO-PAINEL.html` (fora deste repositório) já sai pronto, com o hash e `PERCENTUAL = 0`.
+
+## Conferir depois de colar (5 minutos, em janela anônima)
+
+1. Abra `https://www.lorenmetais.com.br/?lm=novo`. Primeiro aparece um esqueleto cinza com a logo; em seguida, o visual novo. Navegue por uma categoria, um produto (o frete tem o campo de CEP), a busca e o carrinho.
+2. Em outra janela anônima, abra a loja **sem** `?lm`. Com `PERCENTUAL = 0`, ela tem que estar exatamente como antes.
+3. Vá até o checkout (carrinho > Finalizar compra): ele não muda. No DevTools (F12) > aba Rede, não pode haver pedido a `jsdelivr.net/gh/`.
+4. **Se com `?lm=novo` nada mudar:** o painel pode ter cortado o código (o limite do campo não está documentado e o código tem ~23 KB). Abra o código salvo no painel e confira se ele termina em `</script>`; confira também o hash (passo do teste rápido).
+5. Para voltar ao visual antigo só no seu navegador: abra qualquer página com `?lm=antigo`.
+
+## Desinstalar (tirar do ar)
+
+- **Apague (ou desative) o código no painel e salve.** Na carga seguinte a loja volta ao que era. Não sobra nada que mude a loja: as chaves `lm_grupo` e `lm_forca` que ficam no navegador dos visitantes não fazem nada sem o código.
+- **Desligar para os visitantes sem apagar:** troque `PERCENTUAL` para `0` e salve. Quem abriu com `?lm=novo` continua vendo o novo até abrir com `?lm=antigo`.
+- **Proteção automática:** se o jsDelivr falhar de verdade numa visita, aquela visita volta sozinha ao visual antigo (veja **Como funciona**, itens 4 e 5). Não é preciso fazer nada.
+
+## Atualizar para uma versão nova
+
+Quando sair um commit novo: se o arquivo `cabecalho-snippet.html` **não** mudou nele, basta trocar o hash na linha `var BASE`. Se mudou, copie o bloco novo desta página e repita os passos 2 e 3 (mantendo o `PERCENTUAL` que estava). Depois, repita a conferência.
+
+## O código
+
+Cópia de `front/cabecalho-snippet.html` (as duas têm que ser iguais).
 
 ```html
 <!-- Loren Metais: visual novo. Código do cabeçalho (head) do painel, em "todas as páginas exceto checkout". Troque COMMIT pelo hash COMPLETO do commit (40 letras e números). Detalhes em INSTALAR.md -->
@@ -169,7 +207,7 @@ O texto abaixo é uma cópia de `front/cabecalho-snippet.html`. Troque `COMMIT` 
 
 Regra do Eduardo (05/11): a visita normal **nunca** vê o visual antigo, nem por um instante. O visual antigo só aparece se o CDN falhar de verdade (plano B).
 
-1. **Casca síncrona.** O código liga `html.lm-novo` na hora (antes do `<body>`, sem esperar rede) e coloca no head um CSS pequeno (`casca`, inline, ~3 KB com a logo embutida): barra escura de 33 px (50 no celular), cabeçalho branco de 81 px (125 no celular) com a logo, o resto da página escondido (`visibility`, que não conta como salto) e o espaço das peças que o JS monta já reservado (vantagens, 115/72 px). A primeira pintura já é o visual novo, sem depender do jsDelivr. Em cima dela, um **esqueleto** (retângulos cinza na posição das peças, num pseudo-elemento, sem DOM novo) em todas as páginas: início, categoria, busca, marca, produto, institucionais, 404, carrinho e login, no computador, no tablet (início, categoria e produto) e no celular. O CSS do esqueleto é gerado na hora a partir de listas curtas de retângulos (função `esq`); medidas em `dev/qa-ellie/esqueleto/` e `dev/qa-wed/esqueleto/`. As alturas são as de `loren.css` (seção "carregamento sem quebra"); se mudarem lá, mude aqui.
+1. **Casca síncrona.** O código liga `html.lm-novo` na hora (antes do `<body>`, sem esperar rede) e coloca no head um CSS inline (`casca`, com a logo embutida e o esqueleto de cada página): barra escura de 33 px (50 no celular), cabeçalho branco de 81 px (125 no celular) com a logo, o resto da página escondido (`visibility`, que não conta como salto) e o espaço das peças que o JS monta já reservado (vantagens, 115/72 px). A primeira pintura já é o visual novo, sem depender do jsDelivr. Em cima dela, um **esqueleto** (retângulos cinza na posição das peças, num pseudo-elemento, sem DOM novo) em todas as páginas: início, categoria, busca, marca, produto, institucionais, 404, carrinho e login, no computador, no tablet (início, categoria e produto) e no celular. O CSS do esqueleto é gerado na hora a partir de listas curtas de retângulos (função `esq`); medidas em `dev/qa-ellie/esqueleto/` e `dev/qa-wed/esqueleto/`. As alturas são as de `loren.css` (seção "carregamento sem quebra"); se mudarem lá, mude aqui.
 2. **Nada escrito no HTML.** Não há `<link>` nem `<script src>` no código do painel: um `<link rel=stylesheet>` no head bloqueia a pintura (jsDelivr travado = loja em branco por minutos, estudo de 05/11). Os arquivos são pedidos por JavaScript, em paralelo: `brand-tokens.css` e `loren.css` (os dois que decidem), `loren.js` (preload) e as fontes. O CSS e o JS da página (`produto`, `categoria`, `paginas`, `conta`, `modais`, só o que a página usa) o `loren.js` baixa e espera antes de revelar.
 3. **Caminho feliz.** Os dois CSS chegam, o `loren.js` entra, monta cabeçalho, vantagens e o resto e liga `html.lm-pronto`; a casca sai e a página revelada ocupa o mesmo lugar (sem salto). Todo o CSS só vale dentro de `html.lm-novo`, inclusive os ícones e a casca. O CSS da página (produto ou categoria, pelo `type` que o tema escreve no head) e o `modais.css` entram assim que os 2 CSS chegam; o JS deles só é pré-carregado (`rel=preload`) e o `loren.js` o roda depois do ready do tema. Isso exige o `modais.css` **sem `:has()`**: com ele, o CSS aplicado cedo deixava os handlers de ready do tema 2 a 5 s mais lentos (medido em 09/11, `dev/prints-rocky/pronto/`).
 4. **Lentidão não é falha (Eduardo, 09/11).** Enquanto o CSS, o `loren.js` ou a montagem não vêm, a visita fica na casca nova; depois de 2 s aparece um carregando discreto (círculo azul, só CSS, no centro da tela). O visual antigo só entra em **erro de verdade** (um dos 2 CSS ou o `loren.js` dá erro de rede, ou o `loren.js` lança exceção antes de montar) ou se **uma etapa ficar parada `TETO_MS` (40 s)**: o CSS desde o início do código, o `loren.js` depois do CSS, a montagem depois do fim do HTML. Aí o código tira a classe, a casca, os `<link>` e o `<script>`, e a loja abre inteira no visual antigo naquela visita; o `loren.js`, se chegar depois, vê `window.__lmDesliga` e não faz nada.
@@ -201,16 +239,15 @@ Medido (rede 1,6 Mbps, 05/11, `dev/teste-carregador.mjs`, sem o kit FontAwesome)
 - **Lazy por MutationObserver** (e a retirada de `.has-zoom`): sem efeito medido (85 para 87 imagens). A retirada de `.has-zoom` custava ~2 imagens.
 - **Adiar o Google (`Node.prototype`)**: atrasava o GTM em ~2,7 s, ganho de TBT não conclusivo, e mexe em funções nativas.
 
-## Medir e testar
+## Medir e testar (para a equipe; os arquivos de `dev/` ficam fora deste repositório)
 
 - Falhas simuladas: `QUEM=Rocky MODO=<normal|lento|travado|fora|jsfalha|jsmudo|cssfalha> [ATRASO=ms] [THROTTLE=1] [SEMKIT=1] [PERCENTUAL=10 GRUPO=n FORCA=novo] node dev/teste-carregador.mjs`. Ele cola o código no HTML real da loja (antes do script do kit), serve os arquivos do jsDelivr a partir de `front/` (`@TESTE`) e imprime classes do `<html>` ao longo do tempo, evento, cabeçalho novo/antigo visível, CLS e rede. Resultados de 05/11 em `dev/prints-rocky/CARREGADOR.md`.
 - `HOVER=1 QUEM=Rocky node previa_real.mjs dev/lista-qa.txt <pasta> "$(cat dev/validador.js)"` roda o validador visual (0 erros em 6 páginas x 390/820/1440). `LIVE=1` mede desempenho mas não roda o validador.
-- Depois de colar: abrir a loja em janela anônima, rolar até o fim e voltar; conferir no DevTools que no checkout não há requisição a `jsdelivr.net/gh/eduserpa`.
-- **Tirar do ar**: apagar o bloco do painel. O site volta ao que era (nada do tema foi alterado).
+- Depois de colar e para tirar do ar: seções **Conferir depois de colar** e **Desinstalar**, no começo desta página.
 
 ## Limites conhecidos
 
 - **Teto da Loja Integrada:** o HTML do tema trava em scripts síncronos (kit FontAwesome, GTM, Clarity) e o conteúdo novo completo só aparece quando o `loren.js` monta no ready do tema (DCL de ~5 a 7 s no celular lento). A casca melhora o primeiro quadro, não o LCP; o LCP no celular não chega a 2,5 s sem controlar o HTML do tema.
-- **Tamanho do campo do painel:** não consta nos documentos; o código tem ~20,5 KB (a logo embutida pesa 3 KB). Testar no campo antes de publicar (pergunta ao suporte da LI na nota 'Mensagem para o suporte da Loja Integrada').
+- **Tamanho do campo do painel:** não consta nos documentos; o código tem ~23 KB (a logo embutida pesa 3 KB). Testar no campo antes de publicar (pergunta ao suporte da LI na nota 'Mensagem para o suporte da Loja Integrada').
 - Se o `loren.js` montar parte do cabeçalho e depois falhar, o plano B pode deixar peças soltas na página; o caso comum (JS que nem chega ou quebra ao carregar) é tratado.
 - A casca imita o cabeçalho com uma imagem (logo) e um fundo; o JS depois troca pelo cabeçalho real na mesma altura. Se a altura do cabeçalho mudar em `loren.css`, a casca precisa mudar junto.
