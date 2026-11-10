@@ -218,7 +218,7 @@ html.lm-novo .listagem .adic-favo { z-index: 3; }
 html.lm-novo .lm-recolhe > li:nth-child(n+9) { display: none !important; }
 html.lm-novo .lm-mais { display: grid !important; width: max-content; margin: 8px auto 0; background: var(--lm-branco); border: 0; box-shadow: inset 0 0 0 1px var(--lm-grafite); color: var(--lm-grafite); }
 @media (max-width: 767px) { html.lm-novo .lm-recolhe > li:nth-child(n+5) { display: none !important; } }
-html.lm-novo .listagem .acoes-produto { position: relative !important; z-index: 2; opacity: 1 !important; visibility: visible !important; padding: 0 !important; margin-top: 16px !important; }
+html.lm-novo .listagem .acoes-produto { position: relative !important; z-index: 2; opacity: 1 !important; visibility: inherit !important; padding: 0 !important; margin-top: 16px !important; }
 html.lm-novo .listagem .botao-comprar { width: 100% !important; }
 html.lm-novo .listagem .produto-sobrepor { z-index: 1; }
 /* faixa para empresas */
