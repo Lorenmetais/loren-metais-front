@@ -1,6 +1,6 @@
 # Como instalar o visual novo na loja (Loja Integrada)
 
-O visual novo é um código que vai **uma vez** no painel da Loja Integrada. Ele busca o resto (CSS, JavaScript, imagens, fontes) neste repositório pelo jsDelivr. Nada do tema é alterado: apagar o código devolve a loja ao que era.
+O visual novo é um código que vai no painel da Loja Integrada, em **2 entradas** (o campo aceita 15.000 caracteres por entrada). Ele busca o resto (CSS, JavaScript, imagens, fontes) neste repositório pelo jsDelivr. Nada do tema é alterado: apagar o código devolve a loja ao que era.
 
 ## Antes de começar
 
@@ -11,31 +11,31 @@ O visual novo é um código que vai **uma vez** no painel da Loja Integrada. Ele
 
 ## Instalar (5 passos)
 
-1. Copie o bloco de código inteiro da seção **O código** (abaixo), da primeira linha (`<!-- Loren Metais ...`) até `</script>`.
-2. Troque `COMMIT` pelo hash completo. Aparece uma vez só, na linha `var BASE = ...@COMMIT/`.
-3. Escolha o `PERCENTUAL` (linha `var PERCENTUAL = 100;`): `0` = ninguém vê o novo, só quem abrir com `?lm=novo` (para testar no ar); `10` a `20` = começo recomendado; `100` = todas as visitas. Detalhes em **Ligar para parte das visitas**.
-4. No painel: **Configurações > Códigos HTML personalizados > Incluir código HTML**. Local: **cabeçalho (`<head>`)**. Páginas: **todas as páginas exceto checkout** (se o painel não oferecer essa escolha, tudo bem: no checkout o código não faz nada e não pede nenhum arquivo). Cole e salve. Não mexa nos outros códigos que já estão no painel.
-5. Faça a conferência abaixo.
+O código da seção **O código** (abaixo) é a versão legível, com comentários, e passa de 15.000 caracteres. No painel ele vai **enxuto e em 2 partes**: a parte 1 tem a lógica e a casca básica; a parte 2, só o esqueleto. A ordem das 2 entradas não importa.
 
-Atalho para a equipe: `dev/COLAR-NO-PAINEL.html` (fora deste repositório) já sai pronto, com o hash e `PERCENTUAL = 0`.
+1. Gere as 2 partes do commit: `bash dev/painel-2-partes/gera.sh <hash completo>`. Os arquivos de `dev/` ficam fora deste repositório, com a equipe. O script divide e enxuga o código, troca `COMMIT` pelo hash e põe `PERCENTUAL = 0`, e grava `dev/COLAR-NO-PAINEL-1.html` e `-2.html`. Cada parte tem que ficar abaixo de 14.500 caracteres; o script recusa se passar.
+2. Se quiser outro `PERCENTUAL`, troque `PERCENTUAL=0` na parte 1: `0` = ninguém vê o novo, só quem abrir com `?lm=novo` (para testar no ar); `10` a `20` = começo recomendado; `100` = todas as visitas. Detalhes em **Ligar para parte das visitas**.
+3. No painel: **Configurações > Códigos HTML personalizados > Incluir código HTML**. Crie **2 entradas**, uma com cada arquivo inteiro (da linha `<!-- Loren Metais ...` até `</script>`). Nas duas: local **cabeçalho (`<head>`)**; páginas **todas as páginas exceto checkout** (se o painel não oferecer essa escolha, tudo bem: no checkout o código não faz nada e não pede nenhum arquivo). Salve. Não mexa nos outros códigos que já estão no painel.
+4. Espere a loja publicar (a ajuda da LI fala em 15 a 30 minutos).
+5. Faça a conferência abaixo (a equipe tem `node dev/conferir-painel.mjs`, que faz as verificações e escreve OK/ERRO).
 
 ## Conferir depois de colar (5 minutos, em janela anônima)
 
 1. Abra `https://www.lorenmetais.com.br/?lm=novo`. Primeiro aparece um esqueleto cinza com a logo; em seguida, o visual novo. Navegue por uma categoria, um produto (o frete tem o campo de CEP), a busca e o carrinho.
 2. Em outra janela anônima, abra a loja **sem** `?lm`. Com `PERCENTUAL = 0`, ela tem que estar exatamente como antes.
 3. Vá até o checkout (carrinho > Finalizar compra): ele não muda. No DevTools (F12) > aba Rede, não pode haver pedido a `jsdelivr.net/gh/`.
-4. **Se com `?lm=novo` nada mudar:** o painel pode ter cortado o código (o limite do campo não está documentado e o código tem ~23 KB). Abra o código salvo no painel e confira se ele termina em `</script>`; confira também o hash (passo do teste rápido).
+4. **Se com `?lm=novo` nada mudar:** confira se as 2 entradas estão salvas e se cada uma termina em `</script>` (o campo corta acima de 15.000 caracteres); confira também o hash (passo do teste rápido). Só a parte 1 já liga o visual novo (sem o esqueleto); só a parte 2 não muda nada.
 5. Para voltar ao visual antigo só no seu navegador: abra qualquer página com `?lm=antigo`.
 
 ## Desinstalar (tirar do ar)
 
-- **Apague (ou desative) o código no painel e salve.** Na carga seguinte a loja volta ao que era. Não sobra nada que mude a loja: as chaves `lm_grupo` e `lm_forca` que ficam no navegador dos visitantes não fazem nada sem o código.
-- **Desligar para os visitantes sem apagar:** troque `PERCENTUAL` para `0` e salve. Quem abriu com `?lm=novo` continua vendo o novo até abrir com `?lm=antigo`.
+- **Apague (ou desative) as 2 entradas no painel e salve.** Na carga seguinte a loja volta ao que era. Não sobra nada que mude a loja: as chaves `lm_grupo`, `lm_forca` e `lm_equipe` que ficam no navegador dos visitantes não fazem nada sem o código.
+- **Desligar para os visitantes sem apagar:** troque `PERCENTUAL` para `0` na parte 1 e salve. Quem abriu com `?lm=novo` continua vendo o novo até abrir com `?lm=antigo`.
 - **Proteção automática:** se o jsDelivr falhar de verdade numa visita, aquela visita volta sozinha ao visual antigo (veja **Como funciona**, itens 4 e 5). Não é preciso fazer nada.
 
 ## Atualizar para uma versão nova
 
-Quando sair um commit novo: se o arquivo `cabecalho-snippet.html` **não** mudou nele, basta trocar o hash na linha `var BASE`. Se mudou, copie o bloco novo desta página e repita os passos 2 e 3 (mantendo o `PERCENTUAL` que estava). Depois, repita a conferência.
+Quando sair um commit novo: se o arquivo `cabecalho-snippet.html` **não** mudou nele, basta trocar o hash (40 letras e números) na parte 1, logo depois de `loren-metais-front@`. Se mudou, gere as 2 partes de novo (passo 1), mantenha o `PERCENTUAL` que estava e troque as 2 entradas. Depois, repita a conferência.
 
 ## O código
 
@@ -49,15 +49,35 @@ Cópia de `front/cabecalho-snippet.html` (as duas têm que ser iguais).
   var BASE = 'https://cdn.jsdelivr.net/gh/eduserpa/loren-metais-front@COMMIT/';
   var PERCENTUAL = 100;   // % das visitas que veem o visual novo; a escolha fica guardada no visitante (?lm=novo ou ?lm=antigo força, para teste)
   var TETO_MS = 40000;    // lentidão não é falha: o antigo só entra em erro real ou com uma etapa parada este tempo (CSS, JS depois do CSS, montagem depois do HTML)
+  var BOTAO_PUBLICO = false;   // "Ver a nova interface" no visual de hoje: false = só no navegador marcado com ?lm=equipe (?lm=equipe-sair desmarca); true = para todo visitante
   var t0 = Date.now(), h = document.documentElement, head = document.head || h;
   // grupo 0 a 99 sorteado e guardado no visitante; ?lm=novo vale -1 (entra até com PERCENTUAL = 0) e ?lm=antigo 100 (fica fora até com 100); sem localStorage, 99 (só entra com 100)
-  var f = (location.search.match(/[?&]lm=(novo|antigo)/) || [])[1], grupo; try {
+  var f = (location.search.match(/[?&]lm=(novo|antigo)/) || [])[1], eq = (location.search.match(/[?&]lm=equipe(-sair)?(&|$)/) || [])[0], equipe = false, grupo; try {
+    if (eq) /sair/.test(eq) ? localStorage.removeItem('lm_equipe') : localStorage.setItem('lm_equipe', '1');   // a marca da equipe só mostra o botão; não muda o visual
+    equipe = !!localStorage.getItem('lm_equipe');
     if (f) localStorage.setItem('lm_forca', f);
     f = localStorage.getItem('lm_forca'); grupo = parseInt(localStorage.getItem('lm_grupo'), 10);
     if (isNaN(grupo)) { grupo = Math.floor(Math.random() * 100); localStorage.setItem('lm_grupo', grupo); }
-  } catch (e) { grupo = 99; }
+  } catch (e) { grupo = 99; equipe = !!eq && !/sair/.test(eq); }
   if (f) grupo = f === 'novo' ? -1 : 100;
-  if (grupo >= PERCENTUAL) return;   // fora da amostra: visual antigo, nada é pedido
+  if (grupo >= PERCENTUAL) {   // fora da amostra: visual antigo, nada é pedido; só um botão discreto para o visitante ligar o novo (o loren.js tem o de voltar)
+    // grava a escolha como o ?lm= e recarrega uma vez, já sem o ?lm= no endereço (ele venceria a escolha); sem localStorage, vai pelo ?lm=
+    if (BOTAO_PUBLICO || equipe) document.addEventListener('DOMContentLoaded', function () {
+      var alvo = document.querySelector('#topbar .contatos_head'), b = document.createElement('button'), st = document.createElement('style');
+      if (!alvo || !alvo.offsetWidth) alvo = document.querySelector('.atalhos-mobile');   // celular: a faixa do painel some e o topo é a barra de atalhos
+      if (!alvo) return;
+      st.textContent = '.lm-troca{background:none;border:0;padding:0;font:inherit;font-size:13px;text-decoration:underline;text-underline-offset:3px;cursor:pointer}'
+        + '#topbar .lm-troca{position:relative;top:11px;margin-left:10px;color:#f6f6f6}'
+        + '.atalhos-mobile{position:relative}.atalhos-mobile .lm-troca{position:absolute;left:calc(50% - 40px);top:50%;transform:translate(-50%,-50%);color:#333;white-space:nowrap}'
+        + '#topbar .lm-troca{top:9px;margin-left:12px;padding:2px 10px;border-radius:999px;background:#fff;color:#303136;font-weight:700;text-decoration:none}#topbar .lm-troca:hover{text-decoration:underline}.atalhos-mobile .lm-troca{padding:12px 4px}.lm-troca:focus-visible{outline:2px solid #303136;outline-offset:2px}';   // Ellie 10/11: pílula branca na faixa verde (contraste 12:1), toque de ~40 px no celular
+      b.type = 'button'; b.className = 'lm-troca lm-troca--legado'; b.textContent = 'Ver a nova interface';
+      b.onclick = function () { var u = location.href.replace(/([?&])lm=(novo|antigo)&?/, '$1').replace(/[?&](#|$)/, '$1');
+        try { localStorage.setItem('lm_forca', 'novo'); } catch (e) { u = u.replace(/(#|$)/, (/\?/.test(u) ? '&' : '?') + 'lm=novo$1'); }
+        u === location.href ? location.reload() : location.replace(u); };
+      head.appendChild(st); alvo.appendChild(b);
+    });
+    return;
+  }
   var aviso = function (nome, motivo) {   // evento no dataLayer (o GTM/GA4 conta quantas visitas caíram no visual antigo); repete no load porque o tema recria o dataLayer mais abaixo
     var ev = { event: nome, lm_motivo: motivo, lm_ms: Date.now() - t0 }, envia = function () { try { var d = window.dataLayer = window.dataLayer || []; if (d.indexOf(ev) < 0) d.push(ev); } catch (e) {} };
     envia(); addEventListener('load', envia);
@@ -221,6 +241,13 @@ Regra do Eduardo (05/11): a visita normal **nunca** vê o visual antigo, nem por
 - Etapa mais lenta, contada como o código conta: o CSS chegou 19,5 s depois do início do código (início); o `loren.js` chegou antes do CSS; a montagem levou até 9 s depois do fim do HTML (produto). Com `TETO_MS` de 40 s, a folga é de 20,5 s (2 vezes o pior caso) no CSS e 31 s na montagem.
 - Dados: `dev/prints-rocky/pronto/diag-9-ruim.jsonl`; medidor `medir-pronto.mjs` (`CENARIOS=ruim`).
 
+## Botão da equipe (trocar de interface sem mexer no painel)
+
+- **No visual novo:** aparece sempre um "Voltar à interface anterior". No computador e no tablet ele fica na barra escura de cima; no celular, no fim do menu aberto.
+- **No visual de hoje:** o "Ver a nova interface" aparece **só no navegador marcado da equipe**. Para marcar, abra uma vez `https://www.lorenmetais.com.br/?lm=equipe` em cada navegador e aparelho. A marca (`localStorage.lm_equipe`) não muda o visual sozinha; ela só faz o botão aparecer, em qualquer página. Para desmarcar: `?lm=equipe-sair`. Sem a marca, o visitante não vê nada.
+- **O que o botão faz:** grava a mesma escolha do `?lm=novo` / `?lm=antigo` (`lm_forca`) e recarrega a página uma vez, já sem o `?lm=` no endereço. No checkout não aparece.
+- **Abrir o botão a todos os visitantes:** troque `BOTAO_PUBLICO=false` por `true` na parte 1 (no código legível, `var BOTAO_PUBLICO = false;`) e salve.
+
 ## Ligar para parte das visitas
 
 `PERCENTUAL` (no topo do código) é a % das visitas que vê o visual novo. O sorteio (0 a 99) é feito uma vez e fica guardado no visitante (`localStorage.lm_grupo`), então cada pessoa vê sempre a mesma versão. Quem fica de fora vê o site atual e não baixa nenhum arquivo nosso. Sem `localStorage` (navegação privada restrita) o visitante cai no visual antigo, a menos que `PERCENTUAL` seja 100.
@@ -248,6 +275,6 @@ Medido (rede 1,6 Mbps, 05/11, `dev/teste-carregador.mjs`, sem o kit FontAwesome)
 ## Limites conhecidos
 
 - **Teto da Loja Integrada:** o HTML do tema trava em scripts síncronos (kit FontAwesome, GTM, Clarity) e o conteúdo novo completo só aparece quando o `loren.js` monta no ready do tema (DCL de ~5 a 7 s no celular lento). A casca melhora o primeiro quadro, não o LCP; o LCP no celular não chega a 2,5 s sem controlar o HTML do tema.
-- **Tamanho do campo do painel:** não consta nos documentos; o código tem ~23 KB (a logo embutida pesa 3 KB). Testar no campo antes de publicar (pergunta ao suporte da LI na nota 'Mensagem para o suporte da Loja Integrada').
+- **Tamanho do campo do painel:** 15.000 caracteres por entrada (o painel mostra a contagem; visto pelo Eduardo em 10/11). Por isso o código vai em 2 partes enxutas: parte 1 com ~10.500 caracteres, parte 2 com ~8.500.
 - Se o `loren.js` montar parte do cabeçalho e depois falhar, o plano B pode deixar peças soltas na página; o caso comum (JS que nem chega ou quebra ao carregar) é tratado.
 - A casca imita o cabeçalho com uma imagem (logo) e um fundo; o JS depois troca pelo cabeçalho real na mesma altura. Se a altura do cabeçalho mudar em `loren.css`, a casca precisa mudar junto.
