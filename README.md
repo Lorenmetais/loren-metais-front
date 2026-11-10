@@ -6,4 +6,4 @@ CSS e JS que redesenham a loja lorenmetais.com.br por cima do tema da Loja Integ
 - `loren.js`: liga a classe e troca a logo. Não roda no checkout.
 - `brand-tokens.css`: cores, fontes e medidas do brand kit Loren Metais.
 
-Servido pelo jsDelivr: `https://cdn.jsdelivr.net/gh/eduserpa/loren-metais-front@<commit>/loren.css`
+Servido pelo jsDelivr: `https://cdn.jsdelivr.net/gh/Lorenmetais/loren-metais-front@<commit>/loren.css`

@@ -277,7 +277,7 @@
   // Especificações técnicas + "Baixar ficha técnica" (ao lado da descrição no computador, embaixo no celular). Dados por SKU:
   // { "<sku>": { "pdf": "<sku>.pdf", "resumo": [["Material","Aço inox 304"]], "medidas": [["Altura","18,5 cm"]] } }; o pdf é
   // relativo ao fichas.json. Sem ficha para o SKU, o bloco não aparece. O e-mail é pedido uma vez (vai para a newsletter da LI).
-  const FICHAS_URL = 'https://eduserpa.github.io/loren-metais-front/fichas.json';
+  const FICHAS_URL = 'https://lorenmetais.github.io/loren-metais-front/fichas.json';
   const FICHAS_EXEMPLO = {  // só com #fichas-exemplo na URL (teste), para nada de exemplo ir ao ar
     41018: { pdf: '41018.pdf', resumo: [['Material', 'Aço inox 304'], ['Acionamento', 'Manual por placa PUSH'], ['Saídas de água', '2 esguichos']], medidas: [['Diâmetro da cuba', '30 cm'], ['Base de fixação', '26 cm'], ['Peso', '2,85 kg']] },
     16001: { pdf: '16001.pdf', resumo: [['Material', 'Poliéster'], ['Norma', 'NBR 9050']], medidas: [['Largura', 'exemplo'], ['Profundidade', 'exemplo']] },

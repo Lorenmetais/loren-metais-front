@@ -7,8 +7,8 @@ O visual novo é um código que vai no painel da Loja Integrada, em **2 entradas
 - **Acesso:** administrador do painel da loja.
 - **O ramo `producao`:** o código do painel aponta para `@producao` no jsDelivr. O `main` continua sendo a prévia. **Publicar na loja = levar o commit aprovado para `producao`:** `git push origin <hash completo>:producao`. A GitHub Action `.github/workflows/purge-producao.yml` limpa o cache do jsDelivr logo depois do push, e a loja passa a servir a versão nova em minutos (detalhes em **Atualizar para uma versão nova**).
 - **O hash do commit** (para gerar as partes): 40 letras e números. No GitHub: aba **Commits**, botão de copiar ao lado do commit; no terminal: `git rev-parse HEAD`.
-- **Se o repositório mudou de conta** (transferência para o GitHub da empresa): troque `eduserpa` pela conta nova na linha `var BASE` do código.
-- **Teste rápido:** abra `https://cdn.jsdelivr.net/gh/eduserpa/loren-metais-front@producao/loren.css` no navegador. Tem que aparecer texto de CSS, não uma página de erro.
+- **Se o repositório mudar de conta de novo:** troque `Lorenmetais` pela conta nova na linha `var BASE` do código e gere as partes outra vez. Ele saiu de `eduserpa` para `Lorenmetais` em 11/2026.
+- **Teste rápido:** abra `https://cdn.jsdelivr.net/gh/Lorenmetais/loren-metais-front@producao/loren.css` no navegador. Tem que aparecer texto de CSS, não uma página de erro.
 
 ## Instalar (5 passos)
 
@@ -52,7 +52,7 @@ Cópia de `front/cabecalho-snippet.html` (as duas têm que ser iguais).
 <script>
 (function () {
   if (/\/(checkout|pagamento)/i.test(location.pathname)) return;   // checkout: este código não faz nada e não pede nenhum arquivo
-  var BASE = 'https://cdn.jsdelivr.net/gh/eduserpa/loren-metais-front@COMMIT/';   // no painel: @producao (o ramo publicado); publicar = levar o commit aprovado para o ramo producao
+  var BASE = 'https://cdn.jsdelivr.net/gh/Lorenmetais/loren-metais-front@COMMIT/';   // no painel: @producao (o ramo publicado); publicar = levar o commit aprovado para o ramo producao
   var V = '?v=' + Math.floor(Date.now() / 36e5);   // muda de hora em hora: o jsDelivr manda o navegador guardar @ramo por 7 dias; com isto CSS e JS novos valem em até 1 h, sem pedido a mais (o jsDelivr ignora o ?v)
   var PERCENTUAL = 100;   // % das visitas que veem o visual novo; a escolha fica guardada no visitante (?lm=novo ou ?lm=antigo força, para teste)
   var TETO_MS = 40000;    // lentidão não é falha: o antigo só entra em erro real ou com uma etapa parada este tempo (CSS, JS depois do CSS, montagem depois do HTML)

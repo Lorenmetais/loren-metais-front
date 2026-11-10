@@ -2,7 +2,7 @@
 <script>
 (function () {
   if (/\/(checkout|pagamento)/i.test(location.pathname)) return;   // checkout: este código não faz nada e não pede nenhum arquivo
-  var BASE = 'https://cdn.jsdelivr.net/gh/eduserpa/loren-metais-front@COMMIT/';   // no painel: @producao (o ramo publicado); publicar = levar o commit aprovado para o ramo producao
+  var BASE = 'https://cdn.jsdelivr.net/gh/Lorenmetais/loren-metais-front@COMMIT/';   // no painel: @producao (o ramo publicado); publicar = levar o commit aprovado para o ramo producao
   var V = '?v=' + Math.floor(Date.now() / 36e5);   // muda de hora em hora: o jsDelivr manda o navegador guardar @ramo por 7 dias; com isto CSS e JS novos valem em até 1 h, sem pedido a mais (o jsDelivr ignora o ?v)
   var PERCENTUAL = 100;   // % das visitas que veem o visual novo; a escolha fica guardada no visitante (?lm=novo ou ?lm=antigo força, para teste)
   var TETO_MS = 40000;    // lentidão não é falha: o antigo só entra em erro real ou com uma etapa parada este tempo (CSS, JS depois do CSS, montagem depois do HTML)

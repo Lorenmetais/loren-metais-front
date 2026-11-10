@@ -7,8 +7,8 @@
 // @match        https://lorenmetais.com.br/*
 // @run-at       document-start
 // @grant        none
-// @downloadURL  https://raw.githubusercontent.com/eduserpa/loren-metais-front/main/previa-loren.user.js
-// @updateURL    https://raw.githubusercontent.com/eduserpa/loren-metais-front/main/previa-loren.user.js
+// @downloadURL  https://raw.githubusercontent.com/Lorenmetais/loren-metais-front/main/previa-loren.user.js
+// @updateURL    https://raw.githubusercontent.com/Lorenmetais/loren-metais-front/main/previa-loren.user.js
 // ==/UserScript==
 // Roda o mesmo código do cabeçalho que irá ao painel (front/cabecalho-snippet.html, versão mais nova do GitHub), antes do tema:
 // assim a prévia mostra a casca, o carregador e a calculadora de frete como no ar. O checkout o próprio código ignora.
@@ -16,7 +16,7 @@
   let ligada = false;
   try { ligada = localStorage.getItem('lm_previa') === '1'; } catch (e) {}
   if (!ligada) return;
-  const REPO = 'eduserpa/loren-metais-front';
+  const REPO = 'Lorenmetais/loren-metais-front';
   let sha = '';
   try { sha = localStorage.getItem('lm_previa_sha') || ''; } catch (e) {}
   // a versão mais nova do GitHub, guardada para a próxima página (a desta usa a guardada, sem esperar a rede); no máximo 1 consulta a cada 2 min
