@@ -124,6 +124,7 @@ html.lm-novo body.lm-cat .lm-cat-faq summary { font-weight: 600; cursor: pointer
 html.lm-novo body.lm-cat .lm-cat-faq details p { margin: 8px 0 0; color: var(--lm-texto-secundario); }
 
 @media (min-width: 1024px) { html.lm-novo body.lm-cat .lm-so-cel, html.lm-novo body.lm-cat .lm-cat-topo.lm-cat-topo-chips { display: none !important; } }  /* chips até 1023, onde a coluna vira painel; o bloco deles some junto (vazio, com o padding e a margem de 20 do tema, dava 68 px da faixa ao conteúdo; Ellie 09/11) */
+@media (min-width: 768px) and (max-width: 1023px) { html.lm-novo body.lm-cat #corpo .lm-cat-topo { margin-bottom: 24px !important; } }  /* chips > Filtrar: a margem de 20 do tema vira 24 (grade de 8; Ellie 10/11) */
 @media (max-width: 767px) {
   html.lm-novo body.lm-cat .lm-cat-topo { padding: 8px 0 16px; }
   html.lm-novo body.lm-cat .lm-cat-intro { font-size: var(--lm-corpo-celular); }
