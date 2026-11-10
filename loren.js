@@ -12,7 +12,6 @@
   // entrada pelo favorito "Prévia Loren" (só loren.css e loren.js, sem o código do cabeçalho): o loren.css não tem @import, então traz aqui os tokens e as fontes que faltarem
   const poeLink = (parte, href) => { if (!BASE || document.querySelector(`link[href*="${parte}"]`)) return; const l = document.createElement('link'); l.rel = 'stylesheet'; l.href = href; document.head.append(l); };
   poeLink('brand-tokens.css', BASE + 'brand-tokens.css');
-  poeLink('fonts.googleapis.com/css2', 'https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@700&family=Inter:wght@400;600;700&display=swap');
   // O tema (LI.methods.menuWithOffers) faz, para CADA item do menu, $(...).load(urlDaCategoria + ' seletor'): baixa a página inteira da categoria por AJAX e a transforma em DOM
   // só para aproveitar 1 cartão do "produto em destaque" do submenu, que o visual novo esconde. Era a causa de ~14 downloads de HTML e ~110 miniaturas (~0,9 MB) em TODA página.
   // Roda antes do ready do tema (loren.js é defer): este .load específico (dentro de .mega-recebe) vira nada; qualquer outro .load do site segue igual.
@@ -227,7 +226,7 @@
       <ul><li><b>Fabricação própria</b><span>Produtos com peças de reposição e pós-venda.</span></li><li><b>Linha de acessibilidade</b><span>Barras de apoio, assentos e torneiras para banheiros PNE.</span></li><li><b>Retirada agendada</b><span>Centro de distribuição em Indaiatuba, a 500 m da rodovia.</span></li></ul></div></section>`);
   };
   // Espera as 3 faces do site de verdade (document.fonts.ready resolve na hora, antes de a fonte começar a baixar, e a troca de fonte depois de revelar a página dá salto de texto)
-  const fontesProntas = () => { try { return Promise.all(['400 1em Inter', '600 1em Inter', '700 1em "Barlow Semi Condensed"'].map((f) => document.fonts.load(f))); } catch (e) { return 0; } };
+  const fontesProntas = () => { try { return Promise.all(['400 1em Inter', '600 1em Inter', '700 1em "Barlow Semi Condensed"'].map((f) => document.fonts.load(f))).catch(() => 0); } catch (e) { return 0; } };   // fonte que falha (404, bloqueada) não segura a página
   // html.lm-pronto: o loren.css reserva o espaço do que o JS monta e esconde o que ele troca até esta classe (até lá fica a casca); o código do cabeçalho só desfaz tudo (visual antigo) se o JS falhar ou ficar parado
   // Revela quando o CSS e o JS da página chegaram (lentidão não é falha: antes, um teto de 2,5 s revelava sem eles e, na rede ruim, o produto.css/js chegavam depois e
   // mexiam o topo, CLS 0,25; Marty 09/11); 30 s só para arquivo travado. As fontes esperam no máximo 2,5 s.

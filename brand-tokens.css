@@ -6,8 +6,10 @@
    #1394B1 (3,6:1), #009EA4 (3,3:1) e #81BBD3 (2,1:1) NÃO levam texto pequeno: só superfícies, ícones e texto grande (24 px+).
    Tarjas (B2B, newsletter, .lm-fab): gradiente das penas da logo, #018086 > #009EA4 > #1394B1 > #81BBD3 a 110 graus; o texto e os botões ficam na parte
    escura (esquerda, #018086 = 4,7:1) e o claro só onde não há texto; no celular (até 1023 px) a tarja é #018086 lisa. O validador mede o gradiente na posição do texto.
-   Fontes do site (Eduardo 03/11): Google Fonts, Barlow Semi Condensed (títulos, só 700) e Inter (texto, 400/600/700, um arquivo variável),
-   licença SIL OFL 1.1. A logo usa Impact convertida em curvas; a Impact não é fonte do site. Celular: até 749 px. */
+   Fontes do site (Eduardo 03/11): Barlow Semi Condensed (títulos, só 700) e Inter (texto, 400/600/700, um arquivo variável), licença SIL OFL 1.1.
+   Servidas daqui (fontes/, os arquivos latin do Google Fonts, 10/11): o Google entrega outro arquivo para o Android e o pré-carregamento não casava (baixava 2 vezes). A logo usa Impact convertida em curvas; a Impact não é fonte do site. Celular: até 749 px. */
+@font-face { font-family: 'Inter'; font-style: normal; font-weight: 400 700; font-display: swap; src: url(fontes/inter-latin.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'Barlow Semi Condensed'; font-style: normal; font-weight: 700; font-display: swap; src: url(fontes/barlow-sc-700-latin.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 :root {
   /* azuis da logo */
   --lm-azul: #1394B1;          /* nome LORENMETAIS */
