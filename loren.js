@@ -141,6 +141,13 @@
     const tb = document.querySelector('#topbar .container');
     document.querySelector('#topbar') && document.body.prepend(document.querySelector('#topbar'));  // no HTML a barra vem no fim da página
     if (tb) tb.insertAdjacentHTML('afterbegin', '<div class="lm-barra">Direto da fábrica · Envio em 24h para todo o Brasil · 10% de desconto no Pix ou boleto</div>');
+    // "Voltar à interface anterior" (Eduardo 10/11): grava a escolha como o ?lm=antigo e recarrega uma vez, sem o ?lm= no endereço; o código do cabeçalho tem o "Ver a nova interface".
+    // Computador e tablet: na barra de cima; celular: no fim da gaveta do menu (loren.css, .lm-troca)
+    const volta = () => { let u = location.href.replace(/([?&])lm=(novo|antigo)&?/, '$1').replace(/[?&](#|$)/, '$1');
+      try { localStorage.setItem('lm_forca', 'antigo'); } catch (e) { u = u.replace(/(#|$)/, (/\?/.test(u) ? '&' : '?') + 'lm=antigo$1'); }
+      u === location.href ? location.reload() : location.replace(u); };
+    for (const lugar of [document.querySelector('.lm-barra'), document.querySelector('.lm-topo .menu.superior.visible-phone .wrap')].filter(Boolean)) {
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'lm-troca'; b.textContent = 'Voltar à interface anterior'; b.addEventListener('click', volta); lugar.append(b); }
     // Obras finalizadas no fim do menu
     document.querySelector('.full.menu .nivel-um')?.insertAdjacentHTML('beforeend', '<li class="lm-menu-obras"><a href="/pagina/obras-finalizadas.html">Obras finalizadas</a></li>');
     // O chat não é caminho crítico: monta quando o navegador estiver livre (depois do 1º pintar), no máximo 1,5 s depois
