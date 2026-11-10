@@ -6,13 +6,14 @@
   var PERCENTUAL = 100;   // % das visitas que veem o visual novo; a escolha fica guardada no visitante (?lm=novo ou ?lm=antigo força, para teste)
   var TETO_MS = 40000;    // lentidão não é falha: o antigo só entra em erro real ou com uma etapa parada este tempo (CSS, JS depois do CSS, montagem depois do HTML)
   var t0 = Date.now(), h = document.documentElement, head = document.head || h;
-  var grupo; try {
-    var f = (location.search.match(/[?&]lm=(novo|antigo)/) || [])[1]; if (f) localStorage.setItem('lm_forca', f);
+  // grupo 0 a 99 sorteado e guardado no visitante; ?lm=novo vale -1 (entra até com PERCENTUAL = 0) e ?lm=antigo 100 (fica fora até com 100); sem localStorage, 99 (só entra com 100)
+  var f = (location.search.match(/[?&]lm=(novo|antigo)/) || [])[1], grupo; try {
+    if (f) localStorage.setItem('lm_forca', f);
     f = localStorage.getItem('lm_forca'); grupo = parseInt(localStorage.getItem('lm_grupo'), 10);
     if (isNaN(grupo)) { grupo = Math.floor(Math.random() * 100); localStorage.setItem('lm_grupo', grupo); }
-    if (f) grupo = f === 'novo' ? 0 : 100;
-  } catch (e) { grupo = 100; }
-  if (PERCENTUAL < 100 && grupo >= PERCENTUAL) return;   // fora da amostra: visual antigo, nada é pedido
+  } catch (e) { grupo = 99; }
+  if (f) grupo = f === 'novo' ? -1 : 100;
+  if (grupo >= PERCENTUAL) return;   // fora da amostra: visual antigo, nada é pedido
   var aviso = function (nome, motivo) {   // evento no dataLayer (o GTM/GA4 conta quantas visitas caíram no visual antigo); repete no load porque o tema recria o dataLayer mais abaixo
     var ev = { event: nome, lm_motivo: motivo, lm_ms: Date.now() - t0 }, envia = function () { try { var d = window.dataLayer = window.dataLayer || []; if (d.indexOf(ev) < 0) d.push(ev); } catch (e) {} };
     envia(); addEventListener('load', envia);

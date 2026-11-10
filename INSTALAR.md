@@ -12,13 +12,14 @@ O texto abaixo é uma cópia de `front/cabecalho-snippet.html`. Troque `COMMIT` 
   var PERCENTUAL = 100;   // % das visitas que veem o visual novo; a escolha fica guardada no visitante (?lm=novo ou ?lm=antigo força, para teste)
   var TETO_MS = 40000;    // lentidão não é falha: o antigo só entra em erro real ou com uma etapa parada este tempo (CSS, JS depois do CSS, montagem depois do HTML)
   var t0 = Date.now(), h = document.documentElement, head = document.head || h;
-  var grupo; try {
-    var f = (location.search.match(/[?&]lm=(novo|antigo)/) || [])[1]; if (f) localStorage.setItem('lm_forca', f);
+  // grupo 0 a 99 sorteado e guardado no visitante; ?lm=novo vale -1 (entra até com PERCENTUAL = 0) e ?lm=antigo 100 (fica fora até com 100); sem localStorage, 99 (só entra com 100)
+  var f = (location.search.match(/[?&]lm=(novo|antigo)/) || [])[1], grupo; try {
+    if (f) localStorage.setItem('lm_forca', f);
     f = localStorage.getItem('lm_forca'); grupo = parseInt(localStorage.getItem('lm_grupo'), 10);
     if (isNaN(grupo)) { grupo = Math.floor(Math.random() * 100); localStorage.setItem('lm_grupo', grupo); }
-    if (f) grupo = f === 'novo' ? 0 : 100;
-  } catch (e) { grupo = 100; }
-  if (PERCENTUAL < 100 && grupo >= PERCENTUAL) return;   // fora da amostra: visual antigo, nada é pedido
+  } catch (e) { grupo = 99; }
+  if (f) grupo = f === 'novo' ? -1 : 100;
+  if (grupo >= PERCENTUAL) return;   // fora da amostra: visual antigo, nada é pedido
   var aviso = function (nome, motivo) {   // evento no dataLayer (o GTM/GA4 conta quantas visitas caíram no visual antigo); repete no load porque o tema recria o dataLayer mais abaixo
     var ev = { event: nome, lm_motivo: motivo, lm_ms: Date.now() - t0 }, envia = function () { try { var d = window.dataLayer = window.dataLayer || []; if (d.indexOf(ev) < 0) d.push(ev); } catch (e) {} };
     envia(); addEventListener('load', envia);
@@ -180,7 +181,7 @@ Regra do Eduardo (05/11): a visita normal **nunca** vê o visual antigo, nem por
 ## Ligar para parte das visitas
 
 `PERCENTUAL` (no topo do código) é a % das visitas que vê o visual novo. O sorteio (0 a 99) é feito uma vez e fica guardado no visitante (`localStorage.lm_grupo`), então cada pessoa vê sempre a mesma versão. Quem fica de fora vê o site atual e não baixa nenhum arquivo nosso. Sem `localStorage` (navegação privada restrita) o visitante cai no visual antigo, a menos que `PERCENTUAL` seja 100.
-Para testar: `?lm=novo` ou `?lm=antigo` na URL força a versão naquele navegador (fica guardado em `lm_forca`; para soltar, apague a chave `lm_forca`).
+Para testar: `?lm=novo` ou `?lm=antigo` na URL força a versão naquele navegador, com qualquer `PERCENTUAL` (com `PERCENTUAL = 0` ninguém vê o novo, só quem abrir com `?lm=novo`) (fica guardado em `lm_forca`; para soltar, apague a chave `lm_forca`).
 Plano sugerido pelo estudo: começar com `PERCENTUAL = 10` a `20` por 1 a 2 semanas, comparar vendas e orçamentos entre as duas versões (o `dataLayer` não marca o grupo; para comparar no GA4 é preciso um acionador/dimensão que leia `localStorage.lm_grupo`, a cargo da Wednesday) e só então 100. Trocar o percentual exige editar o painel.
 
 ## Cortes de downloads inúteis do tema (no próprio código do cabeçalho)
