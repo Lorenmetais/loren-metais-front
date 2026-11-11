@@ -3921,23 +3921,48 @@
   "pdf": "6002.pdf",
   "resumo": [
    [
+    "Material",
+    "Metal cromado"
+   ],
+   [
+    "Instalação",
+    "Bancada"
+   ],
+   [
     "Acionamento",
-    "Sensor de presença"
+    "Sensor infravermelho"
+   ],
+   [
+    "Fechamento",
+    "Regulagem do tempo de fechamento"
+   ],
+   [
+    "Sistema",
+    "Anti-vandalismo"
+   ],
+   [
+    "Reservatório",
+    "1 litro"
+   ],
+   [
+    "Ajuste",
+    "Distância de detecção regulável"
    ],
    [
     "Alimentação",
-    "Bivolt ou pilhas"
-   ],
-   [
-    "Norma",
-    "NBR 9050"
-   ],
-   [
-    "Programação",
-    "Com chave"
+    "Bivolt (110/220V) ou 4 pilhas"
    ]
   ],
-  "medidas": []
+  "medidas": [
+   [
+    "Altura",
+    "15,5 cm"
+   ],
+   [
+    "Altura da saída",
+    "12 cm"
+   ]
+  ]
  },
  "9010": {
   "pdf": "9010.pdf",
