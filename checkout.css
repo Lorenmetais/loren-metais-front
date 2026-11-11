@@ -1,16 +1,17 @@
-/* Loren Metais, checkout no visual novo (Ellie 11/11). Carregado pelo código do cabeçalho só para a equipe (?lm=equipe), que põe
-   html.lm-ck antes do <link>: sem a classe, nada daqui vale e o cliente vê o checkout de hoje. No checkout não entram brand-tokens.css,
-   loren.css nem loren.js: os tokens e as fontes usados ficam declarados aqui (as URLs relativas resolvem na pasta do CSS no jsDelivr).
-   O CSS Avançado do painel continua valendo por baixo; estas regras vencem por especificidade e !important, como no loren.css.
+/* Loren Metais, checkout no visual novo (Ellie 11/11). Entra pelo @import na 1ª linha do CSS Avançado do painel, que a LI carrega em
+   TODAS as páginas: por isso toda regra fica em body.carrinho-checkout (ou html:has(> body.carrinho-checkout)) e nada vale fora do checkout.
+   No checkout não entram brand-tokens.css, loren.css nem loren.js: os tokens e as fontes usados ficam declarados aqui (as URLs relativas
+   resolvem na pasta do CSS no jsDelivr). As regras do CSS Avançado continuam valendo por baixo; estas vencem por especificidade e !important.
+   Até 11/11 o arquivo era escopado em html.lm-ck (só a equipe via, pelo favorito); no go-live o escopo virou só o da página.
    Lição da 1011 (quebrou o checkout logado): botão com altura nova centraliza o texto (inline-flex); campos com box-sizing de borda;
    nada de caixa, sombra ou padding em invólucros internos que mudam no logado; só as três colunas e as caixas de 1º nível. */
 
 @font-face { font-family: 'Inter'; font-style: normal; font-weight: 400 700; font-display: swap; src: url(fontes/inter-latin.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 @font-face { font-family: 'Barlow Semi Condensed'; font-style: normal; font-weight: 700; font-display: swap; src: url(fontes/barlow-sc-700-latin.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 
-/* tokens (mesmos valores do brand-tokens.css; só os usados aqui). Só na página do checkout: no go-live (html.lm-ck vira html) este
-   arquivo entra em todas as páginas pelo @import do CSS Avançado, e os tokens não podem ir para o <html> do resto do site */
-html.lm-ck:has(> body.carrinho-checkout) {
+/* tokens (mesmos valores do brand-tokens.css; só os usados aqui), só na página do checkout: o arquivo entra em todas as páginas
+   pelo @import do CSS Avançado, e os tokens não podem ir para o <html> do resto do site */
+html:has(> body.carrinho-checkout) {
   --lm-azul: #1394B1; --lm-botao: #107E96; --lm-botao-hover: #0F738A;
   --lm-grafite: #303136; --lm-branco: #FFFFFF; --lm-fundo: #F6F6F7; --lm-borda: #DCDCE0; --lm-texto-secundario: #6B6C72;
   --lm-texto-sobre-escuro: #F6F6F7; --lm-sobre-escuro-2: #C9CACE; --lm-erro: #8A2826;
@@ -26,271 +27,271 @@ html.lm-ck:has(> body.carrinho-checkout) {
 
 /* base: Inter em tudo, menos nos ícones (fonte de ícones do tema e do WhatsApp) e no cartão desenhado do pagamento */
 /* o fundo da página é o do rodapé (o corpo continua branco): sem tarja branca embaixo do rodapé quando a página é mais curta que a tela */
-html.lm-ck:has(> body.carrinho-checkout) { background: var(--lm-grafite) !important; }
-html.lm-ck body.carrinho-checkout { font-family: var(--lm-fonte-texto) !important; color: var(--lm-grafite); background: var(--lm-branco) !important; -webkit-font-smoothing: antialiased; }
-html.lm-ck body.carrinho-checkout :is(p, li, a, input, select, textarea, button, span, strong, b, div, label, small, td, th, h4, h5, h6, legend, .botao):not([class^="icon-"]):not([class*=" icon-"]):not(.jp-card *) { font-family: var(--lm-fonte-texto) !important; }
-html.lm-ck body.carrinho-checkout :is(h1, h2, h3) { font-family: var(--lm-fonte-titulo) !important; text-transform: none !important; letter-spacing: 0; }
-html.lm-ck body.carrinho-checkout #corpo a:not(.botao, .btn) { color: var(--lm-botao) !important; }
-html.lm-ck body.carrinho-checkout #corpo a:not(.botao, .btn):hover { color: var(--lm-botao-hover) !important; }
+html:has(> body.carrinho-checkout) { background: var(--lm-grafite) !important; }
+body.carrinho-checkout { font-family: var(--lm-fonte-texto) !important; color: var(--lm-grafite); background: var(--lm-branco) !important; -webkit-font-smoothing: antialiased; }
+body.carrinho-checkout :is(p, li, a, input, select, textarea, button, span, strong, b, div, label, small, td, th, h4, h5, h6, legend, .botao):not([class^="icon-"]):not([class*=" icon-"]):not(.jp-card *) { font-family: var(--lm-fonte-texto) !important; }
+body.carrinho-checkout :is(h1, h2, h3) { font-family: var(--lm-fonte-titulo) !important; text-transform: none !important; letter-spacing: 0; }
+body.carrinho-checkout #corpo a:not(.botao, .btn) { color: var(--lm-botao) !important; }
+body.carrinho-checkout #corpo a:not(.botao, .btn):hover { color: var(--lm-botao-hover) !important; }
 
 /* barra de cima: grafite com a frase do site, na altura que o tema reserva (40) */
-html.lm-ck body.carrinho-checkout #topbar { background: var(--lm-grafite) !important; }
-html.lm-ck body.carrinho-checkout #topbar > .container { display: none !important; }
-html.lm-ck body.carrinho-checkout #topbar::before { content: "Direto da fábrica · Envio em 24h para todo o Brasil · 10% de desconto no Pix ou boleto"; display: block; text-align: center; font: 500 13px/40px var(--lm-fonte-texto); color: var(--lm-texto-sobre-escuro); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 0 var(--lm-margem); }
+body.carrinho-checkout #topbar { background: var(--lm-grafite) !important; }
+body.carrinho-checkout #topbar > .container { display: none !important; }
+body.carrinho-checkout #topbar::before { content: "Direto da fábrica · Envio em 24h para todo o Brasil · 10% de desconto no Pix ou boleto"; display: block; text-align: center; font: 500 13px/40px var(--lm-fonte-texto); color: var(--lm-texto-sobre-escuro); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 0 var(--lm-margem); }
 
 /* cabeçalho: logo nova à esquerda e "Compra 100% segura" à direita, linha fina embaixo (os contatos do tema saem: o WhatsApp flutuante fica) */
-html.lm-ck body.carrinho-checkout #cabecalho { background: var(--lm-branco) !important; border-bottom: var(--lm-borda-padrao); }
-html.lm-ck body.carrinho-checkout #cabecalho .conteiner { box-sizing: border-box; width: auto !important; max-width: var(--lm-largura); margin: 0 auto; padding: var(--lm-esp-2) var(--lm-margem) !important; }
-html.lm-ck body.carrinho-checkout #cabecalho .conteiner > .row-fluid { display: flex !important; align-items: center; justify-content: space-between; gap: var(--lm-esp-2); min-height: 0 !important; }
-html.lm-ck body.carrinho-checkout #cabecalho .conteiner > .row-fluid::before { display: none !important; }
-html.lm-ck body.carrinho-checkout #cabecalho .conteiner > .row-fluid > [class*="span"] { width: auto !important; margin: 0 !important; float: none !important; min-height: 0 !important; }
-html.lm-ck body.carrinho-checkout #cabecalho .conteiner > .row-fluid > .span6 { display: none !important; }
-html.lm-ck body.carrinho-checkout #cabecalho .logo { margin: 0 !important; padding: 0 !important; line-height: 0 !important; text-align: left !important; }
-html.lm-ck body.carrinho-checkout #cabecalho .logo img { display: none !important; }
-html.lm-ck body.carrinho-checkout #cabecalho .logo a { display: block !important; width: 203px; height: 46px; margin: 0 !important; background: url(logo.svg) no-repeat 0 50% / contain; }
-html.lm-ck body.carrinho-checkout #cabecalho .conteiner > .row-fluid::after { content: "Compra 100% segura"; display: flex !important; align-items: center; gap: var(--lm-esp-1); padding-left: 26px; min-height: 20px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23107E96' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='4' y='11' width='16' height='10' rx='1'/%3E%3Cpath d='M8 11V7a4 4 0 0 1 8 0v4'/%3E%3C/svg%3E") no-repeat 0 50% / 18px; font: 600 14px/1.2 var(--lm-fonte-texto); color: var(--lm-grafite); white-space: nowrap; }
+body.carrinho-checkout #cabecalho { background: var(--lm-branco) !important; border-bottom: var(--lm-borda-padrao); }
+body.carrinho-checkout #cabecalho .conteiner { box-sizing: border-box; width: auto !important; max-width: var(--lm-largura); margin: 0 auto; padding: var(--lm-esp-2) var(--lm-margem) !important; }
+body.carrinho-checkout #cabecalho .conteiner > .row-fluid { display: flex !important; align-items: center; justify-content: space-between; gap: var(--lm-esp-2); min-height: 0 !important; }
+body.carrinho-checkout #cabecalho .conteiner > .row-fluid::before { display: none !important; }
+body.carrinho-checkout #cabecalho .conteiner > .row-fluid > [class*="span"] { width: auto !important; margin: 0 !important; float: none !important; min-height: 0 !important; }
+body.carrinho-checkout #cabecalho .conteiner > .row-fluid > .span6 { display: none !important; }
+body.carrinho-checkout #cabecalho .logo { margin: 0 !important; padding: 0 !important; line-height: 0 !important; text-align: left !important; }
+body.carrinho-checkout #cabecalho .logo img { display: none !important; }
+body.carrinho-checkout #cabecalho .logo a { display: block !important; width: 203px; height: 46px; margin: 0 !important; background: url(logo.svg) no-repeat 0 50% / contain; }
+body.carrinho-checkout #cabecalho .conteiner > .row-fluid::after { content: "Compra 100% segura"; display: flex !important; align-items: center; gap: var(--lm-esp-1); padding-left: 26px; min-height: 20px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23107E96' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='4' y='11' width='16' height='10' rx='1'/%3E%3Cpath d='M8 11V7a4 4 0 0 1 8 0v4'/%3E%3C/svg%3E") no-repeat 0 50% / 18px; font: 600 14px/1.2 var(--lm-fonte-texto); color: var(--lm-grafite); white-space: nowrap; }
 
 /* corpo: largura e margens do site, ritmo de 8 */
-html.lm-ck body.carrinho-checkout #corpo .conteiner { box-sizing: border-box; width: auto !important; max-width: var(--lm-largura); margin: 0 auto; padding: 0 var(--lm-margem) !important; }
-html.lm-ck body.carrinho-checkout #corpo .secao-principal { margin: 0 !important; padding: var(--lm-esp-4) 0 var(--lm-esp-6) !important; }
+body.carrinho-checkout #corpo .conteiner { box-sizing: border-box; width: auto !important; max-width: var(--lm-largura); margin: 0 auto; padding: 0 var(--lm-margem) !important; }
+body.carrinho-checkout #corpo .secao-principal { margin: 0 !important; padding: var(--lm-esp-4) 0 var(--lm-esp-6) !important; }
 
 /* 1ª etapa (e-mail): caixa central como o login da conta */
-html.lm-ck body.carrinho-checkout #login-content .identificacao hr { display: none !important; }
-html.lm-ck body.carrinho-checkout #login-content .identificacao-inner { box-sizing: border-box; max-width: 480px; margin: 0 auto !important; padding: var(--lm-esp-4) !important; border: var(--lm-borda-padrao) !important; background: var(--lm-branco) !important; box-shadow: none !important; }
-html.lm-ck body.carrinho-checkout #login-content .identificacao-title { margin: 0 0 var(--lm-esp-3) !important; padding: 0 !important; border: 0 !important; font: 700 var(--lm-h3)/1.1 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; text-align: left !important; }
-html.lm-ck body.carrinho-checkout #login-content :is(.form-horizontal, .control-group, .email-box) { margin: 0 !important; }
-html.lm-ck body.carrinho-checkout #login-content .form-horizontal > .control-group:first-child { display: flex; flex-direction: column; gap: var(--lm-esp-2); }
-html.lm-ck body.carrinho-checkout #login-content .email-box input { width: 100% !important; }
-html.lm-ck body.carrinho-checkout #login-content :is(.submit-email, #id_botao_login) { position: static !important; width: 100% !important; margin: 0 !important; }  /* o tema põe o Continuar absoluto, por cima do campo */
-html.lm-ck body.carrinho-checkout #login-content .button-auth-google { margin-top: var(--lm-esp-2) !important; }
-html.lm-ck body.carrinho-checkout .checkout-alerta-seguro { box-sizing: border-box; max-width: 480px; margin: var(--lm-esp-3) auto 0 !important; padding: 0 !important; border: 0 !important; background: none !important; box-shadow: none !important; position: static !important; }
-html.lm-ck body.carrinho-checkout .checkout-alerta-seguro-tit { margin: 0 0 var(--lm-esp-1) !important; font: 600 14px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; text-transform: none !important; }
-html.lm-ck body.carrinho-checkout .checkout-alerta-seguro-list { margin: 0 !important; padding: 0 !important; list-style: none; }
-html.lm-ck body.carrinho-checkout .checkout-alerta-seguro-item { display: flex; align-items: center; gap: var(--lm-esp-1); margin: 0 !important; padding: 4px 0 !important; border: 0 !important; font: 400 14px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; }
-html.lm-ck body.carrinho-checkout .checkout-alerta-seguro-item i { color: var(--lm-botao) !important; }
-html.lm-ck body.carrinho-checkout .checkout-alerta-seguro-icon { display: none !important; }
+body.carrinho-checkout #login-content .identificacao hr { display: none !important; }
+body.carrinho-checkout #login-content .identificacao-inner { box-sizing: border-box; max-width: 480px; margin: 0 auto !important; padding: var(--lm-esp-4) !important; border: var(--lm-borda-padrao) !important; background: var(--lm-branco) !important; box-shadow: none !important; }
+body.carrinho-checkout #login-content .identificacao-title { margin: 0 0 var(--lm-esp-3) !important; padding: 0 !important; border: 0 !important; font: 700 var(--lm-h3)/1.1 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; text-align: left !important; }
+body.carrinho-checkout #login-content :is(.form-horizontal, .control-group, .email-box) { margin: 0 !important; }
+body.carrinho-checkout #login-content .form-horizontal > .control-group:first-child { display: flex; flex-direction: column; gap: var(--lm-esp-2); }
+body.carrinho-checkout #login-content .email-box input { width: 100% !important; }
+body.carrinho-checkout #login-content :is(.submit-email, #id_botao_login) { position: static !important; width: 100% !important; margin: 0 !important; }  /* o tema põe o Continuar absoluto, por cima do campo */
+body.carrinho-checkout #login-content .button-auth-google { margin-top: var(--lm-esp-2) !important; }
+body.carrinho-checkout .checkout-alerta-seguro { box-sizing: border-box; max-width: 480px; margin: var(--lm-esp-3) auto 0 !important; padding: 0 !important; border: 0 !important; background: none !important; box-shadow: none !important; position: static !important; }
+body.carrinho-checkout .checkout-alerta-seguro-tit { margin: 0 0 var(--lm-esp-1) !important; font: 600 14px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; text-transform: none !important; }
+body.carrinho-checkout .checkout-alerta-seguro-list { margin: 0 !important; padding: 0 !important; list-style: none; }
+body.carrinho-checkout .checkout-alerta-seguro-item { display: flex; align-items: center; gap: var(--lm-esp-1); margin: 0 !important; padding: 4px 0 !important; border: 0 !important; font: 400 14px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; }
+body.carrinho-checkout .checkout-alerta-seguro-item i { color: var(--lm-botao) !important; }
+body.carrinho-checkout .checkout-alerta-seguro-icon { display: none !important; }
 
 /* aviso da loja (texto do painel): caixa de informação com ícone e o título "Prazo de embarque" (Eduardo 11/11) */
-html.lm-ck body.carrinho-checkout #corpo .campos-pedido > .row-fluid > .span12 > p[style] { position: relative; margin: var(--lm-esp-4) 0 var(--lm-esp-3) !important; padding: var(--lm-esp-2) var(--lm-esp-3) var(--lm-esp-2) 56px !important; border: 1px solid #CFE6EC !important; border-radius: 0 !important; background: #EEF7F9 !important; font: 400 14px/1.5 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
-html.lm-ck body.carrinho-checkout #corpo .campos-pedido > .row-fluid > .span12 > p[style]::before { content: "Prazo de embarque"; display: block; margin-bottom: 4px; font: 600 15px/1.3 var(--lm-fonte-texto); color: var(--lm-grafite); }
-html.lm-ck body.carrinho-checkout #corpo .campos-pedido > .row-fluid > .span12 > p[style]::after { content: ""; position: absolute; left: var(--lm-esp-3); top: var(--lm-esp-2); width: 20px; height: 20px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23107E96' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12 7v5l3 2'/%3E%3C/svg%3E") no-repeat 50% / contain; }
-html.lm-ck body.carrinho-checkout #corpo .campos-pedido > .row-fluid > .span12 > p[style] span { color: inherit !important; font-weight: 700 !important; }
+body.carrinho-checkout #corpo .campos-pedido > .row-fluid > .span12 > p[style] { position: relative; margin: var(--lm-esp-4) 0 var(--lm-esp-3) !important; padding: var(--lm-esp-2) var(--lm-esp-3) var(--lm-esp-2) 56px !important; border: 1px solid #CFE6EC !important; border-radius: 0 !important; background: #EEF7F9 !important; font: 400 14px/1.5 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
+body.carrinho-checkout #corpo .campos-pedido > .row-fluid > .span12 > p[style]::before { content: "Prazo de embarque"; display: block; margin-bottom: 4px; font: 600 15px/1.3 var(--lm-fonte-texto); color: var(--lm-grafite); }
+body.carrinho-checkout #corpo .campos-pedido > .row-fluid > .span12 > p[style]::after { content: ""; position: absolute; left: var(--lm-esp-3); top: var(--lm-esp-2); width: 20px; height: 20px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23107E96' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12 7v5l3 2'/%3E%3C/svg%3E") no-repeat 50% / contain; }
+body.carrinho-checkout #corpo .campos-pedido > .row-fluid > .span12 > p[style] span { color: inherit !important; font-weight: 700 !important; }
 
 /* resumo do pedido: título, itens com o nome em destaque, quantidade e preço alinhados, e Subtotal/Frete/Total num bloco à direita
    com divisória (só sobre as colunas Qtd. e Preço; a linha do Total junta as duas numa célula, por isso a divisória é um fundo de 1 px) */
-html.lm-ck body.carrinho-checkout .resumo-compra { margin: 0 0 var(--lm-esp-4) !important; padding: 0 !important; border: 0 !important; background: none !important; box-shadow: none !important; }
-html.lm-ck body.carrinho-checkout .resumo-compra::before { content: "Resumo do pedido"; display: block; margin: 0 0 var(--lm-esp-2); font: 700 var(--lm-h3)/1.1 var(--lm-fonte-titulo); color: var(--lm-grafite); }
-html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho { width: 100%; margin: 0 !important; border: var(--lm-borda-padrao) !important; border-collapse: collapse; background: var(--lm-branco) !important; }
-html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho :is(th, td) { box-sizing: border-box; padding: 12px var(--lm-esp-2) !important; vertical-align: middle !important; border: 0 !important; background: none !important; font-size: 14px; color: var(--lm-grafite); }
-html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho thead th { border-bottom: var(--lm-borda-padrao) !important; }
-html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho thead h6 { margin: 0 !important; font: 600 12px/1 var(--lm-fonte-texto) !important; letter-spacing: .06em; text-transform: uppercase; color: var(--lm-texto-secundario) !important; }
-html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho thead h6[style] { margin-left: 0 !important; }
-html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho tbody tr:not(.bg-dark) + tr:not(.bg-dark) td { border-top: var(--lm-borda-padrao) !important; }
-html.lm-ck body.carrinho-checkout .resumo-compra .produto-info { font: 600 15px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
-html.lm-ck body.carrinho-checkout .resumo-compra .produto-info ul { margin: 4px 0 0 !important; padding: 0 !important; list-style: none; }
-html.lm-ck body.carrinho-checkout .resumo-compra .produto-info li > span { font-size: 0 !important; }  /* "SKU:" vira "Código" */
-html.lm-ck body.carrinho-checkout .resumo-compra .produto-info li > span::before { content: "Código "; font: 400 13px/1.4 var(--lm-fonte-texto); color: var(--lm-texto-secundario); }
-html.lm-ck body.carrinho-checkout .resumo-compra .produto-info li > span strong { font: 400 13px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; }
-html.lm-ck body.carrinho-checkout .resumo-compra .conteiner-qtd { font: 400 15px/1.4 var(--lm-fonte-texto) !important; }
-html.lm-ck body.carrinho-checkout .resumo-compra .preco-produto strong { font: 600 15px/1.2 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
+body.carrinho-checkout .resumo-compra { margin: 0 0 var(--lm-esp-4) !important; padding: 0 !important; border: 0 !important; background: none !important; box-shadow: none !important; }
+body.carrinho-checkout .resumo-compra::before { content: "Resumo do pedido"; display: block; margin: 0 0 var(--lm-esp-2); font: 700 var(--lm-h3)/1.1 var(--lm-fonte-titulo); color: var(--lm-grafite); }
+body.carrinho-checkout .resumo-compra .tabela-carrinho { width: 100%; margin: 0 !important; border: var(--lm-borda-padrao) !important; border-collapse: collapse; background: var(--lm-branco) !important; }
+body.carrinho-checkout .resumo-compra .tabela-carrinho :is(th, td) { box-sizing: border-box; padding: 12px var(--lm-esp-2) !important; vertical-align: middle !important; border: 0 !important; background: none !important; font-size: 14px; color: var(--lm-grafite); }
+body.carrinho-checkout .resumo-compra .tabela-carrinho thead th { border-bottom: var(--lm-borda-padrao) !important; }
+body.carrinho-checkout .resumo-compra .tabela-carrinho thead h6 { margin: 0 !important; font: 600 12px/1 var(--lm-fonte-texto) !important; letter-spacing: .06em; text-transform: uppercase; color: var(--lm-texto-secundario) !important; }
+body.carrinho-checkout .resumo-compra .tabela-carrinho thead h6[style] { margin-left: 0 !important; }
+body.carrinho-checkout .resumo-compra .tabela-carrinho tbody tr:not(.bg-dark) + tr:not(.bg-dark) td { border-top: var(--lm-borda-padrao) !important; }
+body.carrinho-checkout .resumo-compra .produto-info { font: 600 15px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
+body.carrinho-checkout .resumo-compra .produto-info ul { margin: 4px 0 0 !important; padding: 0 !important; list-style: none; }
+body.carrinho-checkout .resumo-compra .produto-info li > span { font-size: 0 !important; }  /* "SKU:" vira "Código" */
+body.carrinho-checkout .resumo-compra .produto-info li > span::before { content: "Código "; font: 400 13px/1.4 var(--lm-fonte-texto); color: var(--lm-texto-secundario); }
+body.carrinho-checkout .resumo-compra .produto-info li > span strong { font: 400 13px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; }
+body.carrinho-checkout .resumo-compra .conteiner-qtd { font: 400 15px/1.4 var(--lm-fonte-texto) !important; }
+body.carrinho-checkout .resumo-compra .preco-produto strong { font: 600 15px/1.2 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
 /* bloco de valores */
-html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho tr.bg-dark td { padding-block: 6px !important; }
-html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho tr.bg-dark :is(.text-right span, .visible-phone) { font: 400 14px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; }
-html.lm-ck body.carrinho-checkout .resumo-compra :is(.subtotal, .frete-preco, .desconto-preco) strong { font: 600 15px/1.2 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
-html.lm-ck body.carrinho-checkout .resumo-compra .frete-preco small { font: 400 13px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; }
-html.lm-ck body.carrinho-checkout .resumo-compra .total strong { font: 700 24px/1.2 var(--lm-fonte-texto) !important; color: var(--lm-botao) !important; }
+body.carrinho-checkout .resumo-compra .tabela-carrinho tr.bg-dark td { padding-block: 6px !important; }
+body.carrinho-checkout .resumo-compra .tabela-carrinho tr.bg-dark :is(.text-right span, .visible-phone) { font: 400 14px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; }
+body.carrinho-checkout .resumo-compra :is(.subtotal, .frete-preco, .desconto-preco) strong { font: 600 15px/1.2 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
+body.carrinho-checkout .resumo-compra .frete-preco small { font: 400 13px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; }
+body.carrinho-checkout .resumo-compra .total strong { font: 700 24px/1.2 var(--lm-fonte-texto) !important; color: var(--lm-botao) !important; }
 /* colunas Qtd. e Preço com largura fixa e as divisórias do bloco de valores: só a partir de 768 (no celular a tabela vira lista) */
 @media (min-width: 768px) {
-  html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho :is(th, td):nth-last-child(2):not([colspan]) { width: 120px; text-align: center !important; }
-  html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho :is(th, td):last-child { width: 160px; text-align: right !important; }
-  html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho tbody tr:not(.bg-dark) + tr.bg-dark td { padding-top: var(--lm-esp-2) !important; }
-  html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho tbody tr:not(.bg-dark) + tr.bg-dark td:not(:first-child) { border-top: var(--lm-borda-padrao) !important; }
-  html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho tbody tr.bg-dark:last-child td { padding-block: 12px var(--lm-esp-2) !important; }
-  html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho tr.tr-checkout-total td:last-child { border-top: var(--lm-borda-padrao) !important; }
-  html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho tr.tr-checkout-total td[colspan] { background: linear-gradient(var(--lm-borda), var(--lm-borda)) no-repeat right top / 120px 1px !important; }
-  html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho tr.tr-checkout-total td[colspan] span { font: 600 16px/1.2 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
+  body.carrinho-checkout .resumo-compra .tabela-carrinho :is(th, td):nth-last-child(2):not([colspan]) { width: 120px; text-align: center !important; }
+  body.carrinho-checkout .resumo-compra .tabela-carrinho :is(th, td):last-child { width: 160px; text-align: right !important; }
+  body.carrinho-checkout .resumo-compra .tabela-carrinho tbody tr:not(.bg-dark) + tr.bg-dark td { padding-top: var(--lm-esp-2) !important; }
+  body.carrinho-checkout .resumo-compra .tabela-carrinho tbody tr:not(.bg-dark) + tr.bg-dark td:not(:first-child) { border-top: var(--lm-borda-padrao) !important; }
+  body.carrinho-checkout .resumo-compra .tabela-carrinho tbody tr.bg-dark:last-child td { padding-block: 12px var(--lm-esp-2) !important; }
+  body.carrinho-checkout .resumo-compra .tabela-carrinho tr.tr-checkout-total td:last-child { border-top: var(--lm-borda-padrao) !important; }
+  body.carrinho-checkout .resumo-compra .tabela-carrinho tr.tr-checkout-total td[colspan] { background: linear-gradient(var(--lm-borda), var(--lm-borda)) no-repeat right top / 120px 1px !important; }
+  body.carrinho-checkout .resumo-compra .tabela-carrinho tr.tr-checkout-total td[colspan] span { font: 600 16px/1.2 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
 }
-html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho tr { background: none !important; }  /* o cinza do tema vem na linha e aparecia pelas células */
+body.carrinho-checkout .resumo-compra .tabela-carrinho tr { background: none !important; }  /* o cinza do tema vem na linha e aparecia pelas células */
 /* celular: o tema empilha as células e corta o nome; aqui o nome inteiro, "Qtd. 1" e o preço numa linha, e cada valor com o rótulo à esquerda */
 @media (max-width: 767px) {
-  html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho thead { display: none !important; }
-  html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho tbody tr { display: flex !important; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px var(--lm-esp-2); padding: 6px var(--lm-esp-2) !important; }
-  html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho tbody tr:not(.bg-dark) { padding-block: var(--lm-esp-2) 12px !important; }
-  html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho tbody tr.hide { display: none !important; }
-  html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho tbody td { display: block !important; width: auto !important; padding: 0 !important; border: 0 !important; background: none !important; text-align: left !important; float: none !important; }
-  html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho tbody td:is(:empty, .hidden-phone), html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho tbody tr.bg-dark td:first-child:not(.text-right) { display: none !important; }
-  html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho tbody td.phone-pullleft { flex: 1 1 100%; }
-  html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho tbody tr.bg-dark td { padding: 0 !important; }
-  html.lm-ck body.carrinho-checkout .resumo-compra :is(td.padding-preco, .padding-preco > div) { padding: 0 !important; white-space: nowrap; }  /* o tema dá padding em % ao valor: a célula encolhia e cortava ("R$ 70,9") */
-  html.lm-ck body.carrinho-checkout .resumo-compra :is(.produto-info, .produto-info *) { width: auto !important; white-space: normal !important; overflow: visible !important; text-overflow: clip !important; max-width: none !important; }
-  html.lm-ck body.carrinho-checkout .resumo-compra .conteiner-qtd > div { padding: 0 !important; border: 0 !important; background: none !important; font: 400 14px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; }
-  html.lm-ck body.carrinho-checkout .resumo-compra .conteiner-qtd > div::before { content: "Qtd. "; }
-  html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho tbody td.conteiner-preco { margin-left: auto; text-align: right !important; }
-  html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho tbody tr:not(.bg-dark) + tr.bg-dark { margin: 0 var(--lm-esp-2); padding: var(--lm-esp-2) 0 6px !important; border-top: var(--lm-borda-padrao); }
-  html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho tbody tr.tr-checkout-total { margin: 6px var(--lm-esp-2) 0; padding: 12px 0 var(--lm-esp-2) !important; border-top: var(--lm-borda-padrao); }
-  html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho tbody tr.tr-checkout-total td:last-child { display: flex !important; flex: 1; justify-content: space-between; align-items: baseline; border: 0 !important; }
-  html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho tr.tr-checkout-total .visible-phone { display: inline !important; font: 600 16px/1.2 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
+  body.carrinho-checkout .resumo-compra .tabela-carrinho thead { display: none !important; }
+  body.carrinho-checkout .resumo-compra .tabela-carrinho tbody tr { display: flex !important; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px var(--lm-esp-2); padding: 6px var(--lm-esp-2) !important; }
+  body.carrinho-checkout .resumo-compra .tabela-carrinho tbody tr:not(.bg-dark) { padding-block: var(--lm-esp-2) 12px !important; }
+  body.carrinho-checkout .resumo-compra .tabela-carrinho tbody tr.hide { display: none !important; }
+  body.carrinho-checkout .resumo-compra .tabela-carrinho tbody td { display: block !important; width: auto !important; padding: 0 !important; border: 0 !important; background: none !important; text-align: left !important; float: none !important; }
+  body.carrinho-checkout .resumo-compra .tabela-carrinho tbody td:is(:empty, .hidden-phone), body.carrinho-checkout .resumo-compra .tabela-carrinho tbody tr.bg-dark td:first-child:not(.text-right) { display: none !important; }
+  body.carrinho-checkout .resumo-compra .tabela-carrinho tbody td.phone-pullleft { flex: 1 1 100%; }
+  body.carrinho-checkout .resumo-compra .tabela-carrinho tbody tr.bg-dark td { padding: 0 !important; }
+  body.carrinho-checkout .resumo-compra :is(td.padding-preco, .padding-preco > div) { padding: 0 !important; white-space: nowrap; }  /* o tema dá padding em % ao valor: a célula encolhia e cortava ("R$ 70,9") */
+  body.carrinho-checkout .resumo-compra :is(.produto-info, .produto-info *) { width: auto !important; white-space: normal !important; overflow: visible !important; text-overflow: clip !important; max-width: none !important; }
+  body.carrinho-checkout .resumo-compra .conteiner-qtd > div { padding: 0 !important; border: 0 !important; background: none !important; font: 400 14px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; }
+  body.carrinho-checkout .resumo-compra .conteiner-qtd > div::before { content: "Qtd. "; }
+  body.carrinho-checkout .resumo-compra .tabela-carrinho tbody td.conteiner-preco { margin-left: auto; text-align: right !important; }
+  body.carrinho-checkout .resumo-compra .tabela-carrinho tbody tr:not(.bg-dark) + tr.bg-dark { margin: 0 var(--lm-esp-2); padding: var(--lm-esp-2) 0 6px !important; border-top: var(--lm-borda-padrao); }
+  body.carrinho-checkout .resumo-compra .tabela-carrinho tbody tr.tr-checkout-total { margin: 6px var(--lm-esp-2) 0; padding: 12px 0 var(--lm-esp-2) !important; border-top: var(--lm-borda-padrao); }
+  body.carrinho-checkout .resumo-compra .tabela-carrinho tbody tr.tr-checkout-total td:last-child { display: flex !important; flex: 1; justify-content: space-between; align-items: baseline; border: 0 !important; }
+  body.carrinho-checkout .resumo-compra .tabela-carrinho tr.tr-checkout-total .visible-phone { display: inline !important; font: 600 16px/1.2 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
 }
 
 /* três colunas (cadastro, entrega + mensagem, pagamento) numa grade; de 768 a 1199 o pagamento desce para a largura toda,
    porque em três colunas de 276 px o cartão cortava rótulos e o Finalizar passava da coluna */
-html.lm-ck body.carrinho-checkout #formularioCheckout > .row-fluid { display: grid !important; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--lm-esp-3); align-items: start; }
-html.lm-ck body.carrinho-checkout #formularioCheckout > .row-fluid::before, html.lm-ck body.carrinho-checkout #formularioCheckout > .row-fluid::after { display: none !important; }
-html.lm-ck body.carrinho-checkout #formularioCheckout > .row-fluid > [class*="span"] { width: auto !important; margin: 0 !important; float: none !important; min-width: 0; }
+body.carrinho-checkout #formularioCheckout > .row-fluid { display: grid !important; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--lm-esp-3); align-items: start; }
+body.carrinho-checkout #formularioCheckout > .row-fluid::before, body.carrinho-checkout #formularioCheckout > .row-fluid::after { display: none !important; }
+body.carrinho-checkout #formularioCheckout > .row-fluid > [class*="span"] { width: auto !important; margin: 0 !important; float: none !important; min-width: 0; }
 @media (max-width: 1199px) {
-  html.lm-ck body.carrinho-checkout #formularioCheckout > .row-fluid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  html.lm-ck body.carrinho-checkout #formularioCheckout > .row-fluid > [class*="span"]:nth-child(3) { grid-column: 1 / -1; }
+  body.carrinho-checkout #formularioCheckout > .row-fluid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  body.carrinho-checkout #formularioCheckout > .row-fluid > [class*="span"]:nth-child(3) { grid-column: 1 / -1; }
 }
-@media (max-width: 767px) { html.lm-ck body.carrinho-checkout #formularioCheckout > .row-fluid { grid-template-columns: minmax(0, 1fr); gap: var(--lm-esp-2); } }
+@media (max-width: 767px) { body.carrinho-checkout #formularioCheckout > .row-fluid { grid-template-columns: minmax(0, 1fr); gap: var(--lm-esp-2); } }
 
 /* caixas de 1º nível: borda fina, sem sombra nem canto, 24 de respiro (16 no celular) */
-html.lm-ck body.carrinho-checkout #formularioCheckout > .row-fluid > [class*="span"] > .caixa-sombreada { box-sizing: border-box; margin: 0 0 var(--lm-esp-3) !important; padding: var(--lm-esp-3) !important; border: var(--lm-borda-padrao) !important; border-radius: 0 !important; background: var(--lm-branco) !important; box-shadow: none !important; }
-html.lm-ck body.carrinho-checkout #formularioCheckout > .row-fluid > [class*="span"] > .caixa-sombreada:last-child { margin-bottom: 0 !important; }
-@media (max-width: 767px) { html.lm-ck body.carrinho-checkout #formularioCheckout > .row-fluid > [class*="span"] > .caixa-sombreada { padding: var(--lm-esp-2) !important; margin-bottom: var(--lm-esp-2) !important; } }
-html.lm-ck body.carrinho-checkout #formularioCheckout fieldset { margin: 0 !important; padding: 0 !important; border: 0 !important; min-width: 0; }
+body.carrinho-checkout #formularioCheckout > .row-fluid > [class*="span"] > .caixa-sombreada { box-sizing: border-box; margin: 0 0 var(--lm-esp-3) !important; padding: var(--lm-esp-3) !important; border: var(--lm-borda-padrao) !important; border-radius: 0 !important; background: var(--lm-branco) !important; box-shadow: none !important; }
+body.carrinho-checkout #formularioCheckout > .row-fluid > [class*="span"] > .caixa-sombreada:last-child { margin-bottom: 0 !important; }
+@media (max-width: 767px) { body.carrinho-checkout #formularioCheckout > .row-fluid > [class*="span"] > .caixa-sombreada { padding: var(--lm-esp-2) !important; margin-bottom: var(--lm-esp-2) !important; } }
+body.carrinho-checkout #formularioCheckout fieldset { margin: 0 !important; padding: 0 !important; border: 0 !important; min-width: 0; }
 
 /* títulos das caixas: Barlow como as seções do site, sem o fio preto grosso nem o ícone do tema */
-html.lm-ck body.carrinho-checkout #formularioCheckout legend { display: block; width: 100%; margin: 0 0 var(--lm-esp-3) !important; padding: 0 !important; border: 0 !important; font: 700 var(--lm-h3)/1.1 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; text-transform: none !important; letter-spacing: 0 !important; }
-html.lm-ck body.carrinho-checkout #formularioCheckout legend > i { display: none !important; }
-html.lm-ck body.carrinho-checkout #formularioCheckout legend a { font: inherit !important; color: var(--lm-botao) !important; text-decoration: underline !important; text-underline-offset: 3px; }
+body.carrinho-checkout #formularioCheckout legend { display: block; width: 100%; margin: 0 0 var(--lm-esp-3) !important; padding: 0 !important; border: 0 !important; font: 700 var(--lm-h3)/1.1 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; text-transform: none !important; letter-spacing: 0 !important; }
+body.carrinho-checkout #formularioCheckout legend > i { display: none !important; }
+body.carrinho-checkout #formularioCheckout legend a { font: inherit !important; color: var(--lm-botao) !important; text-decoration: underline !important; text-underline-offset: 3px; }
 
 /* rótulos e grupos: o padrão dos formulários da conta (rótulo em cima, 600 14, 16 entre campos) */
-html.lm-ck body.carrinho-checkout #corpo .control-group { margin: 0 0 var(--lm-esp-2) !important; }
-html.lm-ck body.carrinho-checkout #corpo .control-label:not(.hide) { float: none !important; display: block; width: auto !important; margin: 0 0 var(--lm-esp-1) !important; padding: 0 !important; text-align: left !important; font: 600 14px/1.3 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
-html.lm-ck body.carrinho-checkout #corpo .controls { margin: 0 !important; }
-html.lm-ck body.carrinho-checkout #corpo :is(.help-block, .help-inline, .warning-text) { margin: 4px 0 0 !important; padding: 0 !important; font: 400 13px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; }
-html.lm-ck body.carrinho-checkout #corpo .help-block.erro, html.lm-ck body.carrinho-checkout #corpo .error .help-block { color: var(--lm-erro) !important; }
+body.carrinho-checkout #corpo .control-group { margin: 0 0 var(--lm-esp-2) !important; }
+body.carrinho-checkout #corpo .control-label:not(.hide) { float: none !important; display: block; width: auto !important; margin: 0 0 var(--lm-esp-1) !important; padding: 0 !important; text-align: left !important; font: 600 14px/1.3 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
+body.carrinho-checkout #corpo .controls { margin: 0 !important; }
+body.carrinho-checkout #corpo :is(.help-block, .help-inline, .warning-text) { margin: 4px 0 0 !important; padding: 0 !important; font: 400 13px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; }
+body.carrinho-checkout #corpo .help-block.erro, body.carrinho-checkout #corpo .error .help-block { color: var(--lm-erro) !important; }
 /* fileiras de dois campos do tema (span6/span9+span3): grade com 16 de vão, sem as margens percentuais do Bootstrap */
-html.lm-ck body.carrinho-checkout #formularioCheckout .row-fluid:has(> .control-group[class*="span"]) { display: grid !important; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); column-gap: var(--lm-esp-2); }
-html.lm-ck body.carrinho-checkout #formularioCheckout .row-fluid:has(> .control-group[class*="span"])::before, html.lm-ck body.carrinho-checkout #formularioCheckout .row-fluid:has(> .control-group[class*="span"])::after { display: none !important; }
-html.lm-ck body.carrinho-checkout #formularioCheckout .row-fluid > .control-group[class*="span"] { width: auto !important; margin-left: 0 !important; float: none !important; min-width: 0; }
-html.lm-ck body.carrinho-checkout #formularioCheckout .row-fluid:has(> .span9 + .span3) { grid-template-columns: minmax(0, 3fr) minmax(88px, 1fr); }
+body.carrinho-checkout #formularioCheckout .row-fluid:has(> .control-group[class*="span"]) { display: grid !important; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); column-gap: var(--lm-esp-2); }
+body.carrinho-checkout #formularioCheckout .row-fluid:has(> .control-group[class*="span"])::before, body.carrinho-checkout #formularioCheckout .row-fluid:has(> .control-group[class*="span"])::after { display: none !important; }
+body.carrinho-checkout #formularioCheckout .row-fluid > .control-group[class*="span"] { width: auto !important; margin-left: 0 !important; float: none !important; min-width: 0; }
+body.carrinho-checkout #formularioCheckout .row-fluid:has(> .span9 + .span3) { grid-template-columns: minmax(0, 3fr) minmax(88px, 1fr); }
 
 /* campos: o .lm-campo do site (48, pílula, fundo claro, borda fina). box-sizing de borda: a largura continua a do tema */
-html.lm-ck body.carrinho-checkout #corpo :is(input:not([type=hidden], [type=checkbox], [type=radio], [type=submit], [type=button], [type=image]), select, textarea) { box-sizing: border-box !important; height: var(--lm-campo-altura) !important; min-height: 0 !important; max-width: 100%; margin: 0 !important; padding: 0 var(--lm-esp-2) !important; border: var(--lm-borda-padrao) !important; border-radius: var(--lm-btn-raio) !important; background-color: var(--lm-fundo) !important; color: var(--lm-grafite) !important; font: 400 15px/1.2 var(--lm-fonte-texto) !important; box-shadow: none !important; transition: border-color .15s, background-color .15s; }
-html.lm-ck body.carrinho-checkout #corpo :is(input, select, textarea)::placeholder { color: var(--lm-texto-secundario); opacity: 1; }
-html.lm-ck body.carrinho-checkout #corpo :is(input, select, textarea):focus { outline: 0 !important; border-color: var(--lm-azul) !important; background-color: var(--lm-branco) !important; box-shadow: 0 0 0 1px var(--lm-azul) !important; }
-html.lm-ck body.carrinho-checkout #corpo :is(input, select, textarea):is([disabled], [readonly]) { color: var(--lm-texto-secundario) !important; cursor: not-allowed; }
-html.lm-ck body.carrinho-checkout #corpo :is(.error, .erro) :is(input, select, textarea) { border-color: var(--lm-erro) !important; }
-html.lm-ck body.carrinho-checkout #corpo :is(.span12, .input-xlarge, .input-block-level):is(input, select, textarea) { width: 100% !important; }
-html.lm-ck body.carrinho-checkout #corpo select { -webkit-appearance: none; appearance: none; padding-right: 40px !important; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23303136' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") !important; background-repeat: no-repeat !important; background-position: right 14px center !important; background-size: 16px !important; text-overflow: ellipsis; cursor: pointer; }
+body.carrinho-checkout #corpo :is(input:not([type=hidden], [type=checkbox], [type=radio], [type=submit], [type=button], [type=image]), select, textarea) { box-sizing: border-box !important; height: var(--lm-campo-altura) !important; min-height: 0 !important; max-width: 100%; margin: 0 !important; padding: 0 var(--lm-esp-2) !important; border: var(--lm-borda-padrao) !important; border-radius: var(--lm-btn-raio) !important; background-color: var(--lm-fundo) !important; color: var(--lm-grafite) !important; font: 400 15px/1.2 var(--lm-fonte-texto) !important; box-shadow: none !important; transition: border-color .15s, background-color .15s; }
+body.carrinho-checkout #corpo :is(input, select, textarea)::placeholder { color: var(--lm-texto-secundario); opacity: 1; }
+body.carrinho-checkout #corpo :is(input, select, textarea):focus { outline: 0 !important; border-color: var(--lm-azul) !important; background-color: var(--lm-branco) !important; box-shadow: 0 0 0 1px var(--lm-azul) !important; }
+body.carrinho-checkout #corpo :is(input, select, textarea):is([disabled], [readonly]) { color: var(--lm-texto-secundario) !important; cursor: not-allowed; }
+body.carrinho-checkout #corpo :is(.error, .erro) :is(input, select, textarea) { border-color: var(--lm-erro) !important; }
+body.carrinho-checkout #corpo :is(.span12, .input-xlarge, .input-block-level):is(input, select, textarea) { width: 100% !important; }
+body.carrinho-checkout #corpo select { -webkit-appearance: none; appearance: none; padding-right: 40px !important; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23303136' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") !important; background-repeat: no-repeat !important; background-position: right 14px center !important; background-size: 16px !important; text-overflow: ellipsis; cursor: pointer; }
 /* mensagem: campo quadrado, 2 linhas (Eduardo 11/11). O seletor dos campos acima pesa mais (por causa do :is com :not), por isso o textarea[name] */
-html.lm-ck body.carrinho-checkout #corpo textarea, html.lm-ck body.carrinho-checkout #corpo textarea[name] { height: calc(3em + 26px) !important; min-height: calc(3em + 26px) !important; padding: 12px var(--lm-esp-2) !important; border-radius: 0 !important; line-height: 1.5 !important; resize: vertical; }
-html.lm-ck body.carrinho-checkout #corpo #id_cep { width: 160px !important; }
+body.carrinho-checkout #corpo textarea, body.carrinho-checkout #corpo textarea[name] { height: calc(3em + 26px) !important; min-height: calc(3em + 26px) !important; padding: 12px var(--lm-esp-2) !important; border-radius: 0 !important; line-height: 1.5 !important; resize: vertical; }
+body.carrinho-checkout #corpo #id_cep { width: 160px !important; }
 /* campo com botão colado (CVV e o "?"): uma pílula só, dividida */
-html.lm-ck body.carrinho-checkout #corpo .input-append { display: flex !important; align-items: stretch; margin: 0 !important; font-size: 0; white-space: nowrap; }
-html.lm-ck body.carrinho-checkout #corpo .input-append input { flex: 1 1 auto; width: auto !important; min-width: 0; border-radius: var(--lm-btn-raio) 0 0 var(--lm-btn-raio) !important; }
-html.lm-ck body.carrinho-checkout #corpo .input-append .add-on { box-sizing: border-box; display: flex !important; align-items: center; justify-content: center; flex: none; width: 44px; height: var(--lm-campo-altura) !important; margin: 0 0 0 -1px !important; padding: 0 !important; border: var(--lm-borda-padrao) !important; border-radius: 0 var(--lm-btn-raio) var(--lm-btn-raio) 0 !important; background: var(--lm-branco) !important; color: var(--lm-texto-secundario) !important; font-size: 16px !important; text-shadow: none !important; }
+body.carrinho-checkout #corpo .input-append { display: flex !important; align-items: stretch; margin: 0 !important; font-size: 0; white-space: nowrap; }
+body.carrinho-checkout #corpo .input-append input { flex: 1 1 auto; width: auto !important; min-width: 0; border-radius: var(--lm-btn-raio) 0 0 var(--lm-btn-raio) !important; }
+body.carrinho-checkout #corpo .input-append .add-on { box-sizing: border-box; display: flex !important; align-items: center; justify-content: center; flex: none; width: 44px; height: var(--lm-campo-altura) !important; margin: 0 0 0 -1px !important; padding: 0 !important; border: var(--lm-borda-padrao) !important; border-radius: 0 var(--lm-btn-raio) var(--lm-btn-raio) 0 !important; background: var(--lm-branco) !important; color: var(--lm-texto-secundario) !important; font-size: 16px !important; text-shadow: none !important; }
 /* marcação: na cor do botão */
-html.lm-ck body.carrinho-checkout #corpo :is(input[type=checkbox], input[type=radio]) { accent-color: var(--lm-botao); width: 18px; height: 18px; margin: 0 !important; vertical-align: middle; cursor: pointer; }
+body.carrinho-checkout #corpo :is(input[type=checkbox], input[type=radio]) { accent-color: var(--lm-botao); width: 18px; height: 18px; margin: 0 !important; vertical-align: middle; cursor: pointer; }
 /* caixa de marcar: o texto do rótulo flui normal (o tema põe mais um texto depois dele, que em flex virava coluna) */
-html.lm-ck body.carrinho-checkout #corpo label.checkbox { position: relative; display: block !important; min-height: 20px; margin: 0 0 var(--lm-esp-1) !important; padding: 0 0 0 26px !important; font: 400 14px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
-html.lm-ck body.carrinho-checkout #corpo label.checkbox input { position: absolute; left: 0; top: 1px; float: none !important; }
+body.carrinho-checkout #corpo label.checkbox { position: relative; display: block !important; min-height: 20px; margin: 0 0 var(--lm-esp-1) !important; padding: 0 0 0 26px !important; font: 400 14px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
+body.carrinho-checkout #corpo label.checkbox input { position: absolute; left: 0; top: 1px; float: none !important; }
 /* aceite da política: a caixinha do tema vem dentro do rótulo, colada no texto */
-html.lm-ck body.carrinho-checkout #corpo .control-group.checkbox .control-label { font-weight: 400 !important; }
-html.lm-ck body.carrinho-checkout #corpo .control-group.checkbox .control-label > .controls { display: inline-block; margin: 0 var(--lm-esp-1) 0 0 !important; vertical-align: -3px; }
+body.carrinho-checkout #corpo .control-group.checkbox .control-label { font-weight: 400 !important; }
+body.carrinho-checkout #corpo .control-group.checkbox .control-label > .controls { display: inline-block; margin: 0 var(--lm-esp-1) 0 0 !important; vertical-align: -3px; }
 
 /* pessoa física / jurídica: abas com fio azul embaixo da ativa */
-html.lm-ck body.carrinho-checkout #tipoCadastro { display: flex !important; margin: 0 0 var(--lm-esp-3) !important; padding: 0 !important; border: 0 !important; border-bottom: var(--lm-borda-padrao) !important; list-style: none; }
-html.lm-ck body.carrinho-checkout #tipoCadastro::before, html.lm-ck body.carrinho-checkout #tipoCadastro::after { display: none !important; }
-html.lm-ck body.carrinho-checkout #tipoCadastro > li { flex: 1 1 0; width: auto !important; margin: 0 !important; float: none !important; border: 0 !important; background: none !important; }
-html.lm-ck body.carrinho-checkout #corpo #tipoCadastro > li > a { display: block; padding: 12px var(--lm-esp-1) !important; border: 0 !important; background: none !important; font: 600 14px/1.2 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; text-align: center; text-decoration: none !important; }
-html.lm-ck body.carrinho-checkout #tipoCadastro i { display: none !important; }  /* marcas de escolhido do tema: o fio azul já mostra a ativa */
-html.lm-ck body.carrinho-checkout #tipoCadastro b { font-weight: inherit !important; }
-html.lm-ck body.carrinho-checkout #corpo #tipoCadastro > li.active > a { color: var(--lm-grafite) !important; box-shadow: inset 0 -2px 0 var(--lm-botao); }
+body.carrinho-checkout #tipoCadastro { display: flex !important; margin: 0 0 var(--lm-esp-3) !important; padding: 0 !important; border: 0 !important; border-bottom: var(--lm-borda-padrao) !important; list-style: none; }
+body.carrinho-checkout #tipoCadastro::before, body.carrinho-checkout #tipoCadastro::after { display: none !important; }
+body.carrinho-checkout #tipoCadastro > li { flex: 1 1 0; width: auto !important; margin: 0 !important; float: none !important; border: 0 !important; background: none !important; }
+body.carrinho-checkout #corpo #tipoCadastro > li > a { display: block; padding: 12px var(--lm-esp-1) !important; border: 0 !important; background: none !important; font: 600 14px/1.2 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; text-align: center; text-decoration: none !important; }
+body.carrinho-checkout #tipoCadastro i { display: none !important; }  /* marcas de escolhido do tema: o fio azul já mostra a ativa */
+body.carrinho-checkout #tipoCadastro b { font-weight: inherit !important; }
+body.carrinho-checkout #corpo #tipoCadastro > li.active > a { color: var(--lm-grafite) !important; box-shadow: inset 0 -2px 0 var(--lm-botao); }
 
 /* botões: o desenho único do site (pílula 48, negrito em caixa alta, texto no centro) */
-html.lm-ck body.carrinho-checkout :is(#corpo, #avisoCookies) .botao { box-sizing: border-box; display: inline-flex !important; align-items: center !important; justify-content: center !important; gap: var(--lm-esp-1); min-height: var(--lm-btn-altura) !important; height: auto !important; margin: 0; padding: 0 var(--lm-esp-3) !important; border: 0 !important; border-radius: var(--lm-btn-raio) !important; font: 700 15px/1.2 var(--lm-fonte-texto) !important; letter-spacing: .04em; text-transform: uppercase !important; text-decoration: none !important; text-shadow: none !important; box-shadow: none !important; transition: background-color .125s, color .125s; }
-html.lm-ck body.carrinho-checkout :is(#corpo, #avisoCookies) .botao.principal { background: var(--lm-botao) !important; color: var(--lm-branco) !important; }
-html.lm-ck body.carrinho-checkout :is(#corpo, #avisoCookies) .botao.principal:not(.disabled):hover { background: var(--lm-botao-hover) !important; }
-html.lm-ck body.carrinho-checkout #corpo .botao:not(.principal) { background: var(--lm-branco) !important; color: var(--lm-botao) !important; box-shadow: inset 0 0 0 2px var(--lm-botao) !important; }
-html.lm-ck body.carrinho-checkout #corpo .botao:not(.principal):hover { background: var(--lm-botao) !important; color: var(--lm-branco) !important; }
-html.lm-ck body.carrinho-checkout #corpo .botao > i { display: none !important; }
-html.lm-ck body.carrinho-checkout #corpo .botao.disabled { opacity: .5 !important; cursor: not-allowed; }
-html.lm-ck body.carrinho-checkout #corpo :is(.botao, .btn):focus:not(:focus-visible) { outline: 0 !important; }
-html.lm-ck body.carrinho-checkout #corpo :is(.botao, .btn):focus-visible { outline: 2px solid var(--lm-azul) !important; outline-offset: 2px; }
+body.carrinho-checkout :is(#corpo, #avisoCookies) .botao { box-sizing: border-box; display: inline-flex !important; align-items: center !important; justify-content: center !important; gap: var(--lm-esp-1); min-height: var(--lm-btn-altura) !important; height: auto !important; margin: 0; padding: 0 var(--lm-esp-3) !important; border: 0 !important; border-radius: var(--lm-btn-raio) !important; font: 700 15px/1.2 var(--lm-fonte-texto) !important; letter-spacing: .04em; text-transform: uppercase !important; text-decoration: none !important; text-shadow: none !important; box-shadow: none !important; transition: background-color .125s, color .125s; }
+body.carrinho-checkout :is(#corpo, #avisoCookies) .botao.principal { background: var(--lm-botao) !important; color: var(--lm-branco) !important; }
+body.carrinho-checkout :is(#corpo, #avisoCookies) .botao.principal:not(.disabled):hover { background: var(--lm-botao-hover) !important; }
+body.carrinho-checkout #corpo .botao:not(.principal) { background: var(--lm-branco) !important; color: var(--lm-botao) !important; box-shadow: inset 0 0 0 2px var(--lm-botao) !important; }
+body.carrinho-checkout #corpo .botao:not(.principal):hover { background: var(--lm-botao) !important; color: var(--lm-branco) !important; }
+body.carrinho-checkout #corpo .botao > i { display: none !important; }
+body.carrinho-checkout #corpo .botao.disabled { opacity: .5 !important; cursor: not-allowed; }
+body.carrinho-checkout #corpo :is(.botao, .btn):focus:not(:focus-visible) { outline: 0 !important; }
+body.carrinho-checkout #corpo :is(.botao, .btn):focus-visible { outline: 2px solid var(--lm-azul) !important; outline-offset: 2px; }
 /* Finalizar: a largura da coluna (o tema dava a largura do texto, que passava da coluna estreita) */
-html.lm-ck body.carrinho-checkout #formas-pagamento-wrapper .acao-editar { margin: var(--lm-esp-2) 0 0 !important; text-align: center !important; }
-html.lm-ck body.carrinho-checkout #formas-pagamento-wrapper fieldset fieldset { margin-top: var(--lm-esp-2) !important; }  /* aceite da política */
+body.carrinho-checkout #formas-pagamento-wrapper .acao-editar { margin: var(--lm-esp-2) 0 0 !important; text-align: center !important; }
+body.carrinho-checkout #formas-pagamento-wrapper fieldset fieldset { margin-top: var(--lm-esp-2) !important; }  /* aceite da política */
 /* Continuar comprando: link de texto, não botão (Eduardo 11/11); no fim só ficam os botões Finalizar e Alterar forma de pagamento */
-html.lm-ck body.carrinho-checkout #corpo #continueShopping, html.lm-ck body.carrinho-checkout #corpo #continueShopping:hover { min-height: 0 !important; margin: var(--lm-esp-2) auto 0 !important; padding: 4px 0 !important; background: none !important; box-shadow: none !important; font: 600 15px/1.4 var(--lm-fonte-texto) !important; letter-spacing: 0; text-transform: none !important; text-decoration: underline !important; text-underline-offset: 3px; color: var(--lm-botao) !important; }
-html.lm-ck body.carrinho-checkout #corpo #continueShopping:hover { color: var(--lm-botao-hover) !important; }
-html.lm-ck body.carrinho-checkout #finalizarCompra { width: 100% !important; }
-html.lm-ck body.carrinho-checkout #formas-pagamento-wrapper .selo-ssl { margin-top: var(--lm-esp-2) !important; text-align: center !important; }
+body.carrinho-checkout #corpo #continueShopping, body.carrinho-checkout #corpo #continueShopping:hover { min-height: 0 !important; margin: var(--lm-esp-2) auto 0 !important; padding: 4px 0 !important; background: none !important; box-shadow: none !important; font: 600 15px/1.4 var(--lm-fonte-texto) !important; letter-spacing: 0; text-transform: none !important; text-decoration: underline !important; text-underline-offset: 3px; color: var(--lm-botao) !important; }
+body.carrinho-checkout #corpo #continueShopping:hover { color: var(--lm-botao-hover) !important; }
+body.carrinho-checkout #finalizarCompra { width: 100% !important; }
+body.carrinho-checkout #formas-pagamento-wrapper .selo-ssl { margin-top: var(--lm-esp-2) !important; text-align: center !important; }
 /* botões pequenos do Bootstrap (Alterar entrega/pagamento, crédito/débito): contorno azul em pílula, preenchido no hover e no ativo */
-html.lm-ck body.carrinho-checkout #corpo .btn { box-sizing: border-box; display: inline-flex !important; align-items: center; justify-content: center; gap: 6px; min-height: 36px; height: auto !important; margin: 0; padding: 0 var(--lm-esp-2) !important; border: 0 !important; border-radius: var(--lm-btn-raio) !important; background: var(--lm-branco) !important; color: var(--lm-botao) !important; box-shadow: inset 0 0 0 1px var(--lm-botao) !important; font: 600 13px/1.2 var(--lm-fonte-texto) !important; text-shadow: none !important; text-decoration: none !important; }
-html.lm-ck body.carrinho-checkout #corpo .btn:is(:hover, .active) { background: var(--lm-botao) !important; color: var(--lm-branco) !important; }
-html.lm-ck body.carrinho-checkout #corpo .btn > i { display: none !important; }
-html.lm-ck body.carrinho-checkout #exibirFormasEnvio { margin: 0 0 var(--lm-esp-2) !important; }
-html.lm-ck body.carrinho-checkout #exibirFormasPagamento { margin: var(--lm-esp-2) 0 0 !important; }  /* o tema dá margem -10 em cima (inline) */
+body.carrinho-checkout #corpo .btn { box-sizing: border-box; display: inline-flex !important; align-items: center; justify-content: center; gap: 6px; min-height: 36px; height: auto !important; margin: 0; padding: 0 var(--lm-esp-2) !important; border: 0 !important; border-radius: var(--lm-btn-raio) !important; background: var(--lm-branco) !important; color: var(--lm-botao) !important; box-shadow: inset 0 0 0 1px var(--lm-botao) !important; font: 600 13px/1.2 var(--lm-fonte-texto) !important; text-shadow: none !important; text-decoration: none !important; }
+body.carrinho-checkout #corpo .btn:is(:hover, .active) { background: var(--lm-botao) !important; color: var(--lm-branco) !important; }
+body.carrinho-checkout #corpo .btn > i { display: none !important; }
+body.carrinho-checkout #exibirFormasEnvio { margin: 0 0 var(--lm-esp-2) !important; }
+body.carrinho-checkout #exibirFormasPagamento { margin: var(--lm-esp-2) 0 0 !important; }  /* o tema dá margem -10 em cima (inline) */
 /* Alterar forma de pagamento: o botão secundário no tamanho do Finalizar (largura toda, 48, 700 15 px), em contorno (Eduardo 11/11) */
-html.lm-ck body.carrinho-checkout #corpo #exibirFormasPagamento .btn { display: flex !important; width: 100%; min-height: 48px; padding: 0 var(--lm-esp-2) !important; box-shadow: inset 0 0 0 2px var(--lm-botao) !important; font: 700 15px/1.2 var(--lm-fonte-texto) !important; letter-spacing: .04em; text-transform: uppercase; }
+body.carrinho-checkout #corpo #exibirFormasPagamento .btn { display: flex !important; width: 100%; min-height: 48px; padding: 0 var(--lm-esp-2) !important; box-shadow: inset 0 0 0 2px var(--lm-botao) !important; font: 700 15px/1.2 var(--lm-fonte-texto) !important; letter-spacing: .04em; text-transform: uppercase; }
 
 /* formas de envio e de pagamento: linhas com borda fina; a escolhida ganha o contorno azul */
-html.lm-ck body.carrinho-checkout #corpo .formas .accordion-group { margin: 0 0 var(--lm-esp-1) !important; border: var(--lm-borda-padrao) !important; border-radius: 0 !important; background: var(--lm-branco) !important; box-shadow: none !important; }
-html.lm-ck body.carrinho-checkout #corpo .formas .accordion-group:has(> .accordion-heading input:checked) { border-color: var(--lm-botao) !important; box-shadow: inset 0 0 0 1px var(--lm-botao) !important; }
-html.lm-ck body.carrinho-checkout #corpo .formas .accordion-heading { border: 0 !important; background: none !important; }
-html.lm-ck body.carrinho-checkout #corpo .formas .radio-conteiner { background: none !important; border: 0 !important; }
-html.lm-ck body.carrinho-checkout #corpo .formas .accordion-inner { border-top: var(--lm-borda-padrao) !important; padding: var(--lm-esp-2) !important; }
-html.lm-ck body.carrinho-checkout #corpo .pagamento-valor { font: 700 18px/1.2 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
+body.carrinho-checkout #corpo .formas .accordion-group { margin: 0 0 var(--lm-esp-1) !important; border: var(--lm-borda-padrao) !important; border-radius: 0 !important; background: var(--lm-branco) !important; box-shadow: none !important; }
+body.carrinho-checkout #corpo .formas .accordion-group:has(> .accordion-heading input:checked) { border-color: var(--lm-botao) !important; box-shadow: inset 0 0 0 1px var(--lm-botao) !important; }
+body.carrinho-checkout #corpo .formas .accordion-heading { border: 0 !important; background: none !important; }
+body.carrinho-checkout #corpo .formas .radio-conteiner { background: none !important; border: 0 !important; }
+body.carrinho-checkout #corpo .formas .accordion-inner { border-top: var(--lm-borda-padrao) !important; padding: var(--lm-esp-2) !important; }
+body.carrinho-checkout #corpo .pagamento-valor { font: 700 18px/1.2 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
 
 /* pagamento estreito (3 colunas a partir de 1200 e celular, caixa de ~330 px; Eduardo 11/11):
    - o cartão desenhado passava da borda da caixa (regras logo abaixo)
    - CVV e Parcelas lado a lado cortavam o rótulo e o select ("Cód. de Segur...", "Digite o númer..."): um embaixo do outro, largura cheia */
-html.lm-ck body.carrinho-checkout #formas-pagamento-wrapper { container-type: inline-size; }
+body.carrinho-checkout #formas-pagamento-wrapper { container-type: inline-size; }
 /* o script do cartão põe tamanho e escala inline que não batem entre si (ao vivo passava 24 px da caixa): o desenho fica no tamanho
    natural (350 x 180), centralizado, e o zoom sai da largura da caixa; cabe em "largura da caixa - 34" (borda e respiro de dentro) */
-html.lm-ck body.carrinho-checkout .cartao-placeholder-card { width: max-content !important; height: auto !important; margin: 0 auto var(--lm-esp-2) !important; }
-html.lm-ck body.carrinho-checkout .cartao-placeholder-card .jp-card-container { transform: none !important; }
-@container (max-width: 384px) { html.lm-ck body.carrinho-checkout .cartao-placeholder-card { zoom: .78; } }
-@container (max-width: 306px) { html.lm-ck body.carrinho-checkout .cartao-placeholder-card { zoom: .73; } }
-@container (max-width: 289px) { html.lm-ck body.carrinho-checkout .cartao-placeholder-card { zoom: .64; } }
-@container (max-width: 259px) { html.lm-ck body.carrinho-checkout .cartao-placeholder-card { zoom: .55; } }
+body.carrinho-checkout .cartao-placeholder-card { width: max-content !important; height: auto !important; margin: 0 auto var(--lm-esp-2) !important; }
+body.carrinho-checkout .cartao-placeholder-card .jp-card-container { transform: none !important; }
+@container (max-width: 384px) { body.carrinho-checkout .cartao-placeholder-card { zoom: .78; } }
+@container (max-width: 306px) { body.carrinho-checkout .cartao-placeholder-card { zoom: .73; } }
+@container (max-width: 289px) { body.carrinho-checkout .cartao-placeholder-card { zoom: .64; } }
+@container (max-width: 259px) { body.carrinho-checkout .cartao-placeholder-card { zoom: .55; } }
 @container (max-width: 480px) {
-  html.lm-ck body.carrinho-checkout .cartao-dados-adicionais .clearfix > [class*="span"] { float: none !important; width: 100% !important; margin-left: 0 !important; }
+  body.carrinho-checkout .cartao-dados-adicionais .clearfix > [class*="span"] { float: none !important; width: 100% !important; margin-left: 0 !important; }
 }
-html.lm-ck body.carrinho-checkout #formasPagamento .control-label { white-space: normal !important; overflow: visible !important; text-overflow: clip !important; }  /* nenhum rótulo com reticências */
+body.carrinho-checkout #formasPagamento .control-label { white-space: normal !important; overflow: visible !important; text-overflow: clip !important; }  /* nenhum rótulo com reticências */
 
 /* avisos de erro do sistema */
-html.lm-ck body.carrinho-checkout #corpo .alert { margin: var(--lm-esp-1) 0 !important; padding: 12px var(--lm-esp-2) !important; border: 0 !important; border-left: 3px solid var(--lm-texto-secundario) !important; border-radius: 0 !important; background: var(--lm-fundo) !important; font: 400 14px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; text-shadow: none !important; }
-html.lm-ck body.carrinho-checkout #corpo .alert-error { border-left-color: var(--lm-erro) !important; color: var(--lm-erro) !important; }
+body.carrinho-checkout #corpo .alert { margin: var(--lm-esp-1) 0 !important; padding: 12px var(--lm-esp-2) !important; border: 0 !important; border-left: 3px solid var(--lm-texto-secundario) !important; border-radius: 0 !important; background: var(--lm-fundo) !important; font: 400 14px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; text-shadow: none !important; }
+body.carrinho-checkout #corpo .alert-error { border-left-color: var(--lm-erro) !important; color: var(--lm-erro) !important; }
 
 /* rodapé: faixa grafite com a linha da empresa e os créditos em claro */
-html.lm-ck body.carrinho-checkout #rodape, html.lm-ck body.carrinho-checkout #rodape > div { background: var(--lm-grafite) !important; border: 0 !important; }
-html.lm-ck body.carrinho-checkout #rodape .conteiner { box-sizing: border-box; width: auto !important; max-width: var(--lm-largura); margin: 0 auto; padding: var(--lm-esp-3) var(--lm-margem) !important; }
-html.lm-ck body.carrinho-checkout #rodape p { margin: 0 !important; font: 400 13px/1.5 var(--lm-fonte-texto) !important; color: var(--lm-sobre-escuro-2) !important; }
-html.lm-ck body.carrinho-checkout #rodape .cr { padding-top: var(--lm-esp-2) !important; padding-bottom: 0 !important; }
-html.lm-ck body.carrinho-checkout #rodape .cr img { filter: brightness(0) invert(1); opacity: .7; }
+body.carrinho-checkout #rodape, body.carrinho-checkout #rodape > div { background: var(--lm-grafite) !important; border: 0 !important; }
+body.carrinho-checkout #rodape .conteiner { box-sizing: border-box; width: auto !important; max-width: var(--lm-largura); margin: 0 auto; padding: var(--lm-esp-3) var(--lm-margem) !important; }
+body.carrinho-checkout #rodape p { margin: 0 !important; font: 400 13px/1.5 var(--lm-fonte-texto) !important; color: var(--lm-sobre-escuro-2) !important; }
+body.carrinho-checkout #rodape .cr { padding-top: var(--lm-esp-2) !important; padding-bottom: 0 !important; }
+body.carrinho-checkout #rodape .cr img { filter: brightness(0) invert(1); opacity: .7; }
 /* crédito da Lucerpy (Eduardo 11/11), o mesmo do site (.lm-credito do loren.js): no checkout não roda JS nosso, então vem num ::after,
    sem link. Fonte mono: cada letra tem 1ch, e o gradiente recortado no texto pinta "<3" de âmbar e "Lucerpy" de claro, como no site.
    O 2º content tem o texto para leitor de tela ("carinho"); navegador que não entende a barra fica com o 1º */
-html.lm-ck body.carrinho-checkout #rodape::after { content: "Feito com <3 por Lucerpy"; content: "Feito com <3 por Lucerpy" / "Feito com carinho por Lucerpy"; display: block; width: 24ch; margin: 0 auto; padding: 0 0 var(--lm-esp-2); font: 400 12px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important; text-align: left; white-space: nowrap; color: #a1a1aa; background: linear-gradient(90deg, #a1a1aa 10ch, #e8a659 10ch 12ch, #a1a1aa 12ch 17ch, #e4e4e7 17ch); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+body.carrinho-checkout #rodape::after { content: "Feito com <3 por Lucerpy"; content: "Feito com <3 por Lucerpy" / "Feito com carinho por Lucerpy"; display: block; width: 24ch; margin: 0 auto; padding: 0 0 var(--lm-esp-2); font: 400 12px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important; text-align: left; white-space: nowrap; color: #a1a1aa; background: linear-gradient(90deg, #a1a1aa 10ch, #e8a659 10ch 12ch, #a1a1aa 12ch 17ch, #e4e4e7 17ch); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
 
 /* flutuantes: o WhatsApp no desenho do chat do site; e-mail e "Topo" fora */
-html.lm-ck body.carrinho-checkout :is(.mail-floating, .scrollToTop) { display: none !important; }
-html.lm-ck body.carrinho-checkout .li-whatsapp > a { right: 24px !important; bottom: 24px !important; width: 56px !important; height: 56px !important; border-radius: 50% !important; background: var(--lm-botao) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23fff' d='M4 4h16a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H9l-4.4 3.3A1 1 0 0 1 3 19.5V5a1 1 0 0 1 1-1Z'/%3E%3C/svg%3E") no-repeat 50% / 28px !important; box-shadow: var(--lm-sombra-flutuante) !important; transition: transform .15s; }
-html.lm-ck body.carrinho-checkout .li-whatsapp > a:is(:hover, :focus-visible) { transform: scale(1.06); }
-html.lm-ck body.carrinho-checkout .li-whatsapp > a > i { display: none !important; }
+body.carrinho-checkout :is(.mail-floating, .scrollToTop) { display: none !important; }
+body.carrinho-checkout .li-whatsapp > a { right: 24px !important; bottom: 24px !important; width: 56px !important; height: 56px !important; border-radius: 50% !important; background: var(--lm-botao) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23fff' d='M4 4h16a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H9l-4.4 3.3A1 1 0 0 1 3 19.5V5a1 1 0 0 1 1-1Z'/%3E%3C/svg%3E") no-repeat 50% / 28px !important; box-shadow: var(--lm-sombra-flutuante) !important; transition: transform .15s; }
+body.carrinho-checkout .li-whatsapp > a:is(:hover, :focus-visible) { transform: scale(1.06); }
+body.carrinho-checkout .li-whatsapp > a > i { display: none !important; }
 
 /* aviso de cookies: o cartão compacto do site, embaixo à esquerda (no celular, faixa de ponta a ponta) */
-html.lm-ck body.carrinho-checkout #avisoCookies { position: fixed !important; top: auto !important; bottom: 16px !important; left: 16px !important; right: auto !important; max-width: 420px; height: auto !important; padding: 0 !important; background: var(--lm-branco) !important; border: var(--lm-borda-padrao) !important; box-shadow: var(--lm-cartao-sombra-hover) !important; z-index: 60; }
-html.lm-ck body.carrinho-checkout #avisoCookies .conteiner { display: flex !important; align-items: center; gap: var(--lm-esp-2); width: auto !important; height: auto !important; padding: var(--lm-esp-2) !important; }
-html.lm-ck body.carrinho-checkout #avisoCookies p { flex: 1 1 auto; width: auto !important; margin: 0 !important; font: 400 12px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; }
-html.lm-ck body.carrinho-checkout #avisoCookies a { color: var(--lm-botao) !important; }
-html.lm-ck body.carrinho-checkout #avisoCookies .botao { flex: none; width: auto !important; margin: 0 !important; background: var(--lm-grafite) !important; color: var(--lm-branco) !important; }
+body.carrinho-checkout #avisoCookies { position: fixed !important; top: auto !important; bottom: 16px !important; left: 16px !important; right: auto !important; max-width: 420px; height: auto !important; padding: 0 !important; background: var(--lm-branco) !important; border: var(--lm-borda-padrao) !important; box-shadow: var(--lm-cartao-sombra-hover) !important; z-index: 60; }
+body.carrinho-checkout #avisoCookies .conteiner { display: flex !important; align-items: center; gap: var(--lm-esp-2); width: auto !important; height: auto !important; padding: var(--lm-esp-2) !important; }
+body.carrinho-checkout #avisoCookies p { flex: 1 1 auto; width: auto !important; margin: 0 !important; font: 400 12px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; }
+body.carrinho-checkout #avisoCookies a { color: var(--lm-botao) !important; }
+body.carrinho-checkout #avisoCookies .botao { flex: none; width: auto !important; margin: 0 !important; background: var(--lm-grafite) !important; color: var(--lm-branco) !important; }
 
 @media (max-width: 767px) {
-  html.lm-ck body.carrinho-checkout #cabecalho .logo a { width: 150px; height: 34px; }
-  html.lm-ck body.carrinho-checkout #cabecalho .conteiner > .row-fluid::after { content: "Compra segura"; font-size: 13px; }
-  html.lm-ck body.carrinho-checkout #corpo .secao-principal { padding: var(--lm-esp-3) 0 var(--lm-esp-4) !important; }
-  html.lm-ck body.carrinho-checkout #login-content .identificacao-inner { padding: var(--lm-esp-3) var(--lm-esp-2) !important; }
-  html.lm-ck body.carrinho-checkout .li-whatsapp > a { bottom: 16px !important; width: 60px !important; height: 60px !important; background-size: 29px !important; }
-  html.lm-ck body.carrinho-checkout.mostrarAvisoCookie .li-whatsapp { display: none !important; }
-  html.lm-ck body.carrinho-checkout #avisoCookies { left: 8px !important; right: 8px !important; bottom: calc(8px + env(safe-area-inset-bottom)) !important; max-width: none; }
-  html.lm-ck body.carrinho-checkout #avisoCookies .conteiner { flex-direction: row !important; gap: 12px !important; padding: 8px 8px 8px 12px !important; }
-  html.lm-ck body.carrinho-checkout #avisoCookies p { font-size: 11px !important; line-height: 1.35 !important; }
-  html.lm-ck body.carrinho-checkout #avisoCookies .botao { min-height: 44px !important; padding: 0 var(--lm-esp-2) !important; font-size: 13px !important; }
+  body.carrinho-checkout #cabecalho .logo a { width: 150px; height: 34px; }
+  body.carrinho-checkout #cabecalho .conteiner > .row-fluid::after { content: "Compra segura"; font-size: 13px; }
+  body.carrinho-checkout #corpo .secao-principal { padding: var(--lm-esp-3) 0 var(--lm-esp-4) !important; }
+  body.carrinho-checkout #login-content .identificacao-inner { padding: var(--lm-esp-3) var(--lm-esp-2) !important; }
+  body.carrinho-checkout .li-whatsapp > a { bottom: 16px !important; width: 60px !important; height: 60px !important; background-size: 29px !important; }
+  body.carrinho-checkout.mostrarAvisoCookie .li-whatsapp { display: none !important; }
+  body.carrinho-checkout #avisoCookies { left: 8px !important; right: 8px !important; bottom: calc(8px + env(safe-area-inset-bottom)) !important; max-width: none; }
+  body.carrinho-checkout #avisoCookies .conteiner { flex-direction: row !important; gap: 12px !important; padding: 8px 8px 8px 12px !important; }
+  body.carrinho-checkout #avisoCookies p { font-size: 11px !important; line-height: 1.35 !important; }
+  body.carrinho-checkout #avisoCookies .botao { min-height: 44px !important; padding: 0 var(--lm-esp-2) !important; font-size: 13px !important; }
 }
 @media (min-width: 768px) {
-  html.lm-ck body.carrinho-checkout.mostrarAvisoCookie .li-whatsapp > a { bottom: 24px !important; }  /* o cartão de cookies fica à esquerda: o WhatsApp não precisa subir */
+  body.carrinho-checkout.mostrarAvisoCookie .li-whatsapp > a { bottom: 24px !important; }  /* o cartão de cookies fica à esquerda: o WhatsApp não precisa subir */
 }
