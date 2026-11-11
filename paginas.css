@@ -30,30 +30,103 @@ html.lm-novo #corpo .lm-inst table { border-collapse: collapse; width: 100% !imp
 html.lm-novo #corpo .lm-inst :is(td, th) { border: var(--lm-borda-padrao) !important; padding: 8px 16px !important; text-align: left; vertical-align: top; }
 html.lm-novo #corpo .lm-inst th { background: var(--lm-fundo) !important; font-weight: 700; }
 
-/* ===== Obras finalizadas: cards de portfólio (Ellie 04/11). As obras têm conteúdo muito diferente (só o nome e 4 fotos
-   até descrição, 10 itens e 13 fotos): em grade de 3 os cards da linha esticavam com vazio embaixo. Um card por linha no
-   computador, fotos à esquerda (capa 4:3 + miniaturas quadradas, todas continuam na página) e nome, texto e itens à
-   direita; no celular empilha ===== */
-html.lm-novo #corpo .lm-inst.lm-obras-pag { max-width: none !important; width: 100% !important; }
-html.lm-novo .lm-obras { display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px; }
-html.lm-novo .lm-obra { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: start; border: var(--lm-cartao-borda); background: #fff; margin: 0; transition: var(--lm-cartao-transicao); }
+/* ===== Obras finalizadas, no padrão da página de obras da Conceito (Wednesday 11/11; a 1ª versão em cards foi da Ellie, 04/11):
+   topo escuro com mosaico das capas e os números da página, grade de cartões (capa 4:3, tipo, nome, local, 3 primeiros itens; o
+   resto só na galeria) e chamada final. A galeria é um <dialog> no body (fora do #corpo). ===== */
+html.lm-novo #corpo .lm-inst.lm-obras-pag { width: 100% !important; max-width: none !important; padding-top: 0 !important; }
+html.lm-novo .lm-pagcab--obras { overflow: hidden; background: var(--lm-grafite); box-shadow: 0 0 0 100vmax var(--lm-grafite); color: var(--lm-branco); }
+html.lm-novo .lm-obras-mosaico { position: absolute; top: 24px; bottom: 24px; right: 0; width: 56%; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; }
+html.lm-novo .lm-obras-mosaico img { width: 100%; height: 100%; object-fit: cover; display: block; }
+html.lm-novo .lm-obras-mosaico::after { content: ""; position: absolute; inset: 0 -1px; background: linear-gradient(90deg, var(--lm-grafite) 0%, rgba(48, 49, 54, .5) 30%, rgba(48, 49, 54, .08) 100%); }
+html.lm-novo .lm-pagcab--obras .lm-pagcab__in { position: relative; z-index: 1; max-width: 640px; padding-block: 16px 8px; }
+html.lm-novo #corpo .lm-pagcab.lm-pagcab--obras :is(h1, .breadcrumbs, .breadcrumbs *) { color: var(--lm-branco) !important; }
+html.lm-novo #corpo .lm-pagcab.lm-pagcab--obras .lm-pagcab__apoio { color: rgba(246, 246, 247, .88) !important; }
+html.lm-novo .lm-obras-num { display: flex; flex-wrap: wrap; gap: 16px 48px; margin: 32px 0 0; padding: 0; list-style: none; }
+html.lm-novo .lm-obras-num li { display: flex; flex-direction: column; font: 400 14px/1.3 var(--lm-fonte-texto); color: rgba(246, 246, 247, .82); }
+html.lm-novo .lm-obras-num b { font: 700 2.5rem/1 var(--lm-fonte-titulo); color: var(--lm-branco); margin-bottom: 4px; }
+
+html.lm-novo .lm-obras { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+html.lm-novo .lm-obra { display: flex; flex-direction: column; border: var(--lm-cartao-borda); background: #fff; margin: 0; transition: var(--lm-cartao-transicao); }
 html.lm-novo .lm-obra:hover { box-shadow: var(--lm-cartao-sombra-hover); }
-html.lm-novo .lm-obra-fotos { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; }
-html.lm-novo #corpo .lm-inst > div .lm-obra-fotos img { width: 100% !important; height: auto !important; aspect-ratio: 1 / 1; object-fit: cover; margin: 0 !important; }
-html.lm-novo #corpo .lm-inst > div .lm-obra-fotos img:first-child { grid-column: 1 / -1; aspect-ratio: 4 / 3; }
-html.lm-novo .lm-obra-txt { padding: 32px; }
-html.lm-novo .lm-obra.lm-obra--sem-fotos { grid-template-columns: minmax(0, 1fr); }
-html.lm-novo #corpo .lm-inst > div .lm-obra-nome { font: 700 var(--lm-h3)/1.1 var(--lm-fonte-titulo) !important; margin: 0 0 16px !important; }
-html.lm-novo #corpo .lm-inst > div .lm-obra-txt p:not(.lm-obra-nome) { margin: 0 !important; padding: 8px 0; border-top: var(--lm-borda-padrao); font-size: .9375rem !important; line-height: 1.5 !important; }
-@media (max-width: 979px) { html.lm-novo .lm-obra { grid-template-columns: minmax(0, 1fr); } html.lm-novo .lm-obra-txt { padding: 24px; } }
+html.lm-novo #corpo .lm-inst > div .lm-obra-fotos { position: relative; display: block; width: 100%; aspect-ratio: 4 / 3; padding: 0; border: 0; background: var(--lm-grafite) !important; overflow: hidden; cursor: zoom-in; }
+html.lm-novo #corpo .lm-inst > div .lm-obra-fotos img { position: absolute; inset: 0; width: 100% !important; height: 100% !important; object-fit: cover; margin: 0 !important; transition: transform .3s; }
+html.lm-novo #corpo .lm-inst > div .lm-obra-fotos img ~ img { display: none; }
+html.lm-novo .lm-obra-fotos:hover img { transform: scale(1.03); }
+html.lm-novo .lm-obra-fotos:focus-visible { outline: 3px solid var(--lm-onda-escura); outline-offset: -3px; }
+html.lm-novo #corpo .lm-inst > div .lm-obra-qtd { position: absolute; right: 12px; bottom: 12px; display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; background: rgba(48, 49, 54, .88) !important; color: #fff !important; font: 600 13px/1 var(--lm-fonte-texto) !important; }
+html.lm-novo .lm-obra-qtd svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; }
+html.lm-novo .lm-obra-txt { flex: 1; display: flex; flex-direction: column; padding: 24px; }
+html.lm-novo .lm-obra--sem-fotos { grid-column: 1 / -1; }
+html.lm-novo #corpo .lm-inst > div .lm-obra-tipo, html.lm-novo .lm-galeria .lm-obra-tipo { display: block; margin-bottom: 8px; font: 600 12px/1 var(--lm-fonte-texto) !important; letter-spacing: .06em; text-transform: uppercase; color: var(--lm-onda-escura) !important; }
+html.lm-novo #corpo .lm-inst > div .lm-obra-nome { font: 700 1.375rem/1.15 var(--lm-fonte-titulo) !important; margin: 0 !important; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }  /* até 2 linhas; a sobra de quem tem 1 fica acima do resumo */
+html.lm-novo .lm-obra-sep { display: none; }
+html.lm-novo .lm-obra-vazio { visibility: hidden; }
+html.lm-novo #corpo .lm-inst > div .lm-obra-local { margin-bottom: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+html.lm-novo #corpo .lm-inst > div .lm-obra-local, html.lm-novo .lm-galeria .lm-obra-local { display: block; margin-top: 6px; font: 400 14px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; }
+html.lm-novo #corpo .lm-inst > div .lm-obra-txt p:not(.lm-obra-nome) { margin: 0 0 8px !important; padding: 8px 0 0; border-top: var(--lm-borda-padrao); font-size: .9375rem !important; line-height: 1.5 !important; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }  /* no cartão: 2 linhas por item; inteiro na galeria */
+html.lm-novo #corpo .lm-inst > div .lm-obra-txt p.lm-obra-mais:not(.lm-obra-nome) { display: none; }
+html.lm-novo #corpo .lm-inst > div .lm-obra-txt p.lm-obra-resumo { box-sizing: content-box; min-height: 3em; margin: auto 0 0 !important; padding-top: 12px; }  /* auto: resumo e botão alinhados embaixo em todos os cartões da linha */
+html.lm-novo #corpo .lm-inst > div .lm-obra-txt p.lm-obra-resumo--neutro { color: var(--lm-texto-secundario) !important; }
+html.lm-novo .lm-obra-acoes { padding-top: 16px; }  /* a sobra vai toda para cima do resumo (margin-top:auto dele) */
+html.lm-novo .lm-obra-abrir { width: 100%; }
+
+html.lm-novo .lm-b2b.lm-obras-cta { margin: 48px 0 0 !important; background: var(--lm-onda-escura) !important; }  /* sólido: no degradê da faixa da home o texto ficava em 4,2:1 nesta largura */
+html.lm-novo .lm-obras-cta .lm-wrap { max-width: none; padding: 40px; }
+
+/* galeria */
+html.lm-galeria-aberta { overflow: hidden; }
+html.lm-novo .lm-galeria { width: min(1200px, 100vw - 48px); height: min(820px, 100dvh - 48px); max-width: none; max-height: none; margin: auto !important; padding: 0; border: 0; background: #fff; color: var(--lm-grafite); }
+html.lm-novo .lm-galeria[open] { display: grid; grid-template-columns: minmax(0, 1fr) 360px; }
+html.lm-novo .lm-galeria__midia { display: flex; flex-direction: column; min-height: 0; background: #141518; }
+html.lm-novo .lm-galeria::backdrop { background: rgba(20, 21, 24, .86); }
+html.lm-novo .lm-galeria__foto { position: relative; flex: 1; min-height: 0; }
+html.lm-novo .lm-galeria__foto img { width: 100%; height: 100%; object-fit: contain; display: block; }
+html.lm-novo .lm-galeria :is(.lm-galeria__ant, .lm-galeria__prox, .lm-galeria__fechar) { position: absolute; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%; background: rgba(255, 255, 255, .92); color: var(--lm-grafite); cursor: pointer; }
+html.lm-novo .lm-galeria svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2.25; stroke-linecap: round; stroke-linejoin: round; }
+html.lm-novo .lm-galeria__ant { left: 16px; top: calc(50% - 22px); }
+html.lm-novo .lm-galeria__prox { right: 16px; top: calc(50% - 22px); }
+html.lm-novo .lm-galeria__fechar { top: 12px; right: 12px; z-index: 2; background: var(--lm-grafite) !important; color: #fff !important; }
+html.lm-novo .lm-galeria :is(button, a):focus-visible { outline: 3px solid var(--lm-azul-hover); outline-offset: 2px; }
+html.lm-novo .lm-galeria__cont { position: absolute; left: 16px; bottom: 12px; margin: 0; padding: 4px 10px; background: rgba(20, 21, 24, .7); color: #fff; font: 600 13px/1.4 var(--lm-fonte-texto); }
+html.lm-novo .lm-galeria__minis { flex: none; display: flex; gap: 8px; padding: 12px; overflow-x: auto; }
+html.lm-novo .lm-galeria__minis button { flex: none; width: 76px; height: 57px; padding: 0; border: 2px solid transparent; background: none; cursor: pointer; opacity: .6; }
+html.lm-novo .lm-galeria__minis button[aria-current="true"] { border-color: #fff; opacity: 1; }
+html.lm-novo .lm-galeria__minis img { width: 100%; height: 100%; object-fit: cover; display: block; }
+html.lm-novo .lm-galeria__txt { overflow-y: auto; padding: 56px 32px 32px; font: 400 15px/1.5 var(--lm-fonte-texto); }
+html.lm-novo .lm-galeria__txt * { font-size: inherit !important; font-family: inherit !important; line-height: inherit !important; color: inherit !important; background: none !important; }  /* o Word deixa fonte e cor em cada trecho */
+html.lm-novo .lm-galeria__txt .lm-obra-nome { margin: 0 0 16px; font: 700 1.5rem/1.15 var(--lm-fonte-titulo) !important; }
+html.lm-novo .lm-galeria .lm-galeria__txt :is(.lm-obra-nome, .lm-obra-nome :not(.lm-obra-local, .lm-obra-local *)) { font-family: var(--lm-fonte-titulo) !important; }
+html.lm-novo .lm-galeria__txt p:not(.lm-obra-nome) { margin: 0; padding: 8px 0; border-top: var(--lm-borda-padrao); }
+html.lm-novo .lm-galeria__txt a { color: var(--lm-onda-escura) !important; font-weight: 600; text-decoration: none; }
+html.lm-novo .lm-galeria__txt a:is(:hover, :focus-visible) { text-decoration: underline; }
+html.lm-novo .lm-galeria--uma :is(.lm-galeria__ant, .lm-galeria__prox, .lm-galeria__minis) { display: none; }
+html.lm-novo .lm-galeria--sem-fotos[open] { grid-template-columns: minmax(0, 1fr); width: min(560px, 100vw - 32px); height: auto; }
+html.lm-novo .lm-galeria--sem-fotos .lm-galeria__midia { display: none; }
+
+@media (max-width: 979px) {
+  html.lm-novo .lm-obras { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  html.lm-novo .lm-obras-mosaico { width: 100%; }
+  html.lm-novo .lm-obras-mosaico::after { background: rgba(48, 49, 54, .84); }
+  html.lm-novo .lm-galeria[open] { grid-template-columns: minmax(0, 1fr); grid-auto-rows: auto; overflow-y: auto; }
+  html.lm-novo .lm-galeria__midia { height: 64vh; }
+  html.lm-novo .lm-galeria__txt { overflow: visible; padding: 24px; }
+}
 
 @media (max-width: 767px) {
   html.lm-novo #corpo .lm-inst { padding: 8px 0 32px !important; }
   html.lm-novo #corpo .lm-inst > h1 { margin-bottom: 16px !important; font-size: 1.875rem !important; line-height: 1.05 !important; }
   html.lm-novo #corpo .lm-inst > div { font-size: 15px; }
-  html.lm-novo .lm-obras { gap: 16px; }
-  html.lm-novo .lm-obra-fotos { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  html.lm-novo .lm-obra-txt { padding: 16px 16px 8px; }
+  html.lm-novo .lm-obras { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  html.lm-novo .lm-obra-txt { padding: 16px; }
+  html.lm-novo .lm-obra-vazio { display: none; }  /* uma coluna: não há vizinho para alinhar */
+  html.lm-novo #corpo .lm-inst > div .lm-obra-txt p.lm-obra-resumo { min-height: 0; }
+  html.lm-novo .lm-obras-num { gap: 16px 32px; margin-top: 24px; }
+  html.lm-novo .lm-obras-num b { font-size: 2rem; }
+  html.lm-novo .lm-obras-cta .lm-wrap { padding: 32px 16px; }
+  html.lm-novo .lm-galeria { width: 100vw; height: 100dvh; margin: 0 !important; }
+  html.lm-novo .lm-galeria__midia { height: 52vh; }
+  html.lm-novo .lm-galeria__txt { padding: 16px 16px 32px; }
+  html.lm-novo .lm-galeria__fechar { top: 8px; right: 8px; }
 }
 
 /* ===== carrinho (/carrinho/index) ===== */
