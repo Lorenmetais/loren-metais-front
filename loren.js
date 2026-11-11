@@ -10,6 +10,14 @@
   const ORC = 'data-toggle="modal" data-target="#modal_consulte"';  // o mesmo formulário de orçamento que o site já tem
   const ico = (d) => `<span class="lm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${d}</svg></span>`;
   document.documentElement.classList.add('lm-novo');
+  /* Wednesday 11/11: pré-carrega a próxima página (como a Conceito, snippets/speculation-rules) com PREFETCH só do HTML, no
+     hover de ~200 ms ou no toque (moderate). Sem prerender: ele rodaria os scripts da página, analytics junto. Só links do
+     mesmo site; fora carrinho, checkout, pagamento, conta, adicionar, links com ?, âncoras, nova aba e o .lm-troca. */
+  if (HTMLScriptElement.supports?.('speculationrules')) {
+    const regra = document.createElement('script'); regra.type = 'speculationrules';
+    regra.textContent = JSON.stringify({ prefetch: [{ where: { and: [{ href_matches: '/*' }, { not: { selector_matches: 'a[href*="?"], a[href^="#"], a[target="_blank"], .lm-troca, a[href*="/carrinho"], a[href*="/checkout"], a[href*="/pagamento"], a[href*="/conta"], a[href*="adicionar"]' } }] }, eagerness: 'moderate' }] });
+    document.head.append(regra);
+  }
   // entrada pelo favorito "Prévia Loren" (só loren.css e loren.js, sem o código do cabeçalho): o loren.css não tem @import, então traz aqui os tokens e as fontes que faltarem
   const poeLink = (parte, href) => { if (!BASE || document.querySelector(`link[href*="${parte}"]`)) return; const l = document.createElement('link'); l.rel = 'stylesheet'; l.href = href; document.head.append(l); };
   poeLink('brand-tokens.css', BASE + 'brand-tokens.css' + V);

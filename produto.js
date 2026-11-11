@@ -215,10 +215,18 @@
     }
 
     // esgotado (produto ou variação): selo no lugar do preço e o Avise-me da LI (janela da Ellie) como botão principal
-    compra?.querySelectorAll('.acoes-produto.indisponivel').forEach((bloco) => {
+    // e, embaixo, o convite para cotar mesmo assim (como na Conceito, quote-hint): abre o mesmo formulário de cotação
+    const cotacao = compra?.querySelector('.grandes_qtd[data-target="#modal_qtds"]');
+    const esgotados = compra?.querySelectorAll('.acoes-produto.indisponivel') || [];
+    esgotados.forEach((bloco) => {
       bloco.insertAdjacentHTML('afterbegin', '<p class="lm-prod-esgotado">Esgotado</p>');
       bloco.querySelectorAll('.avise-me-pop-cadastro').forEach((a) => a.classList.add('botao', 'principal'));
+      if (!cotacao) return;
+      bloco.insertAdjacentHTML('beforeend', '<div class="lm-prod-cotar"><p><b>Precisa com urgência?</b> Peça uma cotação e verificamos a disponibilidade para você.</p><button type="button" class="lm-btn2">Pedir cotação</button></div>');
+      bloco.querySelector('.lm-prod-cotar button').addEventListener('click', () => cotacao.click());
     });
+    // produto todo esgotado: o convite acima já é o chamado de cotação, o "Para grandes quantidades" sai (um só, como no sob consulta)
+    if (esgotados.length && !compra.querySelector('.acoes-produto:not(.indisponivel)[data-produto-id]')) compra.classList.add('lm-prod-esg');
 
     // compartilhar (como na Conceito): links padrão, sem SDK; o da LI (addthis) segue escondido
     if (caixa) {
@@ -273,6 +281,16 @@
       <li>${ico('<path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/>')}Envio em 24h para todo o Brasil</li>
       <li>${ico('<path d="M19 5 5 19"/><circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="17" r="2.5"/>')}10% de desconto no Pix ou boleto</li></ul>`);
 
+    // selo NBR 9050 (como o da Conceito, blocks/product-selo-nbr), pelo texto: título, ou a descrição até a lista de sugeridos
+    // (a do 19035 cita a NBR 9050 só nos produtos sugeridos)
+    const descNbr = (desc?.textContent || '').split(/semelhantes|sugerid|relacionad|veja tamb/i)[0];
+    if ([document.querySelector('h1.nome-produto')?.textContent, descNbr].some((t) => /NBR\s*-?\s*9050/i.test(t || ''))) {
+      const selos = compra?.querySelector('.lm-selos');
+      (selos || compra?.querySelector(':scope > .principal'))?.insertAdjacentHTML(selos ? 'beforebegin' : 'beforeend', `<div class="lm-prod-nbr">
+        <svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true" focusable="false"><circle cx="32" cy="32" r="31" fill="#303136"/><circle cx="32" cy="32" r="26.2" fill="none" stroke="#fff" stroke-width="1.1"/><circle cx="32" cy="32" r="23.6" fill="none" stroke="#81BBD3" stroke-width="1" stroke-dasharray="0.01 2.05" stroke-linecap="round"/><text x="32" y="18.5" text-anchor="middle" font-size="5.5" fill="#fff" letter-spacing="1.5">★★★</text><text x="32" y="30.5" text-anchor="middle" font-size="11" font-weight="800" letter-spacing="1" fill="#81BBD3">NBR</text><text x="32" y="46.5" text-anchor="middle" font-size="16.5" font-weight="800" fill="#fff">9050</text></svg>
+        <p><strong>Linha de acessibilidade, NBR 9050</strong>Atende à norma de acessibilidade.</p></div>`);
+    }
+
   };
   // Especificações técnicas + "Baixar ficha técnica" (ao lado da descrição no computador, embaixo no celular). Dados por SKU:
   // { "<sku>": { "pdf": "<sku>.pdf", "resumo": [["Material","Aço inox 304"]], "medidas": [["Altura","18,5 cm"]] } }; o pdf é
@@ -317,6 +335,36 @@
       try { localStorage.setItem('lm-ficha-email', '1'); } catch {}
       mostra(false); baixa();
     });
+  };
+  document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', go) : go();
+})();
+// Ellie 11/11: barra de compra fixa no celular e no tablet em pé (#35 do comparativo, como na Conceito; a do tema, .acoes-flutuante,
+// é só do computador e compra sem a variação escolhida). Nome, preço e o mesmo botão da caixa de compra (Adicionar, Consulte o
+// preço ou o Pedir cotação do esgotado), que ela só aciona: a variação escolhida e a janela de produto adicionado são as do tema.
+(() => {
+  if (!document.body.classList.contains('pagina-produto')) return;
+  const go = () => {
+    const compra = document.querySelector('.lm-prod-compra');
+    if (!compra || document.querySelector('.lm-barra-compra')) return;
+    const mq = matchMedia('(max-width: 899px)'), vis = (e) => !!e && e.getClientRects().length > 0;
+    const principal = () => [...compra.querySelectorAll('.acoes-produto .botao-comprar, .acoes-produto .preco-produto > .botao.principal, .lm-prod-cotar .lm-btn2')].find(vis);
+    document.body.insertAdjacentHTML('beforeend', '<div class="lm-barra-compra" role="region" aria-label="Compra rápida" hidden><div class="lm-barra-compra__txt"><span class="lm-barra-compra__nome"></span><span class="lm-barra-compra__preco"></span></div><button type="button" class="botao principal lm-barra-compra__bt"></button></div>');
+    const barra = document.querySelector('.lm-barra-compra'), preco = barra.querySelector('.lm-barra-compra__preco'), bt = barra.querySelector('button');
+    barra.querySelector('.lm-barra-compra__nome').textContent = document.querySelector('h1.nome-produto')?.textContent.trim() || '';
+    const atualiza = () => {
+      const m = principal(), on = mq.matches && !!m && m.getBoundingClientRect().bottom < 0;  // só depois que o botão da caixa sai da tela por cima
+      if (on) {
+        bt.textContent = m.textContent.trim();
+        const p = [...compra.querySelectorAll('.acoes-produto .preco-promocional, .lm-prod-sob')].find(vis);
+        preco.textContent = p?.classList.contains('lm-prod-sob') ? 'Sob consulta' : (p?.textContent || '').trim();  // curto: o botão ao lado já diz "Consulte o preço" (a 390 o texto inteiro quebrava em 2 linhas)
+      }
+      if (barra.hidden === on) { barra.hidden = !on; document.body.classList.toggle('lm-barra-compra-on', on); }
+    };
+    let raf = 0;
+    addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(() => { raf = 0; atualiza(); }); }, { passive: true });
+    mq.addEventListener?.('change', atualiza);
+    bt.addEventListener('click', () => principal()?.click());
+    atualiza();
   };
   document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', go) : go();
 })();

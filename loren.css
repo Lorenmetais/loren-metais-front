@@ -312,7 +312,12 @@ html.lm-novo .lm-chat__assuntos svg { flex-shrink: 0; width: 20px; height: 20px;
   html.lm-novo .lm-chat__abre svg { width: 29px; height: 29px; }
   html.lm-novo .lm-chat__canal svg { width: 31px; height: 31px; }
   html.lm-novo .lm-chat__assuntos a { min-height: var(--lm-campo-altura); }
-  html.lm-novo #avisoCookies { left: 8px !important; right: 8px !important; bottom: 8px !important; max-width: none; }
+  /* Wednesday 11/11: aviso de cookies compacto no celular (cobria metade da grade): faixa na base da tela, texto menor e o
+     ENTENDI ao lado do texto, com área de toque de 44 */
+  html.lm-novo #avisoCookies { left: 8px !important; right: 8px !important; bottom: calc(8px + env(safe-area-inset-bottom)) !important; max-width: none; }
+  html.lm-novo #avisoCookies .conteiner { display: flex !important; flex-direction: row !important; align-items: center !important; gap: 12px !important; height: auto !important; padding: 8px 8px 8px 12px !important; }  /* o tema fixa height 120px no celular */
+  html.lm-novo #avisoCookies p { flex: 1 1 auto; width: auto !important; font-size: 11px !important; line-height: 1.35 !important; }
+  html.lm-novo #avisoCookies .botao { flex: none !important; width: auto !important; min-height: 44px !important; margin: 0 !important; padding: 0 16px !important; font-size: 13px !important; }
 }
 
 /* banner cheio no celular: a arte vertical (750 x 960) ocupa a largura toda, sem corte */
