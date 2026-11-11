@@ -218,6 +218,10 @@ body.carrinho-checkout #corpo #continueShopping, body.carrinho-checkout #corpo #
 body.carrinho-checkout #corpo #continueShopping:hover { color: var(--lm-botao-hover) !important; }
 body.carrinho-checkout #finalizarCompra { width: 100% !important; }
 body.carrinho-checkout #formas-pagamento-wrapper .selo-ssl { margin-top: var(--lm-esp-2) !important; text-align: center !important; }
+/* selo "Compra segura / Site protegido" (imagem verde da LI): neutro, no cinza do site (Eduardo 11/11: "tirar esse verde").
+   Opção B, no azul da marca: a imagem tem fundo branco (filtro de cor pinta o retângulo todo), então o azul entra por cima em mix-blend-mode: lighten
+   (o escuro vira #107E96 e o branco fica branco): .selo-ssl { position: relative } .selo-ssl img { filter: grayscale(1) contrast(1.8) } .selo-ssl::after { content: ""; position: absolute; inset: 0; background: #107E96; mix-blend-mode: lighten; pointer-events: none } */
+body.carrinho-checkout #formas-pagamento-wrapper .selo-ssl img { filter: grayscale(1); opacity: .7; }
 /* botões pequenos do Bootstrap (Alterar entrega/pagamento, crédito/débito): contorno azul em pílula, preenchido no hover e no ativo */
 body.carrinho-checkout #corpo .btn { box-sizing: border-box; display: inline-flex !important; align-items: center; justify-content: center; gap: 6px; min-height: 36px; height: auto !important; margin: 0; padding: 0 var(--lm-esp-2) !important; border: 0 !important; border-radius: var(--lm-btn-raio) !important; background: var(--lm-branco) !important; color: var(--lm-botao) !important; box-shadow: inset 0 0 0 1px var(--lm-botao) !important; font: 600 13px/1.2 var(--lm-fonte-texto) !important; text-shadow: none !important; text-decoration: none !important; }
 body.carrinho-checkout #corpo .btn:is(:hover, .active) { background: var(--lm-botao) !important; color: var(--lm-branco) !important; }
@@ -267,6 +271,7 @@ body.carrinho-checkout #rodape .cr img { filter: brightness(0) invert(1); opacit
 /* crédito da Lucerpy (Eduardo 11/11), o mesmo do site (.lm-credito do loren.js): no checkout não roda JS nosso, então vem num ::after,
    sem link. Fonte mono: cada letra tem 1ch, e o gradiente recortado no texto pinta "<3" de âmbar e "Lucerpy" de claro, como no site.
    O 2º content tem o texto para leitor de tela ("carinho"); navegador que não entende a barra fica com o 1º */
+body.carrinho-checkout > form { margin-bottom: 0 !important; }  /* um <form> vazio no fim do body (margin 20 do Bootstrap) atravessava o body e deixava 20 px a mais de grafite embaixo do crédito (Eduardo 11/11) */
 body.carrinho-checkout #rodape::after { content: "Feito com <3 por Lucerpy"; content: "Feito com <3 por Lucerpy" / "Feito com carinho por Lucerpy"; display: block; width: 24ch; margin: 4px auto 0; padding: 0 0 var(--lm-esp-3); font: 400 12px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important; text-align: left; white-space: nowrap; color: #a1a1aa; background: linear-gradient(90deg, #a1a1aa 10ch, #e8a659 10ch 12ch, #a1a1aa 12ch 17ch, #e4e4e7 17ch); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
 
 /* flutuantes: o WhatsApp no desenho do chat do site; e-mail e "Topo" fora */
