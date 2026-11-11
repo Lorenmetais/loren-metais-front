@@ -8,23 +8,25 @@
 @font-face { font-family: 'Inter'; font-style: normal; font-weight: 400 700; font-display: swap; src: url(fontes/inter-latin.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 @font-face { font-family: 'Barlow Semi Condensed'; font-style: normal; font-weight: 700; font-display: swap; src: url(fontes/barlow-sc-700-latin.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 
-/* tokens (mesmos valores do brand-tokens.css; só os usados aqui) */
-html.lm-ck {
+/* tokens (mesmos valores do brand-tokens.css; só os usados aqui). Só na página do checkout: no go-live (html.lm-ck vira html) este
+   arquivo entra em todas as páginas pelo @import do CSS Avançado, e os tokens não podem ir para o <html> do resto do site */
+html.lm-ck:has(> body.carrinho-checkout) {
   --lm-azul: #1394B1; --lm-botao: #107E96; --lm-botao-hover: #0F738A;
   --lm-grafite: #303136; --lm-branco: #FFFFFF; --lm-fundo: #F6F6F7; --lm-borda: #DCDCE0; --lm-texto-secundario: #6B6C72;
   --lm-texto-sobre-escuro: #F6F6F7; --lm-sobre-escuro-2: #C9CACE; --lm-erro: #8A2826;
   --lm-borda-padrao: 1px solid var(--lm-borda);
   --lm-fonte-titulo: 'Barlow Semi Condensed', system-ui, sans-serif; --lm-fonte-texto: 'Inter', system-ui, sans-serif;
   --lm-h3: clamp(1.4375rem, 2.4vw, 1.5rem);
-  --lm-largura: 1200px; --lm-margem: 16px;
+  --lm-largura: 1200px; --lm-margem: clamp(1rem, 4vw, 2.5rem);  /* 16 no celular, sobe com a tela até 40 (um valor só: o go-live troca os tokens pelos valores) */
   --lm-esp-1: 8px; --lm-esp-2: 16px; --lm-esp-3: 24px; --lm-esp-4: 32px; --lm-esp-6: 48px;
   --lm-btn-raio: 999px; --lm-btn-altura: 48px; --lm-campo-altura: 48px;
   --lm-cartao-sombra-hover: rgba(48, 49, 54, .25) 0 10px 24px -12px;
   --lm-sombra-flutuante: 0 4px 16px rgba(0, 0, 0, .25);
 }
-@media (min-width: 768px) { html.lm-ck { --lm-margem: clamp(1.5rem, 4vw, 2.5rem); } }
 
 /* base: Inter em tudo, menos nos ícones (fonte de ícones do tema e do WhatsApp) e no cartão desenhado do pagamento */
+/* o fundo da página é o do rodapé (o corpo continua branco): sem tarja branca embaixo do rodapé quando a página é mais curta que a tela */
+html.lm-ck:has(> body.carrinho-checkout) { background: var(--lm-grafite) !important; }
 html.lm-ck body.carrinho-checkout { font-family: var(--lm-fonte-texto) !important; color: var(--lm-grafite); background: var(--lm-branco) !important; -webkit-font-smoothing: antialiased; }
 html.lm-ck body.carrinho-checkout :is(p, li, a, input, select, textarea, button, span, strong, b, div, label, small, td, th, h4, h5, h6, legend, .botao):not([class^="icon-"]):not([class*=" icon-"]):not(.jp-card *) { font-family: var(--lm-fonte-texto) !important; }
 html.lm-ck body.carrinho-checkout :is(h1, h2, h3) { font-family: var(--lm-fonte-titulo) !important; text-transform: none !important; letter-spacing: 0; }
@@ -68,23 +70,67 @@ html.lm-ck body.carrinho-checkout .checkout-alerta-seguro-item { display: flex; 
 html.lm-ck body.carrinho-checkout .checkout-alerta-seguro-item i { color: var(--lm-botao) !important; }
 html.lm-ck body.carrinho-checkout .checkout-alerta-seguro-icon { display: none !important; }
 
-/* aviso da loja (prazo de embarque): faixa clara com fio azul, cores do texto no padrão */
-html.lm-ck body.carrinho-checkout #corpo .campos-pedido > .row-fluid > .span12 > p[style] { margin: var(--lm-esp-4) 0 var(--lm-esp-3) !important; padding: var(--lm-esp-2) var(--lm-esp-3) !important; border: 0 !important; border-left: 3px solid var(--lm-azul) !important; border-radius: 0 !important; background: var(--lm-fundo) !important; font: 400 14px/1.5 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
+/* aviso da loja (texto do painel): caixa de informação com ícone e o título "Prazo de embarque" (Eduardo 11/11) */
+html.lm-ck body.carrinho-checkout #corpo .campos-pedido > .row-fluid > .span12 > p[style] { position: relative; margin: var(--lm-esp-4) 0 var(--lm-esp-3) !important; padding: var(--lm-esp-2) var(--lm-esp-3) var(--lm-esp-2) 56px !important; border: 1px solid #CFE6EC !important; border-radius: 0 !important; background: #EEF7F9 !important; font: 400 14px/1.5 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
+html.lm-ck body.carrinho-checkout #corpo .campos-pedido > .row-fluid > .span12 > p[style]::before { content: "Prazo de embarque"; display: block; margin-bottom: 4px; font: 600 15px/1.3 var(--lm-fonte-texto); color: var(--lm-grafite); }
+html.lm-ck body.carrinho-checkout #corpo .campos-pedido > .row-fluid > .span12 > p[style]::after { content: ""; position: absolute; left: var(--lm-esp-3); top: var(--lm-esp-2); width: 20px; height: 20px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23107E96' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12 7v5l3 2'/%3E%3C/svg%3E") no-repeat 50% / contain; }
 html.lm-ck body.carrinho-checkout #corpo .campos-pedido > .row-fluid > .span12 > p[style] span { color: inherit !important; font-weight: 700 !important; }
 
-/* resumo da compra: a tabela do carrinho do site */
+/* resumo do pedido: título, itens com o nome em destaque, quantidade e preço alinhados, e Subtotal/Frete/Total num bloco à direita
+   com divisória (só sobre as colunas Qtd. e Preço; a linha do Total junta as duas numa célula, por isso a divisória é um fundo de 1 px) */
 html.lm-ck body.carrinho-checkout .resumo-compra { margin: 0 0 var(--lm-esp-4) !important; padding: 0 !important; border: 0 !important; background: none !important; box-shadow: none !important; }
+html.lm-ck body.carrinho-checkout .resumo-compra::before { content: "Resumo do pedido"; display: block; margin: 0 0 var(--lm-esp-2); font: 700 var(--lm-h3)/1.1 var(--lm-fonte-titulo); color: var(--lm-grafite); }
 html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho { width: 100%; margin: 0 !important; border: var(--lm-borda-padrao) !important; border-collapse: collapse; background: var(--lm-branco) !important; }
-html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho thead th { padding: 12px var(--lm-esp-2) !important; border: 0 !important; border-bottom: var(--lm-borda-padrao) !important; background: none !important; }
-html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho thead h6 { margin: 0 !important; font: 600 13px/1 var(--lm-fonte-texto) !important; letter-spacing: .04em; text-transform: uppercase; color: var(--lm-texto-secundario) !important; }
-html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho td { padding: 12px var(--lm-esp-2) !important; vertical-align: middle !important; border: 0 !important; border-top: var(--lm-borda-padrao) !important; background: none; font-size: 14px; color: var(--lm-grafite); }
-html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho tr.bg-dark td { background: var(--lm-fundo) !important; border-top: 0 !important; }
-html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho tr.bg-dark + tr:not(.bg-dark) td { border-top: var(--lm-borda-padrao) !important; }
+html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho :is(th, td) { box-sizing: border-box; padding: 12px var(--lm-esp-2) !important; vertical-align: middle !important; border: 0 !important; background: none !important; font-size: 14px; color: var(--lm-grafite); }
+html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho thead th { border-bottom: var(--lm-borda-padrao) !important; }
+html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho thead h6 { margin: 0 !important; font: 600 12px/1 var(--lm-fonte-texto) !important; letter-spacing: .06em; text-transform: uppercase; color: var(--lm-texto-secundario) !important; }
+html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho thead h6[style] { margin-left: 0 !important; }
+html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho tbody tr:not(.bg-dark) + tr:not(.bg-dark) td { border-top: var(--lm-borda-padrao) !important; }
 html.lm-ck body.carrinho-checkout .resumo-compra .produto-info { font: 600 15px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
-html.lm-ck body.carrinho-checkout .resumo-compra .produto-info ul { margin: 4px 0 0 !important; padding: 0 !important; list-style: none; font: 400 13px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; }
-html.lm-ck body.carrinho-checkout .resumo-compra :is(.preco-produto strong, .subtotal strong, .frete-preco strong, .desconto-preco strong) { font: 700 16px/1.2 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
-html.lm-ck body.carrinho-checkout .resumo-compra .total strong { font: 700 24px/1.2 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
-html.lm-ck body.carrinho-checkout .resumo-compra :is(.text-right span, .visible-phone) { font: 400 14px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; }
+html.lm-ck body.carrinho-checkout .resumo-compra .produto-info ul { margin: 4px 0 0 !important; padding: 0 !important; list-style: none; }
+html.lm-ck body.carrinho-checkout .resumo-compra .produto-info li > span { font-size: 0 !important; }  /* "SKU:" vira "Código" */
+html.lm-ck body.carrinho-checkout .resumo-compra .produto-info li > span::before { content: "Código "; font: 400 13px/1.4 var(--lm-fonte-texto); color: var(--lm-texto-secundario); }
+html.lm-ck body.carrinho-checkout .resumo-compra .produto-info li > span strong { font: 400 13px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; }
+html.lm-ck body.carrinho-checkout .resumo-compra .conteiner-qtd { font: 400 15px/1.4 var(--lm-fonte-texto) !important; }
+html.lm-ck body.carrinho-checkout .resumo-compra .preco-produto strong { font: 600 15px/1.2 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
+/* bloco de valores */
+html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho tr.bg-dark td { padding-block: 6px !important; }
+html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho tr.bg-dark :is(.text-right span, .visible-phone) { font: 400 14px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; }
+html.lm-ck body.carrinho-checkout .resumo-compra :is(.subtotal, .frete-preco, .desconto-preco) strong { font: 600 15px/1.2 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
+html.lm-ck body.carrinho-checkout .resumo-compra .frete-preco small { font: 400 13px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; }
+html.lm-ck body.carrinho-checkout .resumo-compra .total strong { font: 700 24px/1.2 var(--lm-fonte-texto) !important; color: var(--lm-botao) !important; }
+/* colunas Qtd. e Preço com largura fixa e as divisórias do bloco de valores: só a partir de 768 (no celular a tabela vira lista) */
+@media (min-width: 768px) {
+  html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho :is(th, td):nth-last-child(2):not([colspan]) { width: 120px; text-align: center !important; }
+  html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho :is(th, td):last-child { width: 160px; text-align: right !important; }
+  html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho tbody tr:not(.bg-dark) + tr.bg-dark td { padding-top: var(--lm-esp-2) !important; }
+  html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho tbody tr:not(.bg-dark) + tr.bg-dark td:not(:first-child) { border-top: var(--lm-borda-padrao) !important; }
+  html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho tbody tr.bg-dark:last-child td { padding-block: 12px var(--lm-esp-2) !important; }
+  html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho tr.tr-checkout-total td:last-child { border-top: var(--lm-borda-padrao) !important; }
+  html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho tr.tr-checkout-total td[colspan] { background: linear-gradient(var(--lm-borda), var(--lm-borda)) no-repeat right top / 120px 1px !important; }
+  html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho tr.tr-checkout-total td[colspan] span { font: 600 16px/1.2 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
+}
+html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho tr { background: none !important; }  /* o cinza do tema vem na linha e aparecia pelas células */
+/* celular: o tema empilha as células e corta o nome; aqui o nome inteiro, "Qtd. 1" e o preço numa linha, e cada valor com o rótulo à esquerda */
+@media (max-width: 767px) {
+  html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho thead { display: none !important; }
+  html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho tbody tr { display: flex !important; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px var(--lm-esp-2); padding: 6px var(--lm-esp-2) !important; }
+  html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho tbody tr:not(.bg-dark) { padding-block: var(--lm-esp-2) 12px !important; }
+  html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho tbody tr.hide { display: none !important; }
+  html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho tbody td { display: block !important; width: auto !important; padding: 0 !important; border: 0 !important; background: none !important; text-align: left !important; float: none !important; }
+  html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho tbody td:is(:empty, .hidden-phone), html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho tbody tr.bg-dark td:first-child:not(.text-right) { display: none !important; }
+  html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho tbody td.phone-pullleft { flex: 1 1 100%; }
+  html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho tbody tr.bg-dark td { padding: 0 !important; }
+  html.lm-ck body.carrinho-checkout .resumo-compra :is(td.padding-preco, .padding-preco > div) { padding: 0 !important; white-space: nowrap; }  /* o tema dá padding em % ao valor: a célula encolhia e cortava ("R$ 70,9") */
+  html.lm-ck body.carrinho-checkout .resumo-compra :is(.produto-info, .produto-info *) { width: auto !important; white-space: normal !important; overflow: visible !important; text-overflow: clip !important; max-width: none !important; }
+  html.lm-ck body.carrinho-checkout .resumo-compra .conteiner-qtd > div { padding: 0 !important; border: 0 !important; background: none !important; font: 400 14px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; }
+  html.lm-ck body.carrinho-checkout .resumo-compra .conteiner-qtd > div::before { content: "Qtd. "; }
+  html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho tbody td.conteiner-preco { margin-left: auto; text-align: right !important; }
+  html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho tbody tr:not(.bg-dark) + tr.bg-dark { margin: 0 var(--lm-esp-2); padding: var(--lm-esp-2) 0 6px !important; border-top: var(--lm-borda-padrao); }
+  html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho tbody tr.tr-checkout-total { margin: 6px var(--lm-esp-2) 0; padding: 12px 0 var(--lm-esp-2) !important; border-top: var(--lm-borda-padrao); }
+  html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho tbody tr.tr-checkout-total td:last-child { display: flex !important; flex: 1; justify-content: space-between; align-items: baseline; border: 0 !important; }
+  html.lm-ck body.carrinho-checkout .resumo-compra .tabela-carrinho tr.tr-checkout-total .visible-phone { display: inline !important; font: 600 16px/1.2 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
+}
 
 /* três colunas (cadastro, entrega + mensagem, pagamento) numa grade; de 768 a 1199 o pagamento desce para a largura toda,
    porque em três colunas de 276 px o cartão cortava rótulos e o Finalizar passava da coluna */
@@ -163,14 +209,17 @@ html.lm-ck body.carrinho-checkout #corpo .botao.disabled { opacity: .5 !importan
 html.lm-ck body.carrinho-checkout #corpo :is(.botao, .btn):focus:not(:focus-visible) { outline: 0 !important; }
 html.lm-ck body.carrinho-checkout #corpo :is(.botao, .btn):focus-visible { outline: 2px solid var(--lm-azul) !important; outline-offset: 2px; }
 /* Finalizar: a largura da coluna (o tema dava a largura do texto, que passava da coluna estreita) */
-html.lm-ck body.carrinho-checkout #formas-pagamento-wrapper .acao-editar { margin: var(--lm-esp-3) 0 0 !important; text-align: center !important; }
+html.lm-ck body.carrinho-checkout #formas-pagamento-wrapper .acao-editar { margin: var(--lm-esp-2) 0 0 !important; text-align: center !important; }
+html.lm-ck body.carrinho-checkout #formas-pagamento-wrapper fieldset fieldset { margin-top: var(--lm-esp-2) !important; }  /* aceite da política */
+html.lm-ck body.carrinho-checkout #continueShopping { margin: var(--lm-esp-2) 0 0 !important; }  /* vinha colado no Finalizar (Eduardo 11/11) */
 html.lm-ck body.carrinho-checkout #finalizarCompra { width: 100% !important; min-height: 56px !important; font-size: 16px !important; }
 html.lm-ck body.carrinho-checkout #formas-pagamento-wrapper .selo-ssl { margin-top: var(--lm-esp-2) !important; text-align: center !important; }
 /* botões pequenos do Bootstrap (Alterar entrega/pagamento, crédito/débito): contorno azul em pílula, preenchido no hover e no ativo */
 html.lm-ck body.carrinho-checkout #corpo .btn { box-sizing: border-box; display: inline-flex !important; align-items: center; justify-content: center; gap: 6px; min-height: 36px; height: auto !important; margin: 0; padding: 0 var(--lm-esp-2) !important; border: 0 !important; border-radius: var(--lm-btn-raio) !important; background: var(--lm-branco) !important; color: var(--lm-botao) !important; box-shadow: inset 0 0 0 1px var(--lm-botao) !important; font: 600 13px/1.2 var(--lm-fonte-texto) !important; text-shadow: none !important; text-decoration: none !important; }
 html.lm-ck body.carrinho-checkout #corpo .btn:is(:hover, .active) { background: var(--lm-botao) !important; color: var(--lm-branco) !important; }
 html.lm-ck body.carrinho-checkout #corpo .btn > i { display: none !important; }
-html.lm-ck body.carrinho-checkout :is(#exibirFormasEnvio, #exibirFormasPagamento) { margin: 0 0 var(--lm-esp-2) !important; }
+html.lm-ck body.carrinho-checkout #exibirFormasEnvio { margin: 0 0 var(--lm-esp-2) !important; }
+html.lm-ck body.carrinho-checkout #exibirFormasPagamento { margin: var(--lm-esp-2) 0 0 !important; }  /* o tema dá margem -10 em cima (inline) */
 
 /* formas de envio e de pagamento: linhas com borda fina; a escolhida ganha o contorno azul */
 html.lm-ck body.carrinho-checkout #corpo .formas .accordion-group { margin: 0 0 var(--lm-esp-1) !important; border: var(--lm-borda-padrao) !important; border-radius: 0 !important; background: var(--lm-branco) !important; box-shadow: none !important; }
@@ -179,6 +228,23 @@ html.lm-ck body.carrinho-checkout #corpo .formas .accordion-heading { border: 0 
 html.lm-ck body.carrinho-checkout #corpo .formas .radio-conteiner { background: none !important; border: 0 !important; }
 html.lm-ck body.carrinho-checkout #corpo .formas .accordion-inner { border-top: var(--lm-borda-padrao) !important; padding: var(--lm-esp-2) !important; }
 html.lm-ck body.carrinho-checkout #corpo .pagamento-valor { font: 700 18px/1.2 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
+
+/* pagamento estreito (3 colunas a partir de 1200 e celular, caixa de ~330 px; Eduardo 11/11):
+   - o cartão desenhado passava da borda da caixa (regras logo abaixo)
+   - CVV e Parcelas lado a lado cortavam o rótulo e o select ("Cód. de Segur...", "Digite o númer..."): um embaixo do outro, largura cheia */
+html.lm-ck body.carrinho-checkout #formas-pagamento-wrapper { container-type: inline-size; }
+/* o script do cartão põe tamanho e escala inline que não batem entre si (ao vivo passava 24 px da caixa): o desenho fica no tamanho
+   natural (350 x 180), centralizado, e o zoom sai da largura da caixa; cabe em "largura da caixa - 34" (borda e respiro de dentro) */
+html.lm-ck body.carrinho-checkout .cartao-placeholder-card { width: max-content !important; height: auto !important; margin: 0 auto var(--lm-esp-2) !important; }
+html.lm-ck body.carrinho-checkout .cartao-placeholder-card .jp-card-container { transform: none !important; }
+@container (max-width: 384px) { html.lm-ck body.carrinho-checkout .cartao-placeholder-card { zoom: .78; } }
+@container (max-width: 306px) { html.lm-ck body.carrinho-checkout .cartao-placeholder-card { zoom: .73; } }
+@container (max-width: 289px) { html.lm-ck body.carrinho-checkout .cartao-placeholder-card { zoom: .64; } }
+@container (max-width: 259px) { html.lm-ck body.carrinho-checkout .cartao-placeholder-card { zoom: .55; } }
+@container (max-width: 480px) {
+  html.lm-ck body.carrinho-checkout .cartao-dados-adicionais .clearfix > [class*="span"] { float: none !important; width: 100% !important; margin-left: 0 !important; }
+}
+html.lm-ck body.carrinho-checkout #formasPagamento .control-label { white-space: normal !important; overflow: visible !important; text-overflow: clip !important; }  /* nenhum rótulo com reticências */
 
 /* avisos de erro do sistema */
 html.lm-ck body.carrinho-checkout #corpo .alert { margin: var(--lm-esp-1) 0 !important; padding: 12px var(--lm-esp-2) !important; border: 0 !important; border-left: 3px solid var(--lm-texto-secundario) !important; border-radius: 0 !important; background: var(--lm-fundo) !important; font: 400 14px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; text-shadow: none !important; }
@@ -190,6 +256,10 @@ html.lm-ck body.carrinho-checkout #rodape .conteiner { box-sizing: border-box; w
 html.lm-ck body.carrinho-checkout #rodape p { margin: 0 !important; font: 400 13px/1.5 var(--lm-fonte-texto) !important; color: var(--lm-sobre-escuro-2) !important; }
 html.lm-ck body.carrinho-checkout #rodape .cr { padding-top: var(--lm-esp-2) !important; padding-bottom: 0 !important; }
 html.lm-ck body.carrinho-checkout #rodape .cr img { filter: brightness(0) invert(1); opacity: .7; }
+/* crédito da Lucerpy (Eduardo 11/11), o mesmo do site (.lm-credito do loren.js): no checkout não roda JS nosso, então vem num ::after,
+   sem link. Fonte mono: cada letra tem 1ch, e o gradiente recortado no texto pinta "<3" de âmbar e "Lucerpy" de claro, como no site.
+   O 2º content tem o texto para leitor de tela ("carinho"); navegador que não entende a barra fica com o 1º */
+html.lm-ck body.carrinho-checkout #rodape::after { content: "Feito com <3 por Lucerpy"; content: "Feito com <3 por Lucerpy" / "Feito com carinho por Lucerpy"; display: block; width: 24ch; margin: 0 auto; padding: 0 0 var(--lm-esp-2); font: 400 12px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important; text-align: left; white-space: nowrap; color: #a1a1aa; background: linear-gradient(90deg, #a1a1aa 10ch, #e8a659 10ch 12ch, #a1a1aa 12ch 17ch, #e4e4e7 17ch); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
 
 /* flutuantes: o WhatsApp no desenho do chat do site; e-mail e "Topo" fora */
 html.lm-ck body.carrinho-checkout :is(.mail-floating, .scrollToTop) { display: none !important; }
@@ -209,7 +279,6 @@ html.lm-ck body.carrinho-checkout #avisoCookies .botao { flex: none; width: auto
   html.lm-ck body.carrinho-checkout #cabecalho .conteiner > .row-fluid::after { content: "Compra segura"; font-size: 13px; }
   html.lm-ck body.carrinho-checkout #corpo .secao-principal { padding: var(--lm-esp-3) 0 var(--lm-esp-4) !important; }
   html.lm-ck body.carrinho-checkout #login-content .identificacao-inner { padding: var(--lm-esp-3) var(--lm-esp-2) !important; }
-  html.lm-ck body.carrinho-checkout .cartao-placeholder-card { zoom: .85; }  /* o cartão desenhado tem largura fixa (324) e passava da caixa no celular */
   html.lm-ck body.carrinho-checkout .li-whatsapp > a { bottom: 16px !important; width: 60px !important; height: 60px !important; background-size: 29px !important; }
   html.lm-ck body.carrinho-checkout.mostrarAvisoCookie .li-whatsapp { display: none !important; }
   html.lm-ck body.carrinho-checkout #avisoCookies { left: 8px !important; right: 8px !important; bottom: calc(8px + env(safe-area-inset-bottom)) !important; max-width: none; }
