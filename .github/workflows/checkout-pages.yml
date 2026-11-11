@@ -1,0 +1,38 @@
+# Checkout da loja: o CSS do checkout no painel da LI é só  @import url(https://lorenmetais.github.io/loren-metais-front/checkout.css);
+# A cada push no ramo producao, este fluxo copia checkout.css para o ramo fichas (o GitHub Pages), com commit só se mudou.
+# O Pages serve com Cache-Control max-age=600: o checkout pega a versão nova em até ~10 min depois do build do Pages, sem recolar nada.
+name: checkout.css para o GitHub Pages
+on:
+  push:
+    branches: [producao]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: ramo-fichas
+  cancel-in-progress: false
+jobs:
+  copia:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fichas
+      - name: Copia checkout.css de producao para fichas (commit só se mudou)
+        run: |
+          set -e
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git fetch -q --depth=1 origin "$GITHUB_SHA"
+          # até 3 tentativas: se alguém empurrar fichas no meio (ex.: PDF de ficha), refaz em cima do fichas novo
+          for i in 1 2 3; do
+            git fetch -q --depth=1 origin fichas && git reset -q --hard FETCH_HEAD
+            git show "$GITHUB_SHA:checkout.css" > checkout.css
+            git add checkout.css
+            if git diff --cached --quiet; then echo "checkout.css já igual a ${GITHUB_SHA::7}"; exit 0; fi
+            git commit -q -m "checkout.css de producao ${GITHUB_SHA::7}"
+            if git push -q origin HEAD:fichas; then echo "ok: checkout.css de ${GITHUB_SHA::7} no Pages"; exit 0; fi
+            sleep 5
+          done
+          exit 1
