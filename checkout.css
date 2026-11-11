@@ -174,7 +174,8 @@ html.lm-ck body.carrinho-checkout #corpo :is(input, select, textarea):is([disabl
 html.lm-ck body.carrinho-checkout #corpo :is(.error, .erro) :is(input, select, textarea) { border-color: var(--lm-erro) !important; }
 html.lm-ck body.carrinho-checkout #corpo :is(.span12, .input-xlarge, .input-block-level):is(input, select, textarea) { width: 100% !important; }
 html.lm-ck body.carrinho-checkout #corpo select { -webkit-appearance: none; appearance: none; padding-right: 40px !important; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23303136' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") !important; background-repeat: no-repeat !important; background-position: right 14px center !important; background-size: 16px !important; text-overflow: ellipsis; cursor: pointer; }
-html.lm-ck body.carrinho-checkout #corpo textarea { height: auto !important; min-height: 112px !important; padding: 12px var(--lm-esp-2) !important; border-radius: var(--lm-esp-3) !important; line-height: 1.5 !important; resize: vertical; }
+/* mensagem: campo quadrado, 2 linhas (Eduardo 11/11). O seletor dos campos acima pesa mais (por causa do :is com :not), por isso o textarea[name] */
+html.lm-ck body.carrinho-checkout #corpo textarea, html.lm-ck body.carrinho-checkout #corpo textarea[name] { height: calc(3em + 26px) !important; min-height: calc(3em + 26px) !important; padding: 12px var(--lm-esp-2) !important; border-radius: 0 !important; line-height: 1.5 !important; resize: vertical; }
 html.lm-ck body.carrinho-checkout #corpo #id_cep { width: 160px !important; }
 /* campo com botão colado (CVV e o "?"): uma pílula só, dividida */
 html.lm-ck body.carrinho-checkout #corpo .input-append { display: flex !important; align-items: stretch; margin: 0 !important; font-size: 0; white-space: nowrap; }
@@ -211,7 +212,9 @@ html.lm-ck body.carrinho-checkout #corpo :is(.botao, .btn):focus-visible { outli
 /* Finalizar: a largura da coluna (o tema dava a largura do texto, que passava da coluna estreita) */
 html.lm-ck body.carrinho-checkout #formas-pagamento-wrapper .acao-editar { margin: var(--lm-esp-2) 0 0 !important; text-align: center !important; }
 html.lm-ck body.carrinho-checkout #formas-pagamento-wrapper fieldset fieldset { margin-top: var(--lm-esp-2) !important; }  /* aceite da política */
-html.lm-ck body.carrinho-checkout #continueShopping { margin: var(--lm-esp-2) 0 0 !important; }  /* vinha colado no Finalizar (Eduardo 11/11) */
+/* Continuar comprando: link de texto, não botão (Eduardo 11/11); no fim só ficam os botões Finalizar e Alterar forma de pagamento */
+html.lm-ck body.carrinho-checkout #corpo #continueShopping, html.lm-ck body.carrinho-checkout #corpo #continueShopping:hover { min-height: 0 !important; margin: var(--lm-esp-2) auto 0 !important; padding: 4px 0 !important; background: none !important; box-shadow: none !important; font: 600 15px/1.4 var(--lm-fonte-texto) !important; letter-spacing: 0; text-transform: none !important; text-decoration: underline !important; text-underline-offset: 3px; color: var(--lm-botao) !important; }
+html.lm-ck body.carrinho-checkout #corpo #continueShopping:hover { color: var(--lm-botao-hover) !important; }
 html.lm-ck body.carrinho-checkout #finalizarCompra { width: 100% !important; min-height: 56px !important; font-size: 16px !important; }
 html.lm-ck body.carrinho-checkout #formas-pagamento-wrapper .selo-ssl { margin-top: var(--lm-esp-2) !important; text-align: center !important; }
 /* botões pequenos do Bootstrap (Alterar entrega/pagamento, crédito/débito): contorno azul em pílula, preenchido no hover e no ativo */
