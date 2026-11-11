@@ -52,13 +52,29 @@
     if (resto.length) {
       const guia = document.createElement('div'); guia.className = 'lm-cat-guia';
       const faq = document.createElement('div'); faq.className = 'lm-cat-faq';
-      let alvo = guia;
-      for (const n of resto) {
-        if (n.tagName === 'H3' && /perguntas frequentes/i.test(n.textContent)) { alvo = faq; n.className = 'lm-cat-faq-tit'; faq.append(n); continue; }
-        if (alvo === faq && n.tagName === 'H4') { const d = document.createElement('details'); const s = document.createElement('summary'); s.append(...n.childNodes); d.append(s); faq.append(d); n.remove(); continue; }
-        if (alvo === faq && faq.lastElementChild?.tagName === 'DETAILS') { faq.lastElementChild.append(n); continue; }
-        alvo.append(n);
-      }
+      // FAQ em acordeão (Ellie 11/11, #61 do comparativo, como na Conceito), só com o texto que a categoria já tem. Começa num
+      // título "Perguntas/Dúvidas frequentes" ou "FAQ"; sem esse título, só com 2 ou mais perguntas que tenham resposta. Pergunta =
+      // título (h3 a h5) ou parágrafo todo em negrito; fora do bloco de FAQ, ela precisa terminar com "?". Sem pergunta, nada muda.
+      const txt = (n) => limpa(n.textContent);
+      const ehTitFaq = (n) => /^(H[2-5]|P)$/.test(n.tagName) && /^(perguntas|d[uú]vidas) frequentes|^faq\b/i.test(txt(n)) && txt(n).length < 60;
+      const negrito = (n) => n.tagName === 'P' && txt(n) && [...n.childNodes].every((c) => (c.nodeType === 3 && !c.textContent.trim()) || /^(STRONG|B)$/.test(c.nodeName) || c.nodeName === 'BR');
+      const ehPerg = (n, dentro) => (/^H[3-5]$/.test(n.tagName) || negrito(n)) && txt(n).length < 200 && (dentro || /\?$/.test(txt(n)));
+      const ini = resto.findIndex(ehTitFaq);
+      const perguntas = resto.filter((n, i) => ehPerg(n, ini >= 0 && i > ini) && /\S/.test(txt(resto[i + 1] || { textContent: '' })) && !ehPerg(resto[i + 1] || n, true));
+      const comeca = ini >= 0 ? ini : perguntas.length >= 2 ? resto.indexOf(perguntas[0]) : -1;
+      const pares = [];
+      resto.forEach((n, i) => {
+        if (comeca < 0 || i < comeca) { guia.append(n); return; }
+        if (i === ini) { n.className = 'lm-cat-faq-tit'; faq.append(n); return; }
+        if (perguntas.includes(n)) {
+          const d = document.createElement('details'), s = document.createElement('summary'), r = document.createElement('div');
+          s.innerHTML = '<span></span><svg class="lm-cat-faq-seta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>';
+          s.firstChild.textContent = txt(n); r.className = 'lm-cat-faq-resp'; d.append(s, r); faq.append(d); n.remove(); pares.push([txt(n), r]); return;
+        }
+        (faq.lastElementChild?.tagName === 'DETAILS' ? faq.lastElementChild.querySelector('.lm-cat-faq-resp') : faq).append(n);
+      });
+      // os mesmos pares em dados estruturados (FAQPage), como a Conceito faz
+      if (pares.length) document.head.insertAdjacentHTML('beforeend', `<script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: pares.map(([q, r]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: txt(r) } })) }).replace(/</g, '\u003c')}</script>`);
       const saiba = document.createElement('section'); saiba.className = 'lm-cat-saiba';
       saiba.innerHTML = `<h2>Saiba mais sobre ${h1 ? limpa(h1.textContent).toLowerCase() : 'a categoria'}</h2>`;
       const cols = document.createElement('div'); cols.className = 'lm-cat-cols';

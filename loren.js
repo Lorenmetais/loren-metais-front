@@ -146,6 +146,70 @@
       const copia = () => { const n = parseInt((qtd?.textContent || '0').replace(/\D/g, '')) || 0; alvo.textContent = n; alvo.hidden = !n; };
       copia(); if (qtd) new MutationObserver(copia).observe(qtd, { childList: true, characterData: true, subtree: true });
     }
+    /* Wednesday 11/11: busca com categorias (COMPARATIVO #5, como a busca preditiva da Conceito): blocos "Categorias" (até 4) e
+       "Páginas" (até 3) acima dos produtos, com o termo em <mark>. Sem chamada extra: categorias e páginas saem do menu e do rodapé
+       da própria página, lidos uma vez. De 2 a 4 letras só elas (local); de 5 em diante, junto com os produtos do tema (a mesma
+       chamada de sempre, minLength 5 do tema). Embrulha o autocomplete do tema (jQuery UI): source, _renderMenu, _renderItem;
+       o select do tema já vai para item.url. Leitor de tela: combobox + listbox/option, aria-activedescendant no campo,
+       cabeçalhos fora da navegação (aria-hidden) e o tipo no aria-label de cada opção; avisos em português. */
+    const buscaQ = document.querySelector('#auto-complete');
+    const embrulhaBusca = () => {
+      const $ = window.jQuery, inst = $?.fn?.autocomplete && $(buscaQ).autocomplete('instance');
+      if (!inst || inst.lmCat) return; inst.lmCat = true;
+      const norm = (t) => t.split('').map((c) => c.normalize('NFD')[0].toLowerCase()).join('');  // mesma posição de cada letra: dá para marcar no texto original
+      let lista;
+      const listas = () => lista || (lista = (() => {
+        const visto = new Set(), cat = [], pag = [];
+        for (const a of document.querySelectorAll('.menu.superior a[href], #rodape a[href]')) {
+          const nome = a.textContent.trim().replace(/\s+/g, ' '); let u; try { u = new URL(a.href); } catch (e) { continue; }
+          if (!nome || u.origin !== location.origin || u.hash || /^\/(home)?$/.test(u.pathname) || /agradecemos/.test(u.pathname)) continue;
+          const pg = u.pathname.startsWith('/pagina/'), chave = (pg ? 'p' : 'c') + norm(nome);
+          if ((!pg && u.pathname.split('/').length !== 2) || visto.has(chave)) continue;
+          visto.add(chave); (pg ? pag : cat).push({ lm: pg ? 'pagina' : 'categoria', label: nome, value: nome, url: u.href, n: norm(nome) });
+        }
+        return { cat, pag };
+      })());
+      const acha = (termo) => {
+        const p = norm(termo).split(/\s+/).filter(Boolean); const { cat, pag } = listas();
+        const bate = (l, max) => l.filter((x) => p.every((w) => x.n.includes(w))).sort((a, b) => b.n.startsWith(p[0]) - a.n.startsWith(p[0])).slice(0, max);
+        return [...bate(cat, 4), ...bate(pag, 3)];
+      };
+      const fonte = inst.options.source, desenha = inst._renderItem;
+      inst.option({ minLength: 2, messages: { noResults: 'Nenhuma sugestão.', results: (n) => `${n} ${n > 1 ? 'sugestões' : 'sugestão'}. Use as setas para cima e para baixo.` },
+        source: (req, resp) => { const loc = acha(req.term); req.term.trim().length < 5 ? resp(loc) : fonte.call(inst, req, (prod) => resp([...loc, ...(prod || [])])); } });
+      // o termo em <mark>, só em nós de texto (nada de innerHTML com o que a pessoa digitou)
+      const marca = (el, termo) => {
+        const t0 = norm(termo).split(/\s+/).filter(Boolean), p = t0.filter((w) => w.length > 2 || t0.length === 1); if (!p.length) return;   // "barra de apoio": o "de" não marca
+        const nos = []; const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT); while (w.nextNode()) nos.push(w.currentNode);
+        for (const no of nos) {
+          const t = norm(no.data), r = [];
+          for (const x of p) for (let i = t.indexOf(x); i > -1; i = t.indexOf(x, i + x.length)) r.push([i, i + x.length]);
+          r.sort((a, b) => b[0] - a[0]).filter((x, k, l) => !k || x[1] <= l[k - 1][0]).forEach(([i, f]) => {   // do fim para o começo, sem sobrepor
+            const m = document.createElement('mark'); const meio = no.splitText(i); meio.splitText(f - i); m.append(meio.cloneNode()); meio.replaceWith(m); });
+        }
+      };
+      const TIT = { categoria: 'Categorias', pagina: 'Páginas', produto: 'Produtos' };
+      const ICO = { categoria: '<path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"/>', pagina: '<path d="M6 3h9l3 3v15H6z"/><path d="M9 10h6M9 14h6"/>' };
+      inst._renderItem = function (ul, item) {
+        // li sem papel (a opção é o filho, como o jQuery UI marca); o tipo vai no nome da opção
+        if (!item.lm) {   // o nome do produto vai para um <span>: solto, cada pedaço do <mark> virava uma célula da grade (foto | nome)
+          const li = desenha.call(this, ul, item).attr('role', 'none'), a = li.children().first().attr('aria-label', 'Produto: ' + item.value);
+          li.find('img').attr('alt', ''); a.append($('<span>').append(a.contents().filter((k, n) => !n.classList?.contains('img')))); return li; }   // .not('.img') descartaria os nós de texto
+        return $('<li role="none">')
+          .append($('<div>').attr('aria-label', (item.lm === 'pagina' ? 'Página: ' : 'Categoria: ') + item.label).append(`<span class="img lm-sug-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true">${ICO[item.lm]}</svg></span>`, $('<span>').text(item.label))).appendTo(ul);
+      };
+      inst._renderMenu = function (ul, items) {
+        const varios = new Set(items.map((x) => x.lm || 'produto')).size > 1; let g;
+        items.forEach((item) => { const t = item.lm || 'produto'; if (varios && t !== g) $('<li class="lm-sug-tit" role="presentation" aria-hidden="true">').text(TIT[(g = t)]).appendTo(ul); this._renderItemData(ul, item); });
+        marca(ul[0], this.term || '');
+      };
+      const m = inst.menu; m.option('items', '> :not(.lm-sug-tit)'); m.options.role = 'listbox'; m.element.attr('role', 'listbox').attr('aria-label', 'Sugestões da busca');
+      buscaQ.setAttribute('role', 'combobox'); buscaQ.setAttribute('aria-autocomplete', 'list'); buscaQ.setAttribute('aria-expanded', 'false'); buscaQ.setAttribute('aria-controls', m.element.uniqueId().attr('id'));
+      if (!buscaQ.getAttribute('aria-label')) buscaQ.setAttribute('aria-label', 'Buscar produtos, categorias e páginas');
+      m.element.on('menufocus', (e, ui) => buscaQ.setAttribute('aria-activedescendant', ui.item.children('.ui-menu-item-wrapper').attr('id') || '')).on('menublur', () => buscaQ.removeAttribute('aria-activedescendant'));
+      $(buscaQ).on('autocompleteopen', () => buscaQ.setAttribute('aria-expanded', 'true')).on('autocompleteclose', () => { buscaQ.setAttribute('aria-expanded', 'false'); buscaQ.removeAttribute('aria-activedescendant'); });
+    };
+    if (buscaQ) { embrulhaBusca(); buscaQ.addEventListener('focus', embrulhaBusca); }   // o tema pode criar o autocomplete depois de nós
     // barra do topo: troca os contatos repetidos por uma frase
     const tb = document.querySelector('#topbar .container');
     document.querySelector('#topbar') && document.body.prepend(document.querySelector('#topbar'));  // no HTML a barra vem no fim da página

@@ -117,11 +117,17 @@ html.lm-novo body.lm-cat .lm-cat-guia h3 { font: 700 1.125rem/1.2 var(--lm-fonte
 html.lm-novo body.lm-cat .lm-cat-guia > :first-child { margin-top: 0; }
 html.lm-novo body.lm-cat .lm-cat-guia ul { margin: 0 0 12px; padding-left: 18px; } html.lm-novo body.lm-cat .lm-cat-guia li { margin-bottom: 6px; } html.lm-novo body.lm-cat .lm-cat-guia p { margin: 0 0 12px; }
 html.lm-novo body.lm-cat .lm-cat-guia a { color: var(--lm-onda-escura); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
-html.lm-novo body.lm-cat .lm-cat-faq { border: var(--lm-borda-padrao); padding: 24px; }
+html.lm-novo body.lm-cat .lm-cat-faq { border-bottom: var(--lm-borda-padrao); }  /* FAQ como na Conceito (faq-accordion): linhas com borda, sem caixa (Ellie 11/11) */
 html.lm-novo body.lm-cat .lm-cat-faq-tit { font: 700 var(--lm-h3)/1.1 var(--lm-fonte-titulo); margin: 0 0 8px; }
-html.lm-novo body.lm-cat .lm-cat-faq details { border-top: var(--lm-borda-padrao); padding: 14px 0; }
-html.lm-novo body.lm-cat .lm-cat-faq summary { font-weight: 600; cursor: pointer; }
-html.lm-novo body.lm-cat .lm-cat-faq details p { margin: 8px 0 0; color: var(--lm-texto-secundario); }
+html.lm-novo body.lm-cat .lm-cat-faq details { border-top: var(--lm-borda-padrao); }
+html.lm-novo body.lm-cat .lm-cat-faq summary { display: flex; align-items: center; justify-content: space-between; gap: var(--lm-esp-2); min-height: 48px; padding: var(--lm-esp-2) 0; box-sizing: border-box; list-style: none; cursor: pointer; font: 600 16px/1.4 var(--lm-fonte-texto); color: var(--lm-grafite); }
+html.lm-novo body.lm-cat .lm-cat-faq summary::-webkit-details-marker { display: none; }
+html.lm-novo body.lm-cat .lm-cat-faq summary:focus-visible { outline: var(--lm-foco); outline-offset: var(--lm-foco-afastamento); }
+html.lm-novo body.lm-cat .lm-cat-faq-seta { flex: none; width: 20px; height: 20px; color: var(--lm-onda-escura); transition: transform .2s ease; }
+html.lm-novo body.lm-cat .lm-cat-faq details[open] .lm-cat-faq-seta { transform: rotate(180deg); }
+html.lm-novo body.lm-cat .lm-cat-faq-resp { padding: 0 0 var(--lm-esp-2); }
+html.lm-novo body.lm-cat .lm-cat-faq-resp > * { margin: 0 0 8px !important; font: 400 15px/1.6 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario); }  /* o texto da descrição vem com o tamanho pequeno do tema */
+html.lm-novo body.lm-cat .lm-cat-faq-resp > :last-child { margin-bottom: 0 !important; }
 
 @media (min-width: 1024px) { html.lm-novo body.lm-cat .lm-so-cel, html.lm-novo body.lm-cat .lm-cat-topo.lm-cat-topo-chips { display: none !important; } }  /* chips até 1023, onde a coluna vira painel; o bloco deles some junto (vazio, com o padding e a margem de 20 do tema, dava 68 px da faixa ao conteúdo; Ellie 09/11) */
 @media (min-width: 768px) and (max-width: 1023px) { html.lm-novo body.lm-cat #corpo .lm-cat-topo { margin-bottom: 24px !important; } }  /* chips > Filtrar: a margem de 20 do tema vira 24 (grade de 8; Ellie 10/11) */
@@ -132,7 +138,6 @@ html.lm-novo body.lm-cat .lm-cat-faq details p { margin: 8px 0 0; color: var(--l
   html.lm-novo body.lm-cat .lm-cat-chips { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-top: 16px; padding-bottom: 2px; }
   html.lm-novo body.lm-cat .lm-cat-saiba { margin-top: 32px; padding-block: 32px; }
   html.lm-novo body.lm-cat .lm-cat-cols { grid-template-columns: minmax(0, 1fr); gap: 24px; }
-  html.lm-novo body.lm-cat .lm-cat-faq { padding: 16px; }
 }
 /* tablet e celular (até 1023, Ellie 04/11 tablet): a coluna de 240 deixava 4 cards de 120 px a 820; ela vira o painel do
    Filtrar e a lista usa a largura toda */
