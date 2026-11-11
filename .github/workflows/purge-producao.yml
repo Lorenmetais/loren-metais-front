@@ -1,6 +1,8 @@
 # Publicar na loja = levar o commit aprovado para o ramo producao:  git push origin <hash>:producao
-# O código do painel aponta para @producao no jsDelivr. Este fluxo limpa o cache do jsDelivr de todos os arquivos de @producao logo depois do push,
+# O código do painel aponta para @producao no jsDelivr. Este fluxo limpa o cache do jsDelivr dos arquivos que MUDARAM no push,
 # para a loja pegar a versão nova em minutos (sem ele, o jsDelivr guarda @ramo por até 12 h). O navegador do visitante renova CSS e JS em até 1 h (?v= do código do cabeçalho).
+# O jsDelivr limita purges seguidos (throttled + throttlingReset em segundos): vira aviso, com 1 nova tentativa depois do reset (até 15 min).
+# Rodar à mão (workflow_dispatch) limpa todos os arquivos.
 name: Limpar o jsDelivr de @producao
 on:
   push:
@@ -9,21 +11,46 @@ on:
 jobs:
   purge:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
-      - name: Purge de todos os arquivos publicados (uma chamada só) e conferência
+        with:
+          fetch-depth: 0
+      - name: Purge dos arquivos que mudaram (uma chamada só) e conferência
+        env:
+          ANTES: ${{ github.event.before }}
         run: |
           set -e
-          caminhos=$(git ls-files | grep -vE '^(\.github/|painel/)|\.md$' | jq -R --arg r "/gh/${GITHUB_REPOSITORY}@producao/" '$r + .' | jq -sc '{path: .}')
-          echo "$(echo "$caminhos" | jq '.path | length') arquivos"
-          id=$(curl -sf --retry 3 -X POST https://purge.jsdelivr.net/ -H 'Content-Type: application/json' -d "$caminhos" | jq -r .id)
-          for i in $(seq 1 30); do
-            r=$(curl -sf --retry 3 "https://purge.jsdelivr.net/status/$id")
-            [ "$(echo "$r" | jq -r .status)" = finished ] && break
-            sleep 2
-          done
-          echo "$r" | jq -r '.status'
-          falhas=$(echo "$r" | jq '[.paths // {} | to_entries[] | select(.value.throttled or (.value.providers | to_entries | any(.value | not)))] | length')
+          servidos() { grep -vE '^(\.github/|painel/)|\.md$' || true; }
+          # push: só o que mudou de ANTES até este commit; à mão, ramo novo ou ANTES fora do histórico (force push): todos
+          if [ -n "$ANTES" ] && [ -n "${ANTES//0/}" ] && git cat-file -e "$ANTES^{commit}" 2>/dev/null; then
+            lista=$(git diff --name-only "$ANTES" "$GITHUB_SHA" | servidos)
+          else
+            lista=$(git ls-files | servidos)
+          fi
+          [ -n "$lista" ] || { echo "nenhum arquivo servido mudou: sem purge"; exit 0; }
+          caminhos=$(echo "$lista" | jq -R --arg r "/gh/${GITHUB_REPOSITORY}@producao/" '$r + .' | jq -sc '{path: .}')
+          echo "$(echo "$caminhos" | jq '.path | length') arquivos:"; echo "$lista"
+          purga() {
+            id=$(curl -sf --retry 3 -X POST https://purge.jsdelivr.net/ -H 'Content-Type: application/json' -d "$caminhos" | jq -r .id)
+            for i in $(seq 1 30); do
+              r=$(curl -sf --retry 3 "https://purge.jsdelivr.net/status/$id")
+              [ "$(echo "$r" | jq -r .status)" = finished ] && break
+              sleep 2
+            done
+            echo "$r" | jq -r '.status'
+            limitados=$(echo "$r" | jq '[.paths // {} | .[] | select(.throttled)] | length')
+            espera=$(echo "$r" | jq '[.paths // {} | .[] | .throttlingReset // 0] | max // 0 | floor')
+          }
+          purga
+          if [ "$limitados" != 0 ] && [ "$espera" -le 900 ]; then
+            echo "::warning::jsDelivr limitou o purge de $limitados arquivos; nova tentativa em $((espera + 10)) s"
+            sleep $((espera + 10)); purga
+          fi
+          falhas=$(echo "$r" | jq '[.paths // {} | .[] | select((.throttled | not) and (.providers // {} | to_entries | any(.value | not)))] | length')
           [ "$(echo "$r" | jq -r .status)" = finished ] && [ "$falhas" = 0 ] || { echo "purge incompleto: $falhas arquivos"; echo "$r" | jq .; exit 1; }
-          echo "ok: jsDelivr de @producao renovado"
+          if [ "$limitados" != 0 ]; then
+            echo "::warning::jsDelivr ainda limitando $limitados arquivos (reset em $espera s): @producao renova sozinho em até 12 h, ou rode este fluxo à mão depois do reset"
+          else
+            echo "ok: jsDelivr de @producao renovado"
+          fi
