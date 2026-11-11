@@ -1,9 +1,15 @@
-<!-- Loren Metais: visual novo. Código do cabeçalho (head) do painel, em "todas as páginas exceto checkout". No painel vai em 2 entradas geradas por painel/gera.py, que troca COMMIT por producao (o ramo publicado). Detalhes em INSTALAR.md -->
+<!-- Loren Metais: visual novo. Código do cabeçalho (head) do painel, em "todas as páginas" (a parte 1 também no checkout, onde só o navegador da equipe recebe o checkout.css). No painel vai em 2 entradas geradas por painel/gera.py, que troca COMMIT por producao (o ramo publicado). Detalhes em INSTALAR.md -->
 <script>
 (function () {
-  if (/\/(checkout|pagamento)/i.test(location.pathname)) return;   // checkout: este código não faz nada e não pede nenhum arquivo
   var BASE = 'https://cdn.jsdelivr.net/gh/Lorenmetais/loren-metais-front@COMMIT/';   // no painel: @producao (o ramo publicado); publicar = levar o commit aprovado para o ramo producao
   var V = '?v=' + Math.floor(Date.now() / 36e5);   // muda de hora em hora: o jsDelivr manda o navegador guardar @ramo por 7 dias; com isto CSS e JS novos valem em até 1 h, sem pedido a mais (o jsDelivr ignora o ?v)
+  if (/\/(checkout|pagamento)/i.test(location.pathname)) {   // checkout: o cliente não recebe nada; só o navegador da equipe (lm_equipe ou lm_forca=novo) ganha html.lm-ck e o checkout.css, para ajustar o checkout real
+    try { if (localStorage.getItem('lm_equipe') || localStorage.getItem('lm_forca') === 'novo') {
+      document.documentElement.classList.add('lm-ck');
+      var ck = document.createElement('link'); ck.rel = 'stylesheet'; ck.href = BASE + 'checkout.css' + V; (document.head || document.documentElement).appendChild(ck);
+    } } catch (e) {}
+    return;
+  }
   var PERCENTUAL = 100;   // % das visitas que veem o visual novo; a escolha fica guardada no visitante (?lm=novo ou ?lm=antigo força, para teste)
   var TETO_MS = 40000;    // lentidão não é falha: o antigo só entra em erro real ou com uma etapa parada este tempo (CSS, JS depois do CSS, montagem depois do HTML)
   var BOTAO_PUBLICO = false;   // "Ver a nova interface" no visual de hoje: false = só no navegador marcado com ?lm=equipe (?lm=equipe-sair desmarca); true = para todo visitante
@@ -17,6 +23,14 @@
     if (isNaN(grupo)) { grupo = Math.floor(Math.random() * 100); localStorage.setItem('lm_grupo', grupo); }
   } catch (e) { grupo = 99; equipe = !!eq && !/sair/.test(eq); }
   if (f) grupo = f === 'novo' ? -1 : 100;
+  var empurra = function (ev) {   // evento no dataLayer; repete no load porque o tema recria o dataLayer mais abaixo
+    var envia = function () { try { var d = window.dataLayer = window.dataLayer || []; if (d.indexOf(ev) < 0) d.push(ev); } catch (e) {} };
+    envia(); addEventListener('load', envia);
+  };
+  // medição por grupo: 1 evento lm_visual por visita (aba), para o GA4 comparar conversão e abandono entre os visuais; sem dado pessoal.
+  // lm_motivo: equipe (navegador marcado com ?lm=equipe), forcado (?lm= ou botão de troca) ou sorteio. Repete na mesma visita só se o visual ou o motivo mudar
+  var lmv = { event: 'lm_visual', lm_grupo: grupo >= PERCENTUAL ? 'antigo' : 'novo', lm_motivo: equipe ? 'equipe' : f ? 'forcado' : 'sorteio' }, kv = lmv.lm_grupo + lmv.lm_motivo;
+  try { if (sessionStorage.getItem('lm_visual') !== kv) { sessionStorage.setItem('lm_visual', kv); empurra(lmv); } } catch (e) { empurra(lmv); }
   if (grupo >= PERCENTUAL) {   // fora da amostra: visual antigo, nada é pedido; só um botão discreto para o visitante ligar o novo (o loren.js tem o de voltar)
     // grava a escolha como o ?lm= e recarrega uma vez, já sem o ?lm= no endereço (ele venceria a escolha); sem localStorage, vai pelo ?lm=
     if (BOTAO_PUBLICO || equipe) document.addEventListener('DOMContentLoaded', function () {
@@ -35,10 +49,7 @@
     });
     return;
   }
-  var aviso = function (nome, motivo) {   // evento no dataLayer (o GTM/GA4 conta quantas visitas caíram no visual antigo); repete no load porque o tema recria o dataLayer mais abaixo
-    var ev = { event: nome, lm_motivo: motivo, lm_ms: Date.now() - t0 }, envia = function () { try { var d = window.dataLayer = window.dataLayer || []; if (d.indexOf(ev) < 0) d.push(ev); } catch (e) {} };
-    envia(); addEventListener('load', envia);
-  };
+  var aviso = function (nome, motivo) { empurra({ event: nome, lm_motivo: motivo, lm_ms: Date.now() - t0 }); };   // o GTM/GA4 conta quantas visitas caíram no visual antigo (plano B)
   // cortes de downloads inúteis do tema, antes de o ready dele rodar (jQuery já existe aqui): o .load de cada item do menu, de links javascript:; (CORS no console) e da página /ofertas-especiais (404),
   // e o $.ajax('../') que baixa a home inteira só para preencher o contato do cabeçalho do carrinho (só a página do carrinho usa)
   var $ = window.jQuery;

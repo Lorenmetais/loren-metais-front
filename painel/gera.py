@@ -53,7 +53,7 @@ def main():
     txt = txt.replace('\r\n', '\n')
     assert txt.count('@COMMIT/') == 1 and txt.count('var PERCENTUAL = 100;') == 1
     txt = txt.replace('@COMMIT/', '@' + ref + '/').replace('var PERCENTUAL = 100;', 'var PERCENTUAL = 0;')
-    cab = {1: f'<!-- Loren Metais, visual novo: PARTE 1 de 2 (aponta para @{ref}; código do commit {h[:7]}; PERCENTUAL = 0). Cabeçalho, todas as páginas exceto checkout; as 2 partes em entradas separadas, em qualquer ordem. Fonte: cabecalho-snippet.html -->',
+    cab = {1: f'<!-- Loren Metais, visual novo: PARTE 1 de 2 (aponta para @{ref}; código do commit {h[:7]}; PERCENTUAL = 0). Cabeçalho, TODAS as páginas, inclusive o checkout (lá só a equipe recebe o checkout.css); as 2 partes em entradas separadas, em qualquer ordem. Fonte: cabecalho-snippet.html -->',
            2: f'<!-- Loren Metais, visual novo: PARTE 2 de 2, esqueleto (código do commit {h[:7]}). Cabeçalho, todas as páginas exceto checkout; as 2 partes em entradas separadas, em qualquer ordem -->'}
     L = txt.rstrip('\n').split('\n'); assert L[0].startswith('<!--')
     for n, p in zip((1, 2), divide(L[1:])):

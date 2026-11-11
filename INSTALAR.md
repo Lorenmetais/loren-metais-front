@@ -16,7 +16,7 @@ O código da seção **O código** (abaixo) é a versão legível, com comentár
 
 1. Gere as 2 partes, na pasta deste repositório: `python painel/gera.py <hash completo> --saida <pasta>`. O hash diz de qual commit ler o código do cabeçalho; o painel aponta sempre para `@producao` (`--ref <hash>` só para teste). Precisa de Python 3 e do git; se houver Node, ele também confere a sintaxe. O script divide o código, tira comentários e recuo, aponta para `@producao` e põe `PERCENTUAL = 0`, e grava `COLAR-NO-PAINEL-1.html` e `COLAR-NO-PAINEL-2.html` na pasta indicada. Cada parte tem que ficar abaixo de 14.500 caracteres; o script recusa se passar.
 2. Se quiser outro `PERCENTUAL`, troque `var PERCENTUAL = 0;` na parte 1: `0` = ninguém vê o novo, só quem abrir com `?lm=novo` (para testar no ar); `10` a `20` = começo recomendado; `100` = todas as visitas. Detalhes em **Ligar para parte das visitas**.
-3. No painel: **Configurações > Códigos HTML personalizados > Incluir código HTML**. Crie **2 entradas**, uma com cada arquivo inteiro (da linha `<!-- Loren Metais ...` até `</script>`). Nas duas: local **cabeçalho (`<head>`)**; páginas **todas as páginas exceto checkout** (se o painel não oferecer essa escolha, tudo bem: no checkout o código não faz nada e não pede nenhum arquivo). Salve. Não mexa nos outros códigos que já estão no painel.
+3. No painel: **Configurações > Códigos HTML personalizados > Incluir código HTML**. Crie **2 entradas**, uma com cada arquivo inteiro (da linha `<!-- Loren Metais ...` até `</script>`). Nas duas: local **cabeçalho (`<head>`)**; páginas **todas as páginas, inclusive o checkout** (no checkout o cliente não recebe nada: só o navegador da equipe, marcado com `?lm=equipe` ou `?lm=novo`, ganha `html.lm-ck` e o `checkout.css`). Salve. Não mexa nos outros códigos que já estão no painel.
 4. Espere a loja publicar (a ajuda da LI fala em 15 a 30 minutos).
 5. Faça a conferência abaixo (a equipe tem `node dev/conferir-painel.mjs`, que faz as verificações e escreve OK/ERRO).
 
@@ -24,7 +24,7 @@ O código da seção **O código** (abaixo) é a versão legível, com comentár
 
 1. Abra `https://www.lorenmetais.com.br/?lm=novo`. Primeiro aparece um esqueleto cinza com a logo; em seguida, o visual novo. Navegue por uma categoria, um produto (o frete tem o campo de CEP), a busca e o carrinho.
 2. Em outra janela anônima, abra a loja **sem** `?lm`. Com `PERCENTUAL = 0`, ela tem que estar exatamente como antes.
-3. Vá até o checkout (carrinho > Finalizar compra): ele não muda. No DevTools (F12) > aba Rede, não pode haver pedido a `jsdelivr.net/gh/`.
+3. Vá até o checkout (carrinho > Finalizar compra): ele não muda. No DevTools (F12) > aba Rede, não pode haver pedido a `jsdelivr.net/gh/` (a janela anônima não tem a marca da equipe; com `?lm=equipe` ou `?lm=novo` gravados, o checkout pede só o `checkout.css`).
 4. **Se com `?lm=novo` nada mudar:** confira se as 2 entradas estão salvas e se cada uma termina em `</script>` (o campo corta acima de 15.000 caracteres); confira também se o ramo `producao` existe e serve os arquivos (passo do teste rápido). Só a parte 1 já liga o visual novo (sem o esqueleto); só a parte 2 não muda nada.
 5. Para voltar ao visual antigo só no seu navegador: abra qualquer página com `?lm=antigo`.
 
@@ -48,12 +48,18 @@ O código da seção **O código** (abaixo) é a versão legível, com comentár
 Cópia de `front/cabecalho-snippet.html` (as duas têm que ser iguais).
 
 ```html
-<!-- Loren Metais: visual novo. Código do cabeçalho (head) do painel, em "todas as páginas exceto checkout". No painel vai em 2 entradas geradas por painel/gera.py, que troca COMMIT por producao (o ramo publicado). Detalhes em INSTALAR.md -->
+<!-- Loren Metais: visual novo. Código do cabeçalho (head) do painel, em "todas as páginas" (a parte 1 também no checkout, onde só o navegador da equipe recebe o checkout.css). No painel vai em 2 entradas geradas por painel/gera.py, que troca COMMIT por producao (o ramo publicado). Detalhes em INSTALAR.md -->
 <script>
 (function () {
-  if (/\/(checkout|pagamento)/i.test(location.pathname)) return;   // checkout: este código não faz nada e não pede nenhum arquivo
   var BASE = 'https://cdn.jsdelivr.net/gh/Lorenmetais/loren-metais-front@COMMIT/';   // no painel: @producao (o ramo publicado); publicar = levar o commit aprovado para o ramo producao
   var V = '?v=' + Math.floor(Date.now() / 36e5);   // muda de hora em hora: o jsDelivr manda o navegador guardar @ramo por 7 dias; com isto CSS e JS novos valem em até 1 h, sem pedido a mais (o jsDelivr ignora o ?v)
+  if (/\/(checkout|pagamento)/i.test(location.pathname)) {   // checkout: o cliente não recebe nada; só o navegador da equipe (lm_equipe ou lm_forca=novo) ganha html.lm-ck e o checkout.css, para ajustar o checkout real
+    try { if (localStorage.getItem('lm_equipe') || localStorage.getItem('lm_forca') === 'novo') {
+      document.documentElement.classList.add('lm-ck');
+      var ck = document.createElement('link'); ck.rel = 'stylesheet'; ck.href = BASE + 'checkout.css' + V; (document.head || document.documentElement).appendChild(ck);
+    } } catch (e) {}
+    return;
+  }
   var PERCENTUAL = 100;   // % das visitas que veem o visual novo; a escolha fica guardada no visitante (?lm=novo ou ?lm=antigo força, para teste)
   var TETO_MS = 40000;    // lentidão não é falha: o antigo só entra em erro real ou com uma etapa parada este tempo (CSS, JS depois do CSS, montagem depois do HTML)
   var BOTAO_PUBLICO = false;   // "Ver a nova interface" no visual de hoje: false = só no navegador marcado com ?lm=equipe (?lm=equipe-sair desmarca); true = para todo visitante
@@ -67,6 +73,14 @@ Cópia de `front/cabecalho-snippet.html` (as duas têm que ser iguais).
     if (isNaN(grupo)) { grupo = Math.floor(Math.random() * 100); localStorage.setItem('lm_grupo', grupo); }
   } catch (e) { grupo = 99; equipe = !!eq && !/sair/.test(eq); }
   if (f) grupo = f === 'novo' ? -1 : 100;
+  var empurra = function (ev) {   // evento no dataLayer; repete no load porque o tema recria o dataLayer mais abaixo
+    var envia = function () { try { var d = window.dataLayer = window.dataLayer || []; if (d.indexOf(ev) < 0) d.push(ev); } catch (e) {} };
+    envia(); addEventListener('load', envia);
+  };
+  // medição por grupo: 1 evento lm_visual por visita (aba), para o GA4 comparar conversão e abandono entre os visuais; sem dado pessoal.
+  // lm_motivo: equipe (navegador marcado com ?lm=equipe), forcado (?lm= ou botão de troca) ou sorteio. Repete na mesma visita só se o visual ou o motivo mudar
+  var lmv = { event: 'lm_visual', lm_grupo: grupo >= PERCENTUAL ? 'antigo' : 'novo', lm_motivo: equipe ? 'equipe' : f ? 'forcado' : 'sorteio' }, kv = lmv.lm_grupo + lmv.lm_motivo;
+  try { if (sessionStorage.getItem('lm_visual') !== kv) { sessionStorage.setItem('lm_visual', kv); empurra(lmv); } } catch (e) { empurra(lmv); }
   if (grupo >= PERCENTUAL) {   // fora da amostra: visual antigo, nada é pedido; só um botão discreto para o visitante ligar o novo (o loren.js tem o de voltar)
     // grava a escolha como o ?lm= e recarrega uma vez, já sem o ?lm= no endereço (ele venceria a escolha); sem localStorage, vai pelo ?lm=
     if (BOTAO_PUBLICO || equipe) document.addEventListener('DOMContentLoaded', function () {
@@ -85,10 +99,7 @@ Cópia de `front/cabecalho-snippet.html` (as duas têm que ser iguais).
     });
     return;
   }
-  var aviso = function (nome, motivo) {   // evento no dataLayer (o GTM/GA4 conta quantas visitas caíram no visual antigo); repete no load porque o tema recria o dataLayer mais abaixo
-    var ev = { event: nome, lm_motivo: motivo, lm_ms: Date.now() - t0 }, envia = function () { try { var d = window.dataLayer = window.dataLayer || []; if (d.indexOf(ev) < 0) d.push(ev); } catch (e) {} };
-    envia(); addEventListener('load', envia);
-  };
+  var aviso = function (nome, motivo) { empurra({ event: nome, lm_motivo: motivo, lm_ms: Date.now() - t0 }); };   // o GTM/GA4 conta quantas visitas caíram no visual antigo (plano B)
   // cortes de downloads inúteis do tema, antes de o ready dele rodar (jQuery já existe aqui): o .load de cada item do menu, de links javascript:; (CORS no console) e da página /ofertas-especiais (404),
   // e o $.ajax('../') que baixa a home inteira só para preencher o contato do cabeçalho do carrinho (só a página do carrinho usa)
   var $ = window.jQuery;
@@ -240,7 +251,7 @@ Regra do Eduardo (05/11): a visita normal **nunca** vê o visual antigo, nem por
 4. **Lentidão não é falha (Eduardo, 09/11).** Enquanto o CSS, o `loren.js` ou a montagem não vêm, a visita fica na casca nova; depois de 2 s aparece um carregando discreto (círculo azul, só CSS, no centro da tela). O visual antigo só entra em **erro de verdade** (um dos 2 CSS ou o `loren.js` dá erro de rede, ou o `loren.js` lança exceção antes de montar) ou se **uma etapa ficar parada `TETO_MS` (40 s)**: o CSS desde o início do código, o `loren.js` depois do CSS, a montagem depois do fim do HTML. Aí o código tira a classe, a casca, os `<link>` e o `<script>`, e a loja abre inteira no visual antigo naquela visita; o `loren.js`, se chegar depois, vê `window.__lmDesliga` e não faz nada.
 5. **Aviso.** Cada plano B empurra um evento no `dataLayer`: `lm_falha` com `lm_motivo` = `css_erro`, `css_parado`, `js_erro`, `js_parado`, `js_excecao` ou `js_nao_montou` (e `lm_ms`). Para contar no GA4 falta um acionador no GTM para esse evento.
 6. **Sem revelação forçada.** A página só aparece quando o `loren.js` monta e liga `html.lm-pronto` (a antiga "rede de segurança" de 6 s revelava a página sem o cabeçalho novo, com peças do antigo à vista, e saiu). O `loren.js` arranca no ready do jQuery e também depois de qualquer erro de script e no `load`: no jQuery antigo do tema, uma exceção num ready anterior (EmailJS bloqueado) parava a fila e a página ficava na casca.
-7. **Checkout e pagamento.** O código encerra na primeira linha: nenhuma requisição ao jsDelivr, nenhuma classe (testado com `/checkout/...`).
+7. **Checkout e pagamento.** Para o cliente, o código encerra logo no começo: nenhuma requisição ao jsDelivr, nenhuma classe. Só no navegador da equipe (`lm_equipe` ou `lm_forca=novo` no localStorage) ele põe `html.lm-ck` e pede `checkout.css` (do ramo producao, com o mesmo `?v=` de hora em hora) e encerra também. Ajustes no checkout vão pelo git, sem recolar o painel.
 
 ### Folga do teto (medido em 09/11, 3G ruim: 400 kbps, 400 ms, CPU 6x, 3 passadas de início, categoria e produto)
 
@@ -259,7 +270,7 @@ Regra do Eduardo (05/11): a visita normal **nunca** vê o visual antigo, nem por
 
 `PERCENTUAL` (no topo do código) é a % das visitas que vê o visual novo. O sorteio (0 a 99) é feito uma vez e fica guardado no visitante (`localStorage.lm_grupo`), então cada pessoa vê sempre a mesma versão. Quem fica de fora vê o site atual e não baixa nenhum arquivo nosso. Sem `localStorage` (navegação privada restrita) o visitante cai no visual antigo, a menos que `PERCENTUAL` seja 100.
 Para testar: `?lm=novo` ou `?lm=antigo` na URL força a versão naquele navegador, com qualquer `PERCENTUAL` (com `PERCENTUAL = 0` ninguém vê o novo, só quem abrir com `?lm=novo`) (fica guardado em `lm_forca`; para soltar, apague a chave `lm_forca`).
-Plano sugerido pelo estudo: começar com `PERCENTUAL = 10` a `20` por 1 a 2 semanas, comparar vendas e orçamentos entre as duas versões (o `dataLayer` não marca o grupo; para comparar no GA4 é preciso um acionador/dimensão que leia `localStorage.lm_grupo`, a cargo da Wednesday) e só então 100. Trocar o percentual exige editar o painel.
+Plano sugerido pelo estudo: começar com `PERCENTUAL = 10` a `20` por 1 a 2 semanas, comparar vendas e orçamentos entre as duas versões e só então 100. Para comparar, o código manda ao `dataLayer` 1 evento `lm_visual` por visita, com `lm_grupo` (`novo` ou `antigo`) e `lm_motivo` (`sorteio`, `forcado` ou `equipe`), sem dado pessoal. Como criar o segmento no GA4: `dev/MEDICAO-10.md`. Trocar o percentual exige editar o painel.
 
 ## Cortes de downloads inúteis do tema (no próprio código do cabeçalho)
 
