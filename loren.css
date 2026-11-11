@@ -124,7 +124,9 @@ html.lm-novo #rodape .gateways-rodape li:has(img[class*="boleto"]) { display: no
 html.lm-novo #rodape .gateways-rodape img { display: block; width: auto; max-width: none; height: var(--lm-esp-3); padding: 2px var(--lm-esp-1); background: var(--lm-branco); object-fit: contain; }
 /* faixa final: direitos e marcas da plataforma, centradas e discretas (a Loja Integrada fixa o tamanho em style inline) */
 html.lm-novo #rodape > div:last-child { background: var(--lm-grafite) !important; border-top: 1px solid var(--lm-linha-escuro) !important; }
-html.lm-novo #rodape > div:last-child .conteiner { padding: var(--lm-esp-2) var(--lm-margem) !important; }
+/* bloco final (Eduardo 11/11, igual ao do checkout): 24 acima da razão social e 24 abaixo do crédito, crédito a 16 dos selos. O .cr (selos LI e
+   Alphatheme) vem com margin-top 20 e padding 7 inline com !important: o espaço entre a razão e os selos fica o do tema, o resto se acerta em volta */
+html.lm-novo #rodape > div:last-child .conteiner { padding: var(--lm-esp-3) var(--lm-margem) 0 !important; }
 html.lm-novo #rodape > div:last-child p { color: var(--lm-sobre-escuro-3) !important; font-size: 12px !important; line-height: 1.4; }
 html.lm-novo #rodape > div:last-child img, html.lm-novo #rodape > div:last-child svg { filter: grayscale(1) brightness(0) invert(1); opacity: .64; }
 @media (max-width: 767px) {
@@ -813,7 +815,7 @@ html.lm-novo :is([class^="icon-"], [class*=" icon-"], .fa, [class^="fa-"], [clas
 /* crédito da Lucerpy (igual ao da Conceito): mono do sistema, cinza, coração âmbar, bem discreto no fim do rodapé */
 /* a regra geral da fonte (linha 9) tem 3 classes de peso: aqui 4 */
 html.lm-novo .lm-credito.lm-credito.lm-credito, html.lm-novo .lm-credito.lm-credito.lm-credito * { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important; }
-html.lm-novo .lm-credito { position: relative; margin: 8px 0 0 !important; padding: 0 0 16px; text-align: center; font: 400 12px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important; color: #a1a1aa !important; }
+html.lm-novo .lm-credito { position: relative; margin: 4px 0 0 !important; padding: 0 0 var(--lm-esp-3); text-align: center; font: 400 12px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important; color: #a1a1aa !important; }
 html.lm-novo .lm-credito__cor::before { content: '<3'; color: #e8a659; }
 html.lm-novo .lm-credito__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 html.lm-novo .lm-credito a { color: #e4e4e7 !important; text-decoration: underline; text-decoration-color: rgb(255 255 255 / 0.25); text-underline-offset: 3px; }

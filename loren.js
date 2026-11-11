@@ -213,7 +213,7 @@
     // barra do topo: troca os contatos repetidos por uma frase
     const tb = document.querySelector('#topbar .container');
     document.querySelector('#topbar') && document.body.prepend(document.querySelector('#topbar'));  // no HTML a barra vem no fim da página
-    if (tb) tb.insertAdjacentHTML('afterbegin', '<div class="lm-barra">Direto da fábrica · Envio em 24h para todo o Brasil · 10% de desconto no Pix ou boleto</div>');
+    if (tb) tb.insertAdjacentHTML('afterbegin', '<div class="lm-barra">Direto da fábrica · Enviamos para todo o Brasil · Atendimento pelo WhatsApp</div>');
     // "Voltar à interface anterior" (Eduardo 10/11): grava a escolha como o ?lm=antigo e recarrega uma vez, sem o ?lm= no endereço; o código do cabeçalho tem o "Ver a nova interface".
     // Computador e tablet: na barra de cima; celular: no fim da gaveta do menu (loren.css, .lm-troca)
     const volta = () => { let u = location.href.replace(/([?&])lm=(novo|antigo)&?/, '$1').replace(/[?&](#|$)/, '$1');
@@ -293,8 +293,8 @@
     // vantagens em HTML no lugar dos 4 mini banners
     banners?.insertAdjacentHTML('afterend', `<section class="lm-vant"><div class="lm-wrap">
       <div class="lm-item">${ico('<path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6"/>')}<p><b>Direto do fabricante</b><small>Preço de fábrica, sem intermediário</small></p></div>
-      <div class="lm-item">${ico('<path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/>')}<p><b>Entrega em todo o Brasil</b><small>Envio em 24h</small></p></div>
-      <div class="lm-item">${ico('<path d="M19 5 5 19"/><circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="17" r="2.5"/>')}<p><b>10% no Pix ou boleto</b><small>Desconto aplicado no checkout</small></p></div>
+      <div class="lm-item">${ico('<path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/>')}<p><b>Entrega em todo o Brasil</b><small>Despacho rápido</small></p></div>
+      <div class="lm-item">${ico('<path d="M19 5 5 19"/><circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="17" r="2.5"/>')}<p><b>Atendimento pelo WhatsApp</b><small>Fale direto com a fábrica</small></p></div>
       <div class="lm-item">${ico('<rect x="2" y="5" width="20" height="14"/><path d="M2 10h20M6 15h4"/>')}<p><b>Até 4x no cartão</b><small>Sem juros</small></p></div></div></section>`);
     // (Compre por categoria saiu em 04/11, pedido do Eduardo: os produtos vêm direto)
     // as 3 vitrines estão numa caixa só: a faixa entra depois da 1ª lista (e do seu Ver mais), não depois da caixa

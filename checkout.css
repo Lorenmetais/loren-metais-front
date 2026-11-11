@@ -37,7 +37,7 @@ body.carrinho-checkout #corpo a:not(.botao, .btn):hover { color: var(--lm-botao-
 /* barra de cima: grafite com a frase do site, na altura que o tema reserva (40) */
 body.carrinho-checkout #topbar { background: var(--lm-grafite) !important; }
 body.carrinho-checkout #topbar > .container { display: none !important; }
-body.carrinho-checkout #topbar::before { content: "Direto da fábrica · Envio em 24h para todo o Brasil · 10% de desconto no Pix ou boleto"; display: block; text-align: center; font: 500 13px/40px var(--lm-fonte-texto); color: var(--lm-texto-sobre-escuro); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 0 var(--lm-margem); }
+body.carrinho-checkout #topbar::before { content: "Direto da fábrica · Enviamos para todo o Brasil · Atendimento pelo WhatsApp"; display: block; text-align: center; font: 500 13px/40px var(--lm-fonte-texto); color: var(--lm-texto-sobre-escuro); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 0 var(--lm-margem); }
 
 /* cabeçalho: logo nova à esquerda e "Compra 100% segura" à direita, linha fina embaixo (os contatos do tema saem: o WhatsApp flutuante fica) */
 body.carrinho-checkout #cabecalho { background: var(--lm-branco) !important; border-bottom: var(--lm-borda-padrao); }
@@ -258,14 +258,16 @@ body.carrinho-checkout #corpo .alert-error { border-left-color: var(--lm-erro) !
 
 /* rodapé: faixa grafite com a linha da empresa e os créditos em claro */
 body.carrinho-checkout #rodape, body.carrinho-checkout #rodape > div { background: var(--lm-grafite) !important; border: 0 !important; }
-body.carrinho-checkout #rodape .conteiner { box-sizing: border-box; width: auto !important; max-width: var(--lm-largura); margin: 0 auto; padding: var(--lm-esp-3) var(--lm-margem) !important; }
+/* bloco final (Eduardo 11/11): 24 acima da razão social e 24 abaixo do crédito; o crédito a 16 dos selos. O .cr (selos) vem com
+   margin-top 20 e padding 7 inline com !important (o CSS não vence): o espaço entre a razão e os selos fica o do tema e o resto se acerta em volta */
+body.carrinho-checkout #rodape .conteiner { box-sizing: border-box; width: auto !important; max-width: var(--lm-largura); margin: 0 auto; padding: var(--lm-esp-3) var(--lm-margem) 0 !important; }
+@media (max-width: 767px) { body.carrinho-checkout #rodape .row-fluid > .span12 { margin-bottom: -12px !important; } }  /* no celular a razão não flutua e os selos (margin 20 + padding 7 inline) ficavam a 27: 15, como no site; a partir de 768 ela flutua e o espaço já é o do tema */
 body.carrinho-checkout #rodape p { margin: 0 !important; font: 400 13px/1.5 var(--lm-fonte-texto) !important; color: var(--lm-sobre-escuro-2) !important; }
-body.carrinho-checkout #rodape .cr { padding-top: var(--lm-esp-2) !important; padding-bottom: 0 !important; }
 body.carrinho-checkout #rodape .cr img { filter: brightness(0) invert(1); opacity: .7; }
 /* crédito da Lucerpy (Eduardo 11/11), o mesmo do site (.lm-credito do loren.js): no checkout não roda JS nosso, então vem num ::after,
    sem link. Fonte mono: cada letra tem 1ch, e o gradiente recortado no texto pinta "<3" de âmbar e "Lucerpy" de claro, como no site.
    O 2º content tem o texto para leitor de tela ("carinho"); navegador que não entende a barra fica com o 1º */
-body.carrinho-checkout #rodape::after { content: "Feito com <3 por Lucerpy"; content: "Feito com <3 por Lucerpy" / "Feito com carinho por Lucerpy"; display: block; width: 24ch; margin: 0 auto; padding: 0 0 var(--lm-esp-2); font: 400 12px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important; text-align: left; white-space: nowrap; color: #a1a1aa; background: linear-gradient(90deg, #a1a1aa 10ch, #e8a659 10ch 12ch, #a1a1aa 12ch 17ch, #e4e4e7 17ch); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+body.carrinho-checkout #rodape::after { content: "Feito com <3 por Lucerpy"; content: "Feito com <3 por Lucerpy" / "Feito com carinho por Lucerpy"; display: block; width: 24ch; margin: 4px auto 0; padding: 0 0 var(--lm-esp-3); font: 400 12px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important; text-align: left; white-space: nowrap; color: #a1a1aa; background: linear-gradient(90deg, #a1a1aa 10ch, #e8a659 10ch 12ch, #a1a1aa 12ch 17ch, #e4e4e7 17ch); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
 
 /* flutuantes: o WhatsApp no desenho do chat do site; e-mail e "Topo" fora */
 body.carrinho-checkout :is(.mail-floating, .scrollToTop) { display: none !important; }

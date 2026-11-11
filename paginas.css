@@ -84,6 +84,7 @@ html.lm-novo .pagina-carrinho .tabela-carrinho .controls { margin: 0 !important;
 html.lm-novo .pagina-carrinho .tabela-carrinho .input-append { display: flex !important; align-items: stretch; gap: 8px; margin: 0 !important; font-size: 0; }
 /* frete/cupom e campos do login: classe .lm-campo do loren.css (posta pelo paginas.js); aqui só as larguras */
 html.lm-novo .pagina-carrinho .tabela-carrinho .input-append input { width: 160px !important; }
+html.lm-novo .pagina-carrinho .tabela-carrinho .input-append input:not(:focus) { background: var(--lm-branco) !important; }  /* CEP e cupom ficam na faixa cinza (#F6F6F7, a mesma cor do .lm-campo): campo branco com a borda fina, para contrastar (Eduardo 11/11) */
 html.lm-novo .pagina-carrinho .tabela-carrinho .input-append .btn { height: var(--lm-campo-altura) !important; box-sizing: border-box; margin: 0 !important; padding: 0 20px !important; border: 0 !important; border-radius: 999px !important; background: #fff !important; box-shadow: inset 0 0 0 1.5px var(--lm-onda-escura) !important; color: var(--lm-onda-escura) !important; text-shadow: none !important; font: 700 13px/1 var(--lm-fonte-texto) !important; letter-spacing: .04em; text-transform: uppercase; display: inline-flex; align-items: center; gap: 6px; }
 html.lm-novo .pagina-carrinho .tabela-carrinho .input-append .btn:hover { background: var(--lm-onda-escura) !important; color: #fff !important; }
 html.lm-novo .pagina-carrinho .help-inline { padding: 0 !important; font-size: 13px; }
@@ -99,6 +100,7 @@ html.lm-novo .pagina-carrinho .tabela-carrinho .control-label :is(b, strong) { f
 html.lm-novo .pagina-carrinho .acao-editar.lm-com-selo { display: flex !important; align-items: center; gap: 16px; }
 html.lm-novo .pagina-carrinho .acao-editar.lm-com-selo::before, html.lm-novo .pagina-carrinho .acao-editar.lm-com-selo::after { display: none !important; }
 html.lm-novo .pagina-carrinho .acao-editar > .selo-ssl { position: static !important; order: -1; flex: none; margin: 0 !important; }
+html.lm-novo .pagina-carrinho .acao-editar > .selo-ssl > * { margin: 0 !important; }  /* o tema dá margin 0 0 10px 10px aos filhos (.acao-editar > div > *): o selo saía 10 px da borda da caixa (Eduardo 11/11) */
 html.lm-novo .pagina-carrinho .acao-editar > .span12 { flex: 1 1 auto; margin: 0 !important; }
 html.lm-novo .pagina-carrinho .acao-editar .span12 { display: flex; justify-content: flex-end; align-items: center; gap: 12px; flex-wrap: wrap; float: none !important; width: auto !important; }
 html.lm-novo .pagina-carrinho .acao-editar .botao { margin: 0 !important; float: none !important; }

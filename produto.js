@@ -278,8 +278,8 @@
     // selos curtos: só o que a loja já diz (as frases da barra do topo)
     compra?.querySelector('.grandes_qtd')?.insertAdjacentHTML('afterend', `<ul class="lm-selos">
       <li>${ico('<path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6"/>')}Direto da fábrica</li>
-      <li>${ico('<path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/>')}Envio em 24h para todo o Brasil</li>
-      <li>${ico('<path d="M19 5 5 19"/><circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="17" r="2.5"/>')}10% de desconto no Pix ou boleto</li></ul>`);
+      <li>${ico('<path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/>')}Envio para todo o Brasil</li>
+      <li>${ico('<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/>')}Atendimento pelo WhatsApp</li></ul>`);
 
     // selo NBR 9050 SÓ POR SKU (Eduardo 11/11). Descrição, título e categoria não servem: a descrição punha o selo em quase tudo
     // (ex. 6002) e a categoria erra (o 17024 está em Acessibilidade e não é da norma). Lista = os produtos com a tag 'acessibilidade'
