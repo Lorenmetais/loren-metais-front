@@ -1691,6 +1691,10 @@
     "Chuveiro/Ducha articulado"
    ],
    [
+    "Desviador",
+    "Desviador integrado fabricado em metal, alterna facilmente entre o chuveiro fixo e o chuveirinho manual"
+   ],
+   [
     "Entrada",
     "Bitola 1/2\" (padrão brasileiro)"
    ],
@@ -1705,9 +1709,26 @@
    [
     "Articulação",
     "Possui sistema articulado que permite ajustar a direção da ducha"
+   ],
+   [
+    "Temperatura",
+    "Utiliza água fria (pode ser utilizada com aquecedor Solar ou Gás)"
    ]
   ],
-  "medidas": []
+  "medidas": [
+   [
+    "Altura",
+    "15 cm"
+   ],
+   [
+    "Comprimento",
+    "20 cm"
+   ],
+   [
+    "Diâmetro da Ducha",
+    "4 cm"
+   ]
+  ]
  },
  "23110": {
   "pdf": "23110.pdf",
@@ -8295,5 +8316,52 @@
    ]
   ],
   "medidas": []
+ },
+ "17008": {
+  "pdf": "17008.pdf",
+  "resumo": [
+   [
+    "Material",
+    "Acrílico e plástico ABS"
+   ],
+   [
+    "Tipo de instalação",
+    "Parede"
+   ],
+   [
+    "Sistema",
+    "Automático por sensor"
+   ],
+   [
+    "Capacidade",
+    "700 ml"
+   ],
+   [
+    "Alimentação",
+    "4 pilhas alcalinas AA (não acompanha)"
+   ],
+   [
+    "Distância de detecção",
+    "até 10 cm"
+   ]
+  ],
+  "medidas": [
+   [
+    "Altura",
+    "16,5 cm"
+   ],
+   [
+    "Largura",
+    "11 cm"
+   ],
+   [
+    "Profundidade",
+    "9 cm"
+   ],
+   [
+    "Peso líquido",
+    "0,440 kg"
+   ]
+  ]
  }
 }
