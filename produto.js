@@ -281,10 +281,15 @@
       <li>${ico('<path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/>')}Envio em 24h para todo o Brasil</li>
       <li>${ico('<path d="M19 5 5 19"/><circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="17" r="2.5"/>')}10% de desconto no Pix ou boleto</li></ul>`);
 
-    // selo NBR 9050 (como o da Conceito, blocks/product-selo-nbr), pelo texto: título, ou a descrição até a lista de sugeridos
-    // (a do 19035 cita a NBR 9050 só nos produtos sugeridos)
-    const descNbr = (desc?.textContent || '').split(/semelhantes|sugerid|relacionad|veja tamb/i)[0];
-    if ([document.querySelector('h1.nome-produto')?.textContent, descNbr].some((t) => /NBR\s*-?\s*9050/i.test(t || ''))) {
+    // selo NBR 9050 SÓ POR SKU (Eduardo 11/11). Descrição, título e categoria não servem: a descrição punha o selo em quase tudo
+    // (ex. 6002) e a categoria erra (o 17024 está em Acessibilidade e não é da norma). Lista = os produtos com a tag 'acessibilidade'
+    // na loja da Conceito (já curada; a mesma regra do blocks/product-selo-nbr de lá), copiada de backups/relatorios/nbr9050-skus.txt
+    // (107 SKUs, como veio, inclusive o '1061-'). Para atualizar: cole a lista nova aqui, separada por espaço.
+    const NBR9050 = '1001 1002 1003 1004 1005 1006 1011 1014 1015 1016 1017 1018 1020 1021 1023 1024 1025 1026 1027 1030 1034 1035 1036 1037 1038 1039 1040 1041 1042 1043 1044 1047 1053 1054 1055 1058 1059 1061- 1063 1109 1111 1112 1121 1124 12004 12020 12027 12031 12033 12036 12040 12149 12156 12202 12203 12400 12401 12951 13101 13132 13253 13281 13355 13420 13563 13994 15001 15002 15003 16001 16060 19001 19002 19013 19015 19020 19044 19069 19109 19111 19112 19113 19114 19115 19116 19117 20017 20027 23011 23059 23101 23110 24015 24016 24018 24020 24021 24023 24025 4001 4002 4019 40266 41011 5001 5003 7038';
+    const limpaSku = (s) => s.trim().replace(/^0+(?=\d)/, '').replace(/[^0-9A-Za-z]+$/, '');   // sem zero à esquerda nem traço no fim
+    const nbr = new Set(NBR9050.split(' ').map(limpaSku));
+    const skuPg = limpaSku(document.querySelector('.pagina-produto .codigo-produto span > span')?.textContent || '');   // o mesmo Código das fichas
+    if (skuPg && (nbr.has(skuPg) || nbr.has(skuPg.match(/^\d+/)?.[0]))) {   // variação (1057_1): os dígitos do começo
       const selos = compra?.querySelector('.lm-selos');
       (selos || compra?.querySelector(':scope > .principal'))?.insertAdjacentHTML(selos ? 'beforebegin' : 'beforeend', `<div class="lm-prod-nbr">
         <svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true" focusable="false"><circle cx="32" cy="32" r="31" fill="#303136"/><circle cx="32" cy="32" r="26.2" fill="none" stroke="#fff" stroke-width="1.1"/><circle cx="32" cy="32" r="23.6" fill="none" stroke="#81BBD3" stroke-width="1" stroke-dasharray="0.01 2.05" stroke-linecap="round"/><text x="32" y="18.5" text-anchor="middle" font-size="5.5" fill="#fff" letter-spacing="1.5">★★★</text><text x="32" y="30.5" text-anchor="middle" font-size="11" font-weight="800" letter-spacing="1" fill="#81BBD3">NBR</text><text x="32" y="46.5" text-anchor="middle" font-size="16.5" font-weight="800" fill="#fff">9050</text></svg>
