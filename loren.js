@@ -299,6 +299,10 @@
     // (Compre por categoria saiu em 04/11, pedido do Eduardo: os produtos vêm direto)
     // as 3 vitrines estão numa caixa só: a faixa entra depois da 1ª lista (e do seu Ver mais), não depois da caixa
     const v1 = document.querySelector('#corpo .listagem.com-caixa > ul'); const depois = v1?.nextElementSibling?.classList.contains('lm-mais') ? v1.nextElementSibling : v1;
+    // .lm-full vai de borda a borda com 50vw, que inclui a barra de rolagem vertical (17 px no Windows): o CSS desconta a metade
+    // dela (--lm-rolagem). Sem isso a faixa passava 9 px da tela e aparecia a rolagem horizontal (Eduardo 11/11; Ellie)
+    const rolagem = () => document.documentElement.style.setProperty('--lm-rolagem', innerWidth - document.documentElement.clientWidth + 'px');
+    rolagem(); if (window.ResizeObserver) new ResizeObserver(rolagem).observe(document.documentElement);
     depois?.insertAdjacentHTML('afterend', `<section class="lm-b2b lm-full"><div class="lm-wrap"><div><h2>Compra para obra, empresa ou licitação?</h2><p>Mande a lista de itens e receba preço especial de fábrica, com nota fiscal e prazo de entrega.</p></div>
       <div class="lm-acs"><a class="lm-btn" href="#" ${ORC}>Pedir orçamento</a><a class="lm-btn2" href="${WA}" target="_blank" rel="noopener">Falar no WhatsApp</a></div></div></section>`);
     // quem somos antes da newsletter

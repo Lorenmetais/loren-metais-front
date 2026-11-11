@@ -192,7 +192,8 @@ html.lm-novo .full.menu .nivel-dois li > a strong { height: auto !important; fon
 html.lm-novo .full.menu .nivel-dois li:hover > a { background: var(--lm-fundo) !important; color: var(--lm-onda-escura) !important; }
 /* banners: os 4 mini banners em imagem saem; entra a faixa de vantagens em HTML */
 html.lm-novo .secao-banners .banner.tarja, html.lm-novo .secao-banners .row-fluid.banner.hidden-phone { display: none !important; }
-html.lm-novo .lm-full { margin-inline: calc(50% - 50vw); }
+html.lm-novo .lm-full { margin-inline: calc(50% - 50vw + var(--lm-rolagem, 0px) / 2); }  /* 50vw inclui a barra de rolagem vertical: o loren.js mede a barra (--lm-rolagem) e desconta a metade (rolagem horizontal de 9 px no Windows, Eduardo 11/11) */
+html.lm-novo { overflow-x: clip; }  /* rede de segurança: nada passa da largura da página. clip e não hidden, que no body quebraria o cabeçalho fixo (sticky) */
 html.lm-novo .lm-vant p { margin: 0; }
 html.lm-novo .lm-wrap { max-width: var(--lm-largura); margin: 0 auto; padding-inline: var(--lm-margem); box-sizing: content-box; }
 html.lm-novo .lm-vant .lm-wrap { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; padding-block: 24px; }
