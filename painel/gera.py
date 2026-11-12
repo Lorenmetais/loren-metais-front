@@ -3,7 +3,7 @@
 # html.lm-novo (a parte 1 liga), então a ordem das 2 entradas não importa. Enxuga tirando comentários e recuo; aponta para o ramo producao (ou --ref) e põe PERCENTUAL = 0.
 # Uso (na pasta do repositório): python painel/gera.py <commit de onde ler o código> [--ref producao] [--saida <pasta>] [--arquivo] [--min]
 #   --ref: para onde o painel aponta no jsDelivr (padrão: o ramo producao; um hash ou main só para teste). --arquivo: lê o cabecalho-snippet.html da pasta, não o do commit
-#   --min: CSS e JS minificados: aponta para o ramo producao-min (gerado por .github/workflows/min-producao.yml) e põe MIN = '.min'
+#   --min: CSS e JS minificados: aponta para o ramo producao-min (gerado por .github/workflows/min-producao.yml) e põe MIN = '-min'
 import os, re, shutil, subprocess, sys
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -54,7 +54,7 @@ def main():
     txt = txt.replace('\r\n', '\n')
     assert txt.count('@COMMIT/') == 1 and txt.count('var PERCENTUAL = 100;') == 1
     txt = txt.replace('@COMMIT/', '@' + ref + '/').replace('var PERCENTUAL = 100;', 'var PERCENTUAL = 0;')
-    if '--min' in a: assert txt.count("var MIN = '';") == 1; txt = txt.replace("var MIN = '';", "var MIN = '.min';")
+    if '--min' in a: assert txt.count("var MIN = '';") == 1; txt = txt.replace("var MIN = '';", "var MIN = '-min';")
     cab = {1: f'<!-- Loren Metais, visual novo: PARTE 1 de 2 (aponta para @{ref}; código do commit {h[:7]}; PERCENTUAL = 0). Cabeçalho, todas as páginas exceto checkout; as 2 partes em entradas separadas, em qualquer ordem. Fonte: cabecalho-snippet.html -->',
            2: f'<!-- Loren Metais, visual novo: PARTE 2 de 2, esqueleto (código do commit {h[:7]}). Cabeçalho, todas as páginas exceto checkout; as 2 partes em entradas separadas, em qualquer ordem -->'}
     L = txt.rstrip('\n').split('\n'); assert L[0].startswith('<!--')

@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
-# Limpa o cache do jsDelivr de /gh/<repo>@<ramo>/ para os caminhos recebidos na entrada (um por linha), mais a versão .min de cada .js/.css.
+# Limpa o cache do jsDelivr de /gh/<repo>@<ramo>/ para os caminhos recebidos na entrada (um por linha), mais a versão -min de cada .js/.css.
 # Uma chamada só; o limite do jsDelivr (throttled + throttlingReset em segundos) vira aviso, com 1 nova tentativa depois do reset (até 15 min).
 # Uso (nos fluxos): echo "$lista" | bash .github/scripts/purge-jsdelivr.sh <ramo>      Precisa de curl, jq e GITHUB_REPOSITORY.
 set -e
 RAMO=$1; [ -n "$RAMO" ] || { echo "uso: purge-jsdelivr.sh <ramo>"; exit 2; }
-# o painel pode pedir as versões .min.css/.min.js, que o jsDelivr guarda à parte: limpa as duas
-lista=$(grep . | awk '{ print } /\.(js|css)$/ && !/\.min\.(js|css)$/ { sub(/\.(js|css)$/, ".min&"); print }' | sort -u)
+# o painel pode pedir as versões -min.css/-min.js (ramo producao-min, min-producao.yml): limpa as duas
+lista=$(grep . | awk '{ print } /\.(js|css)$/ && !/[.-]min\.(js|css)$/ { sub(/\.(js|css)$/, "-min&"); print }' | sort -u)
 [ -n "$lista" ] || { echo "nada para limpar em @$RAMO"; exit 0; }
 caminhos=$(echo "$lista" | jq -R --arg r "/gh/${GITHUB_REPOSITORY}@${RAMO}/" '$r + .' | jq -sc '{path: .}')
 echo "$(echo "$caminhos" | jq '.path | length') arquivos em @$RAMO:"; echo "$lista"

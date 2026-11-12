@@ -1,11 +1,12 @@
 # CSS e JS minificados de verdade (12/11): o .min que o próprio jsDelivr gera para um ramo veio VELHO no @producao, mesmo depois do purge.
-# A cada push no producao, este fluxo gera aqui os *.min.js (terser) e *.min.css (clean-css) e publica o ramo producao-min = o producao + os .min,
+# Por isso o sufixo é -min (loren-min.js, loren-min.css), que o jsDelivr não minifica sozinho: arquivo que faltar dá 404, nunca uma versão velha.
+# A cada push no producao, este fluxo gera aqui os *-min.js (terser) e *-min.css (clean-css) e publica o ramo producao-min = o producao + os -min,
 # num commit só por cima do producao, com force push. Depois limpa o jsDelivr de @producao-min (mesmo script do purge do producao).
 # - O producao não é tocado: publicar continua sendo "git push origin <hash>:producao", sempre fast-forward.
 # - Sem laço: push feito com o GITHUB_TOKEN não dispara fluxo nenhum, e este só escuta o producao.
 # - O Pages (ramo fichas, checkout-pages.yml) e o purge do @producao (purge-producao.yml) seguem iguais.
-# O painel só usa o @producao-min com o código do cabeçalho gerado por "python painel/gera.py <hash> --min" (MIN = '.min').
-name: Gerar os .min no ramo producao-min
+# O painel só usa o @producao-min com o código do cabeçalho gerado por "python painel/gera.py <hash> --min" (MIN = '-min').
+name: Gerar os -min no ramo producao-min
 on:
   push:
     branches: [producao]
@@ -27,13 +28,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Gera os .min (terser e clean-css) e confere a sintaxe
+      - name: Gera os -min (terser e clean-css) e confere a sintaxe
         run: |
           set -e
           npm i -g --silent terser@5.48.0 clean-css-cli@5.6.3
-          git ls-files '*.js' '*.css' | grep -vE '^(\.github/|painel/)|\.min\.(js|css)$' > /tmp/fontes.txt
+          git ls-files '*.js' '*.css' | grep -vE '^(\.github/|painel/)|[.-]min\.(js|css)$' > /tmp/fontes.txt
           while read -r f; do
-            m="${f%.*}.min.${f##*.}"
+            m="${f%.*}-min.${f##*.}"
             case "$f" in
               *.js) terser "$f" --compress --mangle --output "$m"; node --check "$m" ;;
               *.css) cleancss --output "$m" "$f" ;;
@@ -48,8 +49,8 @@ jobs:
           set -e
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          sed -E 's/\.(js|css)$/.min.\1/' /tmp/fontes.txt | xargs git add -f
-          git commit -q -m ".min de producao ${GITHUB_SHA::7}"
+          sed -E 's/\.(js|css)$/-min.\1/' /tmp/fontes.txt | xargs git add -f
+          git commit -q -m "-min de producao ${GITHUB_SHA::7}"
           git push -q -f origin HEAD:refs/heads/producao-min
           servidos() { grep -vE '^(\.github/|painel/)|\.md$' || true; }
           # mesmo critério do purge do producao: o que mudou no push; à mão, ramo novo ou ANTES fora do histórico: tudo

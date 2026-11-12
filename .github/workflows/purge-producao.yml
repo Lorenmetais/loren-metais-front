@@ -1,7 +1,7 @@
 # Publicar na loja = levar o commit aprovado para o ramo producao:  git push origin <hash>:producao
 # O código do painel aponta para @producao no jsDelivr. Este fluxo limpa o cache do jsDelivr dos arquivos que MUDARAM no push,
 # para a loja pegar a versão nova em minutos (sem ele, o jsDelivr guarda @ramo por até 12 h). O navegador do visitante renova CSS e JS em até 1 h (?v= do código do cabeçalho).
-# O purge em si (com as versões .min e o limite do jsDelivr virando aviso) está em .github/scripts/purge-jsdelivr.sh.
+# O purge em si (com as versões -min e o limite do jsDelivr virando aviso) está em .github/scripts/purge-jsdelivr.sh.
 # Rodar à mão (workflow_dispatch) limpa todos os arquivos.
 name: Limpar o jsDelivr de @producao
 on:

@@ -5,7 +5,7 @@
   if (/\/checkout|\/pagamento/i.test(location.pathname) || window.__lmDesliga) return;  // __lmDesliga: o código do cabeçalho já voltou esta visita ao visual antigo (CSS ou JS demorou demais)
   const BASE = document.currentScript?.src.replace(/[^/]*$/, '') || '';
   const V = document.currentScript?.src.match(/\?[^#]*/)?.[0] || '';   // o ?v= do código do cabeçalho: os CSS/JS da página vão com o mesmo (mesma URL do preload; ver cabecalho-snippet.html)
-  const MIN = /\.min\.js(\?|$)/.test(document.currentScript?.src || '') ? '.min' : '';   // carregado como loren.min.js (código do cabeçalho): os outros CSS/JS também vão minificados
+  const MIN = /-min\.js(\?|$)/.test(document.currentScript?.src || '') ? '-min' : '';   // carregado como loren-min.js (código do cabeçalho, ramo producao-min): os outros CSS/JS também vão minificados
   const LOGO = BASE + 'logo.svg';  // no teste inline, previa_real troca esta linha pelo SVG embutido
   const WA = 'https://api.whatsapp.com/send/?phone=5519992306593&text=' + encodeURIComponent('Olá! Vim pelo site da Loren Metais e gostaria de atendimento.');
   const ORC = 'data-toggle="modal" data-target="#modal_consulte"';  // o mesmo formulário de orçamento que o site já tem

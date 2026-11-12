@@ -4,7 +4,7 @@
   if (/\/(checkout|pagamento)/i.test(location.pathname)) return;   // checkout: este código não faz nada e não pede nenhum arquivo (a LI nem roda o painel lá; a prévia do checkout é o favorito em previa-favorito.html)
   var BASE = 'https://cdn.jsdelivr.net/gh/Lorenmetais/loren-metais-front@COMMIT/';   // no painel: @producao (o ramo publicado); publicar = levar o commit aprovado para o ramo producao
   var V = '?v=' + Math.floor(Date.now() / 36e5);   // muda de hora em hora: o jsDelivr manda o navegador guardar @ramo por 7 dias; com isto CSS e JS novos valem em até 1 h, sem pedido a mais (o jsDelivr ignora o ?v)
-  var MIN = '';   // '.min' pediria os minificados que o jsDelivr gera, mas pelo ramo @producao ele os serve VELHOS mesmo depois do purge (12/11: loren.min.js de antes do 2f6b7d8); só volta a '.min' com os .min gerados no repositório. O loren.js segue o que o carregou
+  var MIN = '';   // '-min': CSS e JS minificados do ramo producao-min (gera.py --min troca isto e o @ramo; min-producao.yml os gera). Não '.min': o jsDelivr minifica .min sozinho e serviu versão VELHA (12/11). O loren.js segue o que o carregou
   var PERCENTUAL = 100;   // % das visitas que veem o visual novo; a escolha fica guardada no visitante (?lm=novo ou ?lm=antigo força, para teste)
   var TETO_MS = 40000;    // lentidão não é falha: o antigo só entra em erro real ou com uma etapa parada este tempo (CSS, JS depois do CSS, montagem depois do HTML)
   var BOTAO_PUBLICO = false;   // "Ver a nova interface" no visual de hoje: false = só no navegador marcado com ?lm=equipe (?lm=equipe-sair desmarca); true = para todo visitante
