@@ -1,8 +1,9 @@
 # Gera as 2 entradas do painel da Loja Integrada (o campo aceita 15.000 caracteres; o código legível passa disso) a partir de cabecalho-snippet.html.
 # Parte 1: a lógica e a casca básica (sorteio, ?lm=, plano B, cortes do tema, carregador, botão da equipe). Parte 2: só o esqueleto, cujas regras exigem
 # html.lm-novo (a parte 1 liga), então a ordem das 2 entradas não importa. Enxuga tirando comentários e recuo; aponta para o ramo producao (ou --ref) e põe PERCENTUAL = 0.
-# Uso (na pasta do repositório): python painel/gera.py <commit de onde ler o código> [--ref producao] [--saida <pasta>] [--arquivo]
+# Uso (na pasta do repositório): python painel/gera.py <commit de onde ler o código> [--ref producao] [--saida <pasta>] [--arquivo] [--min]
 #   --ref: para onde o painel aponta no jsDelivr (padrão: o ramo producao; um hash ou main só para teste). --arquivo: lê o cabecalho-snippet.html da pasta, não o do commit
+#   --min: CSS e JS minificados: aponta para o ramo producao-min (gerado por .github/workflows/min-producao.yml) e põe MIN = '.min'
 import os, re, shutil, subprocess, sys
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -47,12 +48,13 @@ def enxuga(linhas):
 def main():
     a = sys.argv[1:]
     if not a or not re.fullmatch(r'[0-9a-f]{40}', a[0]): sys.exit('uso: python painel/gera.py <commit (hash completo)> [--ref producao] [--saida <pasta>] [--arquivo]')
-    h = a[0]; saida = a[a.index('--saida') + 1] if '--saida' in a else '.'; ref = a[a.index('--ref') + 1] if '--ref' in a else 'producao'
+    h = a[0]; saida = a[a.index('--saida') + 1] if '--saida' in a else '.'; ref = a[a.index('--ref') + 1] if '--ref' in a else 'producao-min' if '--min' in a else 'producao'
     if '--arquivo' in a: txt = open(os.path.join(REPO, 'cabecalho-snippet.html'), encoding='utf8').read()
     else: txt = subprocess.run(['git', '-C', REPO, 'show', f'{h}:cabecalho-snippet.html'], capture_output=True, check=True).stdout.decode('utf8')
     txt = txt.replace('\r\n', '\n')
     assert txt.count('@COMMIT/') == 1 and txt.count('var PERCENTUAL = 100;') == 1
     txt = txt.replace('@COMMIT/', '@' + ref + '/').replace('var PERCENTUAL = 100;', 'var PERCENTUAL = 0;')
+    if '--min' in a: assert txt.count("var MIN = '';") == 1; txt = txt.replace("var MIN = '';", "var MIN = '.min';")
     cab = {1: f'<!-- Loren Metais, visual novo: PARTE 1 de 2 (aponta para @{ref}; código do commit {h[:7]}; PERCENTUAL = 0). Cabeçalho, todas as páginas exceto checkout; as 2 partes em entradas separadas, em qualquer ordem. Fonte: cabecalho-snippet.html -->',
            2: f'<!-- Loren Metais, visual novo: PARTE 2 de 2, esqueleto (código do commit {h[:7]}). Cabeçalho, todas as páginas exceto checkout; as 2 partes em entradas separadas, em qualquer ordem -->'}
     L = txt.rstrip('\n').split('\n'); assert L[0].startswith('<!--')
