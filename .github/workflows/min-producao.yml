@@ -50,7 +50,7 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           sed -E 's/\.(js|css)$/.min.\1/' /tmp/fontes.txt | xargs git add -f
           git commit -q -m ".min de producao ${GITHUB_SHA::7}"
-          git push -q -f origin HEAD:producao-min
+          git push -q -f origin HEAD:refs/heads/producao-min
           servidos() { grep -vE '^(\.github/|painel/)|\.md$' || true; }
           # mesmo critério do purge do producao: o que mudou no push; à mão, ramo novo ou ANTES fora do histórico: tudo
           if [ -n "$ANTES" ] && [ -n "${ANTES//0/}" ] && git cat-file -e "$ANTES^{commit}" 2>/dev/null; then
