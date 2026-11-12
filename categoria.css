@@ -4,7 +4,7 @@
    tamanho do texto (16/1.6, 14 no celular); os chips do celular ficam logo abaixo da faixa (Ellie 04/11) */
 html.lm-novo #corpo .lm-pagcab .lm-cat-apoio { max-width: 64rem; }  /* ~1024 px, mais largo a pedido do Eduardo (12/11); em rem porque a faixa herda os 12 px do tema e 64em dava 768 */
 html.lm-novo #corpo .lm-pagcab .lm-cat-apoio .lm-cat-intro { margin: 0 !important; font: 400 16px/1.6 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; }
-html.lm-novo #corpo .lm-pagcab .lm-cat-apoio .lm-cat-mais { margin: 8px 0 0 !important; font: 600 15px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-azul-hover) !important; }  /* sobre o fundo da faixa a cor da marca dava 4,4:1 */
+html.lm-novo #corpo .lm-pagcab .lm-cat-apoio .lm-cat-mais { margin: 4px 0 -4px !important; font: 600 15px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-azul-hover) !important; }  /* sobre o fundo da faixa a cor da marca dava 4,4:1 */
 html.lm-novo body.lm-cat .lm-cat-topo.lm-cat-topo-vazio { display: none !important; }
 html.lm-novo body.lm-cat .lm-pagcab + .lm-cat-topo { padding-top: 0; margin-top: -24px; }  /* chips perto da faixa: 24 px dela */
 @media (max-width: 767px) {
@@ -34,7 +34,7 @@ html.lm-novo body.lm-cat .lm-cat-topo { padding: 16px 0 24px; }
 html.lm-novo body.lm-cat .lm-cat-topo h1 { font: 700 var(--lm-h1)/1 var(--lm-fonte-titulo) !important; color: var(--lm-grafite) !important; text-transform: none !important; border: 0 !important; margin: 0 !important; padding: 0 !important; }
 html.lm-novo body.lm-cat .lm-cat-intro { color: var(--lm-texto-secundario); font-size: 1rem; line-height: 1.6; max-width: 64em; margin: 12px 0 0; padding: 0; }
 html.lm-novo body.lm-cat .lm-cat-corta:not(.lm-aberto) { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 5; line-clamp: 5; overflow: hidden; }
-html.lm-novo body.lm-cat .lm-cat-mais { border: 0; background: none; padding: 0; margin: 8px 0 0; font: 600 .9375rem/1.4 var(--lm-fonte-texto); color: var(--lm-onda-escura); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+html.lm-novo body.lm-cat .lm-cat-mais { border: 0; background: none; padding: 4px 0; margin: 4px 0 -4px; font: 600 .9375rem/1.4 var(--lm-fonte-texto); color: var(--lm-onda-escura); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }  /* 4 px de toque em cima e embaixo (21 -> 29 px), a margem devolve o lugar do texto (Wednesday 12/11) */
 html.lm-novo body.lm-cat .lm-cat-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
 html.lm-novo body.lm-cat .lm-cat-chips a { border: var(--lm-borda-padrao); background: #fff; padding: 8px 14px; font: 600 .875rem/1.2 var(--lm-fonte-texto); color: var(--lm-grafite); text-decoration: none; white-space: nowrap; }
 html.lm-novo body.lm-cat .lm-cat-chips a:hover { border-color: var(--lm-onda-escura); color: var(--lm-onda-escura); }
