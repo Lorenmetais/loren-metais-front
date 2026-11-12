@@ -137,7 +137,7 @@
       // celular: carrossel de arrastar com pontos (o desenho dos pontos é o do loren.css); tocar na foto abre o zoom
       if (n > 1) {
         const car = document.createElement('div'); car.className = 'lm-galeria'; gal.classList.add('lm-prod-gal--car');
-        car.innerHTML = `<div class="lm-galeria__fotos">${lista.map((f, i) => `<img src="${f.m}" alt="${esc(f.alt)}" loading="${i ? 'lazy' : 'eager'}" draggable="false">`).join('')}</div>
+        car.innerHTML = `<div class="lm-galeria__fotos">${lista.map((f, i) => `<img src="${f.m}" alt="${esc(f.alt)}" ${i ? 'loading="lazy"' : 'loading="eager" fetchpriority="high"'} draggable="false">`).join('')}</div>
           <ol class="flex-control-nav flex-control-paging">${lista.map((_, i) => `<li><a href="#"${i ? '' : ' class="flex-active"'}>${i + 1}</a></li>`).join('')}</ol>`;
         palco.after(car);
         const trilho = car.firstElementChild, pontos = [...car.querySelectorAll('ol a')];
@@ -194,6 +194,8 @@
       });
     }
     document.querySelector('.pagina-produto .aproveite-tambem')?.closest('.row-fluid')?.classList.add('lm-prod-rel');
+    // Lighthouse 12/11 (heading-order): o título dos relacionados é h4 logo depois do h1; para o leitor de tela vira nível 2 (o visual não muda)
+    document.querySelector('.pagina-produto .aproveite-tambem > h4.titulo')?.setAttribute('aria-level', '2');
     // Next Reviews (script do painel): monta tudo logo depois da descrição. Fica fora da grade descrição + ficha, e os botões
     // dele usam o secundário da base. O script não é alterado.
     const acomoda = () => {

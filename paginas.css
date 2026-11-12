@@ -75,6 +75,7 @@ html.lm-novo .lm-obras-cta .lm-wrap { max-width: none; padding: 40px; }
 
 /* galeria */
 html.lm-galeria-aberta { overflow: hidden; }
+html.lm-galeria-aberta #avisoCookies { visibility: hidden !important; }  /* o aviso de cookies (fixo, embaixo) ficava sob a galeria; volta ao fechar */
 html.lm-novo .lm-galeria { width: min(1200px, 100vw - 48px); height: min(820px, 100dvh - 48px); max-width: none; max-height: none; margin: auto !important; padding: 0; border: 0; background: #fff; color: var(--lm-grafite); }
 html.lm-novo .lm-galeria[open] { display: grid; grid-template-columns: minmax(0, 1fr) 360px; }
 html.lm-novo .lm-galeria__midia { display: flex; flex-direction: column; min-height: 0; background: #141518; }
