@@ -29,6 +29,8 @@ jobs:
             lista=$(git ls-files | servidos)
           fi
           [ -n "$lista" ] || { echo "nenhum arquivo servido mudou: sem purge"; exit 0; }
+          # o painel pede as versões .min.css/.min.js, que o jsDelivr gera e guarda à parte: limpa as duas
+          lista=$(echo "$lista" | awk '{ print } /\.(js|css)$/ && !/\.min\.(js|css)$/ { sub(/\.(js|css)$/, ".min&"); print }')
           caminhos=$(echo "$lista" | jq -R --arg r "/gh/${GITHUB_REPOSITORY}@producao/" '$r + .' | jq -sc '{path: .}')
           echo "$(echo "$caminhos" | jq '.path | length') arquivos:"; echo "$lista"
           purga() {
