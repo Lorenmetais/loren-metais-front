@@ -1,7 +1,7 @@
 # CSS e JS minificados de verdade (12/11): o .min que o próprio jsDelivr gera para um ramo veio VELHO no @producao, mesmo depois do purge.
 # Por isso o sufixo é -min (loren-min.js, loren-min.css), que o jsDelivr não minifica sozinho: arquivo que faltar dá 404, nunca uma versão velha.
 # A cada push no producao, este fluxo gera aqui os *-min.js (terser) e *-min.css (clean-css) e publica o ramo producao-min = o producao + os -min,
-# num commit só por cima do producao, com force push. Depois limpa o jsDelivr de @producao-min (mesmo script do purge do producao).
+# num commit que tem como pais o producao-min anterior e o producao (o ramo só avança, sem force push). Depois limpa o jsDelivr de @producao-min (mesmo script do purge do producao).
 # - O producao não é tocado: publicar continua sendo "git push origin <hash>:producao", sempre fast-forward.
 # - Sem laço: push feito com o GITHUB_TOKEN não dispara fluxo nenhum, e este só escuta o producao.
 # - O Pages (ramo fichas, checkout-pages.yml) e o purge do @producao (purge-producao.yml) seguem iguais.
@@ -42,7 +42,7 @@ jobs:
             [ -s "$m" ] || { echo "vazio: $m"; exit 1; }
             echo "$f $(wc -c < "$f") -> $m $(wc -c < "$m")"
           done < /tmp/fontes.txt
-      - name: Publica o ramo producao-min (force push) e limpa o jsDelivr
+      - name: Publica o ramo producao-min (sem force push) e limpa o jsDelivr
         env:
           ANTES: ${{ github.event.before }}
         run: |
@@ -50,8 +50,12 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           sed -E 's/\.(js|css)$/-min.\1/' /tmp/fontes.txt | xargs git add -f
-          git commit -q -m "-min de producao ${GITHUB_SHA::7}"
-          git push -q -f origin HEAD:refs/heads/producao-min
+          # commit com 2 pais (o producao-min anterior e este producao): o ramo só avança, sem force push. Com force push (12/11) o jsDelivr
+          # continuou servindo arquivos do commit anterior por horas, mesmo depois do purge
+          pais="-p $GITHUB_SHA"
+          if git fetch -q origin producao-min 2>/dev/null; then pais="-p $(git rev-parse FETCH_HEAD) $pais"; fi
+          novo=$(git commit-tree "$(git write-tree)" $pais -m "-min de producao ${GITHUB_SHA::7}")
+          git push -q origin "$novo:refs/heads/producao-min"
           servidos() { grep -vE '^(\.github/|painel/)|\.md$' || true; }
           # mesmo critério do purge do producao: o que mudou no push; à mão, ramo novo ou ANTES fora do histórico: tudo
           if [ -n "$ANTES" ] && [ -n "${ANTES//0/}" ] && git cat-file -e "$ANTES^{commit}" 2>/dev/null; then
