@@ -245,6 +245,9 @@ html.lm-novo .pagina-produto .lm-ficha .lm-specs :is(th, td) { padding: 10px 12p
 html.lm-novo .lm-ficha-modal .lm-ficha-check { display: flex !important; align-items: flex-start; gap: 8px; margin: 0 0 16px !important; padding: 0 !important; font: 400 14px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; cursor: pointer; }
 html.lm-novo .lm-ficha-modal .lm-ficha-check input { flex: none; width: 18px; height: 18px; margin: 1px 0 0 !important; accent-color: var(--lm-botao); }
 html.lm-novo .lm-ficha-modal .modal-body > p.lm-ficha-lgpd { margin: 0 !important; font: 400 13px/1.5 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; }
+/* agradecimento depois do envio (Ellie 12/11): 1ª linha confirma, com o check da base em verde */
+html.lm-novo .lm-ficha-modal .modal-body > p.lm-ficha-ok { display: flex; align-items: center; gap: 8px; margin: 0 0 var(--lm-esp-1) !important; font: 600 16px/1.4 var(--lm-fonte-texto) !important; color: var(--lm-grafite) !important; }
+html.lm-novo .lm-ficha-modal .lm-ficha-ok .icon-ok { flex: none; font-size: 20px; color: var(--lm-sucesso); }
 html.lm-novo .lm-ficha-modal .lm-ficha-lgpd a { color: var(--lm-botao) !important; text-decoration: underline; text-underline-offset: 3px; }
 @media (max-width: 399px) {  /* tela estreita: rótulo em cima do valor */
   html.lm-novo .pagina-produto .lm-ficha .lm-specs, html.lm-novo .pagina-produto .lm-ficha .lm-specs :is(tbody, tr, th, td) { display: block; width: auto; }
