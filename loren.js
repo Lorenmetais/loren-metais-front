@@ -116,6 +116,14 @@
       document.readyState === 'complete' ? assina() : addEventListener('load', assina);
     }
     if (direitos && !document.querySelector('.lm-credito')) direitos.closest('.conteiner')?.insertAdjacentHTML('beforeend', '<p class="lm-credito">Feito com <span class="lm-credito__cor" aria-hidden="true"></span><span class="lm-credito__sr">carinho</span> por <a href="https://lucerpy.com.br/" target="_blank" rel="noopener">Lucerpy</a></p>');
+    // Lighthouse 12/11 (acessibilidade): o miolo de toda página vira o landmark main; o coração do cartão ganha nome; a marca do tema no rodapé
+    // (o tema a põe depois, por JS: de novo no load) ganha alt, e a altura fixa de 25 px que a achatava sai no loren.css
+    document.querySelector('#corpo')?.setAttribute('role', 'main');
+    const nomeia = () => {
+      document.querySelectorAll('.listagem-item a.adic-favo:not([aria-label])').forEach((a) => a.setAttribute('aria-label', `Adicionar ${a.closest('.listagem-item').querySelector('.nome-produto')?.textContent.trim() || 'o produto'} aos favoritos`));
+      document.querySelectorAll('#cr-alpha-theme img:not([alt])').forEach((img) => { img.alt = 'Alpha Theme'; });
+    };
+    nomeia(); if (document.readyState !== 'complete') addEventListener('load', nomeia, { once: true });
     // cartão "Preço sob consulta": o botão aparece como CONSULTAR (loren.css); o leitor de tela também ouve isso, e não o "Adicionar" do tema
     document.querySelectorAll('.listagem-item:has(.preco-produto > .titulo) .acoes-produto .botao-comprar').forEach((b) => b.setAttribute('aria-label', 'Consultar ' + (b.closest('.listagem-item').querySelector('.nome-produto')?.textContent.trim() || '')));
     // cabeçalho nosso (Eduardo 04/11: o do tema "doido e horrível"): logo | busca da loja | conta, orçamento, carrinho.
@@ -135,7 +143,8 @@
         </nav></div></div>`);
       const topo = cab.querySelector('.lm-topo');
       // o menu de categorias cola logo abaixo do topo (loren.css, --lm-topo-h): a altura real, que muda com a largura (81 no computador, 2 linhas no tablet; Wednesday 09/11: a 768 o menu ficava embaixo da busca)
-      if (window.ResizeObserver) new ResizeObserver(() => document.documentElement.style.setProperty('--lm-topo-h', topo.offsetHeight + 'px')).observe(topo);
+      let topoH = -1;  // só grava quando a altura muda (cada gravação no <html> recalcula o estilo da página toda)
+      if (window.ResizeObserver) new ResizeObserver(() => { const h = topo.offsetHeight; if (h !== topoH) document.documentElement.style.setProperty('--lm-topo-h', (topoH = h) + 'px'); }).observe(topo);
       const form = document.querySelector('#form-buscar');
       if (form) { topo.querySelector('.lm-topo__busca').append(form); const q = form.querySelector('input'); if (q) q.placeholder = q.placeholder || 'Buscar'; }
       const menuCel = document.querySelector('#cabecalho .menu.superior.visible-phone'); if (menuCel) topo.append(menuCel);
@@ -301,8 +310,11 @@
     const v1 = document.querySelector('#corpo .listagem.com-caixa > ul'); const depois = v1?.nextElementSibling?.classList.contains('lm-mais') ? v1.nextElementSibling : v1;
     // .lm-full vai de borda a borda com 50vw, que inclui a barra de rolagem vertical (17 px no Windows): o CSS desconta a metade
     // dela (--lm-rolagem). Sem isso a faixa passava 9 px da tela e aparecia a rolagem horizontal (Eduardo 11/11; Ellie)
-    const rolagem = () => document.documentElement.style.setProperty('--lm-rolagem', innerWidth - document.documentElement.clientWidth + 'px');
-    rolagem(); if (window.ResizeObserver) new ResizeObserver(rolagem).observe(document.documentElement);
+    // Lighthouse 12/11: medir logo depois de mexer no DOM forçava um layout (54 ms), e regravar a variável no <html> a cada mudança de altura
+    // recalculava o estilo da página toda. O ResizeObserver já chama uma vez depois do layout; só grava quando a largura da barra muda.
+    let rol = -1;
+    const rolagem = () => { const r = innerWidth - document.documentElement.clientWidth; if (r !== rol) document.documentElement.style.setProperty('--lm-rolagem', (rol = r) + 'px'); };
+    window.ResizeObserver ? new ResizeObserver(rolagem).observe(document.documentElement) : requestAnimationFrame(rolagem);
     depois?.insertAdjacentHTML('afterend', `<section class="lm-b2b lm-full"><div class="lm-wrap"><div><h2>Compra para obra, empresa ou licitação?</h2><p>Mande a lista de itens e receba preço especial de fábrica, com nota fiscal e prazo de entrega.</p></div>
       <div class="lm-acs"><a class="lm-btn" href="#" ${ORC}>Pedir orçamento</a><a class="lm-btn2" href="${WA}" target="_blank" rel="noopener">Falar no WhatsApp</a></div></div></section>`);
     // quem somos antes da newsletter

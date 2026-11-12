@@ -129,6 +129,7 @@ html.lm-novo #rodape > div:last-child { background: var(--lm-grafite) !important
 html.lm-novo #rodape > div:last-child .conteiner { padding: var(--lm-esp-3) var(--lm-margem) 0 !important; }
 html.lm-novo #rodape > div:last-child p { color: var(--lm-sobre-escuro-3) !important; font-size: 12px !important; line-height: 1.4; }
 html.lm-novo #rodape > div:last-child img, html.lm-novo #rodape > div:last-child svg { filter: grayscale(1) brightness(0) invert(1); opacity: .64; }
+html.lm-novo #cr-alpha-theme img { height: auto !important; }   /* o tema fixa 140x25 inline numa imagem 1098x177 (Lighthouse 12/11: proporção errada) */
 @media (max-width: 767px) {
   html.lm-novo #rodape .institucional { padding: var(--lm-esp-4) 0 !important; }
   html.lm-novo #rodape .institucional .conteiner > .row-fluid, html.lm-novo #rodape .pagamento-selos .conteiner > .row-fluid { grid-template-columns: minmax(0, 1fr); gap: 0; }
