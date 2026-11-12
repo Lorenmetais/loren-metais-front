@@ -154,6 +154,8 @@
   // os títulos da coluna (h4 do tema, "Filtrar por Preço") vêm logo depois do h1: nível 2 para o leitor de tela (Lighthouse heading-order, 12/11)
   coluna?.querySelectorAll('h4.titulo').forEach((h) => h.setAttribute('aria-level', '2'));
 
+  // o Ordenar do tema é só a seta: nome para o leitor de tela (validação da Wednesday 12/11)
+  document.getElementById('botaoOrdenar')?.setAttribute('aria-label', 'Ordenar produtos');
   // barra Filtrar/Ordenar: o Ordenar é o da loja; o Filtrar abre a coluna (filtros + categorias) no celular
   const barra = conteudo.querySelector('.ordenar-listagem.topo');
   if (barra && coluna?.querySelector('.filtro')) {

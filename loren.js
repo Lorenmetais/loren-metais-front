@@ -283,6 +283,9 @@
     (window.requestIdleCallback || ((f) => setTimeout(f, 200)))(montaChat, { timeout: 1500 });
     const inicio = /^\/(home)?$/.test(location.pathname);
     if (!inicio) return;
+    // o início ficava sem h1 (o do tema é a logo antiga, escondida pelo cabeçalho novo): um h1 só para o leitor de tela e o Google,
+    // sem mudar o visual (validação da Wednesday 12/11; o texto é a sugestão dela, o Eduardo pode trocar)
+    document.getElementById('corpo')?.insertAdjacentHTML('afterbegin', '<h1 class="lm-sr">Loren Metais, metais sanitários direto da fábrica</h1>');
     // banners novos (Ellie 04/11): no celular, a versão vertical; no computador, a versão nítida enquanto o painel não for
     // atualizado. A troca é pelo texto alternativo do banner no painel (mesmo nome), então a ordem e os links continuam os do painel.
     const BANNERS = { 'compre direto pela fábrica': 'fabrica', 'clínicas hospitalares': 'clinicas', 'cozinhas industriais': 'cozinhas',
