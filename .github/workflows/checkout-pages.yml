@@ -28,8 +28,11 @@ jobs:
           # até 3 tentativas: se alguém empurrar fichas no meio (ex.: PDF de ficha), refaz em cima do fichas novo
           for i in 1 2 3; do
             git fetch -q --depth=1 origin fichas && git reset -q --hard FETCH_HEAD
-            git show "$GITHUB_SHA:checkout.css" > checkout.css
-            git add checkout.css
+            mkdir -p fontes
+            for f in checkout.css logo.svg fontes/inter-latin.woff2 fontes/barlow-sc-700-latin.woff2; do   # o checkout.css pede a logo e as fontes pelo caminho relativo
+              git show "$GITHUB_SHA:$f" > "$f"
+            done
+            git add checkout.css logo.svg fontes
             if git diff --cached --quiet; then echo "checkout.css já igual a ${GITHUB_SHA::7}"; exit 0; fi
             git commit -q -m "checkout.css de producao ${GITHUB_SHA::7}"
             if git push -q origin HEAD:fichas; then echo "ok: checkout.css de ${GITHUB_SHA::7} no Pages"; exit 0; fi
