@@ -87,7 +87,7 @@
     if (document.body.dataset.lm) return; document.body.dataset.lm = '1';
     // newsletter (rodapé, coluna, janela): o tema enviava vazio, "abc" e "abc@x" sem aviso (Wednesday 09/11). Antes do tema (fase de captura), e-mail inválido não sai e o navegador mostra o aviso
     const emailOk = (v) => /^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(v.trim());
-    document.querySelectorAll('.newsletter-cadastro input[name="email"]').forEach((i) => { i.type = 'email'; i.autocomplete = 'email'; i.addEventListener('input', () => i.setCustomValidity('')); });
+    document.querySelectorAll('.newsletter-cadastro input[name="email"]').forEach((i) => { i.type = 'email'; i.autocomplete = 'email'; if (!i.labels?.length && !i.getAttribute('aria-label')) i.setAttribute('aria-label', 'Seu e-mail para receber novidades');  /* só placeholder não é rótulo */ i.addEventListener('input', () => i.setCustomValidity('')); });
     const barra = (e, i) => { if (!i || emailOk(i.value)) return; e.preventDefault(); e.stopImmediatePropagation(); i.setCustomValidity(i.value.trim() ? 'Confira o e-mail, por exemplo: nome@empresa.com.br' : 'Digite o seu e-mail'); i.reportValidity(); };
     document.addEventListener('click', (e) => { const b = e.target.closest('.newsletter-assinar'); if (b) barra(e, b.parentElement.querySelector('input[name="email"]')); }, true);
     document.addEventListener('keydown', (e) => { if (e.key === 'Enter' && e.target.matches?.('.newsletter-cadastro input[name="email"]')) barra(e, e.target); }, true);
@@ -328,10 +328,11 @@
   const fontesProntas = () => { try { return Promise.all(['400 1em Inter', '600 1em Inter', '700 1em "Barlow Semi Condensed"'].map((f) => document.fonts.load(f))).catch(() => 0); } catch (e) { return 0; } };   // fonte que falha (404, bloqueada) não segura a página
   // html.lm-pronto: o loren.css reserva o espaço do que o JS monta e esconde o que ele troca até esta classe (até lá fica a casca); o código do cabeçalho só desfaz tudo (visual antigo) se o JS falhar ou ficar parado
   // Revela quando o CSS e o JS da página chegaram (lentidão não é falha: antes, um teto de 2,5 s revelava sem eles e, na rede ruim, o produto.css/js chegavam depois e
-  // mexiam o topo, CLS 0,25; Marty 09/11); 30 s só para arquivo travado. As fontes esperam no máximo 2,5 s.
+  // mexiam o topo, CLS 0,25; Marty 09/11); 30 s só para arquivo travado. As fontes esperam no máximo 1 s (eram 2,5; medido ao vivo em 12/11, 18 cargas de cache frio: as
+  // fontes, pré-carregadas no cabeçalho, ficaram prontas 0,2 a 1,1 s ANTES de o JS montar, então a espera real foi zero; o teto só pega rede ruim, e as fontes de reserva do brand-tokens.css seguram o salto).
   const teto = (p, ms) => Promise.race([p, new Promise((ok) => setTimeout(ok, ms))]);
   let foi = false;
-  const tudo = () => { if (foi || window.__lmDesliga) return; foi = true; const carga = extra(); monta(); window.__lmMontou = true; qtdAuto(); Promise.all([teto(carga, 30000), teto(fontesProntas(), 2500)]).then(() => document.documentElement.classList.add('lm-pronto')); };
+  const tudo = () => { if (foi || window.__lmDesliga) return; foi = true; const carga = extra(); monta(); window.__lmMontou = true; qtdAuto(); Promise.all([teto(carga, 30000), teto(fontesProntas(), 1000)]).then(() => document.documentElement.classList.add('lm-pronto')); };
   // o tema monta o menu e a gaveta no ready do jQuery (LI.methods.otherCategories joga para "Outros" tudo que passa de 6 itens, inclusive o nosso Obras finalizadas): entramos depois dele
   // Também sem o ready: no jQuery antigo do tema, uma exceção num ready anterior (EmailJS bloqueado: 'emailjs is not defined') para a fila e o nosso nunca rodaria (Ellie 09/11).
   // Então tudo() roda também depois de qualquer erro de script, no load e já, se o ready do jQuery já passou; a trava 'foi' faz rodar uma vez só.

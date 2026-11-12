@@ -76,6 +76,7 @@
         if (fotos.length) {
           const capa = ob.querySelector('.lm-obra-fotos');
           capa.setAttribute('aria-label', `Ver as ${fotos.length} fotos da obra ${titulo}`);
+          fotos.forEach((f) => f.setAttribute('alt', ''));   // o botão já diz o que é; foto sem alt o leitor lê pelo nome do arquivo (Wednesday 12/11)
           capa.insertAdjacentHTML('beforeend', `<span class="lm-obra-qtd" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3.5"/></svg>${fotos.length}</span>`);
         }
         if (fotos.length || itens.length) ob.querySelector('.lm-obra-txt').insertAdjacentHTML('beforeend', `<div class="lm-obra-acoes"><button type="button" class="lm-btn2 lm-obra-abrir">Ver a obra${fotos.length ? ` (${fotos.length} fotos)` : ''}</button></div>`);

@@ -251,6 +251,7 @@ html.lm-novo .lm-tag { font: 600 13px/1 var(--lm-fonte-texto); letter-spacing: .
 html.lm-novo #avisoCookies { position: fixed !important; top: auto !important; bottom: 16px !important; left: 16px !important; right: auto !important; max-width: 420px; background: var(--lm-branco) !important; border: var(--lm-borda-padrao) !important; box-shadow: var(--lm-cartao-sombra-hover) !important; z-index: 60; }
 html.lm-novo #avisoCookies .conteiner { width: auto !important; padding: 16px !important; display: flex; gap: 16px; align-items: center; }
 html.lm-novo #avisoCookies p { font-size: 12px !important; line-height: 1.4 !important; margin: 0 !important; color: var(--lm-texto-secundario) !important; }
+html.lm-novo #avisoCookies a, html.lm-novo #avisoCookies a strong { color: var(--lm-botao) !important; }  /* o link vinha na cor do tema, 3,3:1 no branco (Wednesday 12/11) */
 html.lm-novo #avisoCookies .botao { background: var(--lm-grafite) !important; color: var(--lm-branco) !important; border: 0 !important; flex: none; }
 /* contato: só o nosso botão de chat, igual ao da Conceito (assets/custom.css, .custom-contact-float) em azul */
 html.lm-novo .float-contact, html.lm-novo .li-whatsapp { display: none !important; }
@@ -385,6 +386,10 @@ html.lm-novo .busca-mobile.fixed { position: static !important; box-shadow: none
   html.lm-novo .lm-topo__logo img { width: 150px; height: 34px; }
   html.lm-novo .lm-topo__acoes { order: 2; margin: 0; gap: 16px; }
   html.lm-novo .lm-topo__acoes span, html.lm-novo .lm-topo__orc { display: none !important; }
+  /* toque (Wednesday 12/11): conta e carrinho eram só o ícone de 22 px e o menu, 40 px; a área de toque vai a 44 de altura sem mexer no desenho */
+  html.lm-novo .lm-topo__acoes a { padding: 11px 8px; margin: -11px -8px; }
+  html.lm-novo .lm-topo__qtd { top: 3px; left: 20px; }   /* o número do carrinho no mesmo lugar sobre o ícone (-8 + 11, 12 + 8) */
+  html.lm-novo .lm-topo__menu { width: 44px; height: 44px; margin: -2px; }
   html.lm-novo .lm-topo__busca { order: 3; flex: 0 0 100%; max-width: none; }
   html.lm-novo .lm-topo__busca form { height: 44px; }
   html.lm-novo .lm-topo__busca input { font-size: 16px !important; }
@@ -482,6 +487,8 @@ html.lm-novo :is(.botao-comprar, .tag-comprar, .botao.principal, .lm-btn):hover 
 html.lm-novo :is(.botao, .botao-comprar, .tag-comprar):hover { opacity: 1 !important; }
 /* foco: o .btn:focus do Bootstrap 2 do tema deixava um anel preto em todo toque e clique (CALCULAR do frete; Marty 09/11). Só o teclado ganha anel, azul e por fora (por dentro some no botão azul) */
 html.lm-novo .btn:focus:not(:focus-visible) { outline: 0 !important; }
+/* o tema zera o contorno de todo a/button/select:focus (a:focus, button:focus { outline: 0 }): no Tab o foco sumia em links e botões (Wednesday 12/11, WCAG 2.4.7). Mesmo anel, só no teclado */
+html.lm-novo :is(a, button, summary, select, [tabindex], input[type=checkbox], input[type=radio], .lm-qtd input):focus-visible { outline: 2px solid var(--lm-azul); outline-offset: 2px; }
 html.lm-novo .btn:focus-visible { outline: 2px solid var(--lm-azul) !important; outline-offset: 2px; }  /* o tema apagava o botão a 70% no hover (texto branco sobre azul desbotado); o hover é só a troca de cor */
 /* voltar ao topo removido (Eduardo 04/11) */
 html.lm-novo .scrollToTop { display: none !important; }
