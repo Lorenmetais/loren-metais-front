@@ -299,7 +299,7 @@
   };
   // Especificações técnicas + "Baixar ficha técnica" (ao lado da descrição no computador, embaixo no celular). Dados por SKU:
   // { "<sku>": { "pdf": "<sku>.pdf", "resumo": [["Material","Aço inox 304"]], "medidas": [["Altura","18,5 cm"]] } }; o pdf é
-  // relativo ao fichas.json. Sem ficha para o SKU, o bloco não aparece. Nome, e-mail e telefone são pedidos uma vez (Eduardo 12/11, como a
+  // relativo ao fichas.json. Sem ficha para o SKU, o bloco não aparece. E-mail e telefone são pedidos uma vez (Eduardo 12/11, como a
   // Conceito): o e-mail vai para a newsletter da LI e o pedido completo para o formulário de contato da LI (chega no e-mail da loja).
   const FICHAS_URL = 'https://lorenmetais.github.io/loren-metais-front/fichas.json';
   const FICHAS_EXEMPLO = {  // só com #fichas-exemplo na URL (teste), para nada de exemplo ir ao ar
@@ -327,7 +327,6 @@
     document.body.insertAdjacentHTML('beforeend', `<div class="modal hide fade lm-ficha-modal" id="lm-ficha-modal" tabindex="-1" role="dialog" aria-labelledby="lm-ficha-modal-tit" aria-hidden="true">
       <div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><i></i></button><h3 id="lm-ficha-modal-tit">Baixar ficha técnica</h3></div>
       <form novalidate><div class="modal-body"><p class="p_form">Preencha para baixar a ficha técnica.</p>
-        <div class="lm-grupo"><label class="lm-rotulo" for="lm-ficha-nome">Nome</label><input class="lm-campo" type="text" id="lm-ficha-nome" name="nome" autocomplete="name" placeholder="Seu nome"></div>
         <div class="lm-grupo"><label class="lm-rotulo" for="lm-ficha-email">E-mail</label><input class="lm-campo" type="email" id="lm-ficha-email" name="email" required autocomplete="email" placeholder="meu@email.com.br"></div>
         <div class="lm-grupo"><label class="lm-rotulo" for="lm-ficha-tel">Telefone / WhatsApp</label><input class="lm-campo" type="tel" id="lm-ficha-tel" name="tel" required inputmode="tel" autocomplete="tel-national" maxlength="15" placeholder="(11) 99999-9999"></div>
         <label class="lm-ficha-check"><input type="checkbox" name="whats"> Aceito receber contato pelo WhatsApp</label>
@@ -365,10 +364,10 @@
     modal.querySelector('form').addEventListener('submit', (e) => {
       e.preventDefault(); valida();
       const ruim = [email, tel].find((c) => !c.checkValidity()); if (ruim) { ruim.reportValidity(); return; }
-      const nome = modal.querySelector('#lm-ficha-nome').value.trim(), whats = modal.querySelector('[name=whats]').checked;
+      const whats = modal.querySelector('[name=whats]').checked;
       const produto = document.querySelector('.pagina-produto h1.nome-produto')?.textContent.trim() || document.title;  // h1: o 1º .nome-produto da página é o modelo escondido do tema (--PRODUTO_NOME--)
-      const d = { sku, nome: nome || email.value.trim(), email: email.value.trim(), tel: tel.value };
-      d.msg = `Pedido de ficha técnica: ${sku} - ${produto} | Nome: ${nome || '-'} | E-mail: ${d.email} | Telefone: ${d.tel} | Aceita WhatsApp: ${whats ? 'sim' : 'não'} | Página: ${location.href}`;
+      const d = { sku, nome: 'Pedido de ficha técnica', email: email.value.trim(), tel: tel.value };  // sem o campo Nome (Eduardo 12/11): o Fale conosco da LI pode exigir nome
+      d.msg = `Pedido de ficha técnica: ${sku} - ${produto} | E-mail: ${d.email} | Telefone: ${d.tel} | Aceita WhatsApp: ${whats ? 'sim' : 'não'} | Página: ${location.href}`;
       // newsletter da própria LI (mesmo endereço do botão Assinar) e o contato; o download não espera nenhum dos dois
       fetch(LOJA + '/newsletter/assinar/', { method: 'POST', body: new URLSearchParams({ email: d.email }), credentials: 'same-origin', keepalive: true }).catch(() => {});
       contato(d);
