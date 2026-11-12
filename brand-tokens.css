@@ -10,6 +10,13 @@
    Servidas daqui (fontes/, os arquivos latin do Google Fonts, 10/11): o Google entrega outro arquivo para o Android e o pré-carregamento não casava (baixava 2 vezes). A logo usa Impact convertida em curvas; a Impact não é fonte do site. Celular: até 749 px. */
 @font-face { font-family: 'Inter'; font-style: normal; font-weight: 400 700; font-display: swap; src: url(fontes/inter-latin.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 @font-face { font-family: 'Barlow Semi Condensed'; font-style: normal; font-weight: 700; font-display: swap; src: url(fontes/barlow-sc-700-latin.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+/* Fonte de reserva com as medidas da Inter e da Barlow (Rocky 12/11): a Arial do aparelho, ajustada para ocupar a mesma largura média e a mesma
+   altura de linha (size-adjust, ascent/descent-override; contas com fontTools sobre estes arquivos e a Arial do Windows, amostra de textos do site).
+   Só aparece enquanto a fonte de verdade não chega; quando ela chega a troca quase não mexe o texto. Base para baixar o teto de espera das fontes no
+   loren.js (hoje 2,5 s) com medição real. Sem Arial no aparelho (Android), cai no system-ui como antes. Mesmo unicode-range da fonte de verdade. */
+@font-face { font-family: 'Inter Reserva'; font-style: normal; font-weight: 400 500; src: local('Arial'), local('ArialMT'), local('Helvetica'); size-adjust: 105.06%; ascent-override: 92.21%; descent-override: 22.96%; line-gap-override: 0%; unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'Inter Reserva'; font-style: normal; font-weight: 600 700; src: local('Arial Bold'), local('Arial-BoldMT'), local('Helvetica Bold'); size-adjust: 101.55%; ascent-override: 95.40%; descent-override: 23.75%; line-gap-override: 0%; unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'Barlow Reserva'; font-style: normal; font-weight: 700; src: local('Arial Bold'), local('Arial-BoldMT'), local('Helvetica Bold'); size-adjust: 83.30%; ascent-override: 120.05%; descent-override: 24.01%; line-gap-override: 0%; unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 :root {
   /* azuis da logo */
   --lm-azul: #1394B1;          /* nome LORENMETAIS */
@@ -44,8 +51,8 @@
   --lm-raio-grande: 0;
   --lm-borda-padrao: 1px solid var(--lm-borda);
   /* tipografia: 3 títulos + corpo, mesma escala da Conceito */
-  --lm-fonte-titulo: 'Barlow Semi Condensed', system-ui, sans-serif;
-  --lm-fonte-texto: 'Inter', system-ui, sans-serif;
+  --lm-fonte-titulo: 'Barlow Semi Condensed', 'Barlow Reserva', system-ui, sans-serif;
+  --lm-fonte-texto: 'Inter', 'Inter Reserva', system-ui, sans-serif;
   --lm-h1: clamp(2.25rem, 4.2vw, 2.625rem);
   --lm-h2: clamp(1.75rem, 3.2vw, 2rem);
   --lm-h3: clamp(1.4375rem, 2.4vw, 1.5rem);
