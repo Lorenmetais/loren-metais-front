@@ -8388,5 +8388,115 @@
     "0,440 kg"
    ]
   ]
+ },
+ "12201": {
+  "pdf": "12106.pdf",
+  "resumo": [],
+  "medidas": []
+ },
+ "80090": {
+  "pdf": "8009.pdf",
+  "resumo": [],
+  "medidas": []
+ },
+ "100010": {
+  "pdf": "10001.pdf",
+  "resumo": [
+   [
+    "Material",
+    "Corpo em aço inox AISI 304"
+   ],
+   [
+    "Capacidade",
+    "500 ml"
+   ],
+   [
+    "Válvula",
+    "Dosadora em latão cromado"
+   ]
+  ],
+  "medidas": []
+ },
+ "100050": {
+  "pdf": "10005.pdf",
+  "resumo": [
+   [
+    "Material",
+    "Aço Inox AISI 304"
+   ],
+   [
+    "Material Reservatório",
+    "Plástico PA leitoso de alta resistência"
+   ],
+   [
+    "Fixação",
+    "Pode ser instalada com parafusos"
+   ],
+   [
+    "Sistema de Acionamento",
+    "Alavanca frontal para acionamento com antebraço"
+   ],
+   [
+    "Controle de Dosagem",
+    "Regulagem de quantidade de sabonete a ser liberada"
+   ]
+  ],
+  "medidas": [
+   [
+    "Comprimento",
+    "15 cm"
+   ],
+   [
+    "Largura",
+    "15 cm"
+   ],
+   [
+    "Altura",
+    "30 cm"
+   ],
+   [
+    "Capacidade",
+    "1,5 L"
+   ]
+  ]
+ },
+ "100070": {
+  "pdf": "10007.pdf",
+  "resumo": [
+   [
+    "Material",
+    "Fabricada em aço inox 304, altamente resistente à corrosão"
+   ],
+   [
+    "Tipo de instalação",
+    "Fixação direta na parede"
+   ],
+   [
+    "Acionamento",
+    "Manual por válvula"
+   ],
+   [
+    "Válvula",
+    "Sistema em UHMW, garantindo alta durabilidade e resistência"
+   ]
+  ],
+  "medidas": [
+   [
+    "Comprimento",
+    "20 cm"
+   ],
+   [
+    "Largura",
+    "14,5 cm"
+   ],
+   [
+    "Profundidade",
+    "13 Cm"
+   ],
+   [
+    "Capacidade",
+    "Reservatório com capacidade para 1.800 ml"
+   ]
+  ]
  }
 }
