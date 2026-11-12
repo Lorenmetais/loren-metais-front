@@ -285,7 +285,7 @@
     // (ex. 6002) e a categoria erra (o 17024 está em Acessibilidade e não é da norma). Lista = os produtos com a tag 'acessibilidade'
     // na loja da Conceito (já curada; a mesma regra do blocks/product-selo-nbr de lá), copiada de backups/relatorios/nbr9050-skus.txt
     // (107 SKUs, como veio, inclusive o '1061-'). Para atualizar: cole a lista nova aqui, separada por espaço.
-    const NBR9050 = '1001 1002 1003 1004 1005 1006 1011 1014 1015 1016 1017 1018 1020 1021 1023 1024 1025 1026 1027 1030 1034 1035 1036 1037 1038 1039 1040 1041 1042 1043 1044 1047 1053 1054 1055 1058 1059 1061- 1063 1109 1111 1112 1121 1124 12004 12020 12027 12031 12033 12036 12040 12149 12156 12202 12203 12400 12401 12951 13101 13132 13253 13281 13355 13420 13563 13994 15001 15002 15003 16001 16060 19001 19002 19013 19015 19020 19044 19069 19109 19111 19112 19113 19114 19115 19116 19117 20017 20027 23011 23059 23101 23110 24015 24016 24018 24020 24021 24023 24025 4001 4002 4019 40266 41011 5001 5003 7038 1009 1010 1012 1032 1045 1046 1046-2 13075 13201 13202 13203 13204 13205 13801 13802 13803 13804 13805 3914 3928 3933 3946';
+    const NBR9050 = '1001 1002 1003 1004 1005 1006 1011 1014 1015 1016 1017 1018 1020 1021 1023 1024 1025 1026 1027 1030 1034 1035 1036 1037 1038 1039 1040 1041 1042 1043 1044 1047 1053 1054 1055 1058 1059 1061- 1063 1109 1111 1112 1121 1124 12004 12020 12027 12031 12033 12036 12040 12149 12156 12202 12203 12400 12401 12951 13132 13253 13281 13355 13420 13563 15001 15002 15003 16001 16060 19001 19002 19013 19015 19020 19044 19069 19109 19111 19112 19113 19114 19115 19116 19117 20017 20027 23011 23059 23101 24015 24016 24018 24020 24021 24023 24025 4001 4002 4019 41011 5001 5003 7038 1009 1010 1012 1032 1045 1046 1046-2 13075 13201 13202 13203 13204 13205 13801 13802 13803 13804 13805 3914 3928 3933 3946';
     const limpaSku = (s) => s.trim().replace(/^0+(?=\d)/, '').replace(/[^0-9A-Za-z]+$/, '');   // sem zero à esquerda nem traço no fim
     const nbr = new Set(NBR9050.split(' ').map(limpaSku));
     const skuPg = limpaSku(document.querySelector('.pagina-produto .codigo-produto span > span')?.textContent || '');   // o mesmo Código das fichas
@@ -299,7 +299,8 @@
   };
   // Especificações técnicas + "Baixar ficha técnica" (ao lado da descrição no computador, embaixo no celular). Dados por SKU:
   // { "<sku>": { "pdf": "<sku>.pdf", "resumo": [["Material","Aço inox 304"]], "medidas": [["Altura","18,5 cm"]] } }; o pdf é
-  // relativo ao fichas.json. Sem ficha para o SKU, o bloco não aparece. O e-mail é pedido uma vez (vai para a newsletter da LI).
+  // relativo ao fichas.json. Sem ficha para o SKU, o bloco não aparece. Nome, e-mail e telefone são pedidos uma vez (Eduardo 12/11, como a
+  // Conceito): o e-mail vai para a newsletter da LI e o pedido completo para o formulário de contato da LI (chega no e-mail da loja).
   const FICHAS_URL = 'https://lorenmetais.github.io/loren-metais-front/fichas.json';
   const FICHAS_EXEMPLO = {  // só com #fichas-exemplo na URL (teste), para nada de exemplo ir ao ar
     41018: { pdf: '41018.pdf', resumo: [['Material', 'Aço inox 304'], ['Acionamento', 'Manual por placa PUSH'], ['Saídas de água', '2 esguichos']], medidas: [['Diâmetro da cuba', '30 cm'], ['Base de fixação', '26 cm'], ['Peso', '2,85 kg']] },
@@ -322,21 +323,55 @@
     const pdf = new URL(f.pdf, base).href;
     const baixa = () => { const a = document.createElement('a'); a.href = pdf; a.download = ''; a.target = '_blank'; a.rel = 'noopener'; document.body.append(a); a.click(); a.remove(); };
     const lembra = () => { try { return localStorage.getItem('lm-ficha-email'); } catch { return null; } };
-    // janela no padrão das do tema (Bootstrap .modal), que o modais.css da Ellie já desenha
+    // janela no padrão das do tema (Bootstrap .modal), que o modais.css da Ellie já desenha (campos .lm-campo, rótulo .lm-rotulo)
     document.body.insertAdjacentHTML('beforeend', `<div class="modal hide fade lm-ficha-modal" id="lm-ficha-modal" tabindex="-1" role="dialog" aria-labelledby="lm-ficha-modal-tit" aria-hidden="true">
       <div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><i></i></button><h3 id="lm-ficha-modal-tit">Baixar ficha técnica</h3></div>
-      <form novalidate><div class="modal-body"><p class="p_form">Informe seu e-mail para baixar a ficha técnica.</p>
-        <div class="lm-grupo"><label class="lm-rotulo" for="lm-ficha-email">E-mail</label><input class="lm-campo" type="email" id="lm-ficha-email" name="email" required autocomplete="email" placeholder="meu@email.com.br"></div></div>
+      <form novalidate><div class="modal-body"><p class="p_form">Preencha para baixar a ficha técnica.</p>
+        <div class="lm-grupo"><label class="lm-rotulo" for="lm-ficha-nome">Nome</label><input class="lm-campo" type="text" id="lm-ficha-nome" name="nome" autocomplete="name" placeholder="Seu nome"></div>
+        <div class="lm-grupo"><label class="lm-rotulo" for="lm-ficha-email">E-mail</label><input class="lm-campo" type="email" id="lm-ficha-email" name="email" required autocomplete="email" placeholder="meu@email.com.br"></div>
+        <div class="lm-grupo"><label class="lm-rotulo" for="lm-ficha-tel">Telefone / WhatsApp</label><input class="lm-campo" type="tel" id="lm-ficha-tel" name="tel" required inputmode="tel" autocomplete="tel-national" maxlength="15" placeholder="(11) 99999-9999"></div>
+        <label class="lm-ficha-check"><input type="checkbox" name="whats"> Aceito receber contato pelo WhatsApp</label>
+        <p class="lm-ficha-lgpd">Usamos seus dados só para enviar a ficha e falar sobre este produto. Veja a <a href="/pagina/seguranca-e-privacidade.html" target="_blank" rel="noopener">Política de Privacidade</a>.</p></div>
         <div class="modal-footer"><button type="submit" class="botao principal">Baixar ficha técnica</button></div></form></div>`);
     const modal = document.getElementById('lm-ficha-modal'), $ = window.jQuery;
     const mostra = (on) => { if ($?.fn?.modal) $(modal).modal(on ? 'show' : 'hide'); else { modal.classList.toggle('in', on); modal.classList.toggle('hide', !on); } };
     lado.querySelector('.lm-ficha__baixar').addEventListener('click', () => { if (lembra()) baixa(); else mostra(true); });
-    $?.(modal).on('shown', () => modal.querySelector('input').focus());  // foco no e-mail quando a janela termina de abrir
+    $?.(modal).on('shown', () => modal.querySelector('input').focus());  // foco no 1º campo quando a janela termina de abrir
+    const email = modal.querySelector('#lm-ficha-email'), tel = modal.querySelector('#lm-ficha-tel'), digitos = () => tel.value.replace(/\D/g, '').slice(0, 11);
+    // máscara (11) 99999-9999 (celular) ou (11) 9999-9999 (fixo); termina sempre num dígito, então apagar funciona
+    tel.addEventListener('input', () => { const d = digitos(); tel.value = d.length < 3 ? (d && '(' + d) : d.length < 7 ? `(${d.slice(0, 2)}) ${d.slice(2)}` : `(${d.slice(0, 2)}) ${d.slice(2, -4)}-${d.slice(-4)}`; });
+    const valida = () => {
+      const v = email.value.trim();
+      email.setCustomValidity(!v ? 'Informe o seu e-mail.' : email.validity.typeMismatch || !/@[^@\s]+\.[a-z]{2,}$/i.test(v) ? 'Informe um e-mail válido, como nome@empresa.com.br.' : '');
+      const n = digitos().length; tel.setCustomValidity(!n ? 'Informe o seu telefone com DDD.' : n < 10 ? 'Telefone incompleto: informe o DDD e o número.' : '');
+    };
+    [email, tel].forEach((c) => c.addEventListener('input', valida));
+    // pedido no formulário de contato da própria LI (o do Fale conosco, que chega no e-mail da loja). Os nomes dos campos não ficam no
+    // código: lê o formulário que o tema pede por ajax em /contato/popup/ e devolve os campos dele (os escondidos também) com os dados daqui
+    const LOJA = 'https://www.lorenmetais.com.br', AJAX = { 'X-Requested-With': 'XMLHttpRequest' };
+    const contato = async (d) => {
+      const corpo = new URLSearchParams(); let acao = '/contato/popup/';
+      try {
+        const form = new DOMParser().parseFromString(await (await fetch(LOJA + acao, { credentials: 'same-origin', headers: AJAX })).text(), 'text/html').querySelector('form');
+        if (form?.getAttribute('action')) acao = form.getAttribute('action');
+        form?.querySelectorAll('input[name], textarea[name], select[name]').forEach((c) => {
+          const n = c.name, t = (c.type || '').toLowerCase(); if (/^(checkbox|radio)$/.test(t) && !c.checked) return;
+          corpo.append(n, /e-?mail/i.test(n) ? d.email : /tel|fone|celular|whats/i.test(n) ? d.tel : c.tagName === 'TEXTAREA' || /mensagem|msg|texto|obs/i.test(n) ? d.msg : /nome|name/i.test(n) ? d.nome : /assunto/i.test(n) ? 'Ficha técnica ' + d.sku : c.value);
+        });
+      } catch {}
+      if (![...corpo.keys()].length) Object.entries({ nome: d.nome, email: d.email, telefone: d.tel, mensagem: d.msg }).forEach(([k, v]) => corpo.append(k, v));  // sem o formulário: os nomes do Fale conosco do tema
+      fetch(new URL(acao, LOJA), { method: 'POST', body: corpo, credentials: 'same-origin', keepalive: true, headers: AJAX }).catch(() => {});
+    };
     modal.querySelector('form').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const campo = modal.querySelector('input'); if (!campo.checkValidity()) { campo.reportValidity(); return; }
-      // newsletter da própria LI (mesmo endereço do botão Assinar); o download não espera a resposta
-      fetch('https://www.lorenmetais.com.br/newsletter/assinar/', { method: 'POST', body: new URLSearchParams({ email: campo.value }), credentials: 'same-origin', keepalive: true }).catch(() => {});
+      e.preventDefault(); valida();
+      const ruim = [email, tel].find((c) => !c.checkValidity()); if (ruim) { ruim.reportValidity(); return; }
+      const nome = modal.querySelector('#lm-ficha-nome').value.trim(), whats = modal.querySelector('[name=whats]').checked;
+      const produto = document.querySelector('.pagina-produto h1.nome-produto')?.textContent.trim() || document.title;  // h1: o 1º .nome-produto da página é o modelo escondido do tema (--PRODUTO_NOME--)
+      const d = { sku, nome: nome || email.value.trim(), email: email.value.trim(), tel: tel.value };
+      d.msg = `Pedido de ficha técnica: ${sku} - ${produto} | Nome: ${nome || '-'} | E-mail: ${d.email} | Telefone: ${d.tel} | Aceita WhatsApp: ${whats ? 'sim' : 'não'} | Página: ${location.href}`;
+      // newsletter da própria LI (mesmo endereço do botão Assinar) e o contato; o download não espera nenhum dos dois
+      fetch(LOJA + '/newsletter/assinar/', { method: 'POST', body: new URLSearchParams({ email: d.email }), credentials: 'same-origin', keepalive: true }).catch(() => {});
+      contato(d);
       try { localStorage.setItem('lm-ficha-email', '1'); } catch {}
       mostra(false); baixa();
     });
