@@ -137,9 +137,9 @@
         <a class="lm-topo__logo" href="/" aria-label="Loren Metais, página inicial"><img src="${LOGO}" alt="Loren Metais" width="203" height="46"></a>
         <div class="lm-topo__busca"></div>
         <nav class="lm-topo__acoes" aria-label="Conta e carrinho">
-          <a href="/conta/index" class="lm-topo__conta">${i('<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>')}<span>Minha conta</span></a>
+          <a href="/conta/index" class="lm-topo__conta" aria-label="Minha conta">${i('<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>')}<span>Minha conta</span></a>
           <a href="#" class="lm-topo__orc" ${ORC}>${i('<path d="M6 3h9l3 3v15H6z"/><path d="M9 10h6M9 14h6M9 18h4"/>')}<span>Pedir orçamento</span></a>
-          <a href="/carrinho/index" class="lm-topo__carrinho">${i('<path d="M3 4h2l2.4 11h10.2L20 7H6.2"/><circle cx="9" cy="20" r="1.4"/><circle cx="17" cy="20" r="1.4"/>')}<span>Carrinho</span><b class="lm-topo__qtd">0</b></a>
+          <a href="/carrinho/index" class="lm-topo__carrinho" aria-label="Carrinho">${i('<path d="M3 4h2l2.4 11h10.2L20 7H6.2"/><circle cx="9" cy="20" r="1.4"/><circle cx="17" cy="20" r="1.4"/>')}<span>Carrinho</span><b class="lm-topo__qtd">0</b></a>
         </nav></div></div>`);
       const topo = cab.querySelector('.lm-topo');
       // o menu de categorias cola logo abaixo do topo (loren.css, --lm-topo-h): a altura real, que muda com a largura (81 no computador, 2 linhas no tablet; Wednesday 09/11: a 768 o menu ficava embaixo da busca)
