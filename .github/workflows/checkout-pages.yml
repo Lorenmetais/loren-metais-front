@@ -1,5 +1,6 @@
 # Checkout da loja: o CSS do checkout no painel da LI é só  @import url(https://lorenmetais.github.io/loren-metais-front/checkout.css);
-# A cada push no ramo producao, este fluxo copia checkout.css para o ramo fichas (o GitHub Pages), com commit só se mudou.
+# A cada push no ramo producao, este fluxo copia checkout.css para o ramo fichas (o GitHub Pages), MINIFICADO (clean-css 5.6.3, a mesma versão
+# do min-producao.yml; o nome continua checkout.css), com commit só se mudou. O @import do CSS Avançado vale em toda página: cada KB conta.
 # O Pages serve com Cache-Control max-age=600: o checkout pega a versão nova em até ~10 min depois do build do Pages, sem recolar nada.
 name: checkout.css para o GitHub Pages
 on:
@@ -19,6 +20,10 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: fichas
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm i -g --silent clean-css-cli@5.6.3
       - name: Copia checkout.css de producao para fichas (commit só se mudou)
         run: |
           set -e
@@ -29,9 +34,10 @@ jobs:
           for i in 1 2 3; do
             git fetch -q --depth=1 origin fichas && git reset -q --hard FETCH_HEAD
             mkdir -p fontes
-            for f in checkout.css logo.svg fontes/inter-latin.woff2 fontes/barlow-sc-700-latin.woff2; do   # o checkout.css pede a logo e as fontes pelo caminho relativo
+            for f in logo.svg fontes/inter-latin.woff2 fontes/barlow-sc-700-latin.woff2; do   # se o checkout.css pedir a logo e as fontes pelo caminho relativo
               git show "$GITHUB_SHA:$f" > "$f"
             done
+            git show "$GITHUB_SHA:checkout.css" > /tmp/checkout.css && cleancss --output checkout.css /tmp/checkout.css && [ -s checkout.css ]
             git add checkout.css logo.svg fontes
             if git diff --cached --quiet; then echo "checkout.css já igual a ${GITHUB_SHA::7}"; exit 0; fi
             git commit -q -m "checkout.css de producao ${GITHUB_SHA::7}"
