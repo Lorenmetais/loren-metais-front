@@ -147,6 +147,10 @@
   else rodape?.classList.add('lm-cat-sem-pag');  // uma página só: nada a paginar
   // reticências da paginação: o tema as marca como página atual (li.active)
   conteudo.querySelectorAll('.pagination li').forEach((li) => { if (li.textContent.trim() === '...') li.classList.add('lm-cat-reticencias'); });
+  // anterior/próxima são só o ícone: nome para o leitor de tela (Lighthouse link-name, 12/11)
+  conteudo.querySelectorAll('.pagination a[rel="prev"], .pagination a[rel="next"]').forEach((a) => a.setAttribute('aria-label', a.rel === 'prev' ? 'Página anterior' : 'Próxima página'));
+  // os títulos da coluna (h4 do tema, "Filtrar por Preço") vêm logo depois do h1: nível 2 para o leitor de tela (Lighthouse heading-order, 12/11)
+  coluna?.querySelectorAll('h4.titulo').forEach((h) => h.setAttribute('aria-level', '2'));
 
   // barra Filtrar/Ordenar: o Ordenar é o da loja; o Filtrar abre a coluna (filtros + categorias) no celular
   const barra = conteudo.querySelector('.ordenar-listagem.topo');
