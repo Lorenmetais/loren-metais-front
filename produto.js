@@ -350,6 +350,9 @@
     // pedido no formulário de contato da própria LI (o do Fale conosco, que chega no e-mail da loja). Os nomes dos campos não ficam no
     // código: lê o formulário que o tema pede por ajax em /contato/popup/ e devolve os campos dele (os escondidos também) com os dados daqui
     const LOJA = 'https://www.lorenmetais.com.br', AJAX = { 'X-Requested-With': 'XMLHttpRequest' };
+    // nome na newsletter ("Ficha <SKU> - <telefone>"), para o telefone não se perder se o contato da LI barrar (reCAPTCHA). Desligado: a
+    // cópia salva só tem o campo email e o script do tema não está salvo, então não dá para confirmar sem carga; o Maestro liga
+    const NEWS_NOME = false;
     const contato = async (d) => {
       const corpo = new URLSearchParams(); let acao = '/contato/popup/';
       try {
@@ -371,10 +374,16 @@
       const d = { sku, nome: 'Pedido de ficha técnica', email: email.value.trim(), tel: tel.value };  // sem o campo Nome (Eduardo 12/11): o Fale conosco da LI pode exigir nome
       d.msg = `Pedido de ficha técnica: ${sku} - ${produto} | E-mail: ${d.email} | Telefone: ${d.tel} | Aceita WhatsApp: ${whats ? 'sim' : 'não'} | Página: ${location.href}`;
       // newsletter da própria LI (mesmo endereço do botão Assinar) e o contato; o download não espera nenhum dos dois
-      fetch(LOJA + '/newsletter/assinar/', { method: 'POST', body: new URLSearchParams({ email: d.email }), credentials: 'same-origin', keepalive: true }).catch(() => {});
+      fetch(LOJA + '/newsletter/assinar/', { method: 'POST', body: new URLSearchParams(NEWS_NOME ? { email: d.email, nome: `Ficha ${sku} - ${d.tel}` } : { email: d.email }), credentials: 'same-origin', keepalive: true }).catch(() => {});
       contato(d);
       try { localStorage.setItem('lm-ficha-email', '1'); } catch {}
-      mostra(false); baixa();
+      baixa();
+      // a mesma janela vira o agradecimento (Eduardo 12/11), com o link do PDF para quando o navegador bloquear a aba nova; Esc e X seguem fechando
+      const tit = modal.querySelector('#lm-ficha-modal-tit'); tit.textContent = 'Obrigado!'; tit.tabIndex = -1;
+      // 1ª linha confirma o envio (o cliente precisa ter certeza de que foi), com o ícone de confirmação da base (icon-ok do loren.css)
+      modal.querySelector('form').outerHTML = `<div class="modal-body"><p class="lm-ficha-ok"><i class="icon-ok" aria-hidden="true"></i>Recebemos seus dados.</p><p class="p_form">A ficha técnica abriu numa nova aba.</p></div>
+        <div class="modal-footer"><button type="button" class="botao lm-btn2" data-dismiss="modal">Fechar</button><a class="botao principal" href="${pdf}" target="_blank" rel="noopener">Baixar a ficha técnica</a></div>`;
+      tit.focus();
     });
   };
   document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', go) : go();
