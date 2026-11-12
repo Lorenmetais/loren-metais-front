@@ -329,6 +329,10 @@ html.lm-novo .lm-chat__assuntos svg { flex-shrink: 0; width: 20px; height: 20px;
 @media (max-width: 767px) { html.lm-novo .secao-banners .banner.cheio img { width: 100% !important; height: auto !important; max-height: none !important; object-fit: contain; } html.lm-novo .secao-banners .flexslider, html.lm-novo .secao-banners .flexslider .slides li { height: auto !important; } }
 /* setas do carrossel: discretas no computador, fora no celular (lá o cliente arrasta) */
 html.lm-novo .secao-banners .flex-direction-nav a { background: rgba(48, 49, 54, .55) !important; color: var(--lm-branco) !important; border-radius: 0 !important; }
+/* teclado: o flexslider deixa as setas com opacidade 0 e fora do banner até o hover; no Tab o foco parava numa seta invisível (Wednesday 12/11) */
+html.lm-novo .secao-banners .flex-direction-nav a:focus-visible { opacity: 1 !important; outline-offset: -4px; }
+html.lm-novo .secao-banners .flex-direction-nav .flex-prev:focus-visible { left: 10px; }
+html.lm-novo .secao-banners .flex-direction-nav .flex-next:focus-visible { right: 10px; }
 @media (max-width: 767px) { html.lm-novo .secao-banners .flex-direction-nav { display: none !important; } }
 /* bolinhas do carrossel de banners (Marty, testada): 8 px no lugar dos números, área de toque de 24 px, número só para leitor de tela */
 html.lm-novo ol.flex-control-nav.flex-control-paging { position: static !important; display: flex !important; justify-content: center; align-items: center; gap: 8px; height: 24px; line-height: 0; width: auto !important; margin: 12px 0 0 !important; padding: 0 !important; list-style: none; text-align: center; }
@@ -440,6 +444,8 @@ html.lm-novo .lm-tag { color: var(--lm-azul-hover) !important; }
 html.lm-novo :is(#corpo, #cabecalho) .cor-secundaria:not(.botao):not([class*="fundo-"]) { color: var(--lm-grafite) !important; }
 html.lm-novo .breadcrumbs, html.lm-novo .breadcrumbs a, html.lm-novo .breadcrumbs span, html.lm-novo .breadcrumbs strong { color: var(--lm-texto-secundario) !important; }
 html.lm-novo .breadcrumbs a:hover { color: var(--lm-onda-escura) !important; }
+/* toque no celular: o link da trilha tinha 17 px de altura; 4 px a mais em cima e embaixo pegam o toque e a margem negativa não muda a linha (Wednesday 12/11) */
+@media (max-width: 767px) { html.lm-novo .breadcrumbs a { display: inline-block; padding-top: 4px !important; padding-bottom: 4px !important; margin-top: -4px !important; margin-bottom: -4px !important; } }
 /* trilha: mesmo respiro e sem caixa do tema em categoria, busca, institucionais, carrinho e conta (o produto tem a dele, no produto.css) */
 html.lm-novo body:not(.pagina-produto) #corpo :not(.lm-pagcab__in) > .breadcrumbs { margin: 0 !important; padding: 16px 0 0 !important; border: 0 !important; background: none !important; box-shadow: none !important; font-size: .8125rem; }
 html.lm-novo body:not(.pagina-produto) #corpo .breadcrumbs :is(ul, li) { margin: 0 !important; padding: 0 !important; }  /* solta no corpo; dentro da faixa .lm-pagcab a trilha segue a regra dela, mais abaixo */
@@ -680,7 +686,7 @@ html.lm-novo :is(#listagemProdutos, .aproveite-tambem).listagem .listagem-item:h
 html.lm-novo :is(#listagemProdutos, .aproveite-tambem).listagem .listagem-item:has(.preco-produto > .titulo) .acoes-produto .botao-comprar::after { content: 'Consultar'; font: 700 13px/1.2 var(--lm-fonte-texto); letter-spacing: .04em; text-transform: uppercase; }
 /* celular: o tema esconde o botão do cartão (.hidden-phone); aqui ele aparece, na altura do botão do cartão (40) */
 @media (max-width: 767px) {
-  html.lm-novo { --lm-btn-altura-card: 40px; }
+  html.lm-novo { --lm-btn-altura-card: 44px; }   /* era 40: o toque pede 44 (Wednesday 12/11, validação geral) */
   html.lm-novo :is(#listagemProdutos, .aproveite-tambem).listagem .listagem-item .acoes-produto.hidden-phone { display: block !important; }
   html.lm-novo :is(#listagemProdutos, .aproveite-tambem).listagem .listagem-item.produto-adicionado .acoes-produto .botao-comprar { margin: 5px 0 !important; }  /* mesma margem do Adicionar no celular (5 + 11 do bloco = 16 do preço); no computador e no tablet o Adicionar não tem margem */
 }
@@ -825,6 +831,6 @@ html.lm-novo :is([class^="icon-"], [class*=" icon-"], .fa, [class^="fa-"], [clas
 html.lm-novo .lm-credito.lm-credito.lm-credito, html.lm-novo .lm-credito.lm-credito.lm-credito * { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important; }
 html.lm-novo .lm-credito { position: relative; margin: 4px 0 0 !important; padding: 0 0 var(--lm-esp-3); text-align: center; font: 400 12px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important; color: #a1a1aa !important; }
 html.lm-novo .lm-credito__cor::before { content: '<3'; color: #e8a659; }
-html.lm-novo .lm-credito__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+html.lm-novo .lm-credito__sr, html.lm-novo .lm-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 html.lm-novo .lm-credito a { color: #e4e4e7 !important; text-decoration: underline; text-decoration-color: rgb(255 255 255 / 0.25); text-underline-offset: 3px; }
 html.lm-novo .lm-credito a:hover { text-decoration-color: #e8a659; }
