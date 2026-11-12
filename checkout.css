@@ -1,13 +1,14 @@
 /* Loren Metais, checkout no visual novo (Ellie 11/11). Entra pelo @import na 1ª linha do CSS Avançado do painel, que a LI carrega em
    TODAS as páginas: por isso toda regra fica em body.carrinho-checkout (ou html:has(> body.carrinho-checkout)) e nada vale fora do checkout.
-   No checkout não entram brand-tokens.css, loren.css nem loren.js: os tokens e as fontes usados ficam declarados aqui (as URLs relativas
-   resolvem na pasta do CSS no jsDelivr). As regras do CSS Avançado continuam valendo por baixo; estas vencem por especificidade e !important.
+   No checkout não entram brand-tokens.css, loren.css nem loren.js: os tokens e as fontes usados ficam declarados aqui. Fontes e logo vêm
+   das MESMAS URLs do jsDelivr que o cabeçalho do visual novo pré-carrega (o cache serve aos dois), e as famílias têm nome próprio
+   ('LM Inter', 'LM Barlow'): fora do checkout ninguém as usa, então nada é baixado (PAINEL-90 itens 11 e 12). As regras do CSS Avançado continuam valendo por baixo; estas vencem por especificidade e !important.
    Até 11/11 o arquivo era escopado em html.lm-ck (só a equipe via, pelo favorito); no go-live o escopo virou só o da página.
    Lição da 1011 (quebrou o checkout logado): botão com altura nova centraliza o texto (inline-flex); campos com box-sizing de borda;
    nada de caixa, sombra ou padding em invólucros internos que mudam no logado; só as três colunas e as caixas de 1º nível. */
 
-@font-face { font-family: 'Inter'; font-style: normal; font-weight: 400 700; font-display: swap; src: url(fontes/inter-latin.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
-@font-face { font-family: 'Barlow Semi Condensed'; font-style: normal; font-weight: 700; font-display: swap; src: url(fontes/barlow-sc-700-latin.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'LM Inter'; font-style: normal; font-weight: 400 700; font-display: swap; src: url(https://cdn.jsdelivr.net/gh/Lorenmetais/loren-metais-front@producao/fontes/inter-latin.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'LM Barlow'; font-style: normal; font-weight: 700; font-display: swap; src: url(https://cdn.jsdelivr.net/gh/Lorenmetais/loren-metais-front@producao/fontes/barlow-sc-700-latin.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 
 /* tokens (mesmos valores do brand-tokens.css; só os usados aqui), só na página do checkout: o arquivo entra em todas as páginas
    pelo @import do CSS Avançado, e os tokens não podem ir para o <html> do resto do site */
@@ -16,7 +17,7 @@ html:has(> body.carrinho-checkout) {
   --lm-grafite: #303136; --lm-branco: #FFFFFF; --lm-fundo: #F6F6F7; --lm-borda: #DCDCE0; --lm-texto-secundario: #6B6C72;
   --lm-texto-sobre-escuro: #F6F6F7; --lm-sobre-escuro-2: #C9CACE; --lm-erro: #8A2826;
   --lm-borda-padrao: 1px solid var(--lm-borda);
-  --lm-fonte-titulo: 'Barlow Semi Condensed', system-ui, sans-serif; --lm-fonte-texto: 'Inter', system-ui, sans-serif;
+  --lm-fonte-titulo: 'LM Barlow', system-ui, sans-serif; --lm-fonte-texto: 'LM Inter', system-ui, sans-serif;
   --lm-h3: clamp(1.4375rem, 2.4vw, 1.5rem);
   --lm-largura: 1200px; --lm-margem: clamp(1rem, 4vw, 2.5rem);  /* 16 no celular, sobe com a tela até 40 (um valor só: o go-live troca os tokens pelos valores) */
   --lm-esp-1: 8px; --lm-esp-2: 16px; --lm-esp-3: 24px; --lm-esp-4: 32px; --lm-esp-6: 48px;
@@ -48,7 +49,7 @@ body.carrinho-checkout #cabecalho .conteiner > .row-fluid > [class*="span"] { wi
 body.carrinho-checkout #cabecalho .conteiner > .row-fluid > .span6 { display: none !important; }
 body.carrinho-checkout #cabecalho .logo { margin: 0 !important; padding: 0 !important; line-height: 0 !important; text-align: left !important; }
 body.carrinho-checkout #cabecalho .logo img { display: none !important; }
-body.carrinho-checkout #cabecalho .logo a { display: block !important; width: 203px; height: 46px; margin: 0 !important; background: url(logo.svg) no-repeat 0 50% / contain; }
+body.carrinho-checkout #cabecalho .logo a { display: block !important; width: 203px; height: 46px; margin: 0 !important; background: url(https://cdn.jsdelivr.net/gh/Lorenmetais/loren-metais-front@producao/logo.svg) no-repeat 0 50% / contain; }
 body.carrinho-checkout #cabecalho .conteiner > .row-fluid::after { content: "Compra 100% segura"; display: flex !important; align-items: center; gap: var(--lm-esp-1); padding-left: 26px; min-height: 20px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23107E96' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='4' y='11' width='16' height='10' rx='1'/%3E%3Cpath d='M8 11V7a4 4 0 0 1 8 0v4'/%3E%3C/svg%3E") no-repeat 0 50% / 18px; font: 600 14px/1.2 var(--lm-fonte-texto); color: var(--lm-grafite); white-space: nowrap; }
 
 /* corpo: largura e margens do site, ritmo de 8 */
