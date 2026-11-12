@@ -123,6 +123,8 @@
     const nomeia = () => {
       document.querySelectorAll('.listagem-item a.adic-favo:not([aria-label])').forEach((a) => a.setAttribute('aria-label', `Adicionar ${a.closest('.listagem-item').querySelector('.nome-produto')?.textContent.trim() || 'o produto'} aos favoritos`));
       document.querySelectorAll('#cr-alpha-theme img:not([alt])').forEach((img) => { img.alt = 'Alpha Theme'; });
+      // marcas da plataforma no rodapé (Loja Integrada, Alpha Theme): width/height do próprio arquivo (unsized-images); a altura real sai do loren.css (height: auto)
+      document.querySelectorAll('#rodape .cr img:not([height])').forEach((img) => { if (img.naturalWidth) { img.setAttribute('width', img.naturalWidth); img.setAttribute('height', img.naturalHeight); } });
     };
     nomeia(); if (document.readyState !== 'complete') addEventListener('load', nomeia, { once: true });
     // cartão "Preço sob consulta": o botão aparece como CONSULTAR (loren.css); o leitor de tela também ouve isso, e não o "Adicionar" do tema
