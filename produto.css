@@ -156,6 +156,10 @@ html.lm-novo .pagina-produto .lm-prod-compra > .principal > .grandes_qtd { order
 html.lm-novo .pagina-produto .lm-prod-compra > .principal > .lm-selos { order: 4; }
 html.lm-novo .pagina-produto .lm-prod-compra > .principal > .parcelas-produto > .accordion { order: 5; border: var(--lm-borda-padrao) !important; background: #fff; padding: var(--lm-esp-2) var(--lm-esp-4) !important; }  /* 16 em cima e embaixo + a folga da linha de 48 = ~32, como nas outras caixas */
 /* compartilhar (produto.js): por último na caixa, no mesmo ritmo; caixas de 40 com borda fina */
+/* Favoritar (Eduardo 16/11): o botão nativo da LI, movido para a caixa pelo produto.js; secundário com borda, coração + texto, também no celular */
+html.lm-novo .pagina-produto a.lm-fav { display: inline-flex !important; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; box-sizing: border-box; border: var(--lm-borda-padrao); background: #fff !important; color: var(--lm-grafite) !important; font: 600 15px/1.2 var(--lm-fonte-texto); text-decoration: none; justify-self: start; align-self: flex-start; }
+html.lm-novo .pagina-produto a.lm-fav i { font-size: 20px; line-height: 0; }
+html.lm-novo .pagina-produto a.lm-fav:is(:hover, :focus-visible) { border-color: var(--lm-onda-escura); color: var(--lm-onda-escura) !important; }
 html.lm-novo .pagina-produto .lm-compartilhe { padding-bottom: 0 !important; }  /* o tema põe 25 (15 no celular) e a caixa ficava com 58 embaixo */
 html.lm-novo .pagina-produto .lm-compartilhe__tit { margin: 0 0 var(--lm-esp-1) !important; font: 700 1rem/1.2 var(--lm-fonte-titulo); color: var(--lm-grafite); text-transform: none; }
 html.lm-novo .pagina-produto .lm-compartilhe__lista { display: flex; flex-wrap: wrap; align-items: center; gap: var(--lm-esp-1); }

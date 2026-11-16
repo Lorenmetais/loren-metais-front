@@ -99,6 +99,15 @@
     topo.append(chips);
   }
 
+  // "linha em branco" feita no painel com caracteres invisíveis (U+2800, braile vazio): vira 2 <br> (a mesma linha vazia). Senão o justificado
+  // (categoria.css) estica a linha de cima pela largura toda, e o leitor de tela lê os caracteres (Acessibilidade, 16/11)
+  const falsaQuebra = /\s*⠀+\s*/;
+  topo.querySelectorAll('.lm-cat-intro').forEach((p) => {
+    const textos = []; const w = document.createTreeWalker(p, NodeFilter.SHOW_TEXT);
+    while (w.nextNode()) if (falsaQuebra.test(w.currentNode.data)) textos.push(w.currentNode);
+    textos.forEach((t) => t.replaceWith(...t.data.split(falsaQuebra).flatMap((s, i) => (i ? [document.createElement('br'), document.createElement('br'), s] : [s]))));
+  });
+
   // parágrafo longo: corta em 4 linhas no celular e 5 no computador, com Ler mais / Ler menos (o texto continua no HTML)
   topo.querySelectorAll('.lm-cat-intro').forEach((p) => {
     if (limpa(p.textContent).length <= 350) return;
