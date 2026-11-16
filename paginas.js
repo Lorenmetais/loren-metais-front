@@ -1,10 +1,10 @@
 // Loren Metais, páginas institucionais, carrinho e conta (carregado pelo loren.js). Só reorganiza e estiliza:
-// nenhum texto é apagado ou reescrito.
+// nenhum texto é apagado ou reescrito (exceção: Quem somos, resumida a pedido do Eduardo; o texto do painel fica no HTML).
 (() => {
   const b = document.body;
   if (b.dataset.lmPag) return;
   b.dataset.lmPag = '1';
-  let topoObras = null, obrasApoio = null;  // Obras finalizadas: preenchidos no bloco das obras, usados no cabeçalho (fim do arquivo)
+  let topo = null, apoioFixo = null;  // Obras finalizadas e Quem somos: preenchidos no bloco de cada uma, usados no cabeçalho (fim do arquivo)
   const temTexto = (e) => e.textContent.replace(/[\s​⠀]/g, '') !== '';
 
   // institucionais (/pagina/...): texto colado do Word vira coluna de leitura; Obras finalizadas vira grade de cards
@@ -26,7 +26,7 @@
     // Obras: cada obra começa num parágrafo com texto em 20 px (o nome); depois vêm os itens e as fotos. No padrão da página de
     // obras da Conceito (Wednesday 11/11): cartão com a capa grande, tipo de ambiente, nome, local e os 3 primeiros itens; a capa
     // e o botão abrem a galeria da obra (<dialog>: todas as fotos + o texto inteiro). Topo com mosaico das capas e os números da
-    // própria página (topoObras, chamado depois do lmPagcab); no fim, orçamento e WhatsApp. Nenhum texto some: o que não cabe no
+    // própria página (topo, chamado depois do lmPagcab); no fim, orçamento e WhatsApp. Nenhum texto some: o que não cabe no
     // cartão continua nele (escondido) e aparece na galeria.
     const nome = (p) => p.tagName === 'P' && temTexto(p) && p.querySelector('[style*="20px"]');
     if (/obras-finalizadas/.test(location.pathname) && [...txt.children].some(nome)) {
@@ -125,18 +125,53 @@
         <div class="lm-acs"><a class="lm-btn" href="#" data-toggle="modal" data-target="#modal_consulte">Pedir orçamento</a><a class="lm-btn2" href="https://wa.me/5519992306593?text=${encodeURIComponent('Olá! Vi as obras finalizadas no site da Loren Metais e gostaria de um orçamento para a minha obra.')}" target="_blank" rel="noopener">Falar no WhatsApp</a></div></div></section>`);
 
       // topo (depois do lmPagcab): frase curta, mosaico com as capas e os números tirados da própria página
-      topoObras = (cab) => {
+      topo = (cab) => {
         cab.classList.add('lm-pagcab--obras');
         const capas = obras.map((o) => o.querySelector('.lm-obra-fotos img')).filter(Boolean).slice(0, 3);
         cab.insertAdjacentHTML('afterbegin', `<div class="lm-obras-mosaico" aria-hidden="true">${capas.map((c) => `<img src="${c.currentSrc || c.src}" alt="">`).join('')}</div>`);
         cab.querySelector('.lm-pagcab__in').insertAdjacentHTML('beforeend', `<ul class="lm-obras-num"><li><b>${obras.length}</b> obras finalizadas</li>${pecas ? `<li><b>+${pecas.toLocaleString('pt-BR')}</b> peças fornecidas</li>` : ''}</ul>`);
       };
-      obrasApoio = document.createElement('p'); obrasApoio.textContent = 'Escolas, hospitais, clínicas e espaços públicos equipados com nossas barras de apoio, torneiras e dispensers.';
+      apoioFixo = document.createElement('p'); apoioFixo.textContent = 'Escolas, hospitais, clínicas e espaços públicos equipados com nossas barras de apoio, torneiras e dispensers.';
     }
 
     // Quem somos: o 1º parágrafo vira lead (maior), o resto segue na coluna de leitura (Ellie 04/11)
     const primeiro = () => [...txt.children].find((e) => !e.classList.contains('lm-vazio'));
     if (/quem-somos/.test(location.pathname) && primeiro()?.tagName === 'P') primeiro().classList.add('lm-lead');
+    // Quem somos visual (Eduardo 16/11, Wednesday): topo escuro das Obras com a frase principal e uma foto REAL de obra, "O que fazemos"
+    // em cartões, os diferenciais e a chamada final. Sem número nem fato novo: só o texto do painel e o que o site já afirma (barra do topo,
+    // vantagens e "Quem somos" da home, NBR 9050 nas fichas). A foto é a 1ª imagem do texto do painel (o Eduardo cola uma das Obras
+    // finalizadas); sem foto, o topo fica só com o texto. Só liga enquanto o texto do painel é o de hoje: se ele for reescrito, a página
+    // volta à coluna de leitura com o texto novo. O texto do painel fica no HTML (escondido); o resumo dele está nas seções.
+    if (/quem-somos/.test(location.pathname) && /^\s*A Lorenmetais é uma empresa/i.test(txt.textContent)) {
+      caixa.classList.add('lm-qs-pag');
+      const foto = txt.querySelector('img');
+      const ico = (d) => `<span class="lm-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${d}</svg></span>`;
+      const WA = `https://wa.me/5519992306593?text=${encodeURIComponent('Olá! Vim pela página Quem Somos do site da Loren Metais e gostaria de falar com vocês.')}`;
+      const FAZ = [  // ícone (Lucide), título, texto, link, texto do link
+        ['<circle cx="16" cy="4" r="1"/><path d="m18 19 1-7-6 1"/><path d="m5 8 3-3 5.5 3-2.36 3.5"/><path d="M4.24 14.5a5 5 0 0 0 6.88 6"/><path d="M13.76 17.5a5 5 0 0 0-6.88-6"/>', 'Banheiros acessíveis', 'Barras de apoio, assentos e torneiras para banheiros PNE.', '/acessibilidade', 'Ver acessibilidade'],
+        ['<rect width="18" height="18" x="3" y="3" rx="2"/><path d="M8 12h8"/><path d="M12 8v8"/>', 'Clínicas e hospitais', 'Torneiras clínicas, misturadores e a linha hospitalar.', '/hospitalar', 'Ver linha hospitalar'],
+        ['<path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>', 'Escolas', 'Torneiras automáticas, dispensers e barras de apoio para os banheiros.', '/pagina/obras-finalizadas.html', 'Ver escolas equipadas'],
+        ['<path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/>', 'Cozinhas', 'Torneiras para cozinha e de pré-lavagem.', '/torneiras-para-cozinha', 'Ver torneiras para cozinha'],
+      ];
+      const DIF = [
+        ['<path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M17 18h1"/><path d="M12 18h1"/><path d="M7 18h1"/>', 'Direto da fábrica', 'Fabricamos e representamos: preço de fábrica, sem intermediário.'],
+        ['<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>', 'Normas de acessibilidade', 'Linha PNE com produtos conforme a NBR 9050.'],
+        ['<path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/>', 'Envio para todo o Brasil', 'Para a sua obra, empresa ou casa.'],
+        ['<path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/>', 'Despacho ágil', 'Em Indaiatuba (SP), perto do Aeroporto de Viracopos e de transportadoras.'],
+        ['<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>', 'Atendimento pelo WhatsApp', 'Fale direto com a fábrica.'],
+      ];
+      txt.hidden = true;
+      txt.insertAdjacentHTML('afterend', `<p class="lm-qs-intro">Desenvolvemos, fabricamos e representamos produtos para que o seu negócio, obra ou casa fique dentro das normas de segurança, com higiene segura para clientes e equipe.</p>
+        <section class="lm-qs-sec" aria-labelledby="lm-qs-faz"><h2 id="lm-qs-faz">O que fazemos</h2><div class="lm-qs-cards">${FAZ.map(([d, t, p, href, ver]) => `<a class="lm-qs-card" href="${href}">${ico(d)}<h3>${t}</h3><p>${p}</p><span class="lm-qs-ver">${ver}</span></a>`).join('')}</div></section>
+        <section class="lm-qs-sec" aria-labelledby="lm-qs-dif"><h2 id="lm-qs-dif">Por que comprar com a Loren</h2><ul class="lm-qs-dif">${DIF.map(([d, t, p]) => `<li>${ico(d)}<p><b>${t}</b><span>${p}</span></p></li>`).join('')}</ul></section>
+        <section class="lm-b2b lm-obras-cta lm-qs-cta"><div class="lm-wrap"><div><h2>Precisa equipar um banheiro, clínica ou escola?</h2><p>Tire as suas dúvidas, mande a lista de itens ou peça um orçamento.</p></div>
+        <div class="lm-acs"><a class="lm-btn" href="${WA}" target="_blank" rel="noopener">Fale com a gente no WhatsApp</a><a class="lm-btn2" href="#" data-toggle="modal" data-target="#modal_consulte">Pedir orçamento</a></div></div></section>`);
+      topo = (cab) => {   // o mesmo topo escuro das Obras, com a foto no lugar do mosaico
+        cab.classList.add('lm-pagcab--obras', 'lm-pagcab--qs');
+        if (foto) cab.insertAdjacentHTML('afterbegin', `<div class="lm-obras-mosaico lm-qs-foto" aria-hidden="true"><img src="${foto.currentSrc || foto.src}" alt=""></div>`);
+      };
+      apoioFixo = document.createElement('p'); apoioFixo.textContent = 'Produtos de acessibilidade para banheiros, clínicas, hospitais, escolas e cozinhas.';
+    }
 
     // Formas de pagamento: a arte da página (Slide1) é uma imagem só, com os selos dentro. Os selos separados que o site
     // já tem ficam no rodapé ("Pague com" e "Selos"): uma cópia deles entra numa grade antes da arte, que continua igual
@@ -201,7 +236,7 @@
       const t = p1 ? p1.textContent.trim() : '';
       if (p1 && (/^H[2-4]$/.test(p1.tagName) || negrito) && t && t.length <= 140 && t.toLowerCase() !== h1.textContent.trim().toLowerCase() && !p1.querySelector('a, img')) apoio = p1;
     }
-    const cab = window.lmPagcab(h1, { apoio: obrasApoio || apoio || undefined, leitura: !!h1.closest('.lm-inst:not(.lm-obras-pag)') });
-    if (cab && topoObras) topoObras(cab);
+    const cab = window.lmPagcab(h1, { apoio: apoioFixo || apoio || undefined, leitura: !!h1.closest('.lm-inst:not(.lm-obras-pag, .lm-qs-pag)') });
+    if (cab && topo) topo(cab);
   }
 })();
