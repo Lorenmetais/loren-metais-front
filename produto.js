@@ -230,6 +230,14 @@
     // produto todo esgotado: o convite acima já é o chamado de cotação, o "Para grandes quantidades" sai (um só, como no sob consulta)
     if (esgotados.length && !compra.querySelector('.acoes-produto:not(.indisponivel)[data-produto-id]')) compra.classList.add('lm-prod-esg');
 
+    // Favoritar (Eduardo 16/11): o botão nativo da LI ("Lista de Desejos", escondido junto com o compartilhar e no celular) é MOVIDO
+    // para a caixa, como coração + "Favoritar"; o clique, as janelas e o endpoint continuam os da LI. O estado vem do loren.js.
+    const fav = document.querySelector('.produto-compartilhar a.adicionar-favorito');
+    if (caixa && fav) {
+      fav.classList.remove('hidden-phone', 'fundo-principal'); fav.classList.add('lm-fav');
+      fav.innerHTML = '<i class="icon-heart" aria-hidden="true"></i><span class="lm-fav-texto">Favoritar</span>';
+      caixa.append(fav);
+    }
     // compartilhar (como na Conceito): links padrão, sem SDK; o da LI (addthis) segue escondido
     if (caixa) {
       const url = document.querySelector('link[rel=canonical]')?.href || location.origin + location.pathname, nome = document.querySelector('h1.nome-produto')?.textContent.trim() || document.title;

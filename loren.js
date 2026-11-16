@@ -120,6 +120,39 @@
     // Lighthouse 12/11 (acessibilidade): o miolo de toda página vira o landmark main; o coração do cartão ganha nome; a marca do tema no rodapé
     // (o tema a põe depois, por JS: de novo no load) ganha alt, e a altura fixa de 25 px que a achatava sai no loren.css
     document.querySelector('#corpo')?.setAttribute('role', 'main');
+    // FAVORITOS (Eduardo 16/11). O coração e o clique são do tema (LI.methods.addWishList: $.post /conta/favorito/<id>/adicionar e .added),
+    // que só põe o coração na página inicial: aqui o mesmo <a class="adic-favo"> entra também na categoria e na busca, e o clique segue
+    // com o tema. Estado "já favoritado" ao abrir: com o cliente logado, a página /conta/favorito/listar é lida 1 vez por sessão
+    // (sessionStorage); sem login nada é lido. Cada favorito adicionado (resposta do tema, sem erro) entra na lista guardada.
+    if (pagina() === 'categoria') [...document.querySelectorAll('.listagem-item[data-id]')].filter((c) => !c.querySelector(':scope > .adic-favo')).forEach((c) => c.insertAdjacentHTML('afterbegin', `<a class="adic-favo" href="/conta/favorito/${c.dataset.id}/adicionar"></a>`));
+    const FAV = 'lm-favoritos';
+    const favLer = () => { try { const l = JSON.parse(sessionStorage.getItem(FAV)); return l ? new Set(l) : null; } catch { return null; } };  // null = ainda não leu
+    const favGuardar = (ids) => { try { sessionStorage.setItem(FAV, JSON.stringify([...ids])); } catch { /* aba anônima sem storage: só não lembra */ } };
+    const favMarcar = (ids) => document.querySelectorAll('a[href*="/conta/favorito/"][href$="/adicionar"]').forEach((a) => {
+      const sim = ids.has(a.getAttribute('href').match(/favorito\/(\d+)\//)?.[1]); a.classList.toggle('added', sim);
+      if (a.matches('.adicionar-favorito')) a.querySelector('.lm-fav-texto')?.replaceChildren(sim ? 'Nos favoritos' : 'Favoritar');
+    });
+    // ids da /listar: cartões (data-id) e links /conta/favorito/<id>/... (ponytail: estrutura suposta, conferir na página salva do Eduardo)
+    const favDaPagina = (doc) => new Set([...doc.querySelectorAll('.listagem-item[data-id], a[href*="/conta/favorito/"]')].map((e) => e.dataset.id || e.getAttribute('href').match(/favorito\/(\d+)\//)?.[1]).filter(Boolean));
+    // ponytail: o sinal de login é o nome do cliente que o tema escreve em .menu-user-name; conferir na página salva logada do Eduardo
+    const logado = () => [...document.querySelectorAll('.menu-user-name')].some((e) => e.textContent.trim());
+    const favorita = async () => {
+      if (!logado()) { try { sessionStorage.removeItem(FAV); } catch { /* idem */ } return; }  // saiu da conta: a lista guardada não vale
+      let ids = favLer();
+      if (/pagina-favorito/.test(document.body.className)) favGuardar(ids = favDaPagina(document));  // na própria lista: ela manda (pega o que foi tirado)
+      else if (!ids) {
+        const r = await fetch('/conta/favorito/listar', { credentials: 'same-origin' }).catch(() => null);
+        if (!r?.ok || /\/conta\/login/.test(r.url)) return;  // sessão caiu: fica como hoje
+        favGuardar(ids = favDaPagina(new DOMParser().parseFromString(await r.text(), 'text/html')));
+      }
+      favMarcar(ids);
+    };
+    window.jQuery?.(document).ajaxSuccess((ev, xhr, op) => {
+      const id = op.url?.match(/\/conta\/favorito\/(\d+)\/adicionar/)?.[1]; if (!id) return;
+      try { if (JSON.parse(xhr.responseText).status === 'erro') return; } catch { /* resposta sem JSON: vale o .added do tema */ }
+      const ids = favLer() || new Set(); ids.add(id); favGuardar(ids); favMarcar(ids);
+    });
+    if (document.readyState === 'complete') favorita(); else addEventListener('load', favorita, { once: true });  // depois do tema preencher o nome
     const nomeia = () => {
       document.querySelectorAll('.listagem-item a.adic-favo:not([aria-label])').forEach((a) => a.setAttribute('aria-label', `Adicionar ${a.closest('.listagem-item').querySelector('.nome-produto')?.textContent.trim() || 'o produto'} aos favoritos`));
       document.querySelectorAll('#cr-alpha-theme img:not([alt])').forEach((img) => { img.alt = 'Alpha Theme'; });
