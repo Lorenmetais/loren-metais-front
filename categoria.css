@@ -84,7 +84,15 @@ html.lm-novo body.lm-cat .lm-preco .botao { grid-column: 1 / -1; width: 100%; ma
 html.lm-novo body.lm-cat .lm-preco-livre h4 .limpar { display: none !important; }  /* "Limpar" do tema no título (11 px, ícone sem glifo): o Limpar preço abaixo faz o mesmo (Ellie 09/11) */
 html.lm-novo body.lm-cat .lm-preco-limpa { grid-column: 1 / -1; justify-self: start; font-size: 14px; color: var(--lm-azul-hover) !important; text-decoration: underline; text-underline-offset: 3px; }
 html.lm-novo body.lm-cat .lm-cat-fechar, html.lm-novo body.lm-cat .lm-cat-filtrar { display: none; }
-html.lm-novo body.lm-cat .filtro-mobile, html.lm-novo body.lm-cat .filtro-mobile-itens { display: none !important; }  /* cópia dos filtros que o tema cria no celular: os mesmos filtros abrem pelo Filtrar */
+html.lm-novo body.lm-cat .filtro-mobile, html.lm-novo body.lm-cat .filtro-mobile-itens { display: none !important; }
+/* filtros (Eduardo 13/11): só categorias, Disponibilidade (categoria.js) e preço; os de especificação da LI (Modelo, Material,
+   Departamento...) não aparecem. Aqui no CSS, que entra antes de a página aparecer: nem por um instante */
+html.lm-novo body.lm-cat .coluna .filtro-coluna:not(.faceta-preco):not(.lm-cat-disp) { display: none !important; }
+html.lm-novo body.lm-cat .lm-cat-fora { display: none !important; }
+html.lm-novo body.lm-cat #listagemProdutos > ul > li.lm-cat-cotacao { grid-column: 1 / -1; list-style: none; padding: 0 !important; }  /* a linha única do Sob cotação ocupa a grade toda */
+html.lm-novo body.lm-cat .coluna .filtro.lista ul li label:hover, html.lm-novo body.lm-cat .coluna .filtro.lista ul li.active label { background: none !important; color: var(--lm-grafite) !important; }  /* o tema pinta o rótulo ativo de verde-água com texto escuro (contraste baixo); a caixinha preenchida já marca */
+html.lm-novo body.lm-cat .coluna .filtro.lista ul li.active label { font-weight: 600 !important; }
+html.lm-novo body.lm-cat .lm-cat-cotacao-info { margin: 0 0 16px !important; font: 600 1rem/1.4 var(--lm-fonte-texto); color: var(--lm-grafite); }  /* cópia dos filtros que o tema cria no celular: os mesmos filtros abrem pelo Filtrar */
 
 /* barra Ordenar (a paginação de cima repete a de baixo) */
 html.lm-novo body.lm-cat .ordenar-listagem.topo { display: flex; gap: 8px; align-items: center; justify-content: flex-end; border: 0 !important; background: #fff !important; box-shadow: none !important; padding: 0 0 16px !important; margin: 0 !important; }
