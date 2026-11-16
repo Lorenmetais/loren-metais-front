@@ -139,6 +139,84 @@
     f.querySelector('.lm-preco-limpa')?.addEventListener('click', (e) => { e.preventDefault(); vai(''); });
   }
 
+  // filtros (Eduardo 13/11): só categorias, "Comprar no site x Sob cotação" e preço. Os de especificação da LI (Modelo, Material,
+  // Departamento...) a loja cria sozinha, sem chave no painel: saem no categoria.css (antes de a página aparecer).
+  // Comprar no site = fq=price_range:0.01-999999 (a LI filtra no servidor, todas as páginas: produto sob consulta não tem preço).
+  // Sob cotação não tem filtro na LI (price_range:0-0 volta vazio): #sob-cotacao junta os cartões "Preço sob consulta" de todas as
+  // páginas da listagem numa linha só (lê as outras páginas uma vez, em sequência) e esconde as linhas e a paginação.
+  const preco2 = coluna?.querySelector('.faceta-preco');
+  if (preco2) {
+    const SITE = '0.01-999999';
+    const fqPreco = new URL(location.href).searchParams.getAll('fq').find((v) => v.startsWith('price_range:'));
+    const url = (faixa, hash = '') => {
+      const u = new URL(location.href); const resto = u.searchParams.getAll('fq').filter((v) => !v.startsWith('price_range:'));
+      u.searchParams.delete('fq'); u.searchParams.delete('pagina'); resto.forEach((v) => u.searchParams.append('fq', v));
+      if (faixa) u.searchParams.append('fq', 'price_range:' + faixa);
+      u.hash = hash; return u.href;
+    };
+    const cotacao = () => location.hash === '#sob-cotacao';
+    const modo = cotacao() ? 'cotacao' : fqPreco && +fqPreco.slice(12).split('-')[0] > 0 ? 'site' : 'todos';
+    const op = (id, rot, href) => `<li class="${modo === id ? 'active' : ''}"><a href="${href}" rel="nofollow"${modo === id ? ' aria-current="true"' : ''}><label>${rot}</label></a></li>`;
+    preco2.insertAdjacentHTML('beforebegin', `<div class="lateral outras filtro-coluna lm-cat-disp"><div class="filtro lista borda-principal">
+      <h4 class="titulo cor-secundaria" aria-level="2">Disponibilidade</h4><div class="atributo-lista"><ul>
+      ${op('todos', 'Todos', url(''))}${op('site', 'Comprar no site', url(SITE))}${op('cotacao', 'Sob cotação', url('', 'sob-cotacao'))}</ul></div></div></div>`);
+    // trocar só o # (Todos <-> Sob cotação na mesma listagem) não recarrega: recarrega aqui para refazer a lista
+    addEventListener('hashchange', () => location.reload());
+    const sob = (raiz) => [...raiz.querySelectorAll('.listagem-item')].filter((c) => c.querySelector('.preco-produto > .titulo'));
+    // Comprar no site: algum produto com preço cadastrado mas marcado "sob consulta" ainda vem; sai daqui
+    if (modo === 'site') sob(lista).forEach((c) => (c.closest('li') || c).classList.add('lm-cat-fora'));
+    if (modo === 'cotacao') {
+      const info = document.createElement('p'); info.className = 'lm-cat-cotacao-info'; info.setAttribute('role', 'status');
+      info.textContent = 'Buscando os produtos sob cotação…'; lista.before(info);
+      const nova = document.createElement('li'); nova.className = 'listagem-linha lm-cat-cotacao'; nova.innerHTML = '<ul class="row-fluid"></ul>';
+      const destino = nova.firstElementChild;
+      const junta = (cards) => cards.forEach((c) => {
+        const li = c.closest('li.span3, li[class*="span"]') || c;
+        c.querySelector('.acoes-produto .botao-comprar')?.setAttribute('aria-label', 'Consultar ' + (c.querySelector('.nome-produto')?.textContent.trim() || ''));
+        destino.append(li);
+      });
+      junta(sob(lista));
+      // o que sobrou na lista sai: linhas de 4 (li.listagem-linha, cópia de 09/11) ou cartões soltos (a LI ao vivo, 13/11)
+      lista.querySelectorAll(':scope > ul > li').forEach((l) => l.classList.add('lm-cat-fora'));
+      lista.querySelector(':scope > ul')?.prepend(nova);
+      conteudo.querySelectorAll('.lm-cat-pag, .ordenar-listagem .pagination').forEach((p) => p.classList.add('lm-cat-fora'));
+      const ultima = Math.min(10, Math.max(1, ...[...conteudo.querySelectorAll('.pagination a')].map((a) => +(new URL(a.getAttribute('href'), location.href).searchParams.get('pagina') || 0))));
+      const atual = +(new URL(location.href).searchParams.get('pagina') || 1);
+      // cartões das outras páginas guardados na sessão por 10 min (por listagem e página atual): clicar de novo não relê a LI
+      const chave = (() => { const u = new URL(location.href); u.hash = ''; u.searchParams.delete('pagina'); return 'lm-cotacao:' + u.pathname + u.search + ':' + atual; })();
+      const PAUSA = 600;  // entre uma página e outra
+      const guardado = (() => { try { const g = JSON.parse(sessionStorage.getItem(chave)); return g && Date.now() - g.t < 10 * 60e3 ? g.html : null; } catch { return null; } })();
+      const deHtml = (html) => { const t = document.createElement('template'); t.innerHTML = html; return [...t.content.querySelectorAll('.listagem-item')]; };
+      let parcial = false;
+      (async () => {
+        if (guardado) junta(deHtml(guardado.join('')));
+        else {
+          const lidos = [];
+          let completo = true;
+          // uma página por vez, com pausa e no máximo 10; para na 1ª resposta ruim (403/429: a LI bloqueia o IP de quem lê depressa)
+          for (let n = 1; n <= ultima && completo; n++) {
+            if (n === atual) continue;
+            if (n > 1) await new Promise((ok) => setTimeout(ok, PAUSA));
+            const u = new URL(location.href); u.hash = ''; u.searchParams.set('pagina', n);
+            try {
+              const r = await fetch(u.href, { credentials: 'same-origin' });
+              if (!r.ok) { completo = false; break; }
+              const cards = sob(new DOMParser().parseFromString(await r.text(), 'text/html')).map((c) => document.importNode(c.closest('li') || c, true).querySelector('.listagem-item') || c);
+              lidos.push(...cards.map((c) => (c.closest('li') || c).outerHTML));
+              junta(cards);
+            } catch { completo = false; }
+          }
+          // só guarda a lista inteira (com uma página faltando, a próxima visita relê)
+          if (completo) try { sessionStorage.setItem(chave, JSON.stringify({ t: Date.now(), html: lidos })); } catch { /* sem espaço: relê da próxima vez */ }
+          parcial = !completo;
+        }
+        const n = destino.children.length;
+        info.textContent = (n ? `${n} produto${n > 1 ? 's' : ''} sob cotação. Peça o preço no botão Consultar.` : 'Nenhum produto sob cotação nesta categoria.')
+          + (parcial ? ' Não deu para ver todas as páginas agora; tente de novo em instantes.' : '');
+      })();
+    }
+  }
+
   // newsletter no fim da coluna (na busca ela vem antes dos filtros)
   const news = coluna?.querySelector('.newsletter')?.closest('.row-fluid');
   if (news && news.parentElement === coluna) { news.classList.add('lm-cat-news'); coluna.append(news); }
