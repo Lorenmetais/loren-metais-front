@@ -324,3 +324,43 @@ html.lm-novo .pagina-login .social-login-google .controls { margin: 0 !important
 
 /* ===== 404: a faixa .lm-pagcab já traz o título e o texto; a seção do tema que sobra vazia deixava 30 px soltos ===== */
 html.lm-novo #corpo .secao-principal:has(> .conteudo > .lm-vazio-cab:only-child) { display: none !important; }
+
+/* ===== Quem somos (Eduardo 16/11, Wednesday): o topo escuro das Obras com 1 foto real de obra (a 1ª imagem do texto do painel) e a
+   frase principal; intro curta; "O que fazemos" em 4 cartões com link; diferenciais que o site já afirma; a chamada final das Obras.
+   O texto do painel fica no HTML, escondido (o JS só monta enquanto ele é o de hoje). ===== */
+html.lm-novo #corpo .lm-inst.lm-qs-pag { width: 100% !important; max-width: none !important; padding-top: 0 !important; }
+html.lm-novo .lm-pagcab--qs .lm-qs-foto { grid-template: minmax(0, 1fr) / minmax(0, 1fr); overflow: hidden; }  /* a mesma moldura do mosaico, com 1 foto (a linha presa na moldura: sem isso a foto passava da borda de baixo) */
+html.lm-novo .lm-pagcab--qs .lm-qs-foto img { object-position: 50% 65%; }
+@media (min-width: 980px) { html.lm-novo .lm-pagcab--qs .lm-pagcab__in { padding-block: 40px 48px; } }  /* sem os números das Obras o topo ficava baixo e a foto virava uma faixa */  /* a parte de baixo da foto (barras, banco) aparece mais que a parede */
+html.lm-novo #corpo .lm-qs-intro { max-width: 760px; margin: 0 0 48px; font: 400 1.25rem/1.6 var(--lm-fonte-texto); color: var(--lm-grafite); }
+html.lm-novo #corpo .lm-qs-sec { margin: 0 0 48px; }
+html.lm-novo #corpo .lm-qs-sec h2 { margin: 0 0 24px; font: 700 var(--lm-h2)/1.1 var(--lm-fonte-titulo); color: var(--lm-grafite); text-transform: none; }
+html.lm-novo .lm-qs-cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
+html.lm-novo #corpo a.lm-qs-card { display: flex; flex-direction: column; gap: 8px; padding: 24px; border: var(--lm-cartao-borda); background: #fff; color: var(--lm-grafite); text-decoration: none; transition: var(--lm-cartao-transicao); }
+html.lm-novo #corpo a.lm-qs-card:hover { box-shadow: var(--lm-cartao-sombra-hover); }
+html.lm-novo .lm-qs-card h3 { margin: 8px 0 0; font: 700 1.25rem/1.2 var(--lm-fonte-titulo); color: var(--lm-grafite); text-transform: none; }
+html.lm-novo .lm-qs-card p { margin: 0; font: 400 15px/1.5 var(--lm-fonte-texto); color: var(--lm-texto-secundario); }
+html.lm-novo .lm-qs-ver { margin-top: auto; padding-top: 8px; font: 600 15px/1.4 var(--lm-fonte-texto); color: var(--lm-onda-escura); }
+html.lm-novo .lm-qs-ver::after { content: " \2192"; }
+html.lm-novo .lm-qs-card:is(:hover, :focus-visible) .lm-qs-ver { text-decoration: underline; text-underline-offset: 3px; }
+html.lm-novo :is(.lm-qs-card, .lm-qs-dif) .lm-ico { flex: none; margin: 0; display: grid; place-items: center; width: 48px; height: 48px; background: var(--lm-fundo); color: var(--lm-azul); }  /* margin 0: o .lm-ico de fora traz 4 px em cima */
+html.lm-novo :is(.lm-qs-card, .lm-qs-dif) .lm-ico svg { width: 24px; height: 24px; }
+html.lm-novo .lm-qs-dif { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 24px; margin: 0; padding: 0; list-style: none; }
+html.lm-novo .lm-qs-dif li { display: flex; flex-direction: column; gap: 12px; margin: 0; }
+html.lm-novo .lm-qs-dif p { margin: 0; }
+html.lm-novo .lm-qs-dif b { display: block; font: 700 1.125rem/1.2 var(--lm-fonte-titulo); color: var(--lm-grafite); }
+html.lm-novo .lm-qs-dif span { display: block; margin-top: 4px; font: 400 15px/1.5 var(--lm-fonte-texto); color: var(--lm-texto-secundario); }
+html.lm-novo .lm-b2b.lm-qs-cta { margin-top: 0 !important; }
+@media (max-width: 979px) {
+  html.lm-novo .lm-qs-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  html.lm-novo .lm-qs-dif { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 767px) {
+  html.lm-novo #corpo .lm-qs-intro { margin-bottom: 32px; font-size: 1.0625rem; }
+  html.lm-novo #corpo .lm-qs-sec { margin-bottom: 32px; }
+  html.lm-novo .lm-qs-cards { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  html.lm-novo #corpo a.lm-qs-card { padding: 16px; }
+  html.lm-novo .lm-qs-dif { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  html.lm-novo .lm-qs-dif li { flex-direction: row; align-items: center; gap: 16px; }  /* no celular: ícone à esquerda, texto ao lado */
+  html.lm-novo .lm-qs-cta .lm-acs { flex-direction: column; }  /* um botão por linha: lado a lado o do WhatsApp quebrava em 3 linhas */
+}
