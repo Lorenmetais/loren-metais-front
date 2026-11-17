@@ -2,7 +2,7 @@
 
 /* cabeçalho de página: .lm-pagcab do loren.css. O 1º parágrafo e o Ler mais vão na faixa como linha de apoio, no
    tamanho do texto (16/1.6, 14 no celular); os chips do celular ficam logo abaixo da faixa (Ellie 04/11) */
-html.lm-novo #corpo .lm-pagcab .lm-cat-apoio { max-width: 64rem; }  /* ~1024 px, mais largo a pedido do Eduardo (12/11); em rem porque a faixa herda os 12 px do tema e 64em dava 768 */
+html.lm-novo #corpo .lm-pagcab .lm-cat-apoio, html.lm-novo #corpo .lm-pagcab .lm-cat-apoio .lm-cat-intro { max-width: none !important; }  /* largura toda da faixa, alinhada com a grade de filtros e produtos (Eduardo 17/11; antes 64rem na faixa e 64em no parágrafo) */
 html.lm-novo #corpo .lm-pagcab .lm-cat-apoio .lm-cat-intro { margin: 0 !important; font: 400 16px/1.6 var(--lm-fonte-texto) !important; color: var(--lm-texto-secundario) !important; }
 /* descrição justificada na largura toda da faixa (Eduardo 16/11: a direita ficava muito irregular), com hifenização (a página
    da LI já vem com lang="pt-br", conferido ao vivo em 16/11) e text-wrap: pretty onde o navegador tem. No celular (≤ 600 px) volta à
@@ -93,6 +93,11 @@ html.lm-novo body.lm-cat .filtro-mobile, html.lm-novo body.lm-cat .filtro-mobile
 /* filtros (Eduardo 13/11): só categorias, Disponibilidade (categoria.js) e preço; os de especificação da LI (Modelo, Material,
    Departamento...) não aparecem. Aqui no CSS, que entra antes de a página aparecer: nem por um instante */
 html.lm-novo body.lm-cat .coluna .filtro-coluna:not(.faceta-preco):not(.lm-cat-disp) { display: none !important; }
+/* sem a árvore de Categorias na coluna da categoria (Eduardo 17/11): ficam só Disponibilidade e Preço, no computador e no painel
+   do celular. Só escondida: os chips do celular (categoria.js) leem os links desse menu. A Disponibilidade vira o 1º bloco, sem a
+   margem de cima, alinhada com a grade */
+html.lm-novo body.lm-cat.pagina-categoria .coluna .menu.lateral { display: none !important; }
+html.lm-novo body.lm-cat.pagina-categoria .coluna .lm-cat-disp .filtro .titulo { margin-top: 0 !important; }
 html.lm-novo body.lm-cat .lm-cat-fora { display: none !important; }
 html.lm-novo body.lm-cat #listagemProdutos > ul > li.lm-cat-cotacao { grid-column: 1 / -1; list-style: none; padding: 0 !important; }  /* a linha única do Sob cotação ocupa a grade toda */
 html.lm-novo body.lm-cat .coluna .filtro.lista ul li label:hover, html.lm-novo body.lm-cat .coluna .filtro.lista ul li.active label { background: none !important; color: var(--lm-grafite) !important; }  /* o tema pinta o rótulo ativo de verde-água com texto escuro (contraste baixo); a caixinha preenchida já marca */
