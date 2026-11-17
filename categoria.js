@@ -115,7 +115,7 @@
     p.insertAdjacentHTML('afterend', '<button type="button" class="lm-cat-mais" aria-expanded="false">Ler mais</button>');
     const bt = p.nextElementSibling;
     bt.addEventListener('click', () => { const on = p.classList.toggle('lm-aberto'); bt.textContent = on ? 'Ler menos' : 'Ler mais'; bt.setAttribute('aria-expanded', on); });
-    // o Ler mais só aparece quando o corte esconde texto: na faixa larga (64rem, 12/11) um texto curto cabe nas 5 linhas
+    // o Ler mais só aparece quando o corte esconde texto: na faixa larga (largura toda, 17/11) um texto curto cabe nas 5 linhas
     new ResizeObserver(() => { bt.hidden = !p.classList.contains('lm-aberto') && p.scrollHeight <= p.clientHeight + 1; }).observe(p);
   });
 
