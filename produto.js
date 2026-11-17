@@ -344,7 +344,7 @@
     // janela no padrão das do tema (Bootstrap .modal), que o modais.css da Ellie já desenha (campos .lm-campo, rótulo .lm-rotulo)
     document.body.insertAdjacentHTML('beforeend', `<div class="modal hide fade lm-ficha-modal" id="lm-ficha-modal" tabindex="-1" role="dialog" aria-labelledby="lm-ficha-modal-tit" aria-hidden="true">
       <div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><i></i></button><h3 id="lm-ficha-modal-tit">Baixar ficha técnica</h3></div>
-      <form novalidate><div class="modal-body"><p class="p_form">Preencha para baixar a ficha técnica.</p>
+      <form><div class="modal-body"><p class="p_form">Preencha para baixar a ficha técnica.</p>
         <div class="lm-grupo"><label class="lm-rotulo" for="lm-ficha-email">E-mail</label><input class="lm-campo" type="email" id="lm-ficha-email" name="email" required autocomplete="email" placeholder="meu@email.com.br"></div>
         <div class="lm-grupo"><label class="lm-rotulo" for="lm-ficha-tel">Telefone / WhatsApp</label><input class="lm-campo" type="tel" id="lm-ficha-tel" name="tel" required inputmode="tel" autocomplete="tel-national" maxlength="15" placeholder="(11) 99999-9999"></div>
         <label class="lm-ficha-check"><input type="checkbox" name="whats"> Aceito receber contato pelo WhatsApp</label>
@@ -362,7 +362,8 @@
       email.setCustomValidity(!v ? 'Informe o seu e-mail.' : email.validity.typeMismatch || !/@[^@\s]+\.[a-z]{2,}$/i.test(v) ? 'Informe um e-mail válido, como nome@empresa.com.br.' : '');
       const n = digitos().length; tel.setCustomValidity(!n ? 'Informe o seu telefone com DDD.' : n < 10 ? 'Telefone incompleto: informe o DDD e o número.' : '');
     };
-    [email, tel].forEach((c) => c.addEventListener('input', valida));
+    [email, tel].forEach((c) => c.addEventListener('input', valida)); valida();  // validação NATIVA (sem novalidate): inválido, o navegador mostra a mensagem e o submit nem acontece,
+    // então o GTM (conversão de formulário enviado, que não checa validação) só conta envio válido (Wednesday 17/11)
     // pedido no formulário de contato da própria LI (o do Fale conosco, que chega no e-mail da loja). Os nomes dos campos não ficam no
     // código: lê o formulário que o tema pede por ajax em /contato/popup/ e devolve os campos dele (os escondidos também) com os dados daqui
     const LOJA = 'https://www.lorenmetais.com.br', AJAX = { 'X-Requested-With': 'XMLHttpRequest' };
@@ -383,8 +384,7 @@
       fetch(new URL(acao, LOJA), { method: 'POST', body: corpo, credentials: 'same-origin', keepalive: true, headers: AJAX }).catch(() => {});
     };
     modal.querySelector('form').addEventListener('submit', (e) => {
-      e.preventDefault(); valida();
-      const ruim = [email, tel].find((c) => !c.checkValidity()); if (ruim) { ruim.reportValidity(); return; }
+      e.preventDefault();  // só chega aqui com os campos válidos: o envio é por fetch, abaixo
       const whats = modal.querySelector('[name=whats]').checked;
       const produto = document.querySelector('.pagina-produto h1.nome-produto')?.textContent.trim() || document.title;  // h1: o 1º .nome-produto da página é o modelo escondido do tema (--PRODUTO_NOME--)
       const d = { sku, nome: 'Pedido de ficha técnica', email: email.value.trim(), tel: tel.value };  // sem o campo Nome (Eduardo 12/11): o Fale conosco da LI pode exigir nome

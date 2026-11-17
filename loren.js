@@ -310,6 +310,9 @@
       fechaDial(); janela.showModal();
     });
     janela.querySelector('.lm-chat__fechar').addEventListener('click', () => janela.close());
+    // conversão "contato iniciado" da LI (AW-11175152550): a LI a manda no clique do botão de WhatsApp dela (.li-whatsapp a), que o loren.css esconde.
+    // Nos nossos links para o mesmo número, roda o tratador dela (triggerHandler: sem abrir o link de novo nem propagar) (Wednesday 17/11)
+    document.addEventListener('click', (e) => { if (e.target.closest?.('a[href*="5519992306593"]') && !e.target.closest('.li-whatsapp')) window.jQuery?.('.li-whatsapp a').first().triggerHandler('click'); });
     janela.addEventListener('click', (e) => { if (e.target === janela) janela.close(); });  // clique fora da caixa fecha
     document.addEventListener('click', (e) => { if (!chat.contains(e.target)) fechaDial(); });
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && chat.dataset.open === 'true') { fechaDial(); abre.focus(); } });
