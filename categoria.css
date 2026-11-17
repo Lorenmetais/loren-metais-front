@@ -95,9 +95,9 @@ html.lm-novo body.lm-cat .filtro-mobile, html.lm-novo body.lm-cat .filtro-mobile
 html.lm-novo body.lm-cat .coluna .filtro-coluna:not(.faceta-preco):not(.lm-cat-disp) { display: none !important; }
 /* sem a árvore de Categorias na coluna da categoria (Eduardo 17/11): ficam só Disponibilidade e Preço, no computador e no painel
    do celular. Só escondida: os chips do celular (categoria.js) leem os links desse menu. A Disponibilidade vira o 1º bloco, sem a
-   margem de cima, alinhada com a grade */
-html.lm-novo body.lm-cat.pagina-categoria .coluna .menu.lateral { display: none !important; }
-html.lm-novo body.lm-cat.pagina-categoria .coluna .lm-cat-disp .filtro .titulo { margin-top: 0 !important; }
+   margem de cima, alinhada com a grade. Na busca também (Eduardo 17/11) */
+html.lm-novo body.lm-cat:is(.pagina-categoria, .pagina-busca) .coluna .menu.lateral { display: none !important; }
+html.lm-novo body.lm-cat:is(.pagina-categoria, .pagina-busca) .coluna .lm-cat-disp .filtro .titulo { margin-top: 0 !important; }
 html.lm-novo body.lm-cat .lm-cat-fora { display: none !important; }
 html.lm-novo body.lm-cat #listagemProdutos > ul > li.lm-cat-cotacao { grid-column: 1 / -1; list-style: none; padding: 0 !important; }  /* a linha única do Sob cotação ocupa a grade toda */
 html.lm-novo body.lm-cat .coluna .filtro.lista ul li label:hover, html.lm-novo body.lm-cat .coluna .filtro.lista ul li.active label { background: none !important; color: var(--lm-grafite) !important; }  /* o tema pinta o rótulo ativo de verde-água com texto escuro (contraste baixo); a caixinha preenchida já marca */
