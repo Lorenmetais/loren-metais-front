@@ -350,7 +350,6 @@ html.lm-novo .lm-qs-dif li { display: flex; flex-direction: column; gap: 12px; m
 html.lm-novo .lm-qs-dif p { margin: 0; }
 html.lm-novo .lm-qs-dif b { display: block; font: 700 1.125rem/1.2 var(--lm-fonte-titulo); color: var(--lm-grafite); }
 html.lm-novo .lm-qs-dif span { display: block; margin-top: 4px; font: 400 15px/1.5 var(--lm-fonte-texto); color: var(--lm-texto-secundario); }
-html.lm-novo .lm-b2b.lm-qs-cta { margin-top: 0 !important; }
 @media (max-width: 979px) {
   html.lm-novo .lm-qs-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   html.lm-novo .lm-qs-dif { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -362,5 +361,81 @@ html.lm-novo .lm-b2b.lm-qs-cta { margin-top: 0 !important; }
   html.lm-novo #corpo a.lm-qs-card { padding: 16px; }
   html.lm-novo .lm-qs-dif { grid-template-columns: minmax(0, 1fr); gap: 16px; }
   html.lm-novo .lm-qs-dif li { flex-direction: row; align-items: center; gap: 16px; }  /* no celular: ícone à esquerda, texto ao lado */
-  html.lm-novo .lm-qs-cta .lm-acs { flex-direction: column; }  /* um botão por linha: lado a lado o do WhatsApp quebrava em 3 linhas */
 }
+
+/* ===== Faixa final das Obras e da Quem somos (Eduardo 16/11): degradê da marca (o da faixa diagonal do catálogo, --lm-gradiente; liso
+   até 1023 px) com as 3 ondas do ícone bem sutis à direita, cantos do padrão dos cartões (--lm-raio-grande), título maior, texto à
+   esquerda e botões com ícone à direita; empilhado no celular. Mesma largura do conteúdo, 48 px em cima; embaixo, o padding da página (48 px). O botão de contorno
+   ganha fundo escuro: à direita o degradê clareia e o texto branco sem fundo ficava abaixo de 4,5:1. ===== */
+html.lm-novo #corpo .lm-b2b.lm-faixa-cta { position: relative; isolation: isolate; overflow: hidden; margin: 48px 0 0 !important; border-radius: 12px !important; background: var(--lm-gradiente) !important; }  /* arredondada (Eduardo 17/11): o !important vence o "* { border-radius: 0 }" do loren.css */
+html.lm-novo .lm-faixa-cta::after { content: ""; position: absolute; z-index: -1; top: 50%; right: 3%; width: 200px; aspect-ratio: 176 / 217; transform: translateY(-50%); background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 176 217'%3E%3Cg transform='translate(-162 -23)' fill='%23fff'%3E%3Cpath d='M239.12 24C219.62 113.04 295.89 90.46 328.12 144.12C329.82 75.77 264.98 81.15 239.12 24Z'/%3E%3Cpath d='M178.62 62.62C180.39 191.05 274.13 136.34 335.75 199.62C316.21 105.91 228.74 135.8 178.62 62.62Z'/%3E%3Cpath d='M162.5 138.5C187.54 258.42 267.3 188.99 335 236.88C300.75 152.67 222.63 195.11 162.5 138.5Z'/%3E%3C/g%3E%3C/svg%3E") center / contain no-repeat; opacity: .14; pointer-events: none; }
+html.lm-novo #corpo .lm-faixa-cta .lm-wrap { flex-direction: row; align-items: center; justify-content: space-between; gap: 32px; max-width: none; padding: 48px; }
+html.lm-novo #corpo .lm-faixa-cta h2 { margin-bottom: 12px; font-size: clamp(1.875rem, 3.4vw, 2.25rem); line-height: 1.1; }
+html.lm-novo .lm-faixa-cta .lm-acs { flex: none; }
+html.lm-novo .lm-faixa-cta .lm-acs a { display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+html.lm-novo .lm-faixa-cta .lm-acs svg { flex: none; width: 20px; height: 20px; }
+html.lm-novo #corpo .lm-faixa-cta .lm-btn2 { background: var(--lm-pena-escura) !important; }
+html.lm-novo #corpo .lm-faixa-cta .lm-btn2:hover { background: var(--lm-branco) !important; }
+@media (max-width: 979px) {
+  html.lm-novo #corpo .lm-faixa-cta .lm-wrap { flex-direction: column; align-items: flex-start; }
+}
+@media (max-width: 767px) {
+  html.lm-novo #corpo .lm-b2b.lm-faixa-cta { margin: 32px 0 0 !important; }
+  html.lm-novo #corpo .lm-faixa-cta .lm-wrap { padding: 32px 16px; gap: 24px; }
+  html.lm-novo #corpo .lm-faixa-cta .lm-acs a { padding-inline: 16px !important; font-size: 14px !important; }  /* 'Fale com a gente no WhatsApp' + ícone numa linha só em 390 */
+  html.lm-novo .lm-faixa-cta::after { top: auto; bottom: -24px; right: -16px; width: 140px; transform: none; }
+  html.lm-novo .lm-faixa-cta .lm-acs { flex-direction: column; width: 100%; }  /* um botão por linha, na largura toda */
+}
+
+/* ===== Formas de pagamento (Maestro 16/11, Ellie): o topo escuro e os cartões da Quem somos; os meios saem do "Pague com" do rodapé,
+   o passo a passo é o do painel resumido, os selos são os do rodapé e no fim a faixa. O texto do painel e a arte ficam no HTML, escondidos ===== */
+html.lm-novo #corpo .lm-inst.lm-fp-pag { width: 100% !important; max-width: none !important; padding-top: 0 !important; }
+html.lm-novo #corpo div.lm-qs-card { display: flex; flex-direction: column; gap: 8px; padding: 24px; border: var(--lm-cartao-borda); background: #fff; color: var(--lm-grafite); }
+html.lm-novo .lm-fp-pag .lm-qs-card .lm-ico { flex: none; margin: 0; display: grid; place-items: center; width: 48px; height: 48px; background: var(--lm-fundo); color: var(--lm-azul); }
+html.lm-novo .lm-fp-pag .lm-qs-card .lm-ico svg { width: 24px; height: 24px; }
+html.lm-novo .lm-fp-passos { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; margin: 0; padding: 0; list-style: none; counter-reset: lm-passo; }
+html.lm-novo .lm-fp-passos li { display: flex; gap: 12px; margin: 0; counter-increment: lm-passo; }
+html.lm-novo .lm-fp-passos li::before { content: counter(lm-passo); flex: none; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: var(--lm-azul); color: var(--lm-branco); font: 700 15px/1 var(--lm-fonte-titulo); }
+html.lm-novo .lm-fp-passos p { margin: 0; }
+html.lm-novo .lm-fp-passos b { display: block; font: 700 1.125rem/1.2 var(--lm-fonte-titulo); color: var(--lm-grafite); }
+html.lm-novo .lm-fp-passos span { display: block; margin-top: 4px; font: 400 15px/1.5 var(--lm-fonte-texto); color: var(--lm-texto-secundario); }
+html.lm-novo #corpo .lm-fp-selos { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+html.lm-novo #corpo .lm-fp-selos li { margin: 0 !important; padding: 0 !important; list-style: none !important; }  /* o #corpo das institucionais põe marcador em li */
+@media (max-width: 979px) { html.lm-novo .lm-fp-passos { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 767px) {
+  html.lm-novo #corpo div.lm-qs-card { padding: 16px; }
+  html.lm-novo .lm-fp-passos { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+}
+
+/* ===== Instalação de barras de apoio, Acessibilidade e Agradecemos (Eduardo 17/11, Ellie): o topo escuro e os cartões da Quem somos,
+   a faixa no fim. O texto do painel fica no HTML, escondido ===== */
+html.lm-novo #corpo .secao-principal.lm-sec-inst { max-width: none; }  /* a Acessibilidade traz no painel um <style> que prende a .secao-principal em 650 px */
+/* Instalação: um desenho por linha, na largura em que as cotas ficam legíveis; no celular, o "Ampliar" abre o desenho inteiro */
+html.lm-novo .lm-inst-figs { display: grid; gap: 24px; max-width: 860px; }
+html.lm-novo #corpo .lm-inst-fig { margin: 0; padding: 24px; border: var(--lm-cartao-borda); background: #fff; }
+html.lm-novo #corpo .lm-inst-fig img { display: block; width: 100%; height: auto; margin: 0; }
+html.lm-novo #corpo .lm-inst-fig figcaption { margin-top: 16px; padding-top: 16px; border-top: var(--lm-borda-padrao); font: 400 15px/1.5 var(--lm-fonte-texto); color: var(--lm-texto-secundario); }
+html.lm-novo #corpo .lm-inst-fig figcaption b { display: block; font: 700 1.125rem/1.2 var(--lm-fonte-titulo); color: var(--lm-grafite); }
+html.lm-novo #corpo .lm-inst-fig figcaption a { font-weight: 600; color: var(--lm-onda-escura); }
+/* Acessibilidade: 3 por linha, foto do produto em cima (a do painel, inteira), o 1º parágrafo do painel em até 4 linhas */
+html.lm-novo .lm-qs-cards.lm-acs-cards { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+html.lm-novo .lm-acs-foto { display: block; margin-bottom: 8px; }
+html.lm-novo #corpo .lm-acs-foto img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: contain; margin: 0; }  /* fotos de tamanhos diferentes no painel: a mesma moldura em todos */
+html.lm-novo .lm-acs-cards .lm-qs-card p { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+/* Agradecemos: o "Voltar para a loja" do painel, no topo, embaixo da confirmação */
+html.lm-novo .lm-agr-acoes { margin: 24px 0 0; }
+@media (max-width: 979px) { html.lm-novo .lm-qs-cards.lm-acs-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 767px) {
+  html.lm-novo .lm-qs-cards.lm-acs-cards { grid-template-columns: minmax(0, 1fr); }
+  html.lm-novo #corpo .lm-inst-fig { padding: 16px; }
+}
+
+/* ===== Páginas de termos (Segurança e privacidade, Políticas de troca...; Eduardo 17/11, Ellie): o texto inteiro na coluna de leitura,
+   o topo escuro, o sumário com âncoras quando há 3 ou mais títulos, a data de atualização (quando a tabela do paginas.js confirma) e a faixa ===== */
+html.lm-novo #corpo .lm-pagcab .lm-termos-data { margin: 16px 0 0; font: 400 14px/1.4 var(--lm-fonte-texto); color: rgba(246, 246, 247, .72); }
+html.lm-novo #corpo .lm-termos-sumario { margin: 0 0 32px; padding: 24px; border: var(--lm-cartao-borda); background: var(--lm-fundo) !important; }
+html.lm-novo #corpo .lm-termos-sumario p { margin: 0 0 8px !important; font-family: var(--lm-fonte-titulo) !important; font-weight: 700; font-size: 1.125rem !important; }
+html.lm-novo #corpo .lm-termos-sumario ol { margin: 0 !important; }
+html.lm-novo #corpo .lm-termos-sumario li { margin: 0 0 4px; }
+html.lm-novo #corpo .lm-termos-pag .lm-faixa-cta .lm-wrap { flex-direction: column; align-items: flex-start; }  /* na coluna de leitura (760 px) texto e botões não cabem lado a lado */
+html.lm-novo #corpo .lm-termos h2 { scroll-margin-top: calc(var(--lm-topo-h, 80px) + 16px); }  /* a âncora não para embaixo do cabeçalho fixo */

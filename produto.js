@@ -230,13 +230,21 @@
     // produto todo esgotado: o convite acima já é o chamado de cotação, o "Para grandes quantidades" sai (um só, como no sob consulta)
     if (esgotados.length && !compra.querySelector('.acoes-produto:not(.indisponivel)[data-produto-id]')) compra.classList.add('lm-prod-esg');
 
-    // Favoritar (Eduardo 16/11): o botão nativo da LI ("Lista de Desejos", escondido junto com o compartilhar e no celular) é MOVIDO
-    // para a caixa, como coração + "Favoritar"; o clique, as janelas e o endpoint continuam os da LI. O estado vem do loren.js.
-    const fav = document.querySelector('.produto-compartilhar a.adicionar-favorito');
-    if (caixa && fav) {
-      fav.classList.remove('hidden-phone', 'fundo-principal'); fav.classList.add('lm-fav');
-      fav.innerHTML = '<i class="icon-heart" aria-hidden="true"></i><span class="lm-fav-texto">Favoritar</span>';
-      caixa.append(fav);
+    // Favoritar (Eduardo 16/11; refeito 17/11): botão NOSSO na caixa, coração + "Favoritar", com o endereço do coração da categoria. Não depende do
+    // link nativo da LI ("Lista de Desejos"): logado, a LI não o gera para produto que já está nos favoritos, e o clique dela (all.min.js) apaga o
+    // link depois de adicionar. O nativo sai (um botão só); o clique faz o do tema nos cartões (LI.methods.addWishList); o estado vem do loren.js.
+    const favId = document.body.className.match(/\bproduto-(\d+)\b/)?.[1] || document.querySelector('a.adicionar-favorito')?.getAttribute('href').match(/favorito\/(\d+)\//)?.[1];
+    document.querySelectorAll('.produto-compartilhar a.adicionar-favorito').forEach((a) => a.remove());
+    if (caixa && favId) {
+      caixa.insertAdjacentHTML('beforeend', `<a class="lm-fav" href="/conta/favorito/${favId}/adicionar" rel="nofollow"><i class="icon-heart" aria-hidden="true"></i><span class="lm-fav-texto">Favoritar</span></a>`);
+      caixa.lastElementChild.addEventListener('click', (e) => {
+        e.preventDefault(); const a = e.currentTarget, segue = () => { location.href = a.href; };  // resposta sem JSON (login em HTML, 302) ou falha: segue o link, e a LI leva ao login, como o nativo
+        if (!window.jQuery) return segue();
+        window.jQuery.post(a.getAttribute('href')).done((d) => { let r; try { r = typeof d === 'string' ? JSON.parse(d) : d; } catch { return segue(); }
+          if (!r?.status) return segue();
+          if (r.status === 'erro') window.swal?.('Erro!', r.mensagem, 'error'); else { window.swal?.('Produto adicionado!', 'Produto adicionado com sucesso na sua lista de desejos!', 'success'); a.classList.add('added'); } }).fail(segue);
+      });
+      document.dispatchEvent(new Event('lm-fav'));  // o loren.js marca "Nos favoritos" se já leu a lista
     }
     // compartilhar (como na Conceito): links padrão, sem SDK; o da LI (addthis) segue escondido
     if (caixa) {

@@ -130,7 +130,7 @@
     const favGuardar = (ids) => { try { sessionStorage.setItem(FAV, JSON.stringify([...ids])); } catch { /* aba anônima sem storage: só não lembra */ } };
     const favMarcar = (ids) => document.querySelectorAll('a[href*="/conta/favorito/"][href$="/adicionar"]').forEach((a) => {
       const sim = ids.has(a.getAttribute('href').match(/favorito\/(\d+)\//)?.[1]); a.classList.toggle('added', sim);
-      if (a.matches('.adicionar-favorito')) a.querySelector('.lm-fav-texto')?.replaceChildren(sim ? 'Nos favoritos' : 'Favoritar');
+      if (a.matches('.lm-fav')) a.querySelector('.lm-fav-texto')?.replaceChildren(sim ? 'Nos favoritos' : 'Favoritar');
     });
     // ids da /listar: cartões (data-id) e links /conta/favorito/<id>/... (ponytail: estrutura suposta, conferir na página salva do Eduardo)
     const favDaPagina = (doc) => new Set([...doc.querySelectorAll('.listagem-item[data-id], a[href*="/conta/favorito/"]')].map((e) => e.dataset.id || e.getAttribute('href').match(/favorito\/(\d+)\//)?.[1]).filter(Boolean));
@@ -145,8 +145,10 @@
         if (!r?.ok || /\/conta\/login/.test(r.url)) return;  // sessão caiu: fica como hoje
         favGuardar(ids = favDaPagina(new DOMParser().parseFromString(await r.text(), 'text/html')));
       }
-      favMarcar(ids);
+      favMarcar(favIds = ids);
     };
+    let favIds = null;  // a lista já lida: o botão do produto nasce no produto.js, que avisa com 'lm-fav' se chegar depois desta marcação (sem ler de novo)
+    document.addEventListener('lm-fav', () => favIds && favMarcar(favIds));
     window.jQuery?.(document).ajaxSuccess((ev, xhr, op) => {
       const id = op.url?.match(/\/conta\/favorito\/(\d+)\/adicionar/)?.[1]; if (!id) return;
       try { if (JSON.parse(xhr.responseText).status === 'erro') return; } catch { /* resposta sem JSON: vale o .added do tema */ }
