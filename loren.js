@@ -59,7 +59,10 @@
     const dentro = cab.firstChild, trilha = corpo.querySelector('.breadcrumbs'); apoio = apoio || h1.querySelector('small');
     if (trilha) dentro.append(trilha);
     dentro.append(h1);
-    if (apoio) { if (apoio.tagName === 'SMALL') { const p = document.createElement('p'); p.textContent = apoio.textContent.trim(); apoio.remove(); apoio = p; } apoio.classList.add('lm-pagcab__apoio'); dentro.append(apoio); }
+    if (apoio) { if (apoio.tagName === 'SMALL') { const p = document.createElement('p'); p.textContent = apoio.textContent.trim(); apoio.remove(); apoio = p; }
+      // o esqueleto do painel (parte 3) já mostra este texto em #lm-apoio-cedo (login e 404): adota o mesmo nó, senão o Chrome conta o apoio final como LCP (Wednesday 18/11)
+      const cedo = document.getElementById('lm-apoio-cedo'); if (cedo && cedo.textContent === apoio.textContent.trim().replace(/\s+/g, ' ')) { cedo.removeAttribute('style'); cedo.removeAttribute('aria-hidden'); apoio.remove(); apoio = cedo; }
+      apoio.classList.add('lm-pagcab__apoio'); dentro.append(apoio); }
     base.prepend(cab); document.body.classList.add('lm-com-cab');
     const temTexto = (e) => !!e.textContent.trim() || !!e.querySelector('img, input, select, textarea, table, form, iframe, svg');
     corpo.querySelectorAll('.cabecalho-interno, .box-destaque').forEach((e) => { if (!temTexto(e)) e.classList.add('lm-vazio-cab'); });  // caixas do tema que ficaram vazias
@@ -78,11 +81,13 @@
   // modais.* (formulários em janela, como o Pedir orçamento) vale em toda página
   // CSS e JS da página e o modais: no live o código do cabeçalho já aplicou o CSS e pré-carregou o JS; aqui entra o que faltar e o JS roda, depois do ready do tema. Devolve uma promessa para o html.lm-pronto esperar
   const extra = () => { if (!BASE) return Promise.resolve(); const espera = []; const nova = (el) => { espera.push(new Promise((ok) => { el.onload = el.onerror = ok; })); document.head.append(el); };
-    for (const n of [pagina(), 'modais'].filter(Boolean)) {
+    for (const n of [pagina()].filter(Boolean)) {   // o modais (janelas) não é da 1ª tela: entra depois do lm-pronto, pelo tarde() (Ellie 17/11, velocidade no celular)
       const ja = document.querySelector(`link[rel="stylesheet"][href*="/${n}${MIN}.css"]`); if (ja) { if (!ja.sheet && !ja.dataset.fim) espera.push(new Promise((ok) => { ja.addEventListener('load', ok); ja.addEventListener('error', ok); })); } else { const l = document.createElement('link'); l.rel = 'stylesheet'; l.href = BASE + n + MIN + '.css' + V; nova(l); }
       if (!document.querySelector(`script[src*="/${n}${MIN}.js"]`)) { const j = document.createElement('script'); j.src = BASE + n + MIN + '.js' + V; nova(j); } }
     return Promise.all(espera); };
 
+  const tarde = (n) => { if (!BASE) return; if (!document.querySelector(`link[rel="stylesheet"][href*="/${n}${MIN}.css"]`)) { const l = document.createElement('link'); l.rel = 'stylesheet'; l.href = BASE + n + MIN + '.css' + V; document.head.append(l); }
+    if (!document.querySelector(`script[src*="/${n}${MIN}.js"]`)) { const j = document.createElement('script'); j.src = BASE + n + MIN + '.js' + V; document.head.append(j); } };
   const monta = () => {
     if (document.body.dataset.lm) return; document.body.dataset.lm = '1';
     // newsletter (rodapé, coluna, janela): o tema enviava vazio, "abc" e "abc@x" sem aviso (Wednesday 09/11). Antes do tema (fase de captura), e-mail inválido não sai e o navegador mostra o aviso
@@ -329,10 +334,13 @@
     const BANNERS = { 'compre direto pela fábrica': 'fabrica', 'clínicas hospitalares': 'clinicas', 'cozinhas industriais': 'cozinhas',
       'shoppings e industrias': 'shoppings', 'shoppings e indústrias': 'shoppings', 'empresas': 'empresas', 'quem somos': 'quem-somos' };
     const celular = matchMedia('(max-width: 767px)').matches;
-    document.querySelectorAll('.secao-banners .banner.cheio img').forEach((img) => {
+    // só o 1º banner (o LCP) disputa a banda na largada; os outros esperam o load da página (no celular lento eles atrasavam o loren.css e o modais; Ellie 17/11)
+    const soltaBanner = (img) => { const vai = () => { img.loading = 'eager'; img.fetchPriority = 'auto'; }; document.readyState === 'complete' ? setTimeout(vai, 0) : addEventListener('load', vai, { once: true }); };
+    document.querySelectorAll('.secao-banners .banner.cheio img').forEach((img, i) => {
       const n = BANNERS[(img.alt || '').trim().toLowerCase()]; if (!n || !BASE) return;
       const arq = BASE + 'banners/' + n + (celular ? '-celular' : '-1920');  // AVIF bem comprimido; JPG só se o navegador não abrir AVIF
       img.width = celular ? 750 : 1920; img.height = celular ? 960 : 505;  // o tamanho já na tag reserva o espaço antes de a imagem chegar
+      if (i) { img.loading = 'lazy'; img.fetchPriority = 'low'; soltaBanner(img); }
       img.onerror = () => { img.onerror = null; img.src = arq + '.jpg'; }; img.src = arq + '.avif'; img.removeAttribute('srcset');
     });
     // vitrines: mostra 8 (4 no celular) e um botão para ver o resto
@@ -373,7 +381,7 @@
   // fontes, pré-carregadas no cabeçalho, ficaram prontas 0,2 a 1,1 s ANTES de o JS montar, então a espera real foi zero; o teto só pega rede ruim, e as fontes de reserva do brand-tokens.css seguram o salto).
   const teto = (p, ms) => Promise.race([p, new Promise((ok) => setTimeout(ok, ms))]);
   let foi = false;
-  const tudo = () => { if (foi || window.__lmDesliga) return; foi = true; const carga = extra(); monta(); window.__lmMontou = true; qtdAuto(); Promise.all([teto(carga, 30000), teto(fontesProntas(), 1000)]).then(() => document.documentElement.classList.add('lm-pronto')); };
+  const tudo = () => { if (foi || window.__lmDesliga) return; foi = true; const carga = extra(); monta(); window.__lmMontou = true; qtdAuto(); Promise.all([teto(carga, 30000), teto(fontesProntas(), 1000)]).then(() => { document.documentElement.classList.add('lm-pronto'); tarde('modais'); }); };
   // o tema monta o menu e a gaveta no ready do jQuery (LI.methods.otherCategories joga para "Outros" tudo que passa de 6 itens, inclusive o nosso Obras finalizadas): entramos depois dele
   // Também sem o ready: no jQuery antigo do tema, uma exceção num ready anterior (EmailJS bloqueado: 'emailjs is not defined') para a fila e o nosso nunca rodaria (Ellie 09/11).
   // Então tudo() roda também depois de qualquer erro de script, no load e já, se o ready do jQuery já passou; a trava 'foi' faz rodar uma vez só.

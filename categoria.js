@@ -46,7 +46,14 @@
   new MutationObserver((ms) => ms.forEach((m) => m.addedNodes.forEach((n) => n.classList?.contains('texto-descricao') && velho(n)))).observe(lista, { childList: true });
   if (comp) {
     const filhos = [...comp.children].filter((n) => !n.matches('h4.titulo'));
-    const intro = filhos.find((n) => n.tagName === 'P');
+    let intro = filhos.find((n) => n.tagName === 'P');
+    // intro cedo (código do cabeçalho, celular): o texto já aparece no esqueleto num <p> nosso. Sendo o mesmo texto puro, ESSE nó vira a intro: o texto que a
+    // pessoa já está lendo não é trocado (e o LCP fica no 1º desenho, ~2 s). Ele segue fixo pela casca até o lm-pronto; o style e o aria-hidden saem já
+    const cedo = document.getElementById('lm-intro-cedo');
+    if (cedo) {
+      if (intro && !intro.children.length && !/⠀/.test(intro.textContent) && limpa(intro.textContent) === limpa(cedo.textContent)) { cedo.removeAttribute('style'); cedo.removeAttribute('aria-hidden'); intro.replaceWith(cedo); intro = cedo; }
+      else cedo.remove();
+    }
     if (intro) { intro.classList.add('lm-cat-intro'); topo.append(intro); }
     const resto = filhos.filter((n) => n !== intro);
     if (resto.length) {

@@ -1,0 +1,52 @@
+<!-- Loren Metais: visual novo, PARTE 3 (o conteúdo principal já no esqueleto, só no celular). Cabeçalho (head) do painel, "todas as páginas exceto checkout", numa entrada própria, em qualquer ordem com as partes 1 e 2. No painel vai pelo painel/gera.py, que troca COMMIT pelo ramo. Medidas e porquês: dev/qa-wed/velocidade/RESPOSTA-1711.md (Wednesday 18/11) -->
+<script>
+(function () {
+  // só no celular e fora do checkout; e só age quando a parte 1 liga o visual novo (html.lm-novo): quem está no visual antigo não pede nada
+  if (/\/(checkout|pagamento)/i.test(location.pathname) || !window.matchMedia || !matchMedia('(max-width: 767px)').matches) return;
+  var h = document.documentElement, BASE = 'https://cdn.jsdelivr.net/gh/Lorenmetais/loren-metais-front@COMMIT/', S = 'html.lm-novo:not(.lm-pronto) ';
+  // As regras só valem com html.lm-novo e até o html.lm-pronto (no pronto, ou no plano B, tudo isto some sozinho). A Inter Reserva é a mesma do brand-tokens.css,
+  // que chega depois do 1º desenho: o texto do esqueleto e o final têm o mesmo tamanho (a caixa não é refeita maior quando a Inter chega). Medidas em 360, 390 e 412
+  var LB = 'body:is(.pagina-busca,.pagina-marca) #listagemProdutos>ul>li:first-child>ul>li:nth-child', st = document.createElement('style');
+  st.textContent = "@font-face{font-family:'Inter Reserva';font-weight:400 500;src:local('Arial'),local('ArialMT'),local('Helvetica');size-adjust:105.06%;ascent-override:92.21%;descent-override:22.96%;line-gap-override:0%}"
+    // produto: a foto principal do tema (chega em ~1 s) no lugar e no tamanho exatos da 1ª foto da galeria nova
+    + S + 'body.pagina-produto #imagemProduto{position:fixed!important;visibility:visible;left:17px;top:369px;width:calc(100vw - 34px)!important;height:calc(100vw - 34px)!important;max-width:none!important;max-height:none!important;margin:0!important;padding:0;border:0;object-fit:contain;background:#fff;z-index:1;transform:none}'
+    // busca e marca: as fotos dos 2 primeiros cards (as do tema) no lugar e no tamanho exatos dos cards novos (lado 50vw - 38; o 2º em 50vw + 5)
+    + S + LB + '(-n+2) .imagem-principal{position:fixed!important;visibility:visible;left:17px;top:406px;width:calc(50vw - 38px)!important;height:calc(50vw - 38px)!important;max-width:none!important;max-height:none!important;margin:0!important;object-fit:contain;background:#fff;z-index:1}'
+    + S + LB + '(2) .imagem-principal{left:calc(50vw + 5px)}' + S + LB.replace('.pagina-busca,', '') + '(-n+2) .imagem-principal{top:329px}'
+    // início: o nosso 1º banner (a mesma URL do carrossel novo: sem baixar duas vezes) no lugar dele
+    + S + '#lm-banner-cedo{display:block!important;visibility:visible;position:absolute;left:0;top:175px;width:100vw;height:128vw;z-index:1}'
+    // categoria: o texto da descrição no lugar e no corte da intro nova (o categoria.js adota este mesmo nó como a intro)
+    + S + "#lm-intro-cedo{display:-webkit-box!important;-webkit-box-orient:vertical;-webkit-line-clamp:4;visibility:visible;position:fixed;left:16px;top:280px;width:calc(100vw - 32px);max-height:90px;overflow:hidden;margin:0;background:#F6F6F7;z-index:1;font:400 14px/1.6 'Inter','Inter Reserva',sans-serif!important;color:#6B6C72;text-align:left}"
+    // login e 404: o texto de apoio da faixa do título (o mesmo texto do tema) no lugar dele
+    + S + "#lm-apoio-cedo{display:block!important;visibility:visible;position:fixed;left:16px;top:280px;width:calc(100vw - 32px);margin:0;background:#F6F6F7;z-index:1;font:400 16px/24px 'Inter','Inter Reserva',sans-serif!important;color:#6B6C72;text-align:left}"
+    + S + 'body.pagina-login #lm-apoio-cedo{top:244px}';
+  (document.head || h).appendChild(st);
+  var home = /^\/(home)?$/.test(location.pathname);
+  var cria = function () {
+    var mo, el, fonte, poe = function () {
+      var b = document.body; if (!b) return;
+      if (!el) {   // o tipo da página pela classe do body (o 404 não tem classe pagina-)
+        var c = b.className;
+        fonte = home ? '' : /pagina-categoria/.test(c) ? '.componente:not(.newsletter) > .interno > h4.titulo ~ p' : /pagina-login/.test(c) ? 'h1.titulo > small' : !/pagina-/.test(c) ? '.box-destaque > h1 + p' : null;
+        if (fonte == null) return mo.disconnect();
+        el = document.createElement(home ? 'img' : 'p');
+        if (home) { el.id = 'lm-banner-cedo'; el.alt = ''; el.setAttribute('fetchpriority', 'high'); el.src = BASE + 'banners/fabrica-celular.avif'; } else el.id = /pagina-categoria/.test(c) ? 'lm-intro-cedo' : 'lm-apoio-cedo';
+        el.setAttribute('aria-hidden', 'true'); el.style.display = 'none';   // só a regra do esqueleto o mostra
+      }
+      if (fonte) {   // o texto do tema, puro; com tags ou ⠀ não (a versão final o troca e o texto mudaria no pronto)
+        var p = document.querySelector(fonte); if (!p) return;
+        if (p.children.length || /⠀/.test(p.textContent)) return mo.disconnect();
+        el.textContent = p.textContent.replace(/\s+/g, ' ').trim();
+        if (p.nextSibling || p.parentNode.nextSibling) mo.disconnect();
+      } else mo.disconnect();
+      if (!el.parentNode) b.insertBefore(el, home ? b.firstChild : null);
+    };
+    mo = new MutationObserver(poe); mo.observe(h, { childList: true, subtree: true }); poe();
+    document.addEventListener('DOMContentLoaded', function () { poe(); mo.disconnect(); });
+  };
+  if (h.classList.contains('lm-novo')) return cria();
+  var vigia = new MutationObserver(function () { if (h.classList.contains('lm-novo')) { vigia.disconnect(); cria(); } });   // a parte 1 ainda não rodou
+  vigia.observe(h, { attributes: true, attributeFilter: ['class'] });
+  document.addEventListener('DOMContentLoaded', function () { vigia.disconnect(); });
+})();
+</script>
