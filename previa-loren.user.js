@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Prévia Loren (liga e desliga)
 // @namespace    loren-metais
-// @version      1.0
-// @description  Com a prévia ligada (favorito "Prévia Loren"), toda página da lorenmetais.com.br abre com o visual novo, como no ar. Só neste navegador.
+// @version      2.0
+// @description  Com a prévia ligada (favorito "Prévia Loren"), toda página da lorenmetais.com.br abre com o código do main (o que ainda não foi para o producao). Só neste navegador.
 // @match        https://www.lorenmetais.com.br/*
 // @match        https://lorenmetais.com.br/*
 // @run-at       document-start
@@ -10,8 +10,9 @@
 // @downloadURL  https://raw.githubusercontent.com/Lorenmetais/loren-metais-front/main/previa-loren.user.js
 // @updateURL    https://raw.githubusercontent.com/Lorenmetais/loren-metais-front/main/previa-loren.user.js
 // ==/UserScript==
-// Roda o mesmo código do cabeçalho que irá ao painel (front/cabecalho-snippet.html, versão mais nova do GitHub), antes do tema:
-// assim a prévia mostra a casca, o carregador e a calculadora de frete como no ar. O checkout o próprio código ignora.
+// 18/11 (entrada única no painel): troca o código do ar pelo do main, no mesmo ponto do <head>. Quando o parser põe as tags do trecho fixo (painel/TRECHO-FIXO.html),
+// o <link id="lm-esq"> vira o esqueleto do main (painel/esqueleto.js rodado aqui) e o <script> do inicio.js do Pages não roda: no lugar dele roda o inicio.js do main.
+// Sem o trecho fixo na página (checkout), não faz nada.
 (function () {
   let ligada = false;
   try { ligada = localStorage.getItem('lm_previa') === '1'; } catch (e) {}
@@ -29,21 +30,19 @@
     }).catch(() => {});
   }
   if (!sha) return;
-  // ponytail: XHR síncrono (obsoleto, mas é o único jeito de rodar antes do tema); se um dia o Chrome barrar, trocar por @require
-  const x = new XMLHttpRequest();
-  x.open('GET', 'https://cdn.jsdelivr.net/gh/' + REPO + '@' + sha + '/cabecalho-snippet.html', false);
-  try { x.send(); } catch (e) { return; }
-  const m = x.status === 200 && x.responseText.match(/<script>([\s\S]*?)<\/script>/);
-  if (!m) return;
-  // No document-start o <html> ainda pode não existir e o jQuery e o script de métricas do tema (de onde o código tira o tipo da página e onde ele prende o frete) ainda não
-  // rodaram. No ar o código entra no head depois deles: aqui ele espera o mesmo ponto (jQuery + o script com "page: {" no head) e só então roda, uma vez.
-  const codigo = m[1].replace('@COMMIT/', '@' + sha + '/');
-  let foi = false;
-  const roda = () => { if (foi || !document.head) return; foi = true; obs.disconnect(); const s = document.createElement('script'); s.textContent = codigo; document.head.appendChild(s); };
-  const pronto = () => window.jQuery && document.head && [].some.call(document.head.getElementsByTagName('script'), (e) => e.text.indexOf('page: {') >= 0);
-  const obs = new MutationObserver(() => { if (pronto()) roda(); });
+  // ponytail: XHR síncrono (obsoleto, mas é o único jeito de rodar no mesmo ponto do código do ar); se um dia o Chrome barrar, trocar por @require
+  const pega = (arq) => { const x = new XMLHttpRequest(); x.open('GET', 'https://cdn.jsdelivr.net/gh/' + REPO + '@' + sha + '/' + arq, false);
+    try { x.send(); } catch (e) { return ''; } return x.status === 200 ? x.responseText : ''; };
+  const ini = pega('inicio.js'), esq = pega('painel/esqueleto.js');
+  if (!ini || !esq) return;
+  let css = ''; try { new Function('process', esq)({ stdout: { write: (t) => { css += t; } } }); } catch (e) { return; }
+  const codigo = ini.replace('@COMMIT/', '@' + sha + '/');
+  const obs = new MutationObserver((ms) => { for (const m of ms) for (const n of m.addedNodes) {
+    if (n.tagName === 'LINK' && n.id === 'lm-esq') { const st = document.createElement('style'); st.id = 'lm-esq'; st.textContent = css; n.replaceWith(st); }
+    else if (n.tagName === 'SCRIPT' && /github\.io\/loren-metais-front\/inicio\.js/.test(n.src)) {
+      n.type = 'javascript/blocked'; const s = document.createElement('script'); s.textContent = codigo; n.after(s); obs.disconnect(); } } });
   obs.observe(document, { childList: true, subtree: true });
-  addEventListener('DOMContentLoaded', roda);   // página sem o script de métricas: entra no fim do HTML
+  addEventListener('DOMContentLoaded', () => obs.disconnect());
   // aviso discreto de que a prévia está ligada
   addEventListener('DOMContentLoaded', () => {
     const b = document.createElement('div');

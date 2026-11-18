@@ -14,7 +14,7 @@ Desde 18/11 o código do visual novo está **todo no GitHub**. No painel da Loja
 ## Instalar (uma vez)
 
 1. No painel: **Configurações > Códigos HTML personalizados > Incluir código HTML**. Crie **1 entrada** com o trecho abaixo (cópia de `painel/TRECHO-FIXO.html`), local **cabeçalho (`<head>`)**, páginas **todas as páginas exceto checkout**. Salve.
-2. **Apague as entradas antigas** do visual novo (as que vinham de `painel/gera.py`: `PARTE 1 de 2`, `PARTE 2 de 2` e, se houver, a parte 3). Ficar com as antigas e a nova ao mesmo tempo carregaria o visual 2 vezes.
+2. **Apague as entradas antigas** do visual novo (`PARTE 1 de 2`, `PARTE 2 de 2` e, se houver, a parte 3). Ficar com as antigas e a nova ao mesmo tempo carregaria o visual 2 vezes.
 3. Espere a loja publicar (a ajuda da LI fala em 15 a 30 minutos) e faça a conferência abaixo.
 
 ```html
@@ -54,7 +54,8 @@ O que o trecho faz: os 2 `preconnect` adiantam a conexão; o `<link>` do `esquel
 - `painel/TRECHO-FIXO.html`: a entrada única do painel (acima).
 - `inicio.js`: sorteio e `PERCENTUAL`, `?lm=antigo` (emergência), plano B (`lm_falha`), carregador dos CSS e JS pelo jsDelivr, cortes de downloads inúteis do tema, preload do banner só na `/` e os nós `#lm-*-cedo` do celular. No fonte ficam `@COMMIT/`, `MIN = ''` e `V` de hora em hora; o `min-producao.yml` troca por `@<hash do producao-min>/`, `-min` e `V = ''`.
 - `painel/esqueleto.js`: `node painel/esqueleto.js > esqueleto.css` gera a casca e o esqueleto de cada página (as listas de retângulos), as regras do conteúdo cedo do celular, a fonte de reserva e `:root{--lm-esq:1}`.
-- Aposentados depois que a entrada única estiver no ar: `cabecalho-snippet.html`, `cabecalho-parte3.html` e `painel/gera.py` (geravam as entradas antigas; a volta está em `dev/qa-wed/velocidade/pacote/` e `PACOTE-1811.md`).
+- `previa-loren.user.js` (prévia do `main`, só no navegador de quem a liga): troca o código do ar pelo do `main` no mesmo ponto do `<head>` (o `esqueleto.css` vira o do `painel/esqueleto.js` do `main` e roda o `inicio.js` do `main` no lugar do do Pages).
+- Aposentados em 18/11 e fora do repositório: `cabecalho-snippet.html`, `cabecalho-parte3.html` e `painel/gera.py` (geravam as 3 entradas antigas do painel; estão no commit ca5e2f4, e os textos das entradas em `dev/qa-wed/velocidade/pacote/`).
 
 ## Como funciona
 
