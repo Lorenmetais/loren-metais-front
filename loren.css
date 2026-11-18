@@ -509,6 +509,9 @@ html.lm-novo .listagem .bandeiras-produto > * { border-radius: var(--lm-btn-raio
 /* ===== títulos sem caixa alta (como na Conceito) ===== */
 html.lm-novo :is(h1, h2, h3, h4, h5, .titulo, .titulo-categoria, .nome-produto) { text-transform: none !important; }
 /* newsletter: um componente só para a faixa do rodapé, a coluna dos filtros e a janela do celular (mesma .componente.newsletter do tema) */
+/* a janela da newsletter que o tema abre sozinho só aparece depois do modais.js (html.lm-modais), que a desenha ou a fecha (NEWS_JANELA): antes dele seria a do tema
+   (celular lento: o modais.* vem depois do pronto e os 20 s do tema podem passar antes). :has só no .fancybox-overlay, que só existe com janela aberta */
+html.lm-novo:not(.lm-modais) .fancybox-overlay:has(#modalNewsletter) { visibility: hidden !important; }
 html.lm-novo .componente.newsletter { border: 0 !important; box-shadow: none !important; }
 html.lm-novo .componente.newsletter :is(.titulo, .texto-newsletter) { font: 700 var(--lm-h3)/1.15 var(--lm-fonte-titulo) !important; text-transform: none !important; letter-spacing: 0 !important; }
 html.lm-novo .componente.newsletter .botao { box-sizing: border-box !important; height: var(--lm-campo-altura) !important; border: 0 !important; border-radius: var(--lm-btn-raio) !important; background: var(--lm-btn-gradiente) !important; color: var(--lm-branco) !important; box-shadow: none !important; text-shadow: none !important; }

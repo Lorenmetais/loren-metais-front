@@ -242,3 +242,24 @@ html.lm-novo .fancybox-wrap.fancybox-type-image { width: min(960px, calc(100vw -
 html.lm-novo .fancybox-wrap.fancybox-type-image .fancybox-inner { padding: 0 !important; }
 html.lm-novo .fancybox-wrap.fancybox-type-image .fancybox-image { display: block; width: 100%; height: auto; max-height: calc(100vh - 64px); max-height: calc(100dvh - 64px); object-fit: contain; }
 html.lm-novo .fancybox-wrap.fancybox-type-image .fancybox-close { background: #fff !important; }
+
+/* ===== newsletter (janela do tema, #modalNewsletter; Wednesday 18/11): no padrão das janelas pequenas. Título Barlow à esquerda, texto de apoio, rótulo
+   acima do campo, campo e botão principal na largura toda, uma linha da LGPD embaixo. Textos e a linha nova: modais.js (newsletter()). O envio continua o da LI
+   (botão .newsletter-assinar); a faixa do rodapé e a coluna não mudam */
+html.lm-novo .fancybox-wrap #modalNewsletter :is(.row-fluid, .span, .componente, .interno, .interno-conteudo) { display: block !important; float: none !important; width: auto !important; height: auto !important; min-height: 0 !important; margin: 0 !important; padding: 0 !important; text-align: left !important; }
+html.lm-novo .fancybox-wrap #modalNewsletter .titulo { margin: 0 0 8px !important; font: 700 24px/1.15 var(--lm-fonte-titulo) !important; }
+html.lm-novo .fancybox-wrap #modalNewsletter .texto-newsletter { display: block !important; float: none !important; height: auto !important; margin: 0 0 24px !important; padding: 0 !important; color: var(--lm-texto-secundario) !important; font: 400 15px/1.5 var(--lm-fonte-texto) !important; text-align: left !important; }
+html.lm-novo .fancybox-wrap #modalNewsletter .input-conteiner { display: flex !important; flex-direction: column; gap: 16px; width: 100% !important; margin: 0 !important; padding: 0 !important; }
+html.lm-novo .fancybox-wrap #modalNewsletter .input-conteiner input { display: block !important; width: 100% !important; max-width: none !important; float: none !important; text-align: left !important; }
+html.lm-novo .fancybox-wrap #modalNewsletter .input-conteiner input::placeholder { color: var(--lm-texto-secundario) !important; opacity: 1; }
+html.lm-novo .fancybox-wrap #modalNewsletter .newsletter-assinar { display: flex !important; width: 100% !important; min-height: var(--lm-campo-altura) !important; margin: 0 !important; padding: 0 24px !important; float: none !important; }
+html.lm-novo .fancybox-wrap #modalNewsletter .newsletter-assinar::before { content: none !important; display: none !important; }   /* o ASSINAR do tema (pseudo-elemento): o texto agora é o do botão */
+html.lm-novo .fancybox-wrap #modalNewsletter .lm-news-lgpd { margin: -4px 0 0 !important; color: var(--lm-texto-secundario) !important; font: 400 13px/1.4 var(--lm-fonte-texto) !important; text-align: center !important; }
+/* o tema empilha texto, campo e confirmação com position: absolute sobre alturas fixas (260): aqui voltam ao fluxo, um embaixo do outro */
+html.lm-novo .fancybox-wrap #modalNewsletter :is(.interno-conteudo, .texto-newsletter, .input-conteiner, .newsletter-confirmacao) { position: static !important; inset: auto !important; transform: none !important; }
+html.lm-novo .fancybox-wrap #modalNewsletter :is(.texto-newsletter, .row-fluid)::before { content: none !important; display: none !important; }   /* o envelope do tema (::before do texto) */
+/* inscrito: o tema esconde o formulário (.newsletter-cadastro: texto, rótulo, campo, botão e a linha da LGPD) e mostra a confirmação, por classe hide ou por
+   display em linha; o display com !important daqui não pode segurar o formulário na tela. O ✓ na cor de sucesso ao lado da frase */
+html.lm-novo .fancybox-wrap #modalNewsletter .newsletter-cadastro:is(.hide, [style*="none"]) { display: none !important; }
+html.lm-novo .fancybox-wrap #modalNewsletter .newsletter-confirmacao:is(:not(.hide), [style*="block"]):not([style*="none"]) { display: flex !important; align-items: center; gap: 12px; color: var(--lm-grafite) !important; font: 400 15px/1.5 var(--lm-fonte-texto) !important; text-align: left !important; }
+html.lm-novo .fancybox-wrap #modalNewsletter .newsletter-confirmacao i { flex: none; margin: 0 !important; color: var(--lm-sucesso) !important; font-size: 24px !important; }
