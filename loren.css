@@ -99,6 +99,7 @@ html.lm-novo #rodape .bandeiras-pagamento.lm-pag { gap: 8px; }
 /* cada meio num selo de 52 x 34 com contorno discreto: o tamanho visual fica igual, seja o logo largo (Visa), quadrado (Amex) ou redondo (Diners) */
 html.lm-novo #rodape .lm-pag li { box-sizing: border-box; display: flex; align-items: center; justify-content: center; width: 52px; height: 34px; border: 1px solid rgb(255 255 255 / 0.22); border-radius: 4px; }
 html.lm-novo #rodape .lm-pag__logo { display: block; width: 40px; height: 22px; background: var(--lm-branco); -webkit-mask: var(--lm-pag-svg) center / contain no-repeat; mask: var(--lm-pag-svg) center / contain no-repeat; }
+html.lm-novo:not(.lm-pronto) #rodape .lm-pag__logo { -webkit-mask: none; mask: none; }  /* os SVGs dos logos de pagamento só depois do lm-pronto: não disputam a banda da 1ª tela (Ellie 17/11) */
 html.lm-novo #rodape .lm-pag__texto { color: var(--lm-branco); font: 700 14px/1 var(--lm-fonte-texto); letter-spacing: .02em; text-transform: lowercase; white-space: nowrap; }
 @media (max-width: 767px) {
   html.lm-novo #rodape .bandeiras-pagamento.lm-pag { gap: 4px; }
@@ -618,6 +619,8 @@ html.lm-novo:not(.lm-pronto) :is(.secao-banners, #corpo, #barraNewsletter, #roda
   /* banner do celular: a arte vertical (750 x 960) troca a do computador; a caixa já nasce com a proporção dela e a imagem só aparece pronta */
   html.lm-novo:not(.lm-pronto) .secao-banners .flexslider { aspect-ratio: 750 / 960; overflow: hidden; }
   html.lm-novo:not(.lm-pronto) .secao-banners .flexslider img { visibility: hidden; }
+  /* e a imagem também, a partir da troca do src: até a arte nova decodificar, o tema ainda mostra a de 1920 (caixa de ~110 px) e o carrossel crescia 0,3 s depois do pronto (CLS 0,31; Wednesday 18/11) */
+  html.lm-novo .secao-banners .banner.cheio img[src*="-celular."] { aspect-ratio: 750 / 960; }
 }
 
 /* margem lateral do celular: 16 em tudo (o .conteiner do tema usa 10); o banner continua de ponta a ponta */

@@ -1,10 +1,10 @@
-# Gera as 2 entradas do painel da Loja Integrada (o campo aceita 15.000 caracteres; o código legível passa disso) a partir de cabecalho-snippet.html.
+# Gera as 2 entradas do painel (e a 3ª, do cabecalho-parte3.html, quando ele existe) da Loja Integrada (o campo aceita 15.000 caracteres; o código legível passa disso) a partir de cabecalho-snippet.html.
 # Parte 1: a lógica e a casca básica (sorteio, ?lm=, plano B, cortes do tema, carregador, botão da equipe). Parte 2: só o esqueleto, cujas regras exigem
 # html.lm-novo (a parte 1 liga), então a ordem das 2 entradas não importa. Enxuga tirando comentários e recuo; aponta para o ramo producao (ou --ref) e põe PERCENTUAL = 0.
-# Uso (na pasta do repositório): python painel/gera.py <commit de onde ler o código> [--ref producao] [--saida <pasta>] [--arquivo] [--min] [--pages]
+# Uso (na pasta do repositório): python painel/gera.py <commit de onde ler o código> [--ref producao] [--saida <pasta>] [--arquivo] [--min] [--pages] [--percentual N]
 #   --ref: para onde o painel aponta no jsDelivr (padrão: o ramo producao; um hash ou main só para teste). --arquivo: lê o cabecalho-snippet.html da pasta, não o do commit
 #   --min: CSS e JS minificados: aponta para o ramo producao-min (gerado por .github/workflows/min-producao.yml) e põe MIN = '-min'
-#   --pages: preconnect também para https://lorenmetais.github.io (enquanto o CSS Avançado tiver o @import do checkout.css do GitHub Pages)
+#   --percentual N: % das visitas no visual novo (padrão 0; 100 = todos). --pages: preconnect também para https://lorenmetais.github.io (enquanto o CSS Avançado tiver o @import do checkout.css do GitHub Pages)
 import os, re, shutil, subprocess, sys
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -53,13 +53,14 @@ def main():
     if '--arquivo' in a: txt = open(os.path.join(REPO, 'cabecalho-snippet.html'), encoding='utf8').read()
     else: txt = subprocess.run(['git', '-C', REPO, 'show', f'{h}:cabecalho-snippet.html'], capture_output=True, check=True).stdout.decode('utf8')
     txt = txt.replace('\r\n', '\n')
-    assert txt.count('@COMMIT/') == 1 and txt.count('var PERCENTUAL = 100;') == 1
-    txt = txt.replace('@COMMIT/', '@' + ref + '/').replace('var PERCENTUAL = 100;', 'var PERCENTUAL = 0;')
+    assert txt.count('@COMMIT/') == 1 and len(re.findall(r'var PERCENTUAL = \d+;', txt)) == 1   # o snippet traz 100 ou, desde af2b3d2, 0
+    pc = int(a[a.index('--percentual') + 1]) if '--percentual' in a else 0; assert 0 <= pc <= 100
+    txt = re.sub(r'var PERCENTUAL = \d+;', f'var PERCENTUAL = {pc};', txt.replace('@COMMIT/', '@' + ref + '/'))
     if '--min' in a: assert txt.count("var MIN = '';") == 1; txt = txt.replace("var MIN = '';", "var MIN = '-min';")
     if '--pages' in a:   # o @import do CSS Avançado pede o checkout.css ao Pages em toda página (CSS, sem CORS)
         pc = "  poe('link', { rel: 'preconnect', href: 'https://cdn.jsdelivr.net' });"; assert txt.count(pc) == 1
         txt = txt.replace(pc, pc + "\n  poe('link', { rel: 'preconnect', href: 'https://lorenmetais.github.io' });")
-    cab = {1: f'<!-- Loren Metais, visual novo: PARTE 1 de 2 (aponta para @{ref}; código do commit {h[:7]}; PERCENTUAL = 0). Cabeçalho, todas as páginas exceto checkout; as 2 partes em entradas separadas, em qualquer ordem. Fonte: cabecalho-snippet.html -->',
+    cab = {1: f'<!-- Loren Metais, visual novo: PARTE 1 de 2 (aponta para @{ref}; código do commit {h[:7]}; PERCENTUAL = {pc}). Cabeçalho, todas as páginas exceto checkout; as 2 partes em entradas separadas, em qualquer ordem. Fonte: cabecalho-snippet.html -->',
            2: f'<!-- Loren Metais, visual novo: PARTE 2 de 2, esqueleto (código do commit {h[:7]}). Cabeçalho, todas as páginas exceto checkout; as 2 partes em entradas separadas, em qualquer ordem -->'}
     L = txt.rstrip('\n').split('\n'); assert L[0].startswith('<!--')
     for n, p in zip((1, 2), divide(L[1:])):
@@ -72,6 +73,22 @@ def main():
         tam = len(s) + s.count('\n')
         if tam > LIMITE: sys.exit(f'parte {n}: {tam} caracteres, passa de {LIMITE}')
         arq = os.path.join(saida, f'COLAR-NO-PAINEL-{n}.html')
+        open(arq, 'w', encoding='utf8', newline='\n').write(s)
+        print(f'{arq}: {tam} caracteres (contando cada quebra de linha como 2)')
+    # parte 3 (cabecalho-parte3.html: o conteúdo principal já no esqueleto, no celular), numa entrada própria do painel; mesma troca do ramo, enxugo e conferência
+    if '--arquivo' in a: t = open(os.path.join(REPO, 'cabecalho-parte3.html'), encoding='utf8').read() if os.path.exists(os.path.join(REPO, 'cabecalho-parte3.html')) else ''
+    else: t = subprocess.run(['git', '-C', REPO, 'show', f'{h}:cabecalho-parte3.html'], capture_output=True).stdout.decode('utf8')
+    if t:
+        t = t.replace('\r\n', '\n'); assert t.count('@COMMIT/') == 1
+        L3 = t.replace('@COMMIT/', '@' + ref + '/').rstrip('\n').split('\n'); assert L3[0].startswith('<!--')
+        s = L3[0] + '\n' + '\n'.join(enxuga(L3[1:])) + '\n'
+        js = s[s.index('<script>') + 8:s.rindex('</script>')]
+        if shutil.which('node'):
+            r = subprocess.run(['node', '-e', 'new Function(require("fs").readFileSync(0, "utf8"))'], input=js.encode('utf8'), capture_output=True)
+            if r.returncode: sys.exit(f'parte 3: erro de sintaxe depois de enxugar\n{r.stderr.decode()[:500]}')
+        tam = len(s) + s.count('\n')
+        if tam > LIMITE: sys.exit(f'parte 3: {tam} caracteres, passa de {LIMITE}')
+        arq = os.path.join(saida, 'COLAR-NO-PAINEL-3.html')
         open(arq, 'w', encoding='utf8', newline='\n').write(s)
         print(f'{arq}: {tam} caracteres (contando cada quebra de linha como 2)')
 
