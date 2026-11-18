@@ -4,8 +4,10 @@
 //   escondido que o tema já tem; o placeholder repetido sai (fica só o de exemplo, como meu@email.com.br).
 // - botão de envio com a classe .botao.principal (o desenho do loren.css). Nada é enviado por aqui.
 (() => {
-  // o tema agenda showModalNews() com setTimeout e chama pelo nome na hora: trocar a função basta
-  window.showModalNews = () => {};
+  // o tema agenda showModalNews() 20 s depois do ready e chama pelo nome na hora: trocar a função basta. Desligada (Eduardo 04/11); true liga para todos, já no
+  // visual novo (newsletter(), abaixo). Desligada, a que escapou antes deste arquivo chegar (celular lento: ele vem depois do pronto) fecha aqui; até lá o loren.css a esconde
+  const NEWS_JANELA = true;   // Eduardo 18/11: janela repaginada ligada para todos
+  if (!NEWS_JANELA) window.showModalNews = () => {};
 
   let n = 0;
   const limpa = (t) => (t || '').replace(/^(digite|informe|selecione)\s+(o|a|seu|sua|um|uma)\s+/i, '').trim();
@@ -135,8 +137,26 @@
     nos.forEach((n) => { const frag = document.createDocumentFragment(); n.textContent.split(/([\p{L}\d]+(?:-[\p{L}\d]+)+)/u).forEach((p, i) => { if (i % 2) { const b = document.createElement('nobr'); b.textContent = p; frag.append(b); } else if (p) frag.append(p); }); n.replaceWith(frag); });
   });
 
+  // janela da newsletter (#modalNewsletter, a mesma .componente.newsletter do tema, form da LI intacto): textos no tom da loja, rótulo acima do campo e a linha da LGPD.
+  // A faixa do rodapé e a coluna não mudam. Desenho no modais.css
+  const newsletter = () => {
+    const j = document.querySelector('#modalNewsletter .componente.newsletter');
+    if (!j || j.dataset.lm) return; j.dataset.lm = '1';
+    const tit = j.querySelector('.titulo'), txt = j.querySelector('.texto-newsletter'), campo = j.querySelector('input[name=email]'), bt = j.querySelector('.newsletter-assinar'), ok = j.querySelector('.newsletter-confirmacao span');
+    // "e-mail" sem quebrar no hífen (no celular ficava "e-" numa linha e "mail" na outra)
+    if (tit) [...tit.childNodes].forEach((n) => n.nodeType === 3 && n.textContent.trim() && n.replaceWith(document.createRange().createContextualFragment('Ofertas da fábrica no seu <span style="white-space:nowrap">e-mail</span>')));
+    if (txt) txt.textContent = 'Lançamentos e preços especiais da Loren Metais, direto na sua caixa de entrada.';
+    if (campo) {
+      campo.id ||= 'lm-news-email'; campo.placeholder = 'nome@empresa.com.br'; campo.removeAttribute('aria-label');
+      campo.closest('.input-conteiner')?.insertAdjacentHTML('beforebegin', `<label class="lm-rotulo newsletter-cadastro" for="${campo.id}">Seu e-mail</label>`);
+    }
+    if (bt) { bt.textContent = 'Quero receber'; bt.setAttribute('aria-label', 'Quero receber'); bt.insertAdjacentHTML('afterend', '<p class="lm-news-lgpd">Pode cancelar quando quiser.</p>'); }
+    if (ok) ok.textContent = 'Pronto! As próximas ofertas chegam no seu e-mail.';
+    if (!NEWS_JANELA && document.querySelector('.fancybox-wrap #modalNewsletter')) window.jQuery?.fancybox?.close();
+  };
+
   const prepara = () => {
-    semQuebra();
+    semQuebra(); newsletter();
     ['#modal_consulte', '#modal_qtds', '#avise-me-cadastro', '#login-content', '#comprar-ajax-status'].forEach((s) => rotula(document.querySelector(s)));
     // as outras janelas do tema que já estão na página (ex.: recuperar senha do login, que abre sozinha pelo #recuperar_senha)
     document.querySelectorAll('.modal').forEach(rotula);
@@ -167,6 +187,7 @@
     new MutationObserver(estado).observe(document.body, { childList: true });
     const fb = window.jQuery?.fancybox?.defaults;  // a janela já montada, antes de aparecer; se o tema passar beforeShow próprio, o observer do body cobre
     if (fb) { const antes = fb.beforeShow; fb.beforeShow = function () { estado(); return antes?.apply(this, arguments); }; }
+    document.documentElement.classList.add('lm-modais');   // o loren.css só deixa a janela da newsletter aparecer depois disto (ver newsletter())
   };
   document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', prepara) : prepara();
 })();
