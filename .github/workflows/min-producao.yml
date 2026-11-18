@@ -5,7 +5,6 @@
 # - O producao não é tocado: publicar continua sendo "git push origin <hash>:producao", sempre fast-forward.
 # - Sem laço: push feito com o GITHUB_TOKEN não dispara fluxo nenhum, e este só escuta o producao.
 # - O Pages (ramo fichas, checkout-pages.yml) e o purge do @producao (purge-producao.yml) seguem iguais.
-# O painel só usa o @producao-min com o código do cabeçalho gerado por "python painel/gera.py <hash> --min" (MIN = '-min').
 # 18/11: no fim, publica no GitHub Pages (ramo fichas) o inicio.js e o esqueleto.css que o trecho fixo do painel (painel/TRECHO-FIXO.html) pede:
 # minificados e com o jsDelivr apontando para ESTE commit do producao-min pelo hash (imutável: o navegador guarda e não precisa de purge).
 name: Gerar os -min no ramo producao-min

@@ -1,4 +1,4 @@
-// Gera o esqueleto.css (Wednesday 18/11): o CSS do esqueleto que antes ia em linha no painel (cabecalho-snippet.html, partes 1 e 2, e cabecalho-parte3.html).
+// Gera o esqueleto.css (Wednesday 18/11): o CSS do esqueleto que antes ia em linha no painel (as 3 entradas que o painel/gera.py gerava; aposentados em 18/11).
 // Uso: node painel/esqueleto.js > esqueleto.css   (o min-producao.yml roda, minifica e publica no GitHub Pages; o painel o pede numa tag fixa, bloqueando a pintura:
 // é o que garante que o visual antigo nunca pisca). Todas as regras exigem html.lm-novo e somem no html.lm-pronto: quem fica no visual antigo só baixa o arquivo.
 // --lm-esq: o inicio.js confere que este CSS chegou antes de ligar o visual novo (sem ele, fica no antigo).

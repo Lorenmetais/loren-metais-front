@@ -4,9 +4,9 @@
 // Mudar o PERCENTUAL, o esqueleto ou o carregador = commit no producao; nada no painel. Detalhes em INSTALAR.md
 (function () {
   if (/\/(checkout|pagamento)/i.test(location.pathname)) return;   // checkout: este código não faz nada e não pede nenhum arquivo (a LI nem roda o painel lá; a prévia do checkout é o favorito em previa-favorito.html)
-  var BASE = 'https://cdn.jsdelivr.net/gh/Lorenmetais/loren-metais-front@COMMIT/';   // no painel: @producao (o ramo publicado); publicar = levar o commit aprovado para o ramo producao
-  var V = '?v=' + Math.floor(Date.now() / 36e5);   // muda de hora em hora: o jsDelivr manda o navegador guardar @ramo por 7 dias; com isto CSS e JS novos valem em até 1 h, sem pedido a mais (o jsDelivr ignora o ?v)
-  var MIN = '';   // '-min': CSS e JS minificados do ramo producao-min (gera.py --min troca isto e o @ramo; min-producao.yml os gera). Não '.min': o jsDelivr minifica .min sozinho e serviu versão VELHA (12/11). O loren.js segue o que o carregou
+  var BASE = 'https://cdn.jsdelivr.net/gh/Lorenmetais/loren-metais-front@COMMIT/';   // o min-producao.yml troca COMMIT pelo hash do producao-min ao publicar no Pages (a prévia, pelo hash do main); publicar = levar o commit aprovado para o ramo producao
+  var V = '?v=' + Math.floor(Date.now() / 36e5);   // publicado: '' (o min-producao.yml troca; o hash na URL já versiona). Aqui, de hora em hora: só vale se alguém apontar o BASE para um ramo (o jsDelivr guarda @ramo 7 dias)
+  var MIN = '';   // '-min': CSS e JS minificados do producao-min (o min-producao.yml troca isto ao publicar; a prévia usa os de sempre). Não '.min': o jsDelivr minifica .min sozinho e serviu versão VELHA (12/11). O loren.js segue o que o carregou
   var PERCENTUAL = 100;   // Eduardo 18/11: todas as visitas veem o visual novo; % das visitas que veem o novo (o sorteio fica guardado no visitante)
   var TETO_MS = 40000;    // lentidão não é falha: o antigo só entra em erro real ou com uma etapa parada este tempo (CSS, JS depois do CSS, montagem depois do HTML)
   var t0 = Date.now(), h = document.documentElement, head = document.head || h;
@@ -98,7 +98,7 @@
   ['inter-latin', 'barlow-sc-700-latin'].forEach(function (n) { poe('link', { rel: 'preload', as: 'font', type: 'font/woff2', crossorigin: '', href: BASE + 'fontes/' + n + '.woff2' }); });
   if (/^\/(home)?$/.test(location.pathname)) poe('link', { rel: 'preload', as: 'image', fetchpriority: 'high', href: BASE + 'banners/fabrica-' + (matchMedia('(max-width: 767px)').matches ? 'celular' : '1920') + '.avif' });
   // CONTEÚDO CEDO (só no celular; as regras estão no esqueleto.css): o texto ou o banner do tema copiado num nó nosso, no lugar e no tamanho finais, para o LCP sair
-  // no esqueleto. O categoria.js (#lm-intro-cedo) e o lmPagcab do loren.js (#lm-apoio-cedo) adotam o MESMO nó: sem novo LCP nem pulo. Antes: cabecalho-parte3.html
+  // no esqueleto. O categoria.js (#lm-intro-cedo) e o lmPagcab do loren.js (#lm-apoio-cedo) adotam o MESMO nó: sem novo LCP nem pulo
   var home = /^\/(home)?$/.test(location.pathname);
   if (matchMedia('(max-width: 767px)').matches) (function () {
     var mo, el, fonte, poe = function () {
