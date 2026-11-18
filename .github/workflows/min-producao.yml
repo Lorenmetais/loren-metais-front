@@ -6,6 +6,8 @@
 # - Sem laço: push feito com o GITHUB_TOKEN não dispara fluxo nenhum, e este só escuta o producao.
 # - O Pages (ramo fichas, checkout-pages.yml) e o purge do @producao (purge-producao.yml) seguem iguais.
 # O painel só usa o @producao-min com o código do cabeçalho gerado por "python painel/gera.py <hash> --min" (MIN = '-min').
+# 18/11: no fim, publica no GitHub Pages (ramo fichas) o inicio.js e o esqueleto.css que o trecho fixo do painel (painel/TRECHO-FIXO.html) pede:
+# minificados e com o jsDelivr apontando para ESTE commit do producao-min pelo hash (imutável: o navegador guarda e não precisa de purge).
 name: Gerar os -min no ramo producao-min
 on:
   push:
@@ -43,6 +45,7 @@ jobs:
             echo "$f $(wc -c < "$f") -> $m $(wc -c < "$m")"
           done < /tmp/fontes.txt
       - name: Publica o ramo producao-min (sem force push) e limpa o jsDelivr
+        id: publica
         env:
           ANTES: ${{ github.event.before }}
         run: |
@@ -56,6 +59,7 @@ jobs:
           if git fetch -q origin producao-min 2>/dev/null; then pais="-p $(git rev-parse FETCH_HEAD) $pais"; fi
           novo=$(git commit-tree "$(git write-tree)" $pais -m "-min de producao ${GITHUB_SHA::7}")
           git push -q origin "$novo:refs/heads/producao-min"
+          echo "novo=$novo" >> "$GITHUB_OUTPUT"
           servidos() { grep -vE '^(\.github/|painel/)|\.md$' || true; }
           # mesmo critério do purge do producao: o que mudou no push; à mão, ramo novo ou ANTES fora do histórico: tudo
           if [ -n "$ANTES" ] && [ -n "${ANTES//0/}" ] && git cat-file -e "$ANTES^{commit}" 2>/dev/null; then
@@ -65,3 +69,26 @@ jobs:
           fi
           [ -n "$lista" ] || { echo "nenhum arquivo servido mudou: sem purge"; exit 0; }
           echo "$lista" | bash .github/scripts/purge-jsdelivr.sh producao-min
+      - name: Publica o inicio.js e o esqueleto.css no GitHub Pages (ramo fichas), com o jsDelivr pelo hash do producao-min
+        env:
+          NOVO: ${{ steps.publica.outputs.novo }}
+        run: |
+          set -e
+          [ -n "$NOVO" ]
+          node painel/esqueleto.js > /tmp/esqueleto.css && cleancss --output /tmp/esqueleto-min.css /tmp/esqueleto.css && grep -q -- '--lm-esq' /tmp/esqueleto-min.css
+          [ "$(grep -c '@COMMIT/' inicio.js)" = 1 ] && [ "$(grep -c "^  var MIN = '';" inicio.js)" = 1 ] && [ "$(grep -c '^  var V = ' inicio.js)" = 1 ]
+          # V vazio: o hash na URL já versiona (com o ?v= de hora em hora o navegador baixaria de novo a cada hora)
+          sed -e "s|@COMMIT/|@$NOVO/|" -e "s|^  var MIN = '';|  var MIN = '-min';|" -e "s|^  var V = .*|  var V = '';|" inicio.js > /tmp/inicio.js
+          terser /tmp/inicio.js --compress --mangle --output /tmp/inicio-min.js && node --check /tmp/inicio-min.js && grep -q "$NOVO" /tmp/inicio-min.js
+          # até 3 tentativas: o checkout-pages.yml e as fichas também empurram o ramo fichas
+          for i in 1 2 3; do
+            git fetch -q --depth=1 origin fichas
+            rm -rf /tmp/pages; git worktree prune; git worktree add -q --detach /tmp/pages FETCH_HEAD
+            cp /tmp/esqueleto-min.css /tmp/pages/esqueleto.css; cp /tmp/inicio-min.js /tmp/pages/inicio.js
+            git -C /tmp/pages add esqueleto.css inicio.js
+            if git -C /tmp/pages diff --cached --quiet; then echo "inicio.js e esqueleto.css já iguais"; exit 0; fi
+            git -C /tmp/pages commit -q -m "inicio.js e esqueleto.css de producao ${GITHUB_SHA::7} (jsDelivr @${NOVO::7})"
+            if git -C /tmp/pages push -q origin HEAD:fichas; then echo "ok: inicio.js e esqueleto.css no Pages (jsDelivr @$NOVO)"; exit 0; fi
+            sleep 5
+          done
+          exit 1
